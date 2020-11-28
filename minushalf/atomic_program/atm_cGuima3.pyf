@@ -1,0 +1,2204 @@
+
+Skip to content
+Pull requests
+Issues
+Marketplace
+Explore
+@hentt30
+hentt30 /
+VASP_DFT-0.5
+forked from gmsn-ita/VASP_DFT-0.5
+
+0
+0
+
+    2
+
+Code
+Pull requests
+Actions
+Projects
+Wiki
+Security
+Insights
+
+    Settings
+
+VASP_DFT-0.5/dftminushalf/atomic/src/atm_cGuima3.pyf
+@hentt30
+hentt30 fix: Reestruturing project
+Latest commit a1aecbe 2 hours ago
+History
+1 contributor
+2171 lines (2169 sloc) 92.1 KB
+!    -*- f90 -*-
+! Note: the context of this file is case sensitive.
+
+python module pseudo__user__routines 
+    interface pseudo_user_interface 
+        subroutine ps_generator(i,ar,br) ! in :atomic_program:atm_cGuima3.f:pseudo:unknown_interface
+            integer :: i
+            double precision dimension(1500) :: ar
+            double precision dimension(1500) :: br
+        end subroutine ps_generator
+    end interface pseudo_user_interface
+end python module pseudo__user__routines
+python module zbrac__user__routines 
+    interface zbrac_user_interface 
+        function func(x1) result (f1) ! in :atomic_program:atm_cGuima3.f:zbrac:unknown_interface
+            double precision :: x1
+            double precision :: f1
+        end function func
+    end interface zbrac_user_interface
+end python module zbrac__user__routines
+python module zbrak__user__routines 
+    interface zbrak_user_interface 
+        function fx(x) result (fp) ! in :atomic_program:atm_cGuima3.f:zbrak:unknown_interface
+            double precision :: x
+            double precision :: fp
+        end function fx
+    end interface zbrak_user_interface
+end python module zbrak__user__routines
+python module zbrent__user__routines 
+    interface zbrent_user_interface 
+        function func(a) result (fa) ! in :atomic_program:atm_cGuima3.f:zbrent:unknown_interface
+            double precision :: a
+            double precision :: fa
+        end function func
+    end interface zbrent_user_interface
+end python module zbrent__user__routines
+python module rtbis__user__routines 
+    interface rtbis_user_interface 
+        function func(x2) result (fmid) ! in :atomic_program:atm_cGuima3.f:rtbis:unknown_interface
+            double precision :: x2
+            double precision :: fmid
+        end function func
+    end interface rtbis_user_interface
+end python module rtbis__user__routines
+python module brac__user__routines 
+    interface brac_user_interface 
+        function func(x1) result (f1) ! in :atomic_program:atm_cGuima3.f:brac:unknown_interface
+            double precision :: x1
+            double precision :: f1
+        end function func
+    end interface brac_user_interface
+end python module brac__user__routines
+python module brent__user__routines 
+    interface brent_user_interface 
+        function func(a) result (fa) ! in :atomic_program:atm_cGuima3.f:brent:unknown_interface
+            double precision :: a
+            double precision :: fa
+        end function func
+    end interface brent_user_interface
+end python module brent__user__routines
+python module odeint__user__routines 
+    interface odeint_user_interface 
+        subroutine derivs(x,y,dydx) ! in :atomic_program:atm_cGuima3.f:odeint:unknown_interface
+            double precision :: x
+            double precision dimension(10) :: y
+            double precision dimension(10) :: dydx
+        end subroutine derivs
+        subroutine rkqc(y,dydx,nvar,x,h,eps,yscal,hdid,hnext,derivs) ! in :atomic_program:atm_cGuima3.f:odeint:unknown_interface
+            double precision dimension(10) :: y
+            double precision dimension(10) :: dydx
+            integer :: nvar
+            double precision :: x
+            double precision :: h
+            double precision :: eps
+            double precision dimension(10) :: yscal
+            double precision :: hdid
+            double precision :: hnext
+            external derivs
+        end subroutine rkqc
+    end interface odeint_user_interface
+end python module odeint__user__routines
+python module rkqc__user__routines 
+    interface rkqc_user_interface 
+        subroutine derivs(x,ytemp,dydx) ! in :atomic_program:atm_cGuima3.f:rkqc:unknown_interface
+            double precision :: x
+            double precision dimension(10) :: ytemp
+            double precision dimension(10) :: dydx
+        end subroutine derivs
+    end interface rkqc_user_interface
+end python module rkqc__user__routines
+python module rk4__user__routines 
+    interface rk4_user_interface 
+        subroutine derivs(xh,yt,dyt) ! in :atomic_program:atm_cGuima3.f:rk4:unknown_interface
+            double precision :: xh
+            double precision dimension(10) :: yt
+            double precision dimension(10) :: dyt
+        end subroutine derivs
+    end interface rk4_user_interface
+end python module rk4__user__routines
+python module atomic_program ! in 
+    interface  ! in :atomic_program
+        subroutine run ! in :atomic_program:atm_cGuima3.f
+            double precision :: a
+            double precision :: b
+            double precision dimension(1500) :: r
+            double precision dimension(1500) :: rab
+            integer :: nr
+            double precision dimension(40) :: so
+            double precision dimension(40) :: zo
+            integer :: norb
+            integer :: ncp
+            integer dimension(40) :: no
+            integer dimension(40) :: lo
+            character dimension(5,1) :: il
+            logical dimension(40) :: down
+            integer :: scheme
+            integer :: job
+            integer :: ifcore
+            integer :: ncore
+            double precision :: rsh
+            double precision :: zel
+            double precision :: znuc
+            double precision :: zsh
+            double precision dimension(5) :: rc
+            double precision dimension(5) :: rc_input
+            double precision :: cfac
+            double precision :: rcfac
+            double precision :: logder_radius
+            integer dimension(5) :: indu
+            integer dimension(5) :: indd
+            character*2 :: nameat
+            character*1 :: ispp
+            character*2 :: icorr
+            character*3 :: irel
+            character*4 :: nicore
+            logical :: normal
+            logical :: polarized
+            logical :: relativistic
+            logical :: is_gga
+            double precision dimension(1500) :: cdd
+            double precision dimension(1500) :: cdu
+            double precision dimension(1500) :: cdc
+            double precision dimension(1500) :: vid
+            double precision dimension(1500) :: viu
+            double precision dimension(1500) :: vod
+            double precision dimension(1500) :: vou
+            double precision dimension(40) :: ev
+            double precision dimension(40) :: ep
+            double precision dimension(40) :: ek
+            double precision dimension(10) :: etot
+            double precision dimension(1500) :: vn1d
+            double precision dimension(1500) :: vn11d
+            double precision dimension(1500) :: vn2d
+            double precision dimension(1500) :: vn22d
+            double precision dimension(1500) :: vn1u
+            double precision dimension(1500) :: vn11u
+            double precision dimension(1500) :: vn2u
+            double precision dimension(1500) :: vn22u
+            double precision dimension(1500) :: wk1
+            double precision dimension(1500) :: wk2
+            common /radial/ a,b,r,rab
+            common /rad_int/ nr
+            common /orbital/ so,zo
+            common /orb_int/ norb,ncp,no,lo
+            common /orb_char/ il
+            common /orb_log/ down
+            common /param/ scheme,job,ifcore,ncore,rsh,zel,znuc,zsh,rc,rc_input,cfac,rcfac,logder_radius,indu,indd
+            common /par_char/ nameat,ispp,icorr,irel,nicore
+            common /par_log/ normal,polarized,relativistic,is_gga
+            common /charge/ cdd,cdu,cdc
+            common /elecpot/ vid,viu,vod,vou
+            common /energy/ ev,ep,ek,etot
+            common /mixer/ vn1d,vn11d,vn2d,vn22d,vn1u,vn11u,vn2u,vn22u,wk1,wk2
+        end subroutine run
+        function nucl_z(name) ! in :atomic_program:atm_cGuima3.f
+            character*2 :: name
+            double precision :: nucl_z
+        end function nucl_z
+        subroutine difnrl(iter,iorb,v,ar,br,n,l,spin,eigv,iflag) ! in :atomic_program:atm_cGuima3.f
+            integer :: iter
+            integer :: iorb
+            double precision dimension(*) :: v
+            double precision dimension(*) :: ar
+            double precision dimension(*) :: br
+            integer :: n
+            integer :: l
+            double precision :: spin
+            double precision :: eigv
+            integer :: iflag
+            double precision :: a
+            double precision :: b
+            double precision dimension(1500) :: r
+            double precision dimension(1500) :: rab
+            integer :: nr
+            integer :: scheme
+            integer :: job
+            integer :: ifcore
+            integer :: ncore
+            double precision :: rsh
+            double precision :: zel
+            double precision :: znuc
+            double precision :: zsh
+            double precision dimension(5) :: rc
+            double precision dimension(5) :: rc_input
+            double precision :: cfac
+            double precision :: rcfac
+            double precision :: logder_radius
+            integer dimension(5) :: indu
+            integer dimension(5) :: indd
+            character*2 :: nameat
+            character*1 :: ispp
+            character*2 :: icorr
+            character*3 :: irel
+            character*4 :: nicore
+            logical :: normal
+            logical :: polarized
+            logical :: relativistic
+            logical :: is_gga
+            double precision dimension(4,1500) :: viod
+            double precision dimension(4,1500) :: viou
+            double precision dimension(1500) :: vid
+            double precision dimension(1500) :: viu
+            double precision dimension(1500) :: vod
+            double precision dimension(1500) :: vou
+            double precision dimension(1500) :: rab2
+            double precision dimension(1500) :: fa
+            double precision dimension(1500) :: fb
+            common /radial/ a,b,r,rab
+            common /rad_int/ nr
+            common /param/ scheme,job,ifcore,ncore,rsh,zel,znuc,zsh,rc,rc_input,cfac,rcfac,logder_radius,indu,indd
+            common /par_char/ nameat,ispp,icorr,irel,nicore
+            common /par_log/ normal,polarized,relativistic,is_gga
+            common /ion/ viod,viou
+            common /elecpot/ vid,viu,vod,vou
+            common rab2,fa,fb
+        end subroutine difnrl
+        subroutine difrel(iter,iorb,v,ar,br,n,l,spin,eigv) ! in :atomic_program:atm_cGuima3.f
+            integer :: iter
+            integer :: iorb
+            double precision dimension(*) :: v
+            double precision dimension(*) :: ar
+            double precision dimension(*) :: br
+            integer :: n
+            integer :: l
+            double precision :: spin
+            double precision :: eigv
+            double precision :: a
+            double precision :: b
+            double precision dimension(1500) :: r
+            double precision dimension(1500) :: rab
+            integer :: nr
+            integer :: scheme
+            integer :: job
+            integer :: ifcore
+            integer :: ncore
+            double precision :: rsh
+            double precision :: zel
+            double precision :: znuc
+            double precision :: zsh
+            double precision dimension(5) :: rc
+            double precision dimension(5) :: rc_input
+            double precision :: cfac
+            double precision :: rcfac
+            double precision :: logder_radius
+            integer dimension(5) :: indu
+            integer dimension(5) :: indd
+            character*2 :: nameat
+            character*1 :: ispp
+            character*2 :: icorr
+            character*3 :: irel
+            character*4 :: nicore
+            logical :: normal
+            logical :: polarized
+            logical :: relativistic
+            logical :: is_gga
+            double precision dimension(4,1500) :: viod
+            double precision dimension(4,1500) :: viou
+            double precision dimension(1500) :: vid
+            double precision dimension(1500) :: viu
+            double precision dimension(1500) :: vod
+            double precision dimension(1500) :: vou
+            double precision dimension(1500) :: rabkar
+            double precision dimension(1500) :: rabai
+            double precision dimension(1500) :: fa
+            double precision dimension(1500) :: fb
+            common /radial/ a,b,r,rab
+            common /rad_int/ nr
+            common /param/ scheme,job,ifcore,ncore,rsh,zel,znuc,zsh,rc,rc_input,cfac,rcfac,logder_radius,indu,indd
+            common /par_char/ nameat,ispp,icorr,irel,nicore
+            common /par_log/ normal,polarized,relativistic,is_gga
+            common /ion/ viod,viou
+            common /elecpot/ vid,viu,vod,vou
+            common rabkar,rabai,fa,fb
+        end subroutine difrel
+        subroutine dmixp(a,b,beta,icy,id,nmsh,c,d,vn1,vn12,vn2,vn22) ! in :atomic_program:atm_cGuima3.f
+            double precision dimension(*) :: a
+            double precision dimension(*) :: b
+            double precision :: beta
+            integer :: icy
+            integer :: id
+            integer :: nmsh
+            double precision dimension(*) :: c
+            double precision dimension(*) :: d
+            double precision dimension(*) :: vn1
+            double precision dimension(*) :: vn12
+            double precision dimension(*) :: vn2
+            double precision dimension(*) :: vn22
+        end subroutine dmixp
+        subroutine dsolv1(nfirst,nlast,nn) ! in :atomic_program:atm_cGuima3.f
+            integer :: nfirst
+            integer :: nlast
+            integer dimension(*) :: nn
+            double precision :: a
+            double precision :: b
+            double precision dimension(1500) :: r
+            double precision dimension(1500) :: rab
+            integer :: nr
+            double precision dimension(40) :: so
+            double precision dimension(40) :: zo
+            integer :: norb
+            integer :: ncp
+            integer dimension(40) :: no
+            integer dimension(40) :: lo
+            character dimension(5,1) :: il
+            logical dimension(40) :: down
+            double precision dimension(4,1500) :: viod
+            double precision dimension(4,1500) :: viou
+            double precision dimension(1500) :: cdd
+            double precision dimension(1500) :: cdu
+            double precision dimension(1500) :: cdc
+            double precision dimension(1500) :: vid
+            double precision dimension(1500) :: viu
+            double precision dimension(1500) :: vod
+            double precision dimension(1500) :: vou
+            double precision dimension(40) :: ev
+            double precision dimension(40) :: ep
+            double precision dimension(40) :: ek
+            double precision dimension(10) :: etot
+            common /radial/ a,b,r,rab
+            common /rad_int/ nr
+            common /orbital/ so,zo
+            common /orb_int/ norb,ncp,no,lo
+            common /orb_char/ il
+            common /orb_log/ down
+            common /ion/ viod,viou
+            common /charge/ cdd,cdu,cdc
+            common /elecpot/ vid,viu,vod,vou
+            common /energy/ ev,ep,ek,etot
+        end subroutine dsolv1
+        subroutine pseudo(pot_id,headline,ps_generator) ! in :atomic_program:atm_cGuima3.f
+            use pseudo__user__routines
+            character*40 :: pot_id
+            character*79 :: headline
+            external ps_generator
+            double precision :: a
+            double precision :: b
+            double precision dimension(1500) :: r
+            double precision dimension(1500) :: rab
+            integer :: nr
+            double precision dimension(40) :: so
+            double precision dimension(40) :: zo
+            integer :: norb
+            integer :: ncp
+            integer dimension(40) :: no
+            integer dimension(40) :: lo
+            character dimension(5,1) :: il
+            logical dimension(40) :: down
+            integer :: scheme
+            integer :: job
+            integer :: ifcore
+            integer :: ncore
+            double precision :: rsh
+            double precision :: zel
+            double precision :: znuc
+            double precision :: zsh
+            double precision dimension(5) :: rc
+            double precision dimension(5) :: rc_input
+            double precision :: cfac
+            double precision :: rcfac
+            double precision :: logder_radius
+            integer dimension(5) :: indu
+            integer dimension(5) :: indd
+            character*2 :: nameat
+            character*1 :: ispp
+            character*2 :: icorr
+            character*3 :: irel
+            character*4 :: nicore
+            logical :: normal
+            logical :: polarized
+            logical :: relativistic
+            logical :: is_gga
+            double precision dimension(1500) :: vid
+            double precision dimension(1500) :: viu
+            double precision dimension(1500) :: vod
+            double precision dimension(1500) :: vou
+            common /radial/ a,b,r,rab
+            common /rad_int/ nr
+            common /orbital/ so,zo
+            common /orb_int/ norb,ncp,no,lo
+            common /orb_char/ il
+            common /orb_log/ down
+            common /param/ scheme,job,ifcore,ncore,rsh,zel,znuc,zsh,rc,rc_input,cfac,rcfac,logder_radius,indu,indd
+            common /par_char/ nameat,ispp,icorr,irel,nicore
+            common /par_log/ normal,polarized,relativistic,is_gga
+            common /elecpot/ vid,viu,vod,vou
+        end subroutine pseudo
+        subroutine wf(i,ar,br) ! in :atomic_program:atm_cGuima3.f
+            integer :: i
+            double precision dimension(*) :: ar
+            double precision dimension(*) :: br
+            double precision :: a
+            double precision :: b
+            double precision dimension(1500) :: r
+            double precision dimension(1500) :: rab
+            integer :: nr
+            double precision dimension(40) :: so
+            double precision dimension(40) :: zo
+            integer :: norb
+            integer :: ncp
+            integer dimension(40) :: no
+            integer dimension(40) :: lo
+            character dimension(5,1) :: il
+            logical dimension(40) :: down
+            integer :: scheme
+            integer :: job
+            integer :: ifcore
+            integer :: ncore
+            double precision :: rsh
+            double precision :: zel
+            double precision :: znuc
+            double precision :: zsh
+            double precision dimension(5) :: rc
+            double precision dimension(5) :: rc_input
+            double precision :: cfac
+            double precision :: rcfac
+            double precision :: logder_radius
+            integer dimension(5) :: indu
+            integer dimension(5) :: indd
+            character*2 :: nameat
+            character*1 :: ispp
+            character*2 :: icorr
+            character*3 :: irel
+            character*4 :: nicore
+            logical :: normal
+            logical :: polarized
+            logical :: relativistic
+            logical :: is_gga
+            double precision dimension(4,1500) :: viod
+            double precision dimension(4,1500) :: viou
+            double precision dimension(1500) :: vid
+            double precision dimension(1500) :: viu
+            double precision dimension(1500) :: vod
+            double precision dimension(1500) :: vou
+            double precision dimension(40) :: ev
+            double precision dimension(40) :: ep
+            double precision dimension(40) :: ek
+            double precision dimension(10) :: etot
+            common /radial/ a,b,r,rab
+            common /rad_int/ nr
+            common /orbital/ so,zo
+            common /orb_int/ norb,ncp,no,lo
+            common /orb_char/ il
+            common /orb_log/ down
+            common /param/ scheme,job,ifcore,ncore,rsh,zel,znuc,zsh,rc,rc_input,cfac,rcfac,logder_radius,indu,indd
+            common /par_char/ nameat,ispp,icorr,irel,nicore
+            common /par_log/ normal,polarized,relativistic,is_gga
+            common /ion/ viod,viou
+            common /elecpot/ vid,viu,vod,vou
+            common /energy/ ev,ep,ek,etot
+        end subroutine wf
+        subroutine hsc(i,ar,br) ! in :atomic_program:atm_cGuima3.f
+            integer :: i
+            double precision dimension(*) :: ar
+            double precision dimension(*) :: br
+            double precision :: a
+            double precision :: b
+            double precision dimension(1500) :: r
+            double precision dimension(1500) :: rab
+            integer :: nr
+            double precision dimension(40) :: so
+            double precision dimension(40) :: zo
+            integer :: norb
+            integer :: ncp
+            integer dimension(40) :: no
+            integer dimension(40) :: lo
+            character dimension(5,1) :: il
+            logical dimension(40) :: down
+            integer :: scheme
+            integer :: job
+            integer :: ifcore
+            integer :: ncore
+            double precision :: rsh
+            double precision :: zel
+            double precision :: znuc
+            double precision :: zsh
+            double precision dimension(5) :: rc
+            double precision dimension(5) :: rc_input
+            double precision :: cfac
+            double precision :: rcfac
+            double precision :: logder_radius
+            integer dimension(5) :: indu
+            integer dimension(5) :: indd
+            character*2 :: nameat
+            character*1 :: ispp
+            character*2 :: icorr
+            character*3 :: irel
+            character*4 :: nicore
+            logical :: normal
+            logical :: polarized
+            logical :: relativistic
+            logical :: is_gga
+            double precision dimension(4,1500) :: viod
+            double precision dimension(4,1500) :: viou
+            double precision dimension(1500) :: vid
+            double precision dimension(1500) :: viu
+            double precision dimension(1500) :: vod
+            double precision dimension(1500) :: vou
+            double precision dimension(40) :: ev
+            double precision dimension(40) :: ep
+            double precision dimension(40) :: ek
+            double precision dimension(10) :: etot
+            common /radial/ a,b,r,rab
+            common /rad_int/ nr
+            common /orbital/ so,zo
+            common /orb_int/ norb,ncp,no,lo
+            common /orb_char/ il
+            common /orb_log/ down
+            common /param/ scheme,job,ifcore,ncore,rsh,zel,znuc,zsh,rc,rc_input,cfac,rcfac,logder_radius,indu,indd
+            common /par_char/ nameat,ispp,icorr,irel,nicore
+            common /par_log/ normal,polarized,relativistic,is_gga
+            common /ion/ viod,viou
+            common /elecpot/ vid,viu,vod,vou
+            common /energy/ ev,ep,ek,etot
+        end subroutine hsc
+        subroutine excorr(id,cdd,cdu,cdc,vod,vou,vxc,vc,exc,ec) ! in :atomic_program:atm_cGuima3.f
+            character*1 :: id
+            double precision dimension(1500) :: cdd
+            double precision dimension(1500) :: cdu
+            double precision dimension(1500) :: cdc
+            double precision dimension(1500) :: vod
+            double precision dimension(1500) :: vou
+            double precision :: vxc
+            double precision :: vc
+            double precision :: exc
+            double precision :: ec
+            double precision :: a
+            double precision :: b
+            double precision dimension(1500) :: r
+            double precision dimension(1500) :: rab
+            integer :: nr
+            integer :: scheme
+            integer :: job
+            integer :: ifcore
+            integer :: ncore
+            double precision :: rsh
+            double precision :: zel
+            double precision :: znuc
+            double precision :: zsh
+            double precision dimension(5) :: rc
+            double precision dimension(5) :: rc_input
+            double precision :: cfac
+            double precision :: rcfac
+            double precision :: logder_radius
+            integer dimension(5) :: indu
+            integer dimension(5) :: indd
+            character*2 :: nameat
+            character*1 :: ispp
+            character*2 :: icorr
+            character*3 :: irel
+            character*4 :: nicore
+            logical :: normal
+            logical :: polarized
+            logical :: relativistic
+            logical :: is_gga
+            common /radial/ a,b,r,rab
+            common /rad_int/ nr
+            common /param/ scheme,job,ifcore,ncore,rsh,zel,znuc,zsh,rc,rc_input,cfac,rcfac,logder_radius,indu,indd
+            common /par_char/ nameat,ispp,icorr,irel,nicore
+            common /par_log/ normal,polarized,relativistic,is_gga
+        end subroutine excorr
+        subroutine tm2(i,wfr,br) ! in :atomic_program:atm_cGuima3.f
+            integer :: i
+            double precision dimension(1500) :: wfr
+            double precision dimension(1500) :: br
+            double precision :: a
+            double precision :: b
+            double precision dimension(1500) :: r
+            double precision dimension(1500) :: rab
+            integer :: nr
+            double precision dimension(40) :: so
+            double precision dimension(40) :: zo
+            integer :: norb
+            integer :: ncp
+            integer dimension(40) :: no
+            integer dimension(40) :: lo
+            character dimension(5,1) :: il
+            logical dimension(40) :: down
+            integer :: scheme
+            integer :: job
+            integer :: ifcore
+            integer :: ncore
+            double precision :: rsh
+            double precision :: zel
+            double precision :: znuc
+            double precision :: zsh
+            double precision dimension(5) :: rc
+            double precision dimension(5) :: rc_input
+            double precision :: cfac
+            double precision :: rcfac
+            double precision :: logder_radius
+            integer dimension(5) :: indu
+            integer dimension(5) :: indd
+            character*2 :: nameat
+            character*1 :: ispp
+            character*2 :: icorr
+            character*3 :: irel
+            character*4 :: nicore
+            logical :: normal
+            logical :: polarized
+            logical :: relativistic
+            logical :: is_gga
+            double precision dimension(4,1500) :: viod
+            double precision dimension(4,1500) :: viou
+            double precision dimension(1500) :: vid
+            double precision dimension(1500) :: viu
+            double precision dimension(1500) :: vod
+            double precision dimension(1500) :: vou
+            double precision dimension(40) :: ev
+            double precision dimension(40) :: ep
+            double precision dimension(40) :: ek
+            double precision dimension(10) :: etot
+            double precision :: alpha
+            double precision :: alpha1
+            double precision :: alpha2
+            double precision :: alpha3
+            double precision :: alpha4
+            double precision :: arc
+            double precision :: brc
+            double precision :: cdrc
+            double precision :: delta
+            double precision :: eigv
+            double precision :: rc1
+            double precision :: rc2
+            double precision :: rc3
+            double precision :: rc4
+            double precision :: rc5
+            double precision :: rc6
+            double precision :: rc7
+            double precision :: rc8
+            double precision :: vap
+            double precision :: vapp
+            double precision :: vrc
+            integer :: jrc
+            integer :: lp
+            double precision dimension(1500) :: ar
+            common /radial/ a,b,r,rab
+            common /rad_int/ nr
+            common /orbital/ so,zo
+            common /orb_int/ norb,ncp,no,lo
+            common /orb_char/ il
+            common /orb_log/ down
+            common /param/ scheme,job,ifcore,ncore,rsh,zel,znuc,zsh,rc,rc_input,cfac,rcfac,logder_radius,indu,indd
+            common /par_char/ nameat,ispp,icorr,irel,nicore
+            common /par_log/ normal,polarized,relativistic,is_gga
+            common /ion/ viod,viou
+            common /elecpot/ vid,viu,vod,vou
+            common /energy/ ev,ep,ek,etot
+            common /tm2_blk/ alpha,alpha1,alpha2,alpha3,alpha4,arc,brc,cdrc,delta,eigv,rc1,rc2,rc3,rc4,rc5,rc6,rc7,rc8,vap,vapp,vrc,jrc,lp,ar
+        end subroutine tm2
+        subroutine ker(i,ar,br) ! in :atomic_program:atm_cGuima3.f
+            integer :: i
+            double precision dimension(1500) :: ar
+            double precision dimension(1500) :: br
+            double precision :: a
+            double precision :: b
+            double precision dimension(1500) :: r
+            double precision dimension(1500) :: rab
+            integer :: nr
+            double precision dimension(40) :: so
+            double precision dimension(40) :: zo
+            integer :: norb
+            integer :: ncp
+            integer dimension(40) :: no
+            integer dimension(40) :: lo
+            character dimension(5,1) :: il
+            logical dimension(40) :: down
+            integer :: scheme
+            integer :: job
+            integer :: ifcore
+            integer :: ncore
+            double precision :: rsh
+            double precision :: zel
+            double precision :: znuc
+            double precision :: zsh
+            double precision dimension(5) :: rc
+            double precision dimension(5) :: rc_input
+            double precision :: cfac
+            double precision :: rcfac
+            double precision :: logder_radius
+            integer dimension(5) :: indu
+            integer dimension(5) :: indd
+            character*2 :: nameat
+            character*1 :: ispp
+            character*2 :: icorr
+            character*3 :: irel
+            character*4 :: nicore
+            logical :: normal
+            logical :: polarized
+            logical :: relativistic
+            logical :: is_gga
+            double precision dimension(4,1500) :: viod
+            double precision dimension(4,1500) :: viou
+            double precision dimension(1500) :: vid
+            double precision dimension(1500) :: viu
+            double precision dimension(1500) :: vod
+            double precision dimension(1500) :: vou
+            double precision dimension(40) :: ev
+            double precision dimension(40) :: ep
+            double precision dimension(40) :: ek
+            double precision dimension(10) :: etot
+            common /radial/ a,b,r,rab
+            common /rad_int/ nr
+            common /orbital/ so,zo
+            common /orb_int/ norb,ncp,no,lo
+            common /orb_char/ il
+            common /orb_log/ down
+            common /param/ scheme,job,ifcore,ncore,rsh,zel,znuc,zsh,rc,rc_input,cfac,rcfac,logder_radius,indu,indd
+            common /par_char/ nameat,ispp,icorr,irel,nicore
+            common /par_log/ normal,polarized,relativistic,is_gga
+            common /ion/ viod,viou
+            common /elecpot/ vid,viu,vod,vou
+            common /energy/ ev,ep,ek,etot
+        end subroutine ker
+        subroutine wrapup(pot_id) ! in :atomic_program:atm_cGuima3.f
+            character*40 :: pot_id
+            double precision :: a
+            double precision :: b
+            double precision dimension(1500) :: r
+            double precision dimension(1500) :: rab
+            integer :: nr
+            double precision dimension(40) :: so
+            double precision dimension(40) :: zo
+            integer :: norb
+            integer :: ncp
+            integer dimension(40) :: no
+            integer dimension(40) :: lo
+            character dimension(5,1) :: il
+            logical dimension(40) :: down
+            integer :: scheme
+            integer :: job
+            integer :: ifcore
+            integer :: ncore
+            double precision :: rsh
+            double precision :: zel
+            double precision :: znuc
+            double precision :: zsh
+            double precision dimension(5) :: rc
+            double precision dimension(5) :: rc_input
+            double precision :: cfac
+            double precision :: rcfac
+            double precision :: logder_radius
+            integer dimension(5) :: indu
+            integer dimension(5) :: indd
+            character*2 :: nameat
+            character*1 :: ispp
+            character*2 :: icorr
+            character*3 :: irel
+            character*4 :: nicore
+            logical :: normal
+            logical :: polarized
+            logical :: relativistic
+            logical :: is_gga
+            double precision dimension(4,1500) :: viod
+            double precision dimension(4,1500) :: viou
+            double precision dimension(1500) :: cdd
+            double precision dimension(1500) :: cdu
+            double precision dimension(1500) :: cdc
+            double precision dimension(1500) :: vid
+            double precision dimension(1500) :: viu
+            double precision dimension(1500) :: vod
+            double precision dimension(1500) :: vou
+            double precision dimension(40) :: ev
+            double precision dimension(40) :: ep
+            double precision dimension(40) :: ek
+            double precision dimension(10) :: etot
+            real*8 :: aa_def
+            real*8 :: bb_def
+            real*8 :: rmax_def
+            real*8 :: ecuts
+            logical :: use_excorr
+            logical :: use_old_cc
+            logical :: use_new_cc
+            common /radial/ a,b,r,rab
+            common /rad_int/ nr
+            common /orbital/ so,zo
+            common /orb_int/ norb,ncp,no,lo
+            common /orb_char/ il
+            common /orb_log/ down
+            common /param/ scheme,job,ifcore,ncore,rsh,zel,znuc,zsh,rc,rc_input,cfac,rcfac,logder_radius,indu,indd
+            common /par_char/ nameat,ispp,icorr,irel,nicore
+            common /par_log/ normal,polarized,relativistic,is_gga
+            common /ion/ viod,viou
+            common /charge/ cdd,cdu,cdc
+            common /elecpot/ vid,viu,vod,vou
+            common /energy/ ev,ep,ek,etot
+            common /rcompat/ aa_def,bb_def,rmax_def,ecuts
+            common /lcompat/ use_excorr,use_old_cc,use_new_cc
+        end subroutine wrapup
+        function cutoff_function(r) ! in :atomic_program:atm_cGuima3.f
+            double precision :: r
+            double precision :: cutoff_function
+        end function cutoff_function
+        subroutine splift(x,y,yp,ypp,n,w,ierr,isx,a1,b1,an,bn) ! in :atomic_program:atm_cGuima3.f
+            double precision dimension(n) :: x
+            double precision dimension(n),depend(n) :: y
+            double precision dimension(n),depend(n) :: yp
+            double precision dimension(n),depend(n) :: ypp
+            integer, optional,check(len(x)>=n),depend(x) :: n=len(x)
+            double precision dimension(n,3),depend(n) :: w
+            integer :: ierr
+            integer :: isx
+            double precision :: a1
+            double precision :: b1
+            double precision :: an
+            double precision :: bn
+        end subroutine splift
+        subroutine spliq(x,y,yp,ypp,n,xlo,xup,nup,ans,ierr) ! in :atomic_program:atm_cGuima3.f
+            double precision dimension(n) :: x
+            double precision dimension(n),depend(n) :: y
+            double precision dimension(n),depend(n) :: yp
+            double precision dimension(n),depend(n) :: ypp
+            integer, optional,check(len(x)>=n),depend(x) :: n=len(x)
+            double precision :: xlo
+            double precision dimension(nup) :: xup
+            integer, optional,check(len(xup)>=nup),depend(xup) :: nup=len(xup)
+            double precision dimension(nup),depend(nup) :: ans
+            integer :: ierr
+        end subroutine spliq
+        subroutine velect(iter,iconv,id,zelec) ! in :atomic_program:atm_cGuima3.f
+            integer :: iter
+            integer :: iconv
+            character*1 :: id
+            double precision :: zelec
+            double precision :: a
+            double precision :: b
+            double precision dimension(1500) :: r
+            double precision dimension(1500) :: rab
+            integer :: nr
+            double precision dimension(40) :: so
+            double precision dimension(40) :: zo
+            integer :: norb
+            integer :: ncp
+            integer dimension(40) :: no
+            integer dimension(40) :: lo
+            character dimension(5,1) :: il
+            logical dimension(40) :: down
+            integer :: scheme
+            integer :: job
+            integer :: ifcore
+            integer :: ncore
+            double precision :: rsh
+            double precision :: zel
+            double precision :: znuc
+            double precision :: zsh
+            double precision dimension(5) :: rc
+            double precision dimension(5) :: rc_input
+            double precision :: cfac
+            double precision :: rcfac
+            double precision :: logder_radius
+            integer dimension(5) :: indu
+            integer dimension(5) :: indd
+            character*2 :: nameat
+            character*1 :: ispp
+            character*2 :: icorr
+            character*3 :: irel
+            character*4 :: nicore
+            logical :: normal
+            logical :: polarized
+            logical :: relativistic
+            logical :: is_gga
+            double precision dimension(1500) :: cdd
+            double precision dimension(1500) :: cdu
+            double precision dimension(1500) :: cdc
+            double precision dimension(1500) :: vid
+            double precision dimension(1500) :: viu
+            double precision dimension(1500) :: vod
+            double precision dimension(1500) :: vou
+            double precision dimension(40) :: ev
+            double precision dimension(40) :: ep
+            double precision dimension(40) :: ek
+            double precision dimension(10) :: etot
+            real*8 :: aa_def
+            real*8 :: bb_def
+            real*8 :: rmax_def
+            real*8 :: ecuts
+            logical :: use_excorr
+            logical :: use_old_cc
+            logical :: use_new_cc
+            double precision dimension(1500) :: s1
+            double precision dimension(1500) :: s2
+            double precision dimension(4500) :: w
+            double precision dimension(1500) :: y
+            double precision dimension(1500) :: yp
+            double precision dimension(1500) :: ypp
+            common /radial/ a,b,r,rab
+            common /rad_int/ nr
+            common /orbital/ so,zo
+            common /orb_int/ norb,ncp,no,lo
+            common /orb_char/ il
+            common /orb_log/ down
+            common /param/ scheme,job,ifcore,ncore,rsh,zel,znuc,zsh,rc,rc_input,cfac,rcfac,logder_radius,indu,indd
+            common /par_char/ nameat,ispp,icorr,irel,nicore
+            common /par_log/ normal,polarized,relativistic,is_gga
+            common /charge/ cdd,cdu,cdc
+            common /elecpot/ vid,viu,vod,vou
+            common /energy/ ev,ep,ek,etot
+            common /rcompat/ aa_def,bb_def,rmax_def,ecuts
+            common /lcompat/ use_excorr,use_old_cc,use_new_cc
+            common s1,s2,w,y,yp,ypp
+        end subroutine velect
+        subroutine vionic ! in :atomic_program:atm_cGuima3.f
+            double precision :: a
+            double precision :: b
+            double precision dimension(1500) :: r
+            double precision dimension(1500) :: rab
+            integer :: nr
+            double precision dimension(40) :: so
+            double precision dimension(40) :: zo
+            integer :: norb
+            integer :: ncp
+            integer dimension(40) :: no
+            integer dimension(40) :: lo
+            character dimension(5,1) :: il
+            logical dimension(40) :: down
+            integer :: scheme
+            integer :: job
+            integer :: ifcore
+            integer :: ncore
+            double precision :: rsh
+            double precision :: zel
+            double precision :: znuc
+            double precision :: zsh
+            double precision dimension(5) :: rc
+            double precision dimension(5) :: rc_input
+            double precision :: cfac
+            double precision :: rcfac
+            double precision :: logder_radius
+            integer dimension(5) :: indu
+            integer dimension(5) :: indd
+            character*2 :: nameat
+            character*1 :: ispp
+            character*2 :: icorr
+            character*3 :: irel
+            character*4 :: nicore
+            logical :: normal
+            logical :: polarized
+            logical :: relativistic
+            logical :: is_gga
+            double precision dimension(4,1500) :: viod
+            double precision dimension(4,1500) :: viou
+            double precision dimension(1500) :: cdd
+            double precision dimension(1500) :: cdu
+            double precision dimension(1500) :: cdc
+            common /radial/ a,b,r,rab
+            common /rad_int/ nr
+            common /orbital/ so,zo
+            common /orb_int/ norb,ncp,no,lo
+            common /orb_char/ il
+            common /orb_log/ down
+            common /param/ scheme,job,ifcore,ncore,rsh,zel,znuc,zsh,rc,rc_input,cfac,rcfac,logder_radius,indu,indd
+            common /par_char/ nameat,ispp,icorr,irel,nicore
+            common /par_log/ normal,polarized,relativistic,is_gga
+            common /ion/ viod,viou
+            common /charge/ cdd,cdu,cdc
+        end subroutine vionic
+        subroutine wtrans(vd,r,nr,i,ist) ! in :atomic_program:atm_cGuima3.f
+            double precision dimension(nr) :: vd
+            double precision dimension(nr),depend(nr) :: r
+            integer, optional,check(len(vd)>=nr),depend(vd) :: nr=len(vd)
+            integer :: i
+            integer :: ist
+            double precision dimension(1500) :: a
+            double precision dimension(1500) :: b
+            double precision dimension(1500) :: c
+            common /plot/ a,b,c
+        end subroutine wtrans
+        function v0pp(gamma) ! in :atomic_program:atm_cGuima3.f
+            double precision :: gamma
+            double precision :: a
+            double precision :: b
+            double precision dimension(1500) :: r
+            double precision dimension(1500) :: rab
+            integer :: nr
+            double precision :: alpha
+            double precision :: alpha1
+            double precision :: alpha2
+            double precision :: alpha3
+            double precision :: alpha4
+            double precision :: arc
+            double precision :: brc
+            double precision :: cdrc
+            double precision :: delta
+            double precision :: eigv
+            double precision :: rc1
+            double precision :: rc2
+            double precision :: rc3
+            double precision :: rc4
+            double precision :: rc5
+            double precision :: rc6
+            double precision :: rc7
+            double precision :: rc8
+            double precision :: vap
+            double precision :: vapp
+            double precision :: vrc
+            integer :: jrc
+            integer :: lp
+            double precision dimension(1500) :: ar
+            double precision :: v0pp
+            common /radial/ a,b,r,rab
+            common /rad_int/ nr
+            common /tm2_blk/ alpha,alpha1,alpha2,alpha3,alpha4,arc,brc,cdrc,delta,eigv,rc1,rc2,rc3,rc4,rc5,rc6,rc7,rc8,vap,vapp,vrc,jrc,lp,ar
+        end function v0pp
+        function chg_mism(xdelta) ! in :atomic_program:atm_cGuima3.f
+            double precision :: xdelta
+            double precision :: a
+            double precision :: b
+            double precision dimension(1500) :: r
+            double precision dimension(1500) :: rab
+            integer :: nr
+            double precision :: arc
+            double precision :: brc
+            double precision :: eigv
+            double precision :: cdrc
+            double precision :: vrc
+            double precision :: vap
+            double precision :: vapp
+            double precision :: rc1
+            double precision :: rc2
+            double precision :: rc3
+            integer :: lp
+            integer :: jrc
+            double precision :: alpha
+            double precision :: alpha1
+            double precision :: alpha2
+            double precision :: alpha3
+            double precision :: alpha4
+            double precision :: delta
+            double precision :: gamma
+            integer :: ang_moment
+            double precision dimension(5,5) :: alin
+            double precision :: parity
+            integer dimension(5) :: indx
+            double precision :: chg_mism
+            common /radial/ a,b,r,rab
+            common /rad_int/ nr
+            common /nonlinear/ arc,brc,eigv,cdrc,vrc,vap,vapp,rc1,rc2,rc3,lp,jrc
+            common /coeffs/ alpha,alpha1,alpha2,alpha3,alpha4,delta,gamma,ang_moment
+            common /linear/ alin,parity,indx
+        end function chg_mism
+        subroutine dsolv2(iter,iconv,id,nfirst,nlast,n_of_core_orbs,nn) ! in :atomic_program:atm_cGuima3.f
+            integer :: iter
+            integer :: iconv
+            character*1 :: id
+            integer :: nfirst
+            integer :: nlast
+            integer :: n_of_core_orbs
+            integer dimension(*) :: nn
+            double precision :: a
+            double precision :: b
+            double precision dimension(1500) :: r
+            double precision dimension(1500) :: rab
+            integer :: nr
+            double precision dimension(40) :: so
+            double precision dimension(40) :: zo
+            integer :: norb
+            integer :: ncp
+            integer dimension(40) :: no
+            integer dimension(40) :: lo
+            character dimension(5,1) :: il
+            logical dimension(40) :: down
+            integer :: scheme
+            integer :: job
+            integer :: ifcore
+            integer :: ncore
+            double precision :: rsh
+            double precision :: zel
+            double precision :: znuc
+            double precision :: zsh
+            double precision dimension(5) :: rc
+            double precision dimension(5) :: rc_input
+            double precision :: cfac
+            double precision :: rcfac
+            double precision :: logder_radius
+            integer dimension(5) :: indu
+            integer dimension(5) :: indd
+            character*2 :: nameat
+            character*1 :: ispp
+            character*2 :: icorr
+            character*3 :: irel
+            character*4 :: nicore
+            logical :: normal
+            logical :: polarized
+            logical :: relativistic
+            logical :: is_gga
+            double precision dimension(4,1500) :: viod
+            double precision dimension(4,1500) :: viou
+            double precision dimension(1500) :: cdd
+            double precision dimension(1500) :: cdu
+            double precision dimension(1500) :: cdc
+            double precision dimension(1500) :: vid
+            double precision dimension(1500) :: viu
+            double precision dimension(1500) :: vod
+            double precision dimension(1500) :: vou
+            double precision dimension(40) :: ev
+            double precision dimension(40) :: ep
+            double precision dimension(40) :: ek
+            double precision dimension(10) :: etot
+            common /radial/ a,b,r,rab
+            common /rad_int/ nr
+            common /orbital/ so,zo
+            common /orb_int/ norb,ncp,no,lo
+            common /orb_char/ il
+            common /orb_log/ down
+            common /param/ scheme,job,ifcore,ncore,rsh,zel,znuc,zsh,rc,rc_input,cfac,rcfac,logder_radius,indu,indd
+            common /par_char/ nameat,ispp,icorr,irel,nicore
+            common /par_log/ normal,polarized,relativistic,is_gga
+            common /ion/ viod,viou
+            common /charge/ cdd,cdu,cdc
+            common /elecpot/ vid,viu,vod,vou
+            common /energy/ ev,ep,ek,etot
+        end subroutine dsolv2
+        subroutine etotal(nfirst,nlast) ! in :atomic_program:atm_cGuima3.f
+            integer :: nfirst
+            integer :: nlast
+            double precision dimension(40) :: so
+            double precision dimension(40) :: zo
+            integer :: norb
+            integer :: ncp
+            integer dimension(40) :: no
+            integer dimension(40) :: lo
+            character dimension(5,1) :: il
+            logical dimension(40) :: down
+            integer :: scheme
+            integer :: job
+            integer :: ifcore
+            integer :: ncore
+            double precision :: rsh
+            double precision :: zel
+            double precision :: znuc
+            double precision :: zsh
+            double precision dimension(5) :: rc
+            double precision dimension(5) :: rc_input
+            double precision :: cfac
+            double precision :: rcfac
+            double precision :: logder_radius
+            integer dimension(5) :: indu
+            integer dimension(5) :: indd
+            character*2 :: nameat
+            character*1 :: ispp
+            character*2 :: icorr
+            character*3 :: irel
+            character*4 :: nicore
+            logical :: normal
+            logical :: polarized
+            logical :: relativistic
+            logical :: is_gga
+            double precision dimension(40) :: ev
+            double precision dimension(40) :: ep
+            double precision dimension(40) :: ek
+            double precision dimension(10) :: etot
+            common /orbital/ so,zo
+            common /orb_int/ norb,ncp,no,lo
+            common /orb_char/ il
+            common /orb_log/ down
+            common /param/ scheme,job,ifcore,ncore,rsh,zel,znuc,zsh,rc,rc_input,cfac,rcfac,logder_radius,indu,indd
+            common /par_char/ nameat,ispp,icorr,irel,nicore
+            common /par_log/ normal,polarized,relativistic,is_gga
+            common /energy/ ev,ep,ek,etot
+        end subroutine etotal
+        subroutine ext(i) ! in :atomic_program:atm_cGuima3.f
+            integer :: i
+        end subroutine ext
+        subroutine input(maxit) ! in :atomic_program:atm_cGuima3.f
+            integer :: maxit
+            double precision :: a
+            double precision :: b
+            double precision dimension(1500) :: r
+            double precision dimension(1500) :: rab
+            integer :: nr
+            double precision dimension(40) :: so
+            double precision dimension(40) :: zo
+            integer :: norb
+            integer :: ncp
+            integer dimension(40) :: no
+            integer dimension(40) :: lo
+            character dimension(5,1) :: il
+            logical dimension(40) :: down
+            integer :: scheme
+            integer :: job
+            integer :: ifcore
+            integer :: ncore
+            double precision :: rsh
+            double precision :: zel
+            double precision :: znuc
+            double precision :: zsh
+            double precision dimension(5) :: rc
+            double precision dimension(5) :: rc_input
+            double precision :: cfac
+            double precision :: rcfac
+            double precision :: logder_radius
+            integer dimension(5) :: indu
+            integer dimension(5) :: indd
+            character*2 :: nameat
+            character*1 :: ispp
+            character*2 :: icorr
+            character*3 :: irel
+            character*4 :: nicore
+            logical :: normal
+            logical :: polarized
+            logical :: relativistic
+            logical :: is_gga
+            real*8 :: aa_def
+            real*8 :: bb_def
+            real*8 :: rmax_def
+            real*8 :: ecuts
+            logical :: use_excorr
+            logical :: use_old_cc
+            logical :: use_new_cc
+            double precision :: aa
+            double precision :: bb
+            double precision :: zion
+            integer :: nval
+            character dimension(5,10) :: ray
+            character dimension(5,10) :: title
+            common /radial/ a,b,r,rab
+            common /rad_int/ nr
+            common /orbital/ so,zo
+            common /orb_int/ norb,ncp,no,lo
+            common /orb_char/ il
+            common /orb_log/ down
+            common /param/ scheme,job,ifcore,ncore,rsh,zel,znuc,zsh,rc,rc_input,cfac,rcfac,logder_radius,indu,indd
+            common /par_char/ nameat,ispp,icorr,irel,nicore
+            common /par_log/ normal,polarized,relativistic,is_gga
+            common /rcompat/ aa_def,bb_def,rmax_def,ecuts
+            common /lcompat/ use_excorr,use_old_cc,use_new_cc
+            common /input_s/ aa,bb,zion,nval
+            common /input_chr/ ray,title
+        end subroutine input
+        block data orb_init ! in :atomic_program:atm_cGuima3.f
+            double precision dimension(40) :: so
+            double precision dimension(40) :: zo
+            integer :: norb
+            integer :: ncp
+            integer dimension(40) :: no
+            integer dimension(40) :: lo
+            character, optional,dimension(5,1) :: il='s'
+            logical dimension(40) :: down
+            integer, parameter,optional :: norbmx=40
+            common /orbital/ so,zo
+            common /orb_int/ norb,ncp,no,lo
+            common /orb_char/ il
+            common /orb_log/ down
+        end block data orb_init
+        subroutine header ! in :atomic_program:atm_cGuima3.f
+            double precision :: a
+            double precision :: b
+            double precision dimension(1500) :: r
+            double precision dimension(1500) :: rab
+            integer :: nr
+            double precision dimension(40) :: so
+            double precision dimension(40) :: zo
+            integer :: norb
+            integer :: ncp
+            integer dimension(40) :: no
+            integer dimension(40) :: lo
+            character dimension(5,1) :: il
+            logical dimension(40) :: down
+            integer :: scheme
+            integer :: job
+            integer :: ifcore
+            integer :: ncore
+            double precision :: rsh
+            double precision :: zel
+            double precision :: znuc
+            double precision :: zsh
+            double precision dimension(5) :: rc
+            double precision dimension(5) :: rc_input
+            double precision :: cfac
+            double precision :: rcfac
+            double precision :: logder_radius
+            integer dimension(5) :: indu
+            integer dimension(5) :: indd
+            character*2 :: nameat
+            character*1 :: ispp
+            character*2 :: icorr
+            character*3 :: irel
+            character*4 :: nicore
+            logical :: normal
+            logical :: polarized
+            logical :: relativistic
+            logical :: is_gga
+            real*8 :: aa_def
+            real*8 :: bb_def
+            real*8 :: rmax_def
+            real*8 :: ecuts
+            logical :: use_excorr
+            logical :: use_old_cc
+            logical :: use_new_cc
+            double precision :: aa
+            double precision :: bb
+            double precision :: zion
+            integer :: nval
+            character dimension(5,10) :: ray
+            character dimension(5,10) :: title
+            common /radial/ a,b,r,rab
+            common /rad_int/ nr
+            common /orbital/ so,zo
+            common /orb_int/ norb,ncp,no,lo
+            common /orb_char/ il
+            common /orb_log/ down
+            common /param/ scheme,job,ifcore,ncore,rsh,zel,znuc,zsh,rc,rc_input,cfac,rcfac,logder_radius,indu,indd
+            common /par_char/ nameat,ispp,icorr,irel,nicore
+            common /par_log/ normal,polarized,relativistic,is_gga
+            common /rcompat/ aa_def,bb_def,rmax_def,ecuts
+            common /lcompat/ use_excorr,use_old_cc,use_new_cc
+            common /input_s/ aa,bb,zion,nval
+            common /input_chr/ ray,title
+        end subroutine header
+        subroutine orban(iorb,id,ar,br,n,l,occup,spin,eigv,ekin,epot) ! in :atomic_program:atm_cGuima3.f
+            integer :: iorb
+            character*1 :: id
+            double precision dimension(*) :: ar
+            double precision dimension(*) :: br
+            integer :: n
+            integer :: l
+            double precision :: occup
+            double precision :: spin
+            double precision :: eigv
+            double precision :: ekin
+            double precision :: epot
+            double precision :: a
+            double precision :: b
+            double precision dimension(1500) :: r
+            double precision dimension(1500) :: rab
+            integer :: nr
+            integer :: scheme
+            integer :: job
+            integer :: ifcore
+            integer :: ncore
+            double precision :: rsh
+            double precision :: zel
+            double precision :: znuc
+            double precision :: zsh
+            double precision dimension(5) :: rc
+            double precision dimension(5) :: rc_input
+            double precision :: cfac
+            double precision :: rcfac
+            double precision :: logder_radius
+            integer dimension(5) :: indu
+            integer dimension(5) :: indd
+            character*2 :: nameat
+            character*1 :: ispp
+            character*2 :: icorr
+            character*3 :: irel
+            character*4 :: nicore
+            logical :: normal
+            logical :: polarized
+            logical :: relativistic
+            logical :: is_gga
+            double precision dimension(4,1500) :: viod
+            double precision dimension(4,1500) :: viou
+            double precision dimension(1500) :: vid
+            double precision dimension(1500) :: viu
+            double precision dimension(1500) :: vod
+            double precision dimension(1500) :: vou
+            common /radial/ a,b,r,rab
+            common /rad_int/ nr
+            common /param/ scheme,job,ifcore,ncore,rsh,zel,znuc,zsh,rc,rc_input,cfac,rcfac,logder_radius,indu,indd
+            common /par_char/ nameat,ispp,icorr,irel,nicore
+            common /par_log/ normal,polarized,relativistic,is_gga
+            common /ion/ viod,viou
+            common /elecpot/ vid,viu,vod,vou
+        end subroutine orban
+        subroutine potran(i,vd,r,nr,zion,fourier_area) ! in :atomic_program:atm_cGuima3.f
+            integer :: i
+            double precision dimension(nr) :: vd
+            double precision dimension(nr),depend(nr) :: r
+            integer, optional,check(len(vd)>=nr),depend(vd) :: nr=len(vd)
+            double precision :: zion
+            double precision :: fourier_area
+            double precision dimension(1500) :: a
+            double precision dimension(1500) :: b
+            double precision dimension(1500) :: c
+            common /plot/ a,b,c
+        end subroutine potran
+        subroutine potrv(vd,r,nr,k,zion) ! in :atomic_program:atm_cGuima3.f
+            double precision dimension(nr) :: vd
+            double precision dimension(nr),depend(nr) :: r
+            integer, optional,check(len(vd)>=nr),depend(vd) :: nr=len(vd)
+            integer :: k
+            double precision :: zion
+        end subroutine potrv
+        subroutine potrvs(vd,r,nr,k) ! in :atomic_program:atm_cGuima3.f
+            double precision dimension(nr) :: vd
+            double precision dimension(nr),depend(nr) :: r
+            integer, optional,check(len(vd)>=nr),depend(vd) :: nr=len(vd)
+            integer :: k
+        end subroutine potrvs
+        subroutine totalw(i) ! in :atomic_program:atm_cGuima3.f
+            integer :: i
+            double precision :: a
+            double precision :: b
+            double precision dimension(1500) :: r
+            double precision dimension(1500) :: rab
+            integer :: nr
+            double precision dimension(40) :: so
+            double precision dimension(40) :: zo
+            integer :: norb
+            integer :: ncp
+            integer dimension(40) :: no
+            integer dimension(40) :: lo
+            character dimension(5,1) :: il
+            logical dimension(40) :: down
+            integer :: scheme
+            integer :: job
+            integer :: ifcore
+            integer :: ncore
+            double precision :: rsh
+            double precision :: zel
+            double precision :: znuc
+            double precision :: zsh
+            double precision dimension(5) :: rc
+            double precision dimension(5) :: rc_input
+            double precision :: cfac
+            double precision :: rcfac
+            double precision :: logder_radius
+            integer dimension(5) :: indu
+            integer dimension(5) :: indd
+            character*2 :: nameat
+            character*1 :: ispp
+            character*2 :: icorr
+            character*3 :: irel
+            character*4 :: nicore
+            logical :: normal
+            logical :: polarized
+            logical :: relativistic
+            logical :: is_gga
+            double precision dimension(4,1500) :: viod
+            double precision dimension(4,1500) :: viou
+            double precision dimension(1500) :: vid
+            double precision dimension(1500) :: viu
+            double precision dimension(1500) :: vod
+            double precision dimension(1500) :: vou
+            double precision dimension(40) :: ev
+            double precision dimension(40) :: ep
+            double precision dimension(40) :: ek
+            double precision dimension(10) :: etot
+            common /radial/ a,b,r,rab
+            common /rad_int/ nr
+            common /orbital/ so,zo
+            common /orb_int/ norb,ncp,no,lo
+            common /orb_char/ il
+            common /orb_log/ down
+            common /param/ scheme,job,ifcore,ncore,rsh,zel,znuc,zsh,rc,rc_input,cfac,rcfac,logder_radius,indu,indd
+            common /par_char/ nameat,ispp,icorr,irel,nicore
+            common /par_log/ normal,polarized,relativistic,is_gga
+            common /ion/ viod,viou
+            common /elecpot/ vid,viu,vod,vou
+            common /energy/ ev,ep,ek,etot
+        end subroutine totalw
+        subroutine potrw(vd,r,nr,k,kj,ist,rc) ! in :atomic_program:atm_cGuima3.f
+            double precision dimension(nr) :: vd
+            double precision dimension(nr),depend(nr) :: r
+            integer, optional,check(len(vd)>=nr),depend(vd) :: nr=len(vd)
+            integer :: k
+            integer :: kj
+            integer :: ist
+            double precision :: rc
+        end subroutine potrw
+        subroutine prdiff(nconf,econf,jobold) ! in :atomic_program:atm_cGuima3.f
+            integer :: nconf
+            double precision dimension(100) :: econf
+            integer :: jobold
+        end subroutine prdiff
+        subroutine chrlen(string_bn,nchar,lchar) ! in :atomic_program:atm_cGuima3.f
+            character*(*) :: string_bn
+            integer :: nchar
+            integer :: lchar
+        end subroutine chrlen
+        subroutine chrcap(string_bn,nchar) ! in :atomic_program:atm_cGuima3.f
+            character*(*) :: string_bn
+            integer :: nchar
+        end subroutine chrcap
+        function leqi(strng1,strng2) ! in :atomic_program:atm_cGuima3.f
+            character*(*) :: strng1
+            character*(*) :: strng2
+            logical :: leqi
+        end function leqi
+        subroutine loc_des(message) ! in :atomic_program:atm_cGuima3.f
+            character*(*) :: message
+            character*200 :: form_spec
+            integer :: form_length
+            common /fordes/ form_spec,form_length
+        end subroutine loc_des
+        subroutine zbrac(func,x1,x2,succes) ! in :atomic_program:atm_cGuima3.f
+            use zbrac__user__routines
+            external func
+            double precision :: x1
+            double precision :: x2
+            logical :: succes
+        end subroutine zbrac
+        subroutine zbrak(fx,x1,x2,n,xb1,xb2,nb) ! in :atomic_program:atm_cGuima3.f
+            use zbrak__user__routines
+            external fx
+            double precision :: x1
+            double precision :: x2
+            integer :: n
+            double precision dimension(1) :: xb1
+            double precision dimension(1) :: xb2
+            integer :: nb
+        end subroutine zbrak
+        function zbrent(func,x1,x2,tol) ! in :atomic_program:atm_cGuima3.f
+            use zbrent__user__routines
+            external func
+            double precision :: x1
+            double precision :: x2
+            double precision :: tol
+            double precision :: zbrent
+        end function zbrent
+        function rtbis(func,x1,x2,xacc) ! in :atomic_program:atm_cGuima3.f
+            use rtbis__user__routines
+            external func
+            double precision :: x1
+            double precision :: x2
+            double precision :: xacc
+            double precision :: rtbis
+        end function rtbis
+        subroutine brac(func,x1,x2,succes) ! in :atomic_program:atm_cGuima3.f
+            use brac__user__routines
+            external func
+            double precision :: x1
+            double precision :: x2
+            logical :: succes
+        end subroutine brac
+        function brent(func,x1,x2,tol) ! in :atomic_program:atm_cGuima3.f
+            use brent__user__routines
+            external func
+            double precision :: x1
+            double precision :: x2
+            double precision :: tol
+            double precision :: brent
+        end function brent
+        subroutine genrhs(gamma,delta,y) ! in :atomic_program:atm_cGuima3.f
+            double precision :: gamma
+            double precision :: delta
+            double precision dimension(5) :: y
+            double precision :: arc
+            double precision :: brc
+            double precision :: eigv
+            double precision :: cdrc
+            double precision :: vrc
+            double precision :: vap
+            double precision :: vapp
+            double precision :: rc1
+            double precision :: rc2
+            double precision :: rc3
+            integer :: lp
+            integer :: jrc
+            common /nonlinear/ arc,brc,eigv,cdrc,vrc,vap,vapp,rc1,rc2,rc3,lp,jrc
+        end subroutine genrhs
+        subroutine logder(nfirst,nlast,flag) ! in :atomic_program:atm_cGuima3.f
+            integer :: nfirst
+            integer :: nlast
+            character*2 :: flag
+            double precision :: a
+            double precision :: b
+            double precision dimension(1500) :: r
+            double precision dimension(1500) :: rab
+            integer :: nr
+            double precision dimension(40) :: so
+            double precision dimension(40) :: zo
+            integer :: norb
+            integer :: ncp
+            integer dimension(40) :: no
+            integer dimension(40) :: lo
+            character dimension(5,1) :: il
+            logical dimension(40) :: down
+            integer :: scheme
+            integer :: job
+            integer :: ifcore
+            integer :: ncore
+            double precision :: rsh
+            double precision :: zel
+            double precision :: znuc
+            double precision :: zsh
+            double precision dimension(5) :: rc
+            double precision dimension(5) :: rc_input
+            double precision :: cfac
+            double precision :: rcfac
+            double precision :: logder_radius
+            integer dimension(5) :: indu
+            integer dimension(5) :: indd
+            character*2 :: nameat
+            character*1 :: ispp
+            character*2 :: icorr
+            character*3 :: irel
+            character*4 :: nicore
+            logical :: normal
+            logical :: polarized
+            logical :: relativistic
+            logical :: is_gga
+            double precision dimension(4,1500) :: viod
+            double precision dimension(4,1500) :: viou
+            double precision dimension(1500) :: vid
+            double precision dimension(1500) :: viu
+            double precision dimension(1500) :: vod
+            double precision dimension(1500) :: vou
+            double precision dimension(40) :: ev
+            double precision dimension(40) :: ep
+            double precision dimension(40) :: ek
+            double precision dimension(10) :: etot
+            double precision :: energ
+            double precision dimension(1500) :: v
+            integer :: jint
+            integer :: kmax
+            integer :: kount
+            double precision :: dxsav
+            double precision dimension(200) :: xp
+            double precision dimension(10,200) :: yp
+            common /radial/ a,b,r,rab
+            common /rad_int/ nr
+            common /orbital/ so,zo
+            common /orb_int/ norb,ncp,no,lo
+            common /orb_char/ il
+            common /orb_log/ down
+            common /param/ scheme,job,ifcore,ncore,rsh,zel,znuc,zsh,rc,rc_input,cfac,rcfac,logder_radius,indu,indd
+            common /par_char/ nameat,ispp,icorr,irel,nicore
+            common /par_log/ normal,polarized,relativistic,is_gga
+            common /ion/ viod,viou
+            common /elecpot/ vid,viu,vod,vou
+            common /energy/ ev,ep,ek,etot
+            common /ode_blk/ energ,v,jint
+            common /path/ kmax,kount,dxsav,xp,yp
+        end subroutine logder
+        subroutine ode(x,y,dxdy) ! in :atomic_program:atm_cGuima3.f
+            double precision :: x
+            double precision dimension(2) :: y
+            double precision dimension(2) :: dxdy
+            double precision :: a
+            double precision :: b
+            double precision dimension(1500) :: r
+            double precision dimension(1500) :: rab
+            integer :: nr
+            double precision :: energ
+            double precision dimension(1500) :: v
+            integer :: jint
+            common /radial/ a,b,r,rab
+            common /rad_int/ nr
+            common /ode_blk/ energ,v,jint
+        end subroutine ode
+        subroutine denplot ! in :atomic_program:atm_cGuima3.f
+            double precision :: a
+            double precision :: b
+            double precision dimension(1500) :: r
+            double precision dimension(1500) :: rab
+            integer :: nr
+            double precision dimension(1500) :: cdd
+            double precision dimension(1500) :: cdu
+            double precision dimension(1500) :: cdc
+            integer :: scheme
+            integer :: job
+            integer :: ifcore
+            integer :: ncore
+            double precision :: rsh
+            double precision :: zel
+            double precision :: znuc
+            double precision :: zsh
+            double precision dimension(5) :: rc
+            double precision dimension(5) :: rc_input
+            double precision :: cfac
+            double precision :: rcfac
+            double precision :: logder_radius
+            integer dimension(5) :: indu
+            integer dimension(5) :: indd
+            character*2 :: nameat
+            character*1 :: ispp
+            character*2 :: icorr
+            character*3 :: irel
+            character*4 :: nicore
+            logical :: normal
+            logical :: polarized
+            logical :: relativistic
+            logical :: is_gga
+            common /radial/ a,b,r,rab
+            common /rad_int/ nr
+            common /charge/ cdd,cdu,cdc
+            common /param/ scheme,job,ifcore,ncore,rsh,zel,znuc,zsh,rc,rc_input,cfac,rcfac,logder_radius,indu,indd
+            common /par_char/ nameat,ispp,icorr,irel,nicore
+            common /par_log/ normal,polarized,relativistic,is_gga
+        end subroutine denplot
+        subroutine saxpy(n,sa,sx,incx,sy,incy) ! in :atomic_program:atm_cGuima3.f
+            integer :: n
+            double precision :: sa
+            double precision dimension(*) :: sx
+            integer :: incx
+            double precision dimension(*) :: sy
+            integer :: incy
+        end subroutine saxpy
+        function sdot(n,sx,incx,sy,incy) ! in :atomic_program:atm_cGuima3.f
+            integer :: n
+            double precision dimension(*) :: sx
+            integer :: incx
+            double precision dimension(*) :: sy
+            integer :: incy
+            double precision :: sdot
+        end function sdot
+        subroutine scopy(n,sx,incx,sy,incy) ! in :atomic_program:atm_cGuima3.f
+            integer :: n
+            double precision dimension(*) :: sx
+            integer :: incx
+            double precision dimension(*) :: sy
+            integer :: incy
+        end subroutine scopy
+        subroutine sscal(n,sa,sx,incx) ! in :atomic_program:atm_cGuima3.f
+            integer :: n
+            double precision :: sa
+            double precision dimension(*) :: sx
+            integer :: incx
+        end subroutine sscal
+        subroutine tridib(n,eps1,d,e,e2,lb,ub,m11,m,w,ind,ierr,rv4,rv5) ! in :atomic_program:atm_cGuima3.f
+            integer, optional,check(len(d)>=n),depend(d) :: n=len(d)
+            double precision :: eps1
+            double precision dimension(n) :: d
+            double precision dimension(n),depend(n) :: e
+            double precision dimension(n),depend(n) :: e2
+            double precision :: lb
+            double precision :: ub
+            integer :: m11
+            integer, optional,check(len(w)>=m),depend(w) :: m=len(w)
+            double precision dimension(m) :: w
+            integer dimension(m),depend(m) :: ind
+            integer :: ierr
+            double precision dimension(n),depend(n) :: rv4
+            double precision dimension(n),depend(n) :: rv5
+        end subroutine tridib
+        subroutine tinvit(nm,n,d,e,e2,m,w,ind,z,ierr,rv1,rv2,rv3,rv4,rv6) ! in :atomic_program:atm_cGuima3.f
+            integer, optional,check(shape(z,0)==nm),depend(z) :: nm=shape(z,0)
+            integer, optional,check(len(d)>=n),depend(d) :: n=len(d)
+            double precision dimension(n) :: d
+            double precision dimension(n),depend(n) :: e
+            double precision dimension(n),depend(n) :: e2
+            integer, optional,check(len(w)>=m),depend(w) :: m=len(w)
+            double precision dimension(m) :: w
+            integer dimension(m),depend(m) :: ind
+            double precision dimension(nm,m),depend(m) :: z
+            integer :: ierr
+            double precision dimension(n),depend(n) :: rv1
+            double precision dimension(n),depend(n) :: rv2
+            double precision dimension(n),depend(n) :: rv3
+            double precision dimension(n),depend(n) :: rv4
+            double precision dimension(n),depend(n) :: rv6
+        end subroutine tinvit
+        subroutine sgeco(a,lda,n,ipvt,rcond,z) ! in :atomic_program:atm_cGuima3.f
+            double precision dimension(lda,*) :: a
+            integer, optional,check(shape(a,0)==lda),depend(a) :: lda=shape(a,0)
+            integer :: n
+            integer dimension(*) :: ipvt
+            double precision :: rcond
+            double precision dimension(*) :: z
+        end subroutine sgeco
+        function epslon(x) ! in :atomic_program:atm_cGuima3.f
+            double precision :: x
+            double precision :: epslon
+        end function epslon
+        function pythag(a,b) ! in :atomic_program:atm_cGuima3.f
+            double precision :: a
+            double precision :: b
+            double precision :: pythag
+        end function pythag
+        function sasum(n,sx,incx) ! in :atomic_program:atm_cGuima3.f
+            integer :: n
+            double precision dimension(*) :: sx
+            integer :: incx
+            double precision :: sasum
+        end function sasum
+        subroutine sgefa(a,lda,n,ipvt,info) ! in :atomic_program:atm_cGuima3.f
+            double precision dimension(lda,*) :: a
+            integer, optional,check(shape(a,0)==lda),depend(a) :: lda=shape(a,0)
+            integer :: n
+            integer dimension(*) :: ipvt
+            integer :: info
+        end subroutine sgefa
+        function isamax(n,sx,incx) ! in :atomic_program:atm_cGuima3.f
+            integer :: n
+            double precision dimension(*) :: sx
+            integer :: incx
+            integer :: isamax
+        end function isamax
+        subroutine sgesl(a,lda,n,ipvt,b,job) ! in :atomic_program:atm_cGuima3.f
+            double precision dimension(lda,*) :: a
+            integer, optional,check(shape(a,0)==lda),depend(a) :: lda=shape(a,0)
+            integer :: n
+            integer dimension(*) :: ipvt
+            double precision dimension(*) :: b
+            integer :: job
+        end subroutine sgesl
+        function isrchfgt(n,array,inc,target) ! in :atomic_program:atm_cGuima3.f
+            integer :: n
+            double precision dimension(*) :: array
+            integer :: inc
+            double precision :: target
+            integer :: isrchfgt
+        end function isrchfgt
+        subroutine hunt(xx,n,x,jlo) ! in :atomic_program:atm_cGuima3.f
+            double precision dimension(n) :: xx
+            integer, optional,check(len(xx)>=n),depend(xx) :: n=len(xx)
+            double precision :: x
+            integer :: jlo
+        end subroutine hunt
+        subroutine locate(xx,n,x,j) ! in :atomic_program:atm_cGuima3.f
+            double precision dimension(n) :: xx
+            integer, optional,check(len(xx)>=n),depend(xx) :: n=len(xx)
+            double precision :: x
+            integer :: j
+        end subroutine locate
+        subroutine odeint(ystart,nvar,x1,x2,eps,h1,hmin,nok,nbad,derivs,rkqc) ! in :atomic_program:atm_cGuima3.f
+            use odeint__user__routines
+            double precision dimension(nvar) :: ystart
+            integer, optional,check(len(ystart)>=nvar),depend(ystart) :: nvar=len(ystart)
+            double precision :: x1
+            double precision :: x2
+            double precision :: eps
+            double precision :: h1
+            double precision :: hmin
+            integer :: nok
+            integer :: nbad
+            external derivs
+            external rkqc
+            integer :: kmax
+            integer :: kount
+            double precision :: dxsav
+            double precision dimension(200) :: xp
+            double precision dimension(10,200) :: yp
+            common /path/ kmax,kount,dxsav,xp,yp
+        end subroutine odeint
+        subroutine polint(xa,ya,n,x,y,dy) ! in :atomic_program:atm_cGuima3.f
+            double precision dimension(n) :: xa
+            double precision dimension(n),depend(n) :: ya
+            integer, optional,check(len(xa)>=n),depend(xa) :: n=len(xa)
+            double precision :: x
+            double precision :: y
+            double precision :: dy
+        end subroutine polint
+        subroutine rkqc(y,dydx,n,x,htry,eps,yscal,hdid,hnext,derivs) ! in :atomic_program:atm_cGuima3.f
+            use rkqc__user__routines
+            double precision dimension(10) :: y
+            double precision dimension(10) :: dydx
+            integer :: n
+            double precision :: x
+            double precision :: htry
+            double precision :: eps
+            double precision dimension(10) :: yscal
+            double precision :: hdid
+            double precision :: hnext
+            external derivs
+        end subroutine rkqc
+        subroutine rk4(y,dydx,n,x,h,yout,derivs) ! in :atomic_program:atm_cGuima3.f
+            use rk4__user__routines
+            double precision dimension(n) :: y
+            double precision dimension(n),depend(n) :: dydx
+            integer, optional,check(len(y)>=n),depend(y) :: n=len(y)
+            double precision :: x
+            double precision :: h
+            double precision dimension(n),depend(n) :: yout
+            external derivs
+        end subroutine rk4
+        subroutine compat_params(str) ! in :atomic_program:atm_cGuima3.f
+            character*(*) :: str
+            real*8 :: aa_def
+            real*8 :: bb_def
+            real*8 :: rmax_def
+            real*8 :: ecuts
+            logical :: use_excorr
+            logical :: use_old_cc
+            logical :: use_new_cc
+            common /rcompat/ aa_def,bb_def,rmax_def,ecuts
+            common /lcompat/ use_excorr,use_old_cc,use_new_cc
+        end subroutine compat_params
+        subroutine pcc_exp(nr,icore,ac,bc,cc,r,cdc) ! in :atomic_program:atm_cGuima3.f
+            integer, optional,check(len(r)>=nr),depend(r) :: nr=len(r)
+            integer :: icore
+            double precision :: ac
+            double precision :: bc
+            double precision :: cc
+            double precision dimension(nr) :: r
+            double precision dimension(nr),depend(nr) :: cdc
+        end subroutine pcc_exp
+        subroutine change_valence ! in :atomic_program:atm_cGuima3.f
+            double precision :: a
+            double precision :: b
+            double precision dimension(1500) :: r
+            double precision dimension(1500) :: rab
+            integer :: nr
+            integer :: scheme
+            integer :: job
+            integer :: ifcore
+            integer :: ncore
+            double precision :: rsh
+            double precision :: zel
+            double precision :: znuc
+            double precision :: zsh
+            double precision dimension(5) :: rc
+            double precision dimension(5) :: rc_input
+            double precision :: cfac
+            double precision :: rcfac
+            double precision :: logder_radius
+            integer dimension(5) :: indu
+            integer dimension(5) :: indd
+            character*2 :: nameat
+            character*1 :: ispp
+            character*2 :: icorr
+            character*3 :: irel
+            character*4 :: nicore
+            logical :: normal
+            logical :: polarized
+            logical :: relativistic
+            logical :: is_gga
+            double precision dimension(4,1500) :: viod
+            double precision dimension(4,1500) :: viou
+            double precision dimension(1500) :: cdd
+            double precision dimension(1500) :: cdu
+            double precision dimension(1500) :: cdc
+            common /radial/ a,b,r,rab
+            common /rad_int/ nr
+            common /param/ scheme,job,ifcore,ncore,rsh,zel,znuc,zsh,rc,rc_input,cfac,rcfac,logder_radius,indu,indd
+            common /par_char/ nameat,ispp,icorr,irel,nicore
+            common /par_log/ normal,polarized,relativistic,is_gga
+            common /ion/ viod,viou
+            common /charge/ cdd,cdu,cdc
+        end subroutine change_valence
+        subroutine coreq ! in :atomic_program:atm_cGuima3.f
+            double precision :: a
+            double precision :: b
+            double precision dimension(1500) :: r
+            double precision dimension(1500) :: rab
+            integer :: nr
+            double precision dimension(1500) :: cdd
+            double precision dimension(1500) :: cdu
+            double precision dimension(1500) :: cdc
+            common /radial/ a,b,r,rab
+            common /rad_int/ nr
+            common /charge/ cdd,cdu,cdc
+        end subroutine coreq
+        subroutine get_unit(lun) ! in :atomic_program:atm_cGuima3.f
+            integer :: lun
+        end subroutine get_unit
+        subroutine gauleg(x1,x2,x,w,n) ! in :atomic_program:atm_cGuima3.f
+            double precision :: x1
+            double precision :: x2
+            double precision dimension(n) :: x
+            double precision dimension(n),depend(n) :: w
+            integer, optional,check(len(x)>=n),depend(x) :: n=len(x)
+        end subroutine gauleg
+        function divdif(f,x,n,z,m) ! in :atomic_program:atm_cGuima3.f
+            double precision dimension(n) :: f
+            double precision dimension(n),depend(n) :: x
+            integer, optional,check(len(f)>=n),depend(f) :: n=len(f)
+            double precision :: z
+            integer :: m
+            double precision dimension(11) :: arg
+            double precision dimension(11) :: val
+            double precision dimension(11) :: cof
+            integer :: mm
+            double precision :: divdif
+            common /divcof/ arg,val,cof
+            common /divint/ mm
+        end function divdif
+        subroutine check_directives(unit_no) ! in :atomic_program:atm_cGuima3.f
+            integer :: unit_no
+        end subroutine check_directives
+        subroutine getline(unit_no,string_bn) ! in :atomic_program:atm_cGuima3.f
+            integer :: unit_no
+            character*(*) :: string_bn
+        end subroutine getline
+        subroutine directive(str) ! in :atomic_program:atm_cGuima3.f
+            character*(*) :: str
+        end subroutine directive
+        function defined(name) ! in :atomic_program:atm_cGuima3.f
+            character*(*) :: name
+            logical :: defined
+        end function defined
+        subroutine insert(module,name) ! in :atomic_program:atm_cGuima3.f
+            character*(*) :: module
+            character*(*) :: name
+        end subroutine insert
+        function put_pair(name,num_str) ! in :atomic_program:atm_cGuima3.f
+            character*(*) :: name
+            character*(*) :: num_str
+            double precision dimension(50) :: el_val
+            integer :: nels
+            character dimension(50,30),intent(c) :: el_name
+            logical :: put_pair
+            common /set_num/ el_val,nels
+            common /set_chr/ el_name
+        end function put_pair
+        function set_value(name,default_str) ! in :atomic_program:atm_cGuima3.f
+            character*(*) :: name
+            character*(*) :: default_str
+            double precision dimension(50) :: el_val
+            integer :: nels
+            character dimension(50,30),intent(c) :: el_name
+            double precision :: set_value
+            common /set_num/ el_val,nels
+            common /set_chr/ el_name
+        end function set_value
+        subroutine get_real(string_bn,value) ! in :atomic_program:atm_cGuima3.f
+            character*(*) :: string_bn
+            double precision :: value
+        end subroutine get_real
+        subroutine print_pairs ! in :atomic_program:atm_cGuima3.f
+            double precision dimension(50) :: el_val
+            integer :: nels
+            character dimension(50,30),intent(c) :: el_name
+            common /set_num/ el_val,nels
+            common /set_chr/ el_name
+        end subroutine print_pairs
+        subroutine prversion ! in :atomic_program:atm_cGuima3.f
+        end subroutine prversion
+        subroutine atomxc(functl,author,irel,nr,maxr,rmesh,nspin,dens,ex,ec,dx,dc,vxc) ! in :atomic_program:atm_cGuima3.f
+            character*(*) :: functl
+            character*(*) :: author
+            integer :: irel
+            integer :: nr
+            integer, optional,check(len(rmesh)>=maxr),depend(rmesh) :: maxr=len(rmesh)
+            double precision dimension(maxr) :: rmesh
+            integer, optional,check(shape(dens,1)==nspin),depend(dens) :: nspin=shape(dens,1)
+            double precision dimension(maxr,nspin),depend(maxr) :: dens
+            double precision :: ex
+            double precision :: ec
+            double precision :: dx
+            double precision :: dc
+            double precision dimension(maxr,nspin),depend(maxr,nspin) :: vxc
+        end subroutine atomxc
+        subroutine exchng(irel,nsp,ds,ex,vx) ! in :atomic_program:atm_cGuima3.f
+            integer :: irel
+            integer, optional,check(len(ds)>=nsp),depend(ds) :: nsp=len(ds)
+            double precision dimension(nsp) :: ds
+            double precision :: ex
+            double precision dimension(nsp),depend(nsp) :: vx
+        end subroutine exchng
+        subroutine ggaxc(author,irel,nspin,d,gd,epsx,epsc,dexdd,decdd,dexdgd,decdgd) ! in :atomic_program:atm_cGuima3.f
+            character*(*) :: author
+            integer :: irel
+            integer, optional,check(len(d)>=nspin),depend(d) :: nspin=len(d)
+            double precision dimension(nspin) :: d
+            double precision dimension(3,nspin),depend(nspin) :: gd
+            double precision :: epsx
+            double precision :: epsc
+            double precision dimension(nspin),depend(nspin) :: dexdd
+            double precision dimension(nspin),depend(nspin) :: decdd
+            double precision dimension(3,nspin),depend(nspin) :: dexdgd
+            double precision dimension(3,nspin),depend(nspin) :: decdgd
+        end subroutine ggaxc
+        subroutine ldaxc(author,irel,nspin,d,epsx,epsc,vx,vc,dvxdn,dvcdn) ! in :atomic_program:atm_cGuima3.f
+            character*(*) :: author
+            integer :: irel
+            integer, optional,check(len(d)>=nspin),depend(d) :: nspin=len(d)
+            double precision dimension(nspin) :: d
+            double precision :: epsx
+            double precision :: epsc
+            double precision dimension(nspin),depend(nspin) :: vx
+            double precision dimension(nspin),depend(nspin) :: vc
+            double precision dimension(nspin,nspin),depend(nspin,nspin) :: dvxdn
+            double precision dimension(nspin,nspin),depend(nspin,nspin) :: dvcdn
+        end subroutine ldaxc
+        subroutine pbexc(irel,nspin,dens,gdens,ex,ec,dexdd,decdd,dexdgd,decdgd) ! in :atomic_program:atm_cGuima3.f
+            integer :: irel
+            integer, optional,check(len(dens)>=nspin),depend(dens) :: nspin=len(dens)
+            double precision dimension(nspin) :: dens
+            double precision dimension(3,nspin),depend(nspin) :: gdens
+            double precision :: ex
+            double precision :: ec
+            double precision dimension(nspin),depend(nspin) :: dexdd
+            double precision dimension(nspin),depend(nspin) :: decdd
+            double precision dimension(3,nspin),depend(nspin) :: dexdgd
+            double precision dimension(3,nspin),depend(nspin) :: decdgd
+        end subroutine pbexc
+        subroutine pw91xc(irel,nspin,dens,gdens,ex,ec,dexdd,decdd,dexdgd,decdgd) ! in :atomic_program:atm_cGuima3.f
+            integer :: irel
+            integer, optional,check(len(dens)>=nspin),depend(dens) :: nspin=len(dens)
+            double precision dimension(nspin) :: dens
+            double precision dimension(3,nspin),depend(nspin) :: gdens
+            double precision :: ex
+            double precision :: ec
+            double precision dimension(nspin),depend(nspin) :: dexdd
+            double precision dimension(nspin),depend(nspin) :: decdd
+            double precision dimension(3,nspin),depend(nspin) :: dexdgd
+            double precision dimension(3,nspin),depend(nspin) :: decdgd
+        end subroutine pw91xc
+        subroutine pw92c(nspin,dens,ec,vc) ! in :atomic_program:atm_cGuima3.f
+            integer, optional,check(len(dens)>=nspin),depend(dens) :: nspin=len(dens)
+            double precision dimension(nspin) :: dens
+            double precision :: ec
+            double precision dimension(nspin),depend(nspin) :: vc
+        end subroutine pw92c
+        subroutine pw92xc(irel,nspin,dens,epsx,epsc,vx,vc) ! in :atomic_program:atm_cGuima3.f
+            integer :: irel
+            integer, optional,check(len(dens)>=nspin),depend(dens) :: nspin=len(dens)
+            double precision dimension(nspin) :: dens
+            double precision :: epsx
+            double precision :: epsc
+            double precision dimension(nspin),depend(nspin) :: vx
+            double precision dimension(nspin),depend(nspin) :: vc
+        end subroutine pw92xc
+        subroutine pzxc(irel,nsp,ds,ex,ec,vx,vc,dvxdn,dvcdn) ! in :atomic_program:atm_cGuima3.f
+            integer :: irel
+            integer, optional,check(len(ds)>=nsp),depend(ds) :: nsp=len(ds)
+            double precision dimension(nsp) :: ds
+            double precision :: ex
+            double precision :: ec
+            double precision dimension(nsp),depend(nsp) :: vx
+            double precision dimension(nsp),depend(nsp) :: vc
+            double precision dimension(nsp,nsp),depend(nsp,nsp) :: dvxdn
+            double precision dimension(nsp,nsp),depend(nsp,nsp) :: dvcdn
+        end subroutine pzxc
+        subroutine blypxc(nspin,dens,gdens,ex,ec,dexdd,decdd,dexdgd,decdgd) ! in :atomic_program:atm_cGuima3.f
+            integer, optional,check(len(dens)>=nspin),depend(dens) :: nspin=len(dens)
+            double precision dimension(nspin) :: dens
+            double precision dimension(3,nspin),depend(nspin) :: gdens
+            double precision :: ex
+            double precision :: ec
+            double precision dimension(nspin),depend(nspin) :: dexdd
+            double precision dimension(nspin),depend(nspin) :: decdd
+            double precision dimension(3,nspin),depend(nspin) :: dexdgd
+            double precision dimension(3,nspin),depend(nspin) :: decdgd
+        end subroutine blypxc
+        subroutine rpbexc(irel,nspin,dens,gdens,ex,ec,dexdd,decdd,dexdgd,decdgd) ! in :atomic_program:atm_cGuima3.f
+            integer :: irel
+            integer, optional,check(len(dens)>=nspin),depend(dens) :: nspin=len(dens)
+            double precision dimension(nspin) :: dens
+            double precision dimension(3,nspin),depend(nspin) :: gdens
+            double precision :: ex
+            double precision :: ec
+            double precision dimension(nspin),depend(nspin) :: dexdd
+            double precision dimension(nspin),depend(nspin) :: decdd
+            double precision dimension(3,nspin),depend(nspin) :: dexdgd
+            double precision dimension(3,nspin),depend(nspin) :: decdgd
+        end subroutine rpbexc
+        subroutine revpbexc(irel,nspin,dens,gdens,ex,ec,dexdd,decdd,dexdgd,decdgd) ! in :atomic_program:atm_cGuima3.f
+            integer :: irel
+            integer, optional,check(len(dens)>=nspin),depend(dens) :: nspin=len(dens)
+            double precision dimension(nspin) :: dens
+            double precision dimension(3,nspin),depend(nspin) :: gdens
+            double precision :: ex
+            double precision :: ec
+            double precision dimension(nspin),depend(nspin) :: dexdd
+            double precision dimension(nspin),depend(nspin) :: decdd
+            double precision dimension(3,nspin),depend(nspin) :: dexdgd
+            double precision dimension(3,nspin),depend(nspin) :: decdgd
+        end subroutine revpbexc
+        subroutine cal_date(bdate) ! in :atomic_program:atm_cGuima3.f
+            character*10 :: bdate
+        end subroutine cal_date
+        function second() ! in :atomic_program:atm_cGuima3.f
+            double precision :: second
+        end function second
+    end interface 
+end python module atomic_program
+
+! This file was auto-generated with f2py (version:2).
+! See http://cens.ioc.ee/projects/f2py2e/
