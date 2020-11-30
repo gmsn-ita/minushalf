@@ -1,4 +1,4 @@
 """
 Init file for software factory
 """
-from factory import VaspFactory as Vasp
+from .factory import VaspFactory as Vasp
