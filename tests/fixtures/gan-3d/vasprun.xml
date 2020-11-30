@@ -5,8 +5,8 @@
   <i name="version" type="string">5.3.5  </i>
   <i name="subversion" type="string">31Mar14 (build Jul 11 2014 22:06:56) complex                          parallel </i>
   <i name="platform" type="string">LinuxIFC </i>
-  <i name="date" type="string">2020 10 30 </i>
-  <i name="time" type="string">15:41:05 </i>
+  <i name="date" type="string">2020 11 29 </i>
+  <i name="time" type="string">08:50:12 </i>
  </generator>
  <incar>
   <i type="string" name="PREC">accurate</i>
@@ -378,8 +378,8 @@
  </structure>
  <calculation>
   <scstep>
-   <time name="dav">    0.17    0.17</time>
-   <time name="total">    0.24    0.26</time>
+   <time name="dav">    0.17    0.29</time>
+   <time name="total">    0.25    0.41</time>
    <energy>
     <i name="alphaZ">     96.18607301 </i>
     <i name="ewald">  -1574.17859740 </i>
@@ -414,8 +414,8 @@
    </energy>
   </scstep>
   <scstep>
-   <time name="dav">    0.20    0.20</time>
-   <time name="total">    0.20    0.20</time>
+   <time name="dav">    0.19    0.19</time>
+   <time name="total">    0.19    0.20</time>
    <energy>
     <i name="e_fr_energy">    -14.08986274 </i>
     <i name="e_wo_entrp">    -14.08993232 </i>
@@ -423,8 +423,8 @@
    </energy>
   </scstep>
   <scstep>
-   <time name="dav">    0.17    0.17</time>
-   <time name="total">    0.19    0.19</time>
+   <time name="dav">    0.16    0.17</time>
+   <time name="total">    0.20    0.20</time>
    <energy>
     <i name="e_fr_energy">    -14.09039101 </i>
     <i name="e_wo_entrp">    -14.09046059 </i>
@@ -432,10 +432,10 @@
    </energy>
   </scstep>
   <scstep>
-   <time name="diag">    0.04    0.04</time>
+   <time name="diag">    0.04    0.05</time>
    <time name="diis">    0.19    0.19</time>
    <time name="orth">    0.00    0.00</time>
-   <time name="total">    0.33    0.33</time>
+   <time name="total">    0.33    0.37</time>
    <energy>
     <i name="e_fr_energy">    -12.14567377 </i>
     <i name="e_wo_entrp">    -12.14574335 </i>
@@ -444,9 +444,9 @@
   </scstep>
   <scstep>
    <time name="diag">    0.04    0.04</time>
-   <time name="diis">    0.18    0.19</time>
+   <time name="diis">    0.19    0.19</time>
    <time name="orth">    0.00    0.00</time>
-   <time name="total">    0.32    0.32</time>
+   <time name="total">    0.33    0.34</time>
    <energy>
     <i name="e_fr_energy">    -12.14329550 </i>
     <i name="e_wo_entrp">    -12.14336507 </i>
@@ -455,9 +455,9 @@
   </scstep>
   <scstep>
    <time name="diag">    0.04    0.04</time>
-   <time name="diis">    0.18    0.18</time>
+   <time name="diis">    0.18    0.19</time>
    <time name="orth">    0.00    0.00</time>
-   <time name="total">    0.32    0.32</time>
+   <time name="total">    0.33    0.33</time>
    <energy>
     <i name="e_fr_energy">    -12.13905032 </i>
     <i name="e_wo_entrp">    -12.13911990 </i>
@@ -468,7 +468,7 @@
    <time name="diag">    0.04    0.04</time>
    <time name="diis">    0.19    0.19</time>
    <time name="orth">    0.00    0.00</time>
-   <time name="total">    0.33    0.33</time>
+   <time name="total">    0.34    0.34</time>
    <energy>
     <i name="e_fr_energy">    -12.13542630 </i>
     <i name="e_wo_entrp">    -12.13549587 </i>
@@ -479,7 +479,7 @@
    <time name="diag">    0.04    0.04</time>
    <time name="diis">    0.14    0.14</time>
    <time name="orth">    0.00    0.00</time>
-   <time name="total">    0.25    0.25</time>
+   <time name="total">    0.26    0.26</time>
    <energy>
     <i name="alphaZ">     96.18607301 </i>
     <i name="ewald">  -1574.17859740 </i>
@@ -528,7 +528,7 @@
    <i name="e_wo_entrp">    -12.13539206 </i>
    <i name="e_0_energy">      0.00006957 </i>
   </energy>
-  <time name="totalsc">    3.14    3.16</time>
+  <time name="totalsc">    3.18    3.44</time>
   <eigenvalues>
    <array>
     <dimension dim="1">band</dimension>
@@ -722,7 +722,7 @@
     </set>
    </array>
   </eigenvalues>
-  <separator name="orbital magnetization">
+  <separator name="orbital magnetization" >
    <v name="MAGDIPOLOUT">      0.00000000      0.00000000      0.00000000</v>
   </separator>
   <dos>
@@ -735,7 +735,7 @@
      <field>total</field>
      <field>integrated</field>
      <set>
-      <set comment = "spin 1"  >
+      <set comment="spin 1">
        <r>   -12.6698     0.0000     0.0000 </r>
        <r>   -12.5266     0.0000     0.0000 </r>
        <r>   -12.3835     0.0000     0.0000 </r>

@@ -37,8 +37,8 @@ class Eigenvalues():
         with open(self.filename) as eigenval:
             for line in eigenval:
                 if eigenvalue_regex.match(line):
-                    band = eigenvalue_regex.match(line).group(1)
-                    eigenvalue = eigenvalue_regex.match(line).group(2)
+                    band = int(eigenvalue_regex.match(line).group(1))
+                    eigenvalue = float(eigenvalue_regex.match(line).group(2))
 
                     if band == 1:
                         kpoint += 1
