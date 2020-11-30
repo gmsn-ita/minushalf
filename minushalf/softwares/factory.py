@@ -5,7 +5,7 @@
     - VASP
 """
 from abc import ABC, abstractmethod
-from .vasp import Procar, Vasprun, BandStructure, Eigenval
+from .vasp import Procar, Vasprun, BandStructure, Eigenvalues
 
 
 class SoftwaresAbstractFactory(ABC):
@@ -21,7 +21,7 @@ class SoftwaresAbstractFactory(ABC):
         """
 
 
-class VaspFactory(ProjectedWaveFunctionAbstractFactory):
+class VaspFactory(SoftwaresAbstractFactory):
     """
     Concrete Factory for create instances
     for each supported software.
@@ -38,4 +38,4 @@ class VaspFactory(ProjectedWaveFunctionAbstractFactory):
 
         """
         return BandStructure(Procar(procar_path), Vasprun(vasprun_path),
-                             Eigenval(eigenval_path))
+                             Eigenvalues(eigenval_path))
