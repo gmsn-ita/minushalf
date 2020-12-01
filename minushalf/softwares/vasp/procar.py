@@ -49,8 +49,9 @@ class Procar():
 				kpoint (int): Number of kpoints 
 				band_number (int): Number of the band
 		"""
+
         projections = {}
-        kpoint_regex = re.compile(r"^\s*k-point\s*([0-9]+)")
+        kpoint_regex = re.compile(r"^\s*k-point\s*([0-9]+)\s+")
         band_regex = re.compile(r"^\s*band\s*([0-9]+)")
         projections_regex = re.compile(
             r"^\s*([0-9]+)\s*([-+]?[0-9]*\.?[0-9]+)")
@@ -78,3 +79,5 @@ class Procar():
                         ]
                 elif current_kpoint and current_kpoint > kpoint:
                     return projections
+
+        return projections

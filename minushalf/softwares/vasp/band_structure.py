@@ -100,7 +100,12 @@ class BandStructure():
 
         vbm_projection = {}
         for index, symbol in self.vasprun.atoms_map.items():
-            vbm_projection[symbol] = procar_projection[index]
+            if vbm_projection.get(symbol, None):
+                add_projections = np.add(procar_projection[index],
+                                         vbm_projection[symbol])
+                vbm_projection[symbol] = list(add_projections)
+            else:
+                vbm_projection[symbol] = procar_projection[index]
         return vbm_projection
 
     def cbm_projection(self) -> defaultdict(list):
@@ -116,7 +121,16 @@ class BandStructure():
         procar_projection = self.procar.get_band_projection(*cbm_index)
 
         cbm_projection = {}
+        print(self.vasprun)
         for index, symbol in self.vasprun.atoms_map.items():
+
+            if cbm_projection.get(symbol, None):
+                add_projections = np.add(procar_projection[index],
+                                         cbm_projection[symbol])
+                cbm_projection[symbol] = list(add_projections)
+            else:
+                cbm_projection[symbol] = procar_projection[index]
+
             cbm_projection[symbol] = procar_projection[index]
         return cbm_projection
 
@@ -134,6 +148,13 @@ class BandStructure():
         procar_projection = self.procar.get_band_projection(kpoint, band)
 
         band_projection = {}
+
         for index, symbol in self.vasprun.atoms_map.items():
-            band_projection[symbol] = procar_projection[index]
+            if band_projection.get(symbol, None):
+                add_projections = np.add(procar_projection[index],
+                                         band_projection[symbol])
+                band_projection[symbol] = list(add_projections)
+            else:
+                band_projection[symbol] = procar_projection[index]
+
         return band_projection
