@@ -95,7 +95,6 @@ class BandStructure():
                 of each orbital of each atom in the respective band
         """
         vbm_index = self.vbm_index()
-
         procar_projection = self.procar.get_band_projection(*vbm_index)
 
         vbm_projection = {}
@@ -118,10 +117,10 @@ class BandStructure():
                 of each orbital of each atom in the respective band
         """
         cbm_index = self.cbm_index()
+
         procar_projection = self.procar.get_band_projection(*cbm_index)
 
         cbm_projection = {}
-        print(self.vasprun)
         for index, symbol in self.vasprun.atoms_map.items():
 
             if cbm_projection.get(symbol, None):
