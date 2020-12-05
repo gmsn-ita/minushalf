@@ -1,5 +1,6 @@
 """
-Aims to show how the last valence band are composed by the orbitals of each atom.
+Aims to show how the last conduction band and the
+first valence band are composed by the orbitals of each atom.
 """
 import click
 import pandas as pd
@@ -41,7 +42,7 @@ from minushalf.utils import welcome_message, end_message, Orbital, OrbitalType
     show_default=True,
     help="""Path to vasprun.xml file. This is only used if the software
               choosed were VASP.""")
-def vbm_character(software: str, procar_path: str, eigenval_path: str,
+def cbm_character(software: str, procar_path: str, eigenval_path: str,
                   vasprun_path: str) -> None:
     """Uses softwares output files about projections in bands to
     calculate its character. It has to receive a path to an specific file, the list
@@ -64,7 +65,7 @@ def vbm_character(software: str, procar_path: str, eigenval_path: str,
     softwares = {"VASP": lambda params: Vasp().band_structure(**params)}
 
     band_structure = softwares[software.upper()](optional_params)
-    vbm_projection = band_structure.vbm_projection()
+    vbm_projection = band_structure.cbm_projection()
     orbitals = [orbital.__str__() for orbital in Orbital]
     projection_df = (pd.DataFrame.from_dict(vbm_projection,
                                             orient="index",
