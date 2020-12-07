@@ -1,0 +1,11 @@
+#Mo
+#all electrons
+   ae      Mo#Comment 1
+ n=Mo c=pb#Comment2
+       0.0       0.0       0.0       0.0       0.0       0.0#CommentComment3
+    8    4#Comment4
+    5    0      1.00      0.00
+    5    1      0.00      0.00
+    4    2      5.00      0.00
+    4    3      0.00      0.00
+100 maxit

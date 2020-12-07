@@ -59,7 +59,7 @@ def run_atomic(quiet: bool):
     logger.info("Atomic program finished execution.")
 
     if not os.path.exists('./VTOTAL1'):
-        raise FileNotFoundError("Problems in INP file")
+        raise FileNotFoundError("VTOTAL0 not found")
 
     logger.info("Changing VTOTAL1 to VTOTAL.ae")
     os.rename("VTOTAL1", "VTOTAL.ae")

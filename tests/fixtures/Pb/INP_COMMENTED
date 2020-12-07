@@ -1,0 +1,11 @@
+#Pb
+#all electrons
+   ae      Pb#Comment 1
+ n=Pb c=pb#Comment2
+       0.0       0.0       0.0       0.0       0.0       0.0#CommentComment3
+   12    4#Comment4
+    6    0      2.00      0.00
+    6    1      2.00      0.00
+    5    2      10.00      0.00
+    5    3      0.00      0.00
+100 maxit
