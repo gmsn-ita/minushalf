@@ -1,0 +1,11 @@
+#Sm
+#all electrons
+   ae      Sm#Comment 1
+ n=Sm c=pb#Comment2
+       0.0       0.0       0.0       0.0       0.0       0.0#CommentComment3
+   11    4#Comment4
+    6    0      2.00      0.00
+    6    1      0.00      0.00
+    5    2      0.00      0.00
+    4    3      6.00      0.00
+100 maxit

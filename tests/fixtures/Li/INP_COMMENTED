@@ -1,0 +1,11 @@
+#Li
+#all electrons
+   ae      Li#Comment 1
+ n=Li c=pb#Comment2
+       0.0       0.0       0.0       0.0       0.0       0.0#CommentComment3
+    1    4#Comment4
+    2    0      1.00      0.00
+    2    1      0.00      0.00
+    3    2      0.00      0.00
+    4    3      0.00      0.00
+100 maxit
