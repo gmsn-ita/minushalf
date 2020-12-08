@@ -12,7 +12,7 @@ from minushalf import atomic_program
 
 
 @click.command()
-@click.argument('orbital_quantum_number)', type=click.IntRange(0, 3), nargs=1)
+@click.argument('orbital_quantum_number', type=click.IntRange(0, 3), nargs=1)
 @click.argument('occupation_percentual',
                 type=click.FloatRange(0, 100),
                 nargs=1,
@@ -93,7 +93,5 @@ def occupation(orbital_quantum_number: int, occupation_percentual: float,
 
     logger.info("Changing INP to INP_OCC")
     os.rename('INP', 'INP_OCC')
-
-    logger.info("Apply correction on potential file")
 
     end_message()

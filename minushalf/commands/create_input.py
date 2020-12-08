@@ -11,32 +11,43 @@ from minushalf.atomic import InputFile
 
 
 @click.command()
-@click.argument('chemical_symbol)', type=str, nargs=1)
-@click.option(
-    '-e',
-    '--exchange_correlation_code',
-    type=str,
-    nargs=1,
-    default='pb',
-    show_default=True,
-    help="""Represents the functional of exchange and correlation,it can
-              assume the following values:
+@click.argument('chemical_symbol', type=str, nargs=1)
+@click.option('-e',
+              '--exchange_correlation_code',
+              type=str,
+              nargs=1,
+              default='pb',
+              show_default=True,
+              help="""
+            Represents the functional of exchange and correlation,it can assume the following values:
 
+                
               ca*: Ceperley-Alder
+
               wi*: Wigner
+
               hl*: Hedin-Lundqvist
+
               gl*: Gunnarson-Lundqvist
+
               bh*: Von Barth-Hedin
+
               pb*: PBE scheme by Perdew, Burke, and Ernzerhof
-              rp*: RPBE scheme by Hammer, Hansen, and Norskov.
+
+              rp*: RPBE scheme by Hammer, Hansen, and Norskov
+
               rv*: revPBE scheme by Zhang and Yang
+
               bl*: BLYP (Becke-Lee-Yang-Parr) scheme
-            
+        
+
             the * character can assume three values, 
             depending on the type of calculation to be performed:
             
             ∗ s : Spin-polarized calculation, non-relativistic.
+
             ∗ r: Relativistic calculation, obviously polarized.
+            
             ∗ (blank) : Non-polarized (spin ignored), non-relativistic calculation.
 
               """)
@@ -59,14 +70,13 @@ from minushalf.atomic import InputFile
     default=100,
     show_default=True,
     help="""Maximum number of iterations performed by the atomic program""")
-@click.option(
-    '-f',
-    "--filename",
-    type=str),
-    nargs=1,
-    default='INP',
-    show_default=True,
-    help="""Name of the created file""")
+@click.option('-f',
+              "--filename",
+              type=str,
+              nargs=1,
+              default='INP',
+              show_default=True,
+              help="""Name of the created file""")
 @click.option('--quiet', default=False, is_flag=True)
 def create_input(chemical_symbol: str, exchange_correlation_code: str,
                  calculation_code: str, maximum_iterations: int, filename: str,
@@ -94,7 +104,7 @@ def create_input(chemical_symbol: str, exchange_correlation_code: str,
     input_file = InputFile.minimum_setup(chemical_symbol,
                                          exchange_correlation_code,
                                          maximum_iterations, calculation_code)
-    logging.info("Creating INP file")
+    logger.info("Creating INP file")
 
     input_file.to_file(filename)
 

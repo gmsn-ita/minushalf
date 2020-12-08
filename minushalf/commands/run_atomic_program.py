@@ -13,7 +13,9 @@ from minushalf import atomic_program
 @click.option('--quiet', default=False, is_flag=True)
 def run_atomic(quiet: bool):
     """
-    Run atomic program.
+    Run the atomic program. The atomic program used is a version of the 
+    ATOM modified by the professor Luiz Guimarães Ferreira to be used in 
+    the DFT -1/2 method.
 
     Requires:
 
