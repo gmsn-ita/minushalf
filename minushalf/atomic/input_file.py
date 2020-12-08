@@ -101,7 +101,7 @@ class InputFile:
             exchange_correlation_type (str): functional of exchange and correlation
             ((r)ca(s), (r)wi(s), (r)hl(s), (r)gl(s) ,(r)bh(s), (r)pb(s), (r)rp(s), (r)rv(s), (r)bl(s))
         """
-        validation_regex = re.compile(r"(r)?(ca|wi|hl|gl|bh|pb|rp|rv|bl)(s)?")
+        validation_regex = re.compile(r"(ca|wi|hl|gl|bh|pb|rp|rv|bl)(s|r)?")
         if not validation_regex.match(exchange_correlation_type):
             raise ValueError(
                 "Your value of exchange and correlation functional is not valid"
@@ -268,7 +268,8 @@ class InputFile:
     @staticmethod
     def minimum_setup(chemical_symbol: str,
                       exchange_correlation_type: str,
-                      maximum_iterations: int = 100):
+                      maximum_iterations: int = 100,
+                      calculation_code: str = "ae"):
         """
         Create INP file with minimum setup.
 
@@ -285,7 +286,6 @@ class InputFile:
                 input_file: instance of InputFile class.
         """
         description = "{}".format(chemical_symbol)
-        calculation_code = 'ae'
         esoteric_line = "       0.0       0.0       0.0       0.0       0.0       0.0\n"
         last_lines = ["{} maxit\n".format(maximum_iterations)]
 
