@@ -155,7 +155,7 @@ class InputFile:
                                   equal_nan=False)
 
             if (not is_equal and value["l"] == secondary_quantum_number):
-                value["occupation"][0] -= occupation_fraction
+                value["occupation"][0] -= electron_fraction
                 break
         else:
             raise Exception(
