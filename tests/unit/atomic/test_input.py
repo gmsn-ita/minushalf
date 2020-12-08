@@ -125,7 +125,7 @@ def test_from_file(file_path):
         relativistic factor will raises exception in the class construction.
         """
         exchange_correlation_types = [
-            "rca", "rwi", "rhl", "rgl", "rbh", "rpb", "rrp", "rrv", "rbl"
+            "car", "wir", "hlr", "glr", "bhr", "pbr", "rpr", "rvr", "blr"
         ]
         for type_correlation in exchange_correlation_types:
             InputFile(type_correlation, "ae", "Ge", "", 1, 1, [])
