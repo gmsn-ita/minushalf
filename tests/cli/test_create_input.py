@@ -2,7 +2,7 @@
 Test run-atomic command in minushalf CLI
 """
 import os
-import mock
+from unittest import mock
 from click.testing import CliRunner
 from minushalf import atomic_program
 from minushalf.commands import create_input
