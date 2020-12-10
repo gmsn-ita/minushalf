@@ -3,6 +3,7 @@ Reads and analyze POTCAR file
 """
 import re
 from itertools import chain
+import fortranformat as ff
 import numpy as np
 
 
@@ -14,8 +15,9 @@ class Potcar():
     def __init__(self, filename: str = "POTCAR") -> None:
         self.filename = filename
         self.psctr_parameters = self._get_psctr_parameters()
-        self.k_max, self.fourier_coefficients = self._get_fourier_coefficients(
+        self.k_max_text, self.fourier_coefficients = self._get_fourier_coefficients(
         )
+        self.k_max = float(self.k_max_text)
         self.last_lines = self._get_last_lines()
 
     def to_stringlist(self) -> list:
@@ -23,21 +25,21 @@ class Potcar():
             Returns:
                 potcar_lines (list): List of the POTCAR lines
         """
-        fourier_coefficients_lines = ["   {:.18f}     ".format(self.k_max)]
+        fourier_coefficients_lines = ["   {}     ".format(self.k_max_text)]
         try:
             grouped_coefficients = self.fourier_coefficients.reshape((-1, 5))
         except ValueError as bad_shape:
             raise ValueError(
                 "Fourier coefficents not provided correctly") from bad_shape
 
+        fortran_formater = ff.FortranRecordWriter('(1E26.8)')
         for group in grouped_coefficients:
-            line = "  {}  {}  {}  {}  {}".format(
-                format(group[0], "15.8E"),
-                format(group[1], "15.8E"),
-                format(group[2], "15.8E"),
-                format(group[3], "15.8E"),
-                format(group[4], "15.8E"),
-            )
+            formated_numbers = []
+            for number in group:
+                formated_numbers.append(
+                    fortran_formater.write([number]).strip())
+
+            line = "  {}  {}  {}  {}  {}".format(*formated_numbers)
             fourier_coefficients_lines.append(line)
 
         lines = [
@@ -78,10 +80,10 @@ class Potcar():
 
             Returns:
                 (k_max,fourier coefficients) (tuple): A tuple
-                containing the maximum fourier coefficient and
-                a list with all cofficients.
+                containing the maximum fourier coefficient string
+                and a list with all cofficients.
         """
-        k_max = None
+        k_max_text = ""
         fourier_coefficients = []
         regex_begin_catch = re.compile(r"^\s*local\s+part")
         regex_end_catch = re.compile(
@@ -93,13 +95,13 @@ class Potcar():
                 if regex_begin_catch.match(line):
                     break
 
-            k_max = float(potcar.readline())
+            k_max_text = potcar.readline().strip()
 
             for line in potcar:
                 if regex_end_catch.match(line):
                     fourier_coefficients = list(
                         chain.from_iterable(fourier_coefficients))
-                    return (k_max,
+                    return (k_max_text,
                             np.array(fourier_coefficients, dtype=np.float))
                 fourier_coefficients.append(line.split())
 
