@@ -23,7 +23,7 @@ class InputFile:
                  number_core_orbitals: int,
                  valence_orbitals: list,
                  description: str = "",
-                 last_lines: list = []) -> None:
+                 last_lines: list = None) -> None:
         """
         Args:
             chemical_symbol (str): Symbol of the chemical element (H, He, Li...)
@@ -55,7 +55,10 @@ class InputFile:
         self.number_core_orbitals = number_core_orbitals
         self.number_valence_orbitals = number_valence_orbitals
         self.valence_orbitals = valence_orbitals
-        self.last_lines = last_lines
+        if not last_lines:
+            self.last_lines = []
+        else:
+            self.last_lines = last_lines
 
     @property
     def chemical_symbol(self) -> str:
