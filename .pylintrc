@@ -4,7 +4,8 @@
 # A comma-separated list of package or module names from where C extensions may
 # be loaded. Extensions are loading into the active Python interpreter and may
 # run arbitrary code.
-extension-pkg-whitelist= minushalf.atomic_program
+
+extension-pkg-whitelist= atomic_program
 
 # Specify a score threshold to be exceeded before program exits with error.
 fail-under=10
@@ -18,7 +19,7 @@ ignore=CVS
 ignore-patterns=
 
 # Python code to execute, usually for sys.path manipulation such as
-pygtk.require()
+#pygtk.require().
 init-hook='import sys; sys.path.append("./minushalf/softwares/vasp");'
 
 # Use multiple processes to speed up Pylint. Specifying 0 will auto-detect the
@@ -212,10 +213,10 @@ indent-after-paren=4
 indent-string='    '
 
 # Maximum number of characters on a single line.
-max-line-length=100
+max-line-length=130
 
 # Maximum number of lines in a module.
-max-module-lines=1000
+max-module-lines=1100
 
 # List of optional constructs for which whitespace checking is disabled. `dict-
 # separator` is used to allow tabulation in dicts, etc.: {1  : 1,\n222: 2}.
