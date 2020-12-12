@@ -6,7 +6,8 @@ from minushalf.utils import Constants
 
 
 def correct_potential_fourier_transform(coefficient: float, k: float,
-                                        rays: list, occupation_potential: list,
+                                        rays: np.array,
+                                        occupation_potential: np.array,
                                         cut: float) -> float:
     r"""
     The pseudopotential is given in terms of the radial distance, and is only defined for r >= 0,
@@ -39,18 +40,18 @@ def correct_potential_fourier_transform(coefficient: float, k: float,
     through numerical integrationIndex zero stands for the r=DeltaR, and the function is
     assumed to be zero at the origin. Thus, the first trapezium of the numerical integration is
     degenerated to a triangulum, and its area must be calculated as so.
-        
+
         Args:
             coefficient (float): Fourier transform of the potential for the atom in its ground state
-            
+
             k (float): The wave vector in reciprocal space
-            
+
             rays(list): List of rays on which pseudopotential calculations were made
-            
+
             occupation_potential (list): Potential of fractional electron occupation at the exact level to be corrected
-            
+
             cut(float): Cutting parameter to cancel the potential
-        
+
         Returns:
             Fourier transform of the potential for the state with fractional occupation of the crystal
     """
@@ -59,7 +60,11 @@ def correct_potential_fourier_transform(coefficient: float, k: float,
     if not k:
         k = 10**(-12)
 
-    filter_rays = rays[np.where(rays < cut)]
+    try:
+        filter_rays = rays[np.where(rays < cut)]
+    except ValueError as cut_error:
+        raise ValueError(
+            "the cut is smaller than all the rays passed") from cut_error
 
     partial_fourier_sum = lambda radius, lazy_radius, potential, lazy_potential: (
         (potential * np.sin(const.bohr_radius * k * radius) + lazy_potential *
@@ -71,8 +76,8 @@ def correct_potential_fourier_transform(coefficient: float, k: float,
     fourier_components = get_fourier_components(
         filter_rays[1:],
         filter_rays[:-1],
-        occupation_potential[1:len(filter_rays) + 1],
-        occupation_potential[:len(filter_rays)],
+        occupation_potential[1:len(filter_rays)],
+        occupation_potential[:len(filter_rays) - 1],
     )
 
     initial_term = (occupation_potential[0] *
