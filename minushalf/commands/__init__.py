@@ -8,3 +8,4 @@ from .vbm_character import vbm_character
 from .cbm_character import cbm_character
 from .band_character import band_character
 from .create_input import create_input
+from .band_gap import band_gap
