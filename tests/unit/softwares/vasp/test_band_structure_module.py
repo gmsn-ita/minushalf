@@ -19,7 +19,22 @@ def test_is_metal_gan_3d(file_path):
                                    vasprun=Vasprun(vasprun_filename),
                                    eigenval=Eigenvalues(eigenval_filename))
 
-    assert band_structure.is_metal() == False
+    assert band_structure.is_metal() is False
+
+
+def test_band_gap_gan_3d(file_path):
+    """
+    Tests GaN 3d band gap .
+    """
+    procar_filename = file_path("/gan-3d/PROCAR")
+    eigenval_filename = file_path("/gan-3d/EIGENVAL")
+    vasprun_filename = file_path("/gan-3d/vasprun.xml")
+
+    band_structure = BandStructure(procar=Procar(procar_filename),
+                                   vasprun=Vasprun(vasprun_filename),
+                                   eigenval=Eigenvalues(eigenval_filename))
+
+    assert np.isclose(band_structure.band_gap()["gap"], 1.5380389999999995)
 
 
 def test_vbm_index_gan_3d(file_path):
@@ -134,7 +149,7 @@ def test_get_band_projection_kpt_9_band_11_gan_3d(file_path):
 
 def test_is_metal_bn_2d(file_path):
     """
-    Confirms that ge BN 2d is not an metal.
+    Confirms that  BN 2d is not an metal.
     """
     procar_filename = file_path("/bn-2d/PROCAR")
     eigenval_filename = file_path("/bn-2d/EIGENVAL")
@@ -144,7 +159,22 @@ def test_is_metal_bn_2d(file_path):
                                    vasprun=Vasprun(vasprun_filename),
                                    eigenval=Eigenvalues(eigenval_filename))
 
-    assert band_structure.is_metal() == False
+    assert band_structure.is_metal() is False
+
+
+def test_band_gap_bn_2d(file_path):
+    """
+    Test BN 2d band gap.
+    """
+    procar_filename = file_path("/bn-2d/PROCAR")
+    eigenval_filename = file_path("/bn-2d/EIGENVAL")
+    vasprun_filename = file_path("/bn-2d/vasprun.xml")
+
+    band_structure = BandStructure(procar=Procar(procar_filename),
+                                   vasprun=Vasprun(vasprun_filename),
+                                   eigenval=Eigenvalues(eigenval_filename))
+
+    assert np.isclose(band_structure.band_gap()["gap"], 4.756284)
 
 
 def test_vbm_index_bn_2d(file_path):
@@ -269,7 +299,22 @@ def test_is_metal_sic_2d(file_path):
                                    vasprun=Vasprun(vasprun_filename),
                                    eigenval=Eigenvalues(eigenval_filename))
 
-    assert band_structure.is_metal() == False
+    assert band_structure.is_metal() is False
+
+
+def test_band_gap_sic_2d(file_path):
+    """
+    Test SiC 2d band gap.
+    """
+    procar_filename = file_path("/sic-2d/PROCAR")
+    eigenval_filename = file_path("/sic-2d/EIGENVAL")
+    vasprun_filename = file_path("/sic-2d/vasprun.xml")
+
+    band_structure = BandStructure(procar=Procar(procar_filename),
+                                   vasprun=Vasprun(vasprun_filename),
+                                   eigenval=Eigenvalues(eigenval_filename))
+
+    assert np.isclose(band_structure.band_gap()["gap"], 2.61388)
 
 
 def test_vbm_index_sic_2d(file_path):
@@ -385,7 +430,7 @@ def test_get_band_projection_kpt_9_band_11_sic_2d(file_path):
 
 def test_is_metal_gec_2d(file_path):
     """
-    Confirms that ge GeC 2d is not an metal.
+    Confirms that  GeC 2d is not an metal.
     """
     procar_filename = file_path("/gec-2d/PROCAR")
     eigenval_filename = file_path("/gec-2d/EIGENVAL")
@@ -395,7 +440,22 @@ def test_is_metal_gec_2d(file_path):
                                    vasprun=Vasprun(vasprun_filename),
                                    eigenval=Eigenvalues(eigenval_filename))
 
-    assert band_structure.is_metal() == False
+    assert band_structure.is_metal() is False
+
+
+def test_band_gap_gec_2d(file_path):
+    """
+    Test GeC 2d band gap.
+    """
+    procar_filename = file_path("/gec-2d/PROCAR")
+    eigenval_filename = file_path("/gec-2d/EIGENVAL")
+    vasprun_filename = file_path("/gec-2d/vasprun.xml")
+
+    band_structure = BandStructure(procar=Procar(procar_filename),
+                                   vasprun=Vasprun(vasprun_filename),
+                                   eigenval=Eigenvalues(eigenval_filename))
+
+    assert np.isclose(band_structure.band_gap()["gap"], 2.1609610000000004)
 
 
 def test_vbm_index_gec_2d(file_path):
@@ -521,7 +581,22 @@ def test_is_metal_aln_2d(file_path):
                                    vasprun=Vasprun(vasprun_filename),
                                    eigenval=Eigenvalues(eigenval_filename))
 
-    assert band_structure.is_metal() == False
+    assert band_structure.is_metal() is False
+
+
+def test_band_gap_aln_2d(file_path):
+    """
+    Test AlN 2d band gap
+    """
+    procar_filename = file_path("/aln-2d/PROCAR")
+    eigenval_filename = file_path("/aln-2d/EIGENVAL")
+    vasprun_filename = file_path("/aln-2d/vasprun.xml")
+
+    band_structure = BandStructure(procar=Procar(procar_filename),
+                                   vasprun=Vasprun(vasprun_filename),
+                                   eigenval=Eigenvalues(eigenval_filename))
+
+    assert np.isclose(band_structure.band_gap()["gap"], 2.924163)
 
 
 def test_vbm_index_aln_2d(file_path):
