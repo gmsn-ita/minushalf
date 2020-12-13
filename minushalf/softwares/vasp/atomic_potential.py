@@ -100,8 +100,11 @@ class AtomicPotential():
 
         return potential
 
-    def correct_file(self, potential: list, cut: float,
-                     amplitude: float) -> None:
+    def correct_file(self,
+                     potential: list,
+                     cut: float,
+                     amplitude: float,
+                     is_conduction: bool = False) -> None:
         """
         Create the potential file corrected
 
@@ -112,6 +115,8 @@ class AtomicPotential():
 
                 amplitude (float): Multiplicative factor of the potential function
         """
+        if is_conduction:
+            amplitude = abs(amplitude) * -1
 
         filename = ""
         if np.isclose(abs(amplitude), 1.0):
