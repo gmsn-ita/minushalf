@@ -22,7 +22,9 @@ setup(
     description=
     "CLI to provides Pre processing tools for DFT -1/2 calculations",
     license="GPL",
-    install_requires=["pymatgen", "Click", "pyfiglet", "loguru"],
+    install_requires=[
+        "numpy", "pandas", "fortranformat", "Click", "pyfiglet", "loguru"
+    ],
     entry_points="""
         [console_scripts]
         minushalf=minushalf.minushalf:minushalf

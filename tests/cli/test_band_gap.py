@@ -2,20 +2,20 @@
 Test band gap command
 """
 from click.testing import CliRunner
-from minushalf.commands import vbm_character
+from minushalf.commands import band_gap
 
 
-def test_vbm_character_gan_3d(file_path):
+def test_band_gap_gan_3d(file_path):
     """
-    Test the result of vbm-character for
+    Test the result of band-gap for
     GaN 3d
     """
     procar_filename = file_path("/gan-3d/PROCAR")
     eigenval_filename = file_path("/gan-3d/EIGENVAL")
     vasprun_filename = file_path("/gan-3d/vasprun.xml")
-    result_path = file_path("/gan-3d/result_vbm_character.txt")
+    result_path = file_path("/gan-3d/result_band_gap.txt")
     runner = CliRunner()
-    result = runner.invoke(vbm_character, [
+    result = runner.invoke(band_gap, [
         '-p', procar_filename, '-e', eigenval_filename, '-v', vasprun_filename
     ])
 
@@ -23,17 +23,17 @@ def test_vbm_character_gan_3d(file_path):
         assert file.read() == result.output
 
 
-def test_vbm_character_bn_2d(file_path):
+def test_band_gap_bn_2d(file_path):
     """
-    Test the result of vbm-character for
+    Test the result of band-gap for
     BN 2d
     """
     procar_filename = file_path("/bn-2d/PROCAR")
     eigenval_filename = file_path("/bn-2d/EIGENVAL")
     vasprun_filename = file_path("/bn-2d/vasprun.xml")
-    result_path = file_path("/bn-2d/result_vbm_character.txt")
+    result_path = file_path("/bn-2d/result_band_gap.txt")
     runner = CliRunner()
-    result = runner.invoke(vbm_character, [
+    result = runner.invoke(band_gap, [
         '-p', procar_filename, '-e', eigenval_filename, '-v', vasprun_filename
     ])
 
@@ -41,17 +41,17 @@ def test_vbm_character_bn_2d(file_path):
         assert file.read() == result.output
 
 
-def test_vbm_character_sic_2d(file_path):
+def test_band_gap_sic_2d(file_path):
     """
-    Test the result of vbm-character for
+    Test the result of band-gap for
     SiC 2d
     """
     procar_filename = file_path("/sic-2d/PROCAR")
     eigenval_filename = file_path("/sic-2d/EIGENVAL")
     vasprun_filename = file_path("/sic-2d/vasprun.xml")
-    result_path = file_path("/sic-2d/result_vbm_character.txt")
+    result_path = file_path("/sic-2d/result_band_gap.txt")
     runner = CliRunner()
-    result = runner.invoke(vbm_character, [
+    result = runner.invoke(band_gap, [
         '-p', procar_filename, '-e', eigenval_filename, '-v', vasprun_filename
     ])
 
@@ -59,17 +59,17 @@ def test_vbm_character_sic_2d(file_path):
         assert file.read() == result.output
 
 
-def test_vbm_character_gec_2d(file_path):
+def test_band_gap_gec_2d(file_path):
     """
-    Test the result of vbm-character for
+    Test the result of band-gap for
     GeC 2d
     """
     procar_filename = file_path("/gec-2d/PROCAR")
     eigenval_filename = file_path("/gec-2d/EIGENVAL")
     vasprun_filename = file_path("/gec-2d/vasprun.xml")
-    result_path = file_path("/gec-2d/result_vbm_character.txt")
+    result_path = file_path("/gec-2d/result_band_gap.txt")
     runner = CliRunner()
-    result = runner.invoke(vbm_character, [
+    result = runner.invoke(band_gap, [
         '-p', procar_filename, '-e', eigenval_filename, '-v', vasprun_filename
     ])
 
@@ -77,17 +77,17 @@ def test_vbm_character_gec_2d(file_path):
         assert file.read() == result.output
 
 
-def test_vbm_character_aln_2d(file_path):
+def test_band_gap_aln_2d(file_path):
     """
-    Test the result of vbm-character for
+    Test the result of band-gap for
     AlN 2d
     """
     procar_filename = file_path("/aln-2d/PROCAR")
     eigenval_filename = file_path("/aln-2d/EIGENVAL")
     vasprun_filename = file_path("/aln-2d/vasprun.xml")
-    result_path = file_path("/aln-2d/result_vbm_character.txt")
+    result_path = file_path("/aln-2d/result_band_gap.txt")
     runner = CliRunner()
-    result = runner.invoke(vbm_character, [
+    result = runner.invoke(band_gap, [
         '-p', procar_filename, '-e', eigenval_filename, '-v', vasprun_filename
     ])
 
