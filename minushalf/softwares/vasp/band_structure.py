@@ -1,10 +1,9 @@
 """
 Band structure informations
 """
-import re
-import numpy as np
-from collections import defaultdict
 from math import inf
+from collections import defaultdict
+import numpy as np
 
 
 class BandStructure():
@@ -43,13 +42,13 @@ class BandStructure():
     def vbm_index(self) -> tuple:
         """
         Find the kpoint and the band for vbm
-            
+
             Returns:
                 vbm_index (tuple): Contains the kpoint
                 number and the band number of th vbm
         """
         if self.is_metal():
-            raise Error("Conduction band is not defined for metals")
+            raise Exception("Conduction band is not defined for metals")
 
         kpoint_vbm = None
         band_vbm = None
@@ -65,14 +64,14 @@ class BandStructure():
 
     def cbm_index(self) -> tuple:
         """
-        Find the kpoint and the band for cbm 
+        Find the kpoint and the band for cbm
 
             Returns:
                 vbm_index (tuple): Contains the kpoint
                 number and the band number of th vbm
         """
         if self.is_metal():
-            raise Error("Conduction band is not defined for metals")
+            raise Exception("Conduction band is not defined for metals")
 
         kpoint_cbm = None
         band_cbm = None
@@ -89,7 +88,7 @@ class BandStructure():
         """
         Find the projection of each atom for valence
         band maximum.
-            
+
             Returns:
                 vbm_projection (defaultdict(list)): Contains the projection
                 of each orbital of each atom in the respective band
@@ -111,7 +110,7 @@ class BandStructure():
         """
         Find the projection of each atom for valence
         band minimum.
-            
+
             Returns:
                 vbm_projection (defaultdict(list)): Contains the projection
                 of each orbital of each atom in the respective band
@@ -137,9 +136,9 @@ class BandStructure():
         """
         Find the projection of each atom for a specific band.
             Args:
-                kpoint (int): Number of kpoints 
+                kpoint (int): Number of kpoints
                 band_number (int): Number of the band
-            
+
             Returns:
                 band_projection (defaultdict(list)): Contains the projection
                 of each orbital of each atom in the respective band
@@ -157,3 +156,27 @@ class BandStructure():
                 band_projection[symbol] = procar_projection[index]
 
         return band_projection
+
+    def band_gap(self) -> dict:
+        """
+        Find VBM and CBM, then returns band gap
+        Returns:
+            VBM index and its eigenvalue, CBM index and its eigenvalue and band gap
+        """
+        vbm = self.vbm_index()
+        vbm_eigenval = self.eigenval.eigenvalues[vbm[0]][vbm[1] - 1]
+
+        cbm = self.cbm_index()
+        cbm_eigenval = self.eigenval.eigenvalues[cbm[0]][cbm[1] - 1]
+
+        gap_report = {
+            "vbm":
+            " kpoint {}, band {} and eigenval {}".format(
+                vbm[0], vbm[1], vbm_eigenval),
+            "cbm":
+            " kpoint {}, band {} and eigenval {}".format(
+                cbm[0], cbm[1], cbm_eigenval),
+            "gap":
+            cbm_eigenval - vbm_eigenval
+        }
+        return gap_report
