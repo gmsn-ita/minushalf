@@ -101,7 +101,7 @@ def create_input(chemical_symbol: str, exchange_correlation_code: str,
         logger.remove()
         logger.add(sys.stdout, level="ERROR")
 
-    input_file = InputFile.minimum_setup(chemical_symbol,
+    input_file = InputFile.minimum_setup(chemical_symbol.capitalize(),
                                          exchange_correlation_code,
                                          maximum_iterations, calculation_code)
     logger.info("Creating INP file")

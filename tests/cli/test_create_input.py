@@ -18,7 +18,7 @@ def test_create_input_with_all_elements():
     runner = CliRunner()
 
     for element in ElectronicDistribution:
-        symbol = str(element)
+        symbol = str(element).upper()
         with runner.isolated_filesystem():
             result = runner.invoke(create_input, [symbol])
             assert result.exit_code == 0
