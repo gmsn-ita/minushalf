@@ -3,9 +3,9 @@
    ae      Au#Comment 1
  n=Au c=pb#Comment2
        0.0       0.0       0.0       0.0       0.0       0.0#CommentComment3
-   12    4#Comment4
+   11    4#Comment4
     6    0      1.00      0.00
     6    1      0.00      0.00
     5    2      10.00      0.00
-    5    3      0.00      0.00
+    4    3      14.0      0.00
 100 maxit
