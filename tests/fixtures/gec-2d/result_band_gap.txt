@@ -5,8 +5,8 @@
 |_| |_| |_|_|_| |_|\__,_|___/_| |_|\__,_|_|_|  
                                                
 
-Kpoint 12, band 4 and eigenval -3.433419
-Kpoint 12, band 5 and eigenval -1.272458
+VBM: exKpoint 12, band 4 and eigenval -3.433419
+CBM: Kpoint 12, band 5 and eigenval -1.272458
 Gap: 2.161eV
  _____ _   _ ____  
 | ____| \ | |  _ \ 
