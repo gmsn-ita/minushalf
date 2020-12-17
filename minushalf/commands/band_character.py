@@ -73,7 +73,7 @@ def band_character(kpoint: int, band: int, software: str, procar_path: str,
                                             orient="index",
                                             columns=orbitals))
     normalized_df = projection_df.div(projection_df.sum().sum())
-    normalized_df = normalized_df.mul(100).round()
+    normalized_df = normalized_df.mul(100)
 
     orbital_type = [str(elem) for elem in OrbitalType]
 
@@ -83,7 +83,7 @@ def band_character(kpoint: int, band: int, software: str, procar_path: str,
         ]
 
     normalized_df = normalized_df.groupby(join_orbitals(projection_df.columns),
-                                          axis=1).sum()
+                                          axis=1).sum().round()
     click.echo(normalized_df.to_markdown())
 
     end_message()
