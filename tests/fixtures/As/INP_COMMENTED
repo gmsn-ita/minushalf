@@ -3,9 +3,9 @@
    ae      As#Comment 1
  n=As c=pb#Comment2
        0.0       0.0       0.0       0.0       0.0       0.0#CommentComment3
-    6    4#Comment4
+    5    4#Comment4
     4    0      2.00      0.00
     4    1      3.00      0.00
-    4    2      0.00      0.00
+    3    2      10.0      0.00
     4    3      0.00      0.00
 100 maxit
