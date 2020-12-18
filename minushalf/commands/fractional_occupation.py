@@ -5,6 +5,7 @@ from __future__ import annotations
 import os
 import sys
 import click
+import numpy as np
 from loguru import logger
 from minushalf.utils import welcome_message, end_message
 from minushalf.atomic import InputFile
@@ -12,13 +13,10 @@ from minushalf import atomic_program
 
 
 @click.command()
-@click.argument('orbital_quantum_number', type=click.IntRange(0, 3), nargs=1)
-@click.argument('occupation_percentual',
-                type=click.FloatRange(0, 100),
-                nargs=1,
-                default=100)
+@click.argument('orbital_quantum_number', type=str, nargs=1)
+@click.argument('occupation_percentual', type=str, nargs=1, default="100")
 @click.option('--quiet', default=False, is_flag=True)
-def occupation(orbital_quantum_number: int, occupation_percentual: float,
+def occupation(orbital_quantum_number: str, occupation_percentual: str,
                quiet: bool):
     """
     Perform fractional occupation on the atom and generate the pseudopotential for this occupation.
@@ -26,11 +24,16 @@ def occupation(orbital_quantum_number: int, occupation_percentual: float,
 
     Requires:
 
-        ORBITAL_QUANTUM_NUMBER: defines the orbital in which the occupation will be made,it can assume four values: (0: s | 1: p | 2: d | 3: f)
+        ORBITAL_QUANTUM_NUMBER: A string that defines the orbital(s) in which the occupation will be made,
+        it can assume four values: (0: s | 1: p | 2: d | 3: f). if going to pass multiple orbitals,
+        pass a string with numbers separated by commas : ("0,1,2,3")
 
 
-        OCCUPATION_PERCENTUAL: The percentual of half eletron to be used in the occupation.
-        The default is 100%, wich states for 0.5e.
+        OCCUPATION_PERCENTUAL: A string that defines percentual of half eletron to be used in the occupation.
+        The default is 100%, wich states for 0.5e. For multiple occupations in different orbitals, pass a string
+        separated by commas ("100,50,40,100"). For simplicity, to avoid the excessive repetition of the number
+        100, just replace the number with * ("*,30,*"). If this argument is not used, the occupation of 
+        half electron will be made for all orbitals
 
 
         INP: A copy of the input file used in ATOM program
@@ -72,8 +75,29 @@ def occupation(orbital_quantum_number: int, occupation_percentual: float,
 
     input_file = InputFile.from_file()
     logger.info("Adding minus one half electron correction on INP")
-    input_file.electron_occupation(0.5 * (occupation_percentual / 100),
-                                   orbital_quantum_number)
+
+    try:
+        quantum_numbers = np.array(orbital_quantum_number.split(","),
+                                   dtype=np.int)
+    except ValueError as wrong_input:
+        raise ValueError(
+            "Invalid value for secondary quantum number") from wrong_input
+
+    for quantum_number in quantum_numbers:
+        if quantum_number < 0 or quantum_number > 3:
+            raise ValueError("Invalid value for secondary quantum number")
+
+    percentuals = np.ones(len(quantum_numbers)) * 100
+
+    for index, percentual in enumerate(occupation_percentual.split(",")):
+        if percentual != "*":
+            if float(percentual) < 0 or float(percentual) > 100:
+                raise ValueError("Invalid value for occupation percentual")
+            percentuals[index] = float(percentual)
+
+    for quantum_number, percentual in zip(quantum_numbers, percentuals):
+        input_file.electron_occupation(0.5 * (percentual / 100),
+                                       quantum_number)
 
     os.rename('INP', 'INP.ae')
     input_file.to_file()
@@ -81,8 +105,8 @@ def occupation(orbital_quantum_number: int, occupation_percentual: float,
     logger.info("Run atomic program")
     try:
         atomic_program.run()
-    except:
-        raise Exception('Problems in atomic program')
+    except Exception as program_fail:
+        raise Exception('Problems in atomic program') from program_fail
 
     logger.info("Atomic program finished execution.")
 
