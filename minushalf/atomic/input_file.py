@@ -285,7 +285,7 @@ class InputFile:
             chemical_symbol (str): Symbol of the chemical element (H, He, Li...).
 
             exchange_correlation_type (str): functional of exchange and correlation
-            ((r)ca(s), (r)wi(s), (r)hl(s), (r)gl(s) ,(r)bh(s), (r)pb(s), (r)rp(s), (r)rv(s), (r)bl(s))
+            ( ca, wi, hl, gl, bh, pb, rp , rv, bl)
 
             maximum_iterations (int): Maximum number of iterations for atomic program.
             The default is 100
