@@ -37,6 +37,13 @@ class Orbital(Enum):
     dz2 = 6
     dxz = 7
     dx2 = 8
+    f_3 = 9
+    f_2 = 10
+    f_1 = 11
+    f0 = 12
+    f1 = 13
+    f2 = 14
+    f3 = 15
 
     def __str__(self):
         return str(self.name)

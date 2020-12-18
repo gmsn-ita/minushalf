@@ -2,7 +2,6 @@
 Makes fractional occupation on INP file
 """
 from __future__ import annotations
-import os
 import sys
 import click
 from loguru import logger
@@ -21,34 +20,24 @@ from minushalf.atomic import InputFile
               help="""
             Represents the functional of exchange and correlation,it can assume the following values:
 
-                
-              ca*: Ceperley-Alder
 
-              wi*: Wigner
+              ca: Ceperley-Alder
 
-              hl*: Hedin-Lundqvist
+              wi: Wigner
 
-              gl*: Gunnarson-Lundqvist
+              hl: Hedin-Lundqvist
 
-              bh*: Von Barth-Hedin
+              gl: Gunnarson-Lundqvist
 
-              pb*: PBE scheme by Perdew, Burke, and Ernzerhof
+              bh: Von Barth-Hedin
 
-              rp*: RPBE scheme by Hammer, Hansen, and Norskov
+              pb: PBE scheme by Perdew, Burke, and Ernzerhof
 
-              rv*: revPBE scheme by Zhang and Yang
+              rp: RPBE scheme by Hammer, Hansen, and Norskov
 
-              bl*: BLYP (Becke-Lee-Yang-Parr) scheme
-        
+              rv: revPBE scheme by Zhang and Yang
 
-            the * character can assume three values, 
-            depending on the type of calculation to be performed:
-            
-            ∗ s : Spin-polarized calculation, non-relativistic.
-
-            ∗ r: Relativistic calculation, obviously polarized.
-            
-            ∗ (blank) : Non-polarized (spin ignored), non-relativistic calculation.
+              bl: BLYP (Becke-Lee-Yang-Parr) scheme
 
               """)
 @click.option('-c',
@@ -88,7 +77,7 @@ def create_input(chemical_symbol: str, exchange_correlation_code: str,
     Requires:
 
         CHEMICAL_SYMBOL: defines the orbital in which the occupation will be made, it can assume four values:
-        
+
 
     Returns:
 
