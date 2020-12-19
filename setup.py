@@ -23,7 +23,13 @@ setup(
     "CLI to provides Pre processing tools for DFT -1/2 calculations",
     license="GPL",
     install_requires=[
-        "numpy", "pandas", "fortranformat", "Click", "pyfiglet", "loguru"
+        "numpy",
+        "pandas",
+        "fortranformat",
+        "Click",
+        "pyfiglet",
+        "loguru",
+        "tabulate",
     ],
     entry_points="""
         [console_scripts]
