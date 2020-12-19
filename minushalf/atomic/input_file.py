@@ -173,16 +173,21 @@ class InputFile:
                 List with the lines of the INP file.
         """
         input_lines = []
+
         input_lines.append("{:<3}{}{:<6}{}\n".format("", self.calculation_code,
                                                      "", self.description))
 
-        input_lines.append("{:<1}n={}".format("", self.chemical_symbol))
-        if len(self.chemical_symbol) == 2:
-            input_lines.append("{:<1}c={}\n".format(
-                "", self.exchange_correlation_type))
-        else:
-            input_lines.append("{:<2}c={}\n".format(
-                "", self.exchange_correlation_type))
+        chemical_symbol_line = "n={}".format(self.chemical_symbol)
+        exchange_correlation_line = "c={}".format(
+            self.exchange_correlation_type)
+
+        second_line_formater = ff.FortranRecordWriter('1x,a4,1x,a4,2x')
+        if len(self.chemical_symbol) == 1:
+            second_line_formater = ff.FortranRecordWriter('1x,a3,2x,a4,2x')
+
+        input_lines.append("{}\n".format(
+            second_line_formater.write(
+                [chemical_symbol_line, exchange_correlation_line])))
 
         input_lines.append(self.esoteric_line)
 
