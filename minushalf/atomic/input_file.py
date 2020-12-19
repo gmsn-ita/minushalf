@@ -5,6 +5,7 @@ read by atomic program.
 from __future__ import annotations
 import re
 import numpy as np
+import fortranformat as ff
 from minushalf.utils import (drop_comments, ElectronicDistribution,
                              parse_valence_orbitals, PeriodicTable)
 
@@ -174,6 +175,7 @@ class InputFile:
         input_lines = []
         input_lines.append("{:<3}{}{:<6}{}\n".format("", self.calculation_code,
                                                      "", self.description))
+
         input_lines.append("{:<1}n={}".format("", self.chemical_symbol))
         if len(self.chemical_symbol) == 2:
             input_lines.append("{:<1}c={}\n".format(
@@ -181,23 +183,24 @@ class InputFile:
         else:
             input_lines.append("{:<2}c={}\n".format(
                 "", self.exchange_correlation_type))
+
         input_lines.append(self.esoteric_line)
 
-        if self.number_core_orbitals <= 9:
-            input_lines.append("{:<4}{}{:<4}{}\n".format(
-                "", self.number_core_orbitals, "",
-                self.number_valence_orbitals))
-        else:
-            input_lines.append("{:<3}{}{:<4}{}\n".format(
-                "", self.number_core_orbitals, "",
-                self.number_valence_orbitals))
+        orbital_numbers_formater = ff.FortranRecordWriter('2i5')
+        orbital_numbers = orbital_numbers_formater.write(
+            [self.number_core_orbitals, self.number_valence_orbitals])
+
+        input_lines.append("{}\n".format(orbital_numbers))
 
         for orbital in self.valence_orbitals:
-            occupation = "      ".join(
-                ["{:.2f}".format(value) for value in orbital["occupation"]])
+            quantum_number_formater = ff.FortranRecordWriter('2i5')
+            quantum_numbers = quantum_number_formater.write(
+                [orbital["n"], orbital["l"]])
 
-            input_lines.append("{:<4}{}{:<4}{}{:<5}{}\n".format(
-                "", orbital["n"], "", orbital["l"], "", occupation))
+            occupation_formater = ff.FortranRecordWriter('2f10.3')
+            occupation = occupation_formater.write(orbital["occupation"])
+
+            input_lines.append("{}{}\n".format(quantum_numbers, occupation))
 
         for line in self.last_lines:
             input_lines.append(line)
