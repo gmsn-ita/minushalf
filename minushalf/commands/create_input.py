@@ -1,7 +1,6 @@
 """
 Makes fractional occupation on INP file
 """
-from __future__ import annotations
 import sys
 import click
 from loguru import logger

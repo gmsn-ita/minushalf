@@ -5,8 +5,8 @@ import os
 import sys
 import pytest
 
-path_to_script = os.path.realpath(__file__)
-path_to_package = os.path.join(path_to_script, "../minushalf")
+path_to_file = os.path.realpath(__file__)
+path_to_package = os.path.join(path_to_file, "../minushalf")
 sys.path.append(path_to_package)
 
 
