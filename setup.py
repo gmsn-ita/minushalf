@@ -30,6 +30,7 @@ setup(
         "pyfiglet",
         "loguru",
         "tabulate",
+        "pyyaml",
     ],
     entry_points="""
         [console_scripts]
