@@ -3,12 +3,13 @@ Implements the algorithm that automates the process
 of simple valence correction and optimizes the necessary parameters.
 """
 import os
+import shutil
 from subprocess import Popen, PIPE
 import pandas as pd
 from minushalf.atomic import InputFile
 
 
-class ValenceCorrection():
+class VaspValenceCorrection():
     """
     An algorithm that performs the potential correction only
     on the atom that most contributes to the character of the last valence band.
@@ -96,7 +97,7 @@ class ValenceCorrection():
         atom_symbol = atom_index[0]
         folder_path = os.path.join(self.root_folder, atom_symbol)
         if os.path.exists(folder_path):
-            os.remove(folder_path)
+            shutil.rmtree(folder_path)
         input_file = InputFile.minimum_setup(
             atom_symbol,
             self.exchange_correlation_type,
