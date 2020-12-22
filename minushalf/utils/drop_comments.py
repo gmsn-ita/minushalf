@@ -5,10 +5,14 @@ a commentarie or not
 import re
 
 
-def drop_comments(lines: str) -> list:
-    """function to check if a line
-        starts with some character.
-        Here # for comment
+def drop_comments(lines: list) -> list:
+    """
+    Function to remove comments from lines in a file
+
+        Args:
+            lines(list): list of file lines
+        Returns:
+            lines_without_comments (list): lines of the file without comments
     """
 
     comment_pattern = r"#.*"
@@ -16,5 +20,6 @@ def drop_comments(lines: str) -> list:
         re.sub(comment_pattern, "", line) for line in lines
     ]
 
-    return list(filter(lambda x: x != "\n" and x != "",
-                       lines_without_comments))
+    return list(
+        filter(lambda x: x != "\n" and x.strip() != "",
+               lines_without_comments))
