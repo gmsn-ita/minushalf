@@ -2,7 +2,7 @@
 Parser for minushalf.yaml
 """
 import yaml
-from minushalf.utils import Softwares
+from minushalf.data import Softwares
 
 
 class MinushalfYaml():
