@@ -5,7 +5,7 @@ a normalized datafame Grouped by orbital types
 """
 from collections import defaultdict
 import pandas as pd
-from minushalf.utils import Orbital, OrbitalType
+from minushalf.data import Orbital, OrbitalType
 
 
 def projection_to_df(projection: defaultdict(list)) -> pd.DataFrame:

@@ -5,9 +5,10 @@ import re
 from itertools import chain
 import fortranformat as ff
 import numpy as np
+from minushalf.interfaces import PotentialFile
 
 
-class Potcar():
+class Potcar(PotentialFile):
     """
     Parse the POTCAR file, a vasp input file. It store
     the fourier coefficients and the restant lines of the file
@@ -18,6 +19,21 @@ class Potcar():
         self.k_max_text, self.potential = self._get_potential()
         self.k_max = float(self.k_max_text)
         self.last_lines = self._get_last_lines()
+
+    def get_potential_fourier_transform(self) -> list:
+        """
+        Returns:
+            potential(list): List of fourier transform
+            of the potential
+        """
+        return self.potential
+
+    def get_maximum_module_wave_vector(self) -> float:
+        """
+        Returns:
+            k_max (float):maximum modulus of the wave vector in reciprocal space
+        """
+        return self.k_max
 
     def to_stringlist(self) -> list:
         """
@@ -81,7 +97,7 @@ class Potcar():
 
             Returns:
                 (k_max,potential) (tuple): A tuple
-                containing the maximum modulus of the wave vector in 
+                containing the maximum modulus of the wave vector in
                 reciprocal space string and a list with all fourier
                 transforms for the potential.
         """
