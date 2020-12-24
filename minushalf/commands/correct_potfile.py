@@ -7,7 +7,8 @@ import numpy as np
 from loguru import logger
 from pathlib import Path
 from minushalf.softwares import Vasp
-from minushalf.utils import (welcome_message, end_message, Vtotal, InputFile)
+from minushalf.atomic import Vtotal, InputFile
+from minushalf.utils import welcome_message, end_message
 
 
 @click.command()

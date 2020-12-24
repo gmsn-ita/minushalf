@@ -4,7 +4,8 @@ Makes fractional occupation on INP file
 import sys
 import click
 from loguru import logger
-from minushalf.utils import (welcome_message, end_message, InputFile)
+from minushalf.utils import welcome_message, end_message
+from minushalf.atomic import InputFile
 
 
 @click.command()

@@ -4,10 +4,9 @@ fractional occupations
 """
 import copy
 import numpy as np
-from minushalf.interfaces import PotentialFile
-from .vtotal import Vtotal
-from .trimming_function import trimming_function
-from .correct_potential_fourier_transform import correct_potential_fourier_transform
+from minushalf.atomic import Vtotal, InputFile
+from minushalf.utils import (trimming_function,
+                             correct_potential_fourier_transform)
 
 
 class AtomicPotential():
@@ -17,7 +16,7 @@ class AtomicPotential():
     or conduction bands
     """
     def __init__(self, vtotal: Vtotal, vtotal_occupied: Vtotal,
-                 potential_file: PotentialFile) -> None:
+                 input_file: InputFile, potcar: any) -> None:
         """
             Args:
                 vtotal (Vtotal): Class of the atom's VTOTAL file
@@ -35,7 +34,8 @@ class AtomicPotential():
         """
         self.vtotal = vtotal
         self.vtotal_occupied = vtotal_occupied
-        self.potential_file = potential_file
+        self.input_file = input_file
+        self.potcar = potcar
 
     def occupy_potential(self, cut: float, amplitude) -> list:
         """
@@ -82,10 +82,8 @@ class AtomicPotential():
             amplitude = abs(amplitude) * -1
 
         occupation_potential = self.occupy_potential(cut, amplitude)
-        wave_vectors = np.arange(
-            len(self.potential_file.get_potential_fourier_transform())) * (
-                self.potential_file.get_maximum_module_wave_vector() /
-                len(self.potential_file.get_potential_fourier_transform()))
+        wave_vectors = np.arange(len(self.potcar.potential)) * (
+            self.potcar.k_max / len(self.potcar.potential))
 
         correct_potential = np.vectorize(
             correct_potential_fourier_transform,
@@ -93,7 +91,7 @@ class AtomicPotential():
         )
 
         potential = correct_potential(
-            coefficient=self.potential_file.get_potential_fourier_transform(),
+            coefficient=self.potcar.potential,
             k=wave_vectors,
             rays=np.array(self.vtotal.radius, dtype=object),
             occupation_potential=np.array(occupation_potential, dtype=object),
@@ -126,7 +124,7 @@ class AtomicPotential():
         else:
             filename = "POTCARcut{:.2f}A{:.1f}".format(cut, amplitude)
 
-        copy_potcar = copy.deepcopy(self.potential_file)
+        copy_potcar = copy.deepcopy(self.potcar)
         copy_potcar.potential = potential
         copy_potcar.to_file(filename)
 
@@ -142,6 +140,6 @@ class AtomicPotential():
             Returns:
                 potential_lines(list): A List of potcar lines
         """
-        copy_potcar = copy.deepcopy(self.potential_file)
+        copy_potcar = copy.deepcopy(self.potcar)
         copy_potcar.potential = potential
         return copy_potcar.to_stringlist()

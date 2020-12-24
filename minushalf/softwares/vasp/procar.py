@@ -4,10 +4,9 @@ VASP software
 """
 import re
 from itertools import islice
-from minushalf.interfaces import BandProjectionFile
 
 
-class Procar(BandProjectionFile):
+class Procar():
     """
 	Reads procar and store
 	useful informations
@@ -29,7 +28,7 @@ class Procar(BandProjectionFile):
         """
 			Returns:
 				(kpoints,band_number) (tuple): The number of kpoints
-				used in the simulation and the number of bands used
+				used in the simulation and the number of bands used 
 				for each kpoint.
 		"""
         regex = re.compile(
@@ -47,7 +46,7 @@ class Procar(BandProjectionFile):
         """
 		Get the band projection for an specific kpoint and number of band
 			Args:
-				kpoint (int): Number of kpoints
+				kpoint (int): Number of kpoints 
 				band_number (int): Number of the band
 		"""
 
@@ -60,6 +59,7 @@ class Procar(BandProjectionFile):
         with open(self.filename, "r") as procar:
             current_kpoint = None
             current_band = None
+            band_energy = None
 
             for line in islice(procar, self.size_procar_header, None):
 

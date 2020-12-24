@@ -4,8 +4,8 @@ Test input file class
 import pytest
 import numpy as np
 from collections import Counter
-from minushalf.data import ElectronicDistribution, PeriodicTable
-from minushalf.utils import InputFile
+from minushalf.utils import ElectronicDistribution, PeriodicTable
+from minushalf.atomic import InputFile
 
 
 def test_minimum_setup(file_path):

@@ -4,7 +4,6 @@ Band structure informations
 from math import inf
 from collections import defaultdict
 import numpy as np
-from minushalf.interfaces import BandProjectionFile
 
 
 class BandStructure():
@@ -12,18 +11,15 @@ class BandStructure():
     Extact band structure insights from
     VASP classes
     """
-    def __init__(self, eigenvalues: dict, fermi_energy: float, atoms_map: dict,
-                 num_bands: int, band_projection: BandProjectionFile):
+    def __init__(self, procar, vasprun, eigenval):
         """
             Args:
                 filename (str): name of the EIGENVAL file in VASP
             Members:
         """
-        self.eigenvalues = eigenvalues
-        self.fermi_energy = fermi_energy
-        self.atoms_map = atoms_map
-        self.num_bands = num_bands
-        self.band_projection_file = band_projection
+        self.procar = procar
+        self.vasprun = vasprun
+        self.eigenval = eigenval
 
     def is_metal(self, tolerance: float = 1e-4) -> bool:
         """
@@ -32,13 +28,14 @@ class BandStructure():
         Returns:
             True if a metal, False if not
         """
-        eigevalues = [*self.eigenvalues.values()]
-        for index in range(self.num_bands):
+        eigevalues = [*self.eigenval.eigenvalues.values()]
+        for index in range(self.procar.num_bands):
             band_eigenvalues = np.array([array[index] for array in eigevalues],
                                         dtype=np.float)
             if np.any(band_eigenvalues -
-                      self.fermi_energy < -tolerance) and np.any(
-                          band_eigenvalues - self.fermi_energy > tolerance):
+                      self.vasprun.fermi_energy < -tolerance) and np.any(
+                          band_eigenvalues -
+                          self.vasprun.fermi_energy > tolerance):
                 return True
         return False
 
@@ -56,9 +53,9 @@ class BandStructure():
         kpoint_vbm = None
         band_vbm = None
         max_energy_reached = -inf
-        for kpoint, values in self.eigenvalues.items():
+        for kpoint, values in self.eigenval.eigenvalues.items():
             for band_index, energy in enumerate(values):
-                if energy < self.fermi_energy and energy > max_energy_reached:
+                if energy < self.vasprun.fermi_energy and energy > max_energy_reached:
                     max_energy_reached = energy
                     kpoint_vbm = kpoint
                     band_vbm = band_index + 1
@@ -79,9 +76,9 @@ class BandStructure():
         kpoint_cbm = None
         band_cbm = None
         min_energy_reached = inf
-        for kpoint, values in self.eigenvalues.items():
+        for kpoint, values in self.eigenval.eigenvalues.items():
             for band_index, energy in enumerate(values):
-                if energy >= self.fermi_energy and energy < min_energy_reached:
+                if energy >= self.vasprun.fermi_energy and energy < min_energy_reached:
                     min_energy_reached = energy
                     kpoint_cbm = kpoint
                     band_cbm = band_index + 1
@@ -97,11 +94,10 @@ class BandStructure():
                 of each orbital of each atom in the respective band
         """
         vbm_index = self.vbm_index()
-        procar_projection = self.band_projection_file.get_band_projection(
-            *vbm_index)
+        procar_projection = self.procar.get_band_projection(*vbm_index)
 
         vbm_projection = {}
-        for index, symbol in self.atoms_map.items():
+        for index, symbol in self.vasprun.atoms_map.items():
             if vbm_projection.get(symbol, None):
                 add_projections = np.add(procar_projection[index],
                                          vbm_projection[symbol])
@@ -121,11 +117,10 @@ class BandStructure():
         """
         cbm_index = self.cbm_index()
 
-        procar_projection = self.band_projection_file.get_band_projection(
-            *cbm_index)
+        procar_projection = self.procar.get_band_projection(*cbm_index)
 
         cbm_projection = {}
-        for index, symbol in self.atoms_map.items():
+        for index, symbol in self.vasprun.atoms_map.items():
 
             if cbm_projection.get(symbol, None):
                 add_projections = np.add(procar_projection[index],
@@ -148,12 +143,11 @@ class BandStructure():
                 band_projection (defaultdict(list)): Contains the projection
                 of each orbital of each atom in the respective band
         """
-        procar_projection = self.band_projection_file.get_band_projection(
-            kpoint, band)
+        procar_projection = self.procar.get_band_projection(kpoint, band)
 
         band_projection = {}
 
-        for index, symbol in self.atoms_map.items():
+        for index, symbol in self.vasprun.atoms_map.items():
             if band_projection.get(symbol, None):
                 add_projections = np.add(procar_projection[index],
                                          band_projection[symbol])
@@ -170,10 +164,10 @@ class BandStructure():
             VBM index and its eigenvalue, CBM index and its eigenvalue and band gap
         """
         vbm = self.vbm_index()
-        vbm_eigenval = self.eigenvalues[vbm[0]][vbm[1] - 1]
+        vbm_eigenval = self.eigenval.eigenvalues[vbm[0]][vbm[1] - 1]
 
         cbm = self.cbm_index()
-        cbm_eigenval = self.eigenvalues[cbm[0]][cbm[1] - 1]
+        cbm_eigenval = self.eigenval.eigenvalues[cbm[0]][cbm[1] - 1]
 
         gap_report = {
             "vbm":

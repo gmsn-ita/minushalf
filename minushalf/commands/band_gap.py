@@ -5,8 +5,7 @@ Command to read band gap
 import click
 from pathlib import Path
 from minushalf.softwares import Vasp
-from minushalf.data import Orbital, OrbitalType
-from minushalf.utils import welcome_message, end_message
+from minushalf.utils import welcome_message, end_message, Orbital, OrbitalType
 
 
 @click.command()

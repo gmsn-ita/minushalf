@@ -5,9 +5,8 @@ read by atomic program.
 import re
 import numpy as np
 import fortranformat as ff
-from minushalf.data import (ElectronicDistribution, PeriodicTable)
-from .drop_comments import drop_comments
-from .parse_valence_orbital_line import parse_valence_orbitals
+from minushalf.utils import (drop_comments, ElectronicDistribution,
+                             parse_valence_orbitals, PeriodicTable)
 
 
 class InputFile:

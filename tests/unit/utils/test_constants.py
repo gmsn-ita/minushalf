@@ -2,7 +2,7 @@
 Test constants
 """
 import numpy as np
-from minushalf.data import Constants
+from minushalf.utils import Constants
 
 
 def test_pi():
