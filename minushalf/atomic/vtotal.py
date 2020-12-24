@@ -26,16 +26,16 @@ class Vtotal():
         self.down_potential = down_potential
 
     @staticmethod
-    def from_file(filename: str = './VTOTAL.ae') -> Vtotal:
+    def from_file(self, filename: str = './VTOTAL.ae') -> Vtotal:
         """
         Parse VTOTAL and extract the following informations
         """
-        radius = Vtotal.read_radius(filename)
-        down_potential = Vtotal.read_down_potential(filename)
+        radius = self._get_radius(filename)
+        down_potential = self._get_down_potential(filename)
         return Vtotal(radius, down_potential)
 
     @staticmethod
-    def read_down_potential(filename: str) -> np.array:
+    def _get_down_potential(self, filename: str) -> np.array:
         """
         Extracts the potentials related to the state 
         of spin Down calculated for the main elements
@@ -62,10 +62,10 @@ class Vtotal():
                     down_potential = list(chain.from_iterable(down_potential))
                     return np.array(down_potential, dtype=np.float)
 
-                down_potential.append(line.split())
+                dowm_potential.append(line.split())
 
     @staticmethod
-    def read_radius(filename: str) -> np.array:
+    def _get_radius(self, filename: str) -> np.array:
         """
         Extracts from the file information regarding the rays for 
         which the potential calculations will be made made.
