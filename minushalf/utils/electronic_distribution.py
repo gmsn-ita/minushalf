@@ -6,7 +6,7 @@ from enum import Enum, unique
 
 
 @unique
-class ElectronicDistribution(Enum):
+class EletronicDistribution(Enum):
     """
     Enum type for orbital type. Indices are basically the azimuthal quantum
     number, l.
