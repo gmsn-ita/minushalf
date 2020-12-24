@@ -16,8 +16,12 @@ class AtomicPotential():
     for fractional occupations in valence
     or conduction bands
     """
-    def __init__(self, vtotal: Vtotal, vtotal_occupied: Vtotal,
-                 potential_file: PotentialFile) -> None:
+    def __init__(
+        self,
+        vtotal: Vtotal,
+        vtotal_occupied: Vtotal,
+        potential_file: PotentialFile,
+    ) -> None:
         """
             Args:
                 vtotal (Vtotal): Class of the atom's VTOTAL file
@@ -122,9 +126,11 @@ class AtomicPotential():
 
         filename = ""
         if np.isclose(abs(amplitude), 1.0):
-            filename = "POTCARcut{:.2f}".format(cut)
+            filename = "{}cut{:.2f}".format(self.potential_file.get_name(),
+                                            cut)
         else:
-            filename = "POTCARcut{:.2f}A{:.1f}".format(cut, amplitude)
+            filename = "{}cut{:.2f}A{:.1f}".format(
+                self.potential_file.get_name(), cut, amplitude)
 
         copy_potcar = copy.deepcopy(self.potential_file)
         copy_potcar.potential = potential

@@ -17,5 +17,8 @@ class Softwares(Enum):
         return str(self.name)
 
     @staticmethod
-    def list():
+    def to_list():
+        """
+        Generate list of available softwares
+        """
         return list(map(lambda element: element.value, Softwares))
