@@ -3,9 +3,9 @@
    ae      Xe#Comment 1
  n=Xe c=pb#Comment2
        0.0       0.0       0.0       0.0       0.0       0.0#CommentComment3
-    8    4#Comment4
+    9    4#Comment4
     5    0      2.00      0.00
     5    1      6.00      0.00
-    4    2      10.0      0.00
+    5    2      0.00      0.00
     4    3      0.00      0.00
 100 maxit

@@ -171,7 +171,7 @@ class BandStructure():
 
         gap_report = {
             "vbm":
-            "VBM: Kpoint {}, band {} and eigenval {}".format(
+            "VBM: exKpoint {}, band {} and eigenval {}".format(
                 vbm[0], vbm[1], vbm_eigenval),
             "cbm":
             "CBM: Kpoint {}, band {} and eigenval {}".format(
