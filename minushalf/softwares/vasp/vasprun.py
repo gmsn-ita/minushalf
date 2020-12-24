@@ -34,9 +34,8 @@ class Vasprun():
         xml_tree = ET.fromstringlist(efermi_xml)
         try:
             fermi_energy = float(xml_tree.text)
-        except ValueError as invalid_conversion:
-            raise Exception('Vasprun parser does not find fermi energy'
-                            ) from invalid_conversion
+        except ValueError:
+            raise Exception('Vasprun parser does not find fermi energy')
         finally:
             xml_tree.clear()
         return fermi_energy

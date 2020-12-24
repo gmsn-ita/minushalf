@@ -3,8 +3,8 @@ Analyze VTOTAL
 """
 from __future__ import annotations
 import re
-from itertools import islice, chain
 import numpy as np
+from itertools import islice, chain
 
 
 class Vtotal():
@@ -15,9 +15,9 @@ class Vtotal():
     def __init__(self, radius: np.array, down_potential: np.array) -> None:
         """
             Args:
-
+                
                 radius (np.array): rays for which the potential calculations will be made made.
-
+                
                 down_potential (np.array): potentials calculated to the state of spin Down for
                 each value of radius
         """
@@ -37,7 +37,7 @@ class Vtotal():
     @staticmethod
     def read_down_potential(filename: str) -> np.array:
         """
-        Extracts the potentials related to the state
+        Extracts the potentials related to the state 
         of spin Down calculated for the main elements
             Args:
                 filename (str): Name of the VTOTAL file
@@ -67,7 +67,7 @@ class Vtotal():
     @staticmethod
     def read_radius(filename: str) -> np.array:
         """
-        Extracts from the file information regarding the rays for
+        Extracts from the file information regarding the rays for 
         which the potential calculations will be made made.
             Args:
                 filename (str): Name of the VTOTAL file
@@ -79,7 +79,7 @@ class Vtotal():
             stop_regex = re.compile(r"^.*Down\s+potential\s+follows")
             for line in islice(vtotal, vtotal_header_size, None):
 
-                if stop_regex.match(line):
+                if (stop_regex.match(line)):
                     radius = list(chain.from_iterable(radius))
                     return np.array(radius, dtype=np.float)
 
