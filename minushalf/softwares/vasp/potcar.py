@@ -25,9 +25,7 @@ class Potcar():
             Returns:
                 potcar_lines (list): List of the POTCAR lines
         """
-        fourier_coefficients_lines = [
-            "{:<3}{}{:<5}".format('', self.k_max_text, '')
-        ]
+        fourier_coefficients_lines = ["   {}     ".format(self.k_max_text)]
         try:
             grouped_coefficients = self.fourier_coefficients.reshape((-1, 5))
         except ValueError as bad_shape:
@@ -41,7 +39,7 @@ class Potcar():
                 formated_numbers.append(
                     fortran_formater.write([number]).strip())
 
-            line = "{:<2}{}".format('', "  ".join(formated_numbers))
+            line = "  {}  {}  {}  {}  {}".format(*formated_numbers)
             fourier_coefficients_lines.append(line)
 
         lines = [

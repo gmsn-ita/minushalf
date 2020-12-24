@@ -172,31 +172,29 @@ class InputFile:
                 List with the lines of the INP file.
         """
         input_lines = []
-        input_lines.append("{:<3}{}{:<6}{}\n".format('', self.calculation_code,
-                                                     '', self.description))
-        input_lines.append("{:<1}n={}".format('', self.chemical_symbol))
+        input_lines.append("   {}      {}\n".format(self.calculation_code,
+                                                    self.description))
+        input_lines.append(" n={}".format(self.chemical_symbol))
         if len(self.chemical_symbol) == 2:
-            input_lines.append("{:<1}c={}\n".format(
-                '', self.exchange_correlation_type))
+            input_lines.append(" c={}\n".format(
+                self.exchange_correlation_type))
         else:
-            input_lines.append("{:<2}c={}\n".format(
-                '', self.exchange_correlation_type))
+            input_lines.append("  c={}\n".format(
+                self.exchange_correlation_type))
         input_lines.append(self.esoteric_line)
 
         if self.number_core_orbitals <= 9:
-            input_lines.append("{:<4}{}{:<4}{}\n".format(
-                '', self.number_core_orbitals, '',
-                self.number_valence_orbitals))
+            input_lines.append("    {}    {}\n".format(
+                self.number_core_orbitals, self.number_valence_orbitals))
         else:
-            input_lines.append("{:<3}{}{:<4}{}\n".format(
-                '', self.number_core_orbitals, '',
-                self.number_valence_orbitals))
+            input_lines.append("   {}    {}\n".format(
+                self.number_core_orbitals, self.number_valence_orbitals))
 
         for orbital in self.valence_orbitals:
             occupation = "      ".join(
                 ["{:.2f}".format(value) for value in orbital["occupation"]])
-            input_lines.append("{:<4}{}{:<4}{}{:<6}{}\n".format(
-                '', orbital["n"], '', orbital["l"], '', occupation))
+            input_lines.append("    {}    {}      {}\n".format(
+                orbital["n"], orbital["l"], occupation))
 
         for line in self.last_lines:
             input_lines.append(line)
