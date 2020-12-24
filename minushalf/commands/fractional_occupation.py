@@ -12,28 +12,23 @@ from minushalf import atomic_program
 
 
 @click.command()
-@click.argument('orbital_quantum_number)', type=click.IntRange(0, 3), nargs=1)
-@click.argument('occupation_percentual',
-                type=click.FloatRange(0, 100),
+@click.argument('occupation_percentual', type=click.FloatRange(0, 100),
                 nargs=1,
                 default=100)
 @click.option('--quiet', default=False, is_flag=True)
-def occupation(orbital_quantum_number: int, occupation_percentual: float,
-               quiet: bool):
+def occupation(occupation_percentual: float, quiet: bool):
     """
-    Perform fractional occupation on the atom and generate the pseudopotential for this occupation.
-    The occupation can subtract any fraction of the electron between 0 and 0.5, half occupation is the default.
+    Perform fractional occupation on the atom and generate the potential for this occupation.
+    The occupation can contain any fraction of the electron between 0 and 0.5, half occupation is the default.
 
     Requires:
-
-        ORBITAL_QUANTUM_NUMBER: defines the orbital in which the occupation will be made,it can assume four values: (0: s | 1: p | 2: d | 3: f)
 
 
         OCCUPATION_PERCENTUAL: The percentual of half eletron to be used in the occupation.
         The default is 100%, wich states for 0.5e.
 
 
-        INP: A copy of the input file used in ATOM program
+        INP: A copy of the input file for the calculation.
 
     Returns:
 
@@ -70,10 +65,9 @@ def occupation(orbital_quantum_number: int, occupation_percentual: float,
         logger.remove()
         logger.add(sys.stdout, level="ERROR")
 
-    input_file = InputFile.from_file()
+    input_file = InputFile()
     logger.info("Adding minus one half electron correction on INP")
-    input_file.electron_occupation(0.5 * (occupation_percentual / 100),
-                                   orbital_quantum_number)
+    input_file.electron_occupation(0.5*(occupation_percentual/100))
 
     os.rename('INP', 'INP.ae')
     input_file.to_file()
