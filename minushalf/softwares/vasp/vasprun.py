@@ -49,15 +49,13 @@ class Vasprun():
 				and their symbols. dict[index] =  symbol
 		"""
         atoms_xml = self._catch_xml_tag(tag="array", name="atoms")
-
         atoms_tree = ET.fromstringlist(atoms_xml)
 
         try:
             atoms = {}
-            for index, value in enumerate(
-                    atoms_tree.find("set").findall("rc")):
+            for value in atoms_tree.find("set").findall("rc"):
                 atom_index = list(value.findall("c"))
-                atoms[str(index + 1)] = atom_index[0].text.strip()
+                atoms[atom_index[1].text.strip()] = atom_index[0].text.strip()
         except:
             raise Exception("Vasprun parser do not found atoms informations")
         finally:
