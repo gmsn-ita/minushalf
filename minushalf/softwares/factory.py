@@ -5,8 +5,7 @@
     - VASP
 """
 from abc import ABC, abstractmethod
-from minushalf.atomic import Vtotal, InputFile
-import minushalf.softwares.vasp as Vasp
+from .vasp import Procar, Vasprun, BandStructure, Eigenvalues
 
 
 class SoftwaresAbstractFactory(ABC):
@@ -19,13 +18,6 @@ class SoftwaresAbstractFactory(ABC):
         """
         Abstract method for create instance of
         band structure class.
-        """
-
-    @abstractmethod
-    def atomic_potential(self) -> any:
-        """
-        Abstract method for create instance of
-        atomic potential class.
         """
 
 
@@ -45,23 +37,8 @@ class VaspFactory(SoftwaresAbstractFactory):
             procar_path (str): Path to PROCAR
 
         """
-        procar = Vasp.Procar(procar_path)
-        vasprun = Vasp.Vasprun(vasprun_path)
-        eigenvalues = Vasp.Eigenvalues(eigenval_path)
+        procar = Procar(procar_path)
+        vasprun = Vasprun(vasprun_path)
+        eigenvalues = Eigenvalues(eigenval_path)
 
-        return Vasp.BandStructure(procar, vasprun, eigenvalues)
-
-    def atomic_potential(self, vtotal: Vtotal, vtotal_occupied: Vtotal,
-                         input_file: InputFile, potcar_path: str):
-        """
-        Concrete method for create instance atomic potential function
-
-        Args:
-            vtotal (Vtotal): atomic pseudopotential of the atom
-            vtotal_occupied (Vtotal): atomic pseudopotential of the occupied atom
-            input_file (Vtotal): input file of the occupied atom
-            potcar (Potcar): input for VASP
-        """
-        potcar = Vasp.Potcar(potcar_path)
-        return Vasp.AtomicPotential(vtotal, vtotal_occupied, input_file,
-                                    potcar)
+        return BandStructure(procar, vasprun, eigenvalues)
