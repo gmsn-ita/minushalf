@@ -132,13 +132,13 @@ def test_get_band_projection_kpt_9_band_11_gan_3d(file_path):
                               kpt_9_band_11_projection[atom_index][index])
 
 
-def test_is_metal_bn_2d(file_path):
+def test_is_metal_gan_2d(file_path):
     """
-    Confirms that ge BN 2d is not an metal.
+    Confirms that ge GaN 2d is not an metal.
     """
-    procar_filename = file_path("/bn-2d/PROCAR")
-    eigenval_filename = file_path("/bn-2d/EIGENVAL")
-    vasprun_filename = file_path("/bn-2d/vasprun.xml")
+    procar_filename = file_path("/gan-3d/PROCAR")
+    eigenval_filename = file_path("/gan-2d/EIGENVAL")
+    vasprun_filename = file_path("/gan-2d/vasprun.xml")
 
     band_structure = BandStructure(procar=Procar(procar_filename),
                                    vasprun=Vasprun(vasprun_filename),
@@ -147,34 +147,35 @@ def test_is_metal_bn_2d(file_path):
     assert band_structure.is_metal() == False
 
 
-def test_vbm_index_bn_2d(file_path):
+def test_vbm_index_gan_2d(file_path):
     """
     Test if the index of the valence maximum band is correct
     """
-    procar_filename = file_path("/bn-2d/PROCAR")
-    eigenval_filename = file_path("/bn-2d/EIGENVAL")
-    vasprun_filename = file_path("/bn-2d/vasprun.xml")
-    kpoint_vbm = 24
-    band_vbm = 4
+    procar_filename = file_path("/gan-2d/PROCAR")
+    eigenval_filename = file_path("/gan-2d/EIGENVAL")
+    vasprun_filename = file_path("/gan-2d/vasprun.xml")
+    kpoint_vbm = 34
+    band_vbm = 9
 
     band_structure = BandStructure(procar=Procar(procar_filename),
                                    vasprun=Vasprun(vasprun_filename),
                                    eigenval=Eigenvalues(eigenval_filename))
 
     vbm_index = band_structure.vbm_index()
+    print(vbm_index)
     assert vbm_index[0] == kpoint_vbm
     assert vbm_index[1] == band_vbm
 
 
-def test_cbm_index_bn_2d(file_path):
+def test_cbm_index_gan_2d(file_path):
     """
     Test if the index of the conduction minimum band is correct
     """
-    procar_filename = file_path("/bn-2d/PROCAR")
-    eigenval_filename = file_path("/bn-2d/EIGENVAL")
-    vasprun_filename = file_path("/bn-2d/vasprun.xml")
+    procar_filename = file_path("/gan-2d/PROCAR")
+    eigenval_filename = file_path("/gan-2d/EIGENVAL")
+    vasprun_filename = file_path("/gan-2d/vasprun.xml")
     kpoint_cbm = 1
-    band_cbm = 5
+    band_cbm = 10
 
     band_structure = BandStructure(procar=Procar(procar_filename),
                                    vasprun=Vasprun(vasprun_filename),
@@ -185,16 +186,16 @@ def test_cbm_index_bn_2d(file_path):
     assert cbm_index[1] == band_cbm
 
 
-def test_vbm_projection_bn_2d(file_path):
+def test_vbm_projection_gan_2d(file_path):
     """
     Test if the projection of the valence maximum band is correct
     """
-    procar_filename = file_path("/bn-2d/PROCAR")
-    eigenval_filename = file_path("/bn-2d/EIGENVAL")
-    vasprun_filename = file_path("/bn-2d/vasprun.xml")
+    procar_filename = file_path("/gan-2d/PROCAR")
+    eigenval_filename = file_path("/gan-2d/EIGENVAL")
+    vasprun_filename = file_path("/gan-2d/vasprun.xml")
     projection = {
-        "B": [0.000, 0.000, 0.008, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000],
-        "N": [0.000, 0.000, 0.606, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000]
+        "Ga": [0.000, 0.000, 0.002, 0.000, 0.000, 0.037, 0.000, 0.022, 0.000],
+        "N": [0.000, 0.000, 0.555, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000]
     }
 
     band_structure = BandStructure(procar=Procar(procar_filename),
@@ -208,16 +209,16 @@ def test_vbm_projection_bn_2d(file_path):
             assert np.isclose(element, projection[atom_index][index])
 
 
-def test_cbm_projection_bn_2d(file_path):
+def test_cbm_projection_gan_2d(file_path):
     """
     Test if the projection of the valence maximum band is correct
     """
-    procar_filename = file_path("/bn-2d/PROCAR")
-    eigenval_filename = file_path("/bn-2d/EIGENVAL")
-    vasprun_filename = file_path("/bn-2d/vasprun.xml")
+    procar_filename = file_path("/gan-2d/PROCAR")
+    eigenval_filename = file_path("/gan-2d/EIGENVAL")
+    vasprun_filename = file_path("/gan-2d/vasprun.xml")
     projection = {
-        "B": [0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000],
-        "N": [0.041, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000]
+        "Ga": [0.314, 0.000, 0.000, 0.000, 0.000, 0.000, 0.028, 0.000, 0.000],
+        "N": [0.238, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000]
     }
 
     band_structure = BandStructure(procar=Procar(procar_filename),
@@ -231,30 +232,30 @@ def test_cbm_projection_bn_2d(file_path):
             assert np.isclose(element, projection[atom_index][index])
 
 
-def test_get_band_projection_kpt_9_band_8_bn_2d(file_path):
+def test_get_band_projection_kpt_9_band_11_gan_2d(file_path):
     """
     Verify if the informations returned about projection
     in the 11ª band of the 9º kpoint is correct for the 2d GaN.
     """
-    procar_filename = file_path("/bn-2d/PROCAR")
-    eigenval_filename = file_path("/bn-2d/EIGENVAL")
-    vasprun_filename = file_path("/bn-2d/vasprun.xml")
+    procar_filename = file_path("/gan-2d/PROCAR")
+    eigenval_filename = file_path("/gan-2d/EIGENVAL")
+    vasprun_filename = file_path("/gan-2d/vasprun.xml")
 
     band_structure = BandStructure(procar=Procar(procar_filename),
                                    vasprun=Vasprun(vasprun_filename),
                                    eigenval=Eigenvalues(eigenval_filename))
 
-    kpt_9_band_8_projection = {
-        "B": [0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000],
-        "N": [0.000, 0.000, 0.032, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000]
+    kpt_9_band_11_projection = {
+        "Ga": [0.000, 0.000, 0.135, 0.000, 0.000, 0.001, 0.000, 0.003, 0.000],
+        "N": [0.000, 0.000, 0.167, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000]
     }
 
-    band_projection = band_structure.band_projection(9, 8)
+    band_projection = band_structure.band_projection(9, 11)
 
     for atom_index, projections in band_projection.items():
         for index, element in enumerate(projections):
             assert np.isclose(element,
-                              kpt_9_band_8_projection[atom_index][index])
+                              kpt_9_band_11_projection[atom_index][index])
 
 
 def test_is_metal_sic_2d(file_path):
@@ -507,129 +508,3 @@ def test_get_band_projection_kpt_9_band_11_gec_2d(file_path):
         for index, element in enumerate(projections):
             assert np.isclose(element,
                               kpt_9_band_11_projection[atom_index][index])
-
-
-def test_is_metal_aln_2d(file_path):
-    """
-    Confirms that AlN 2d is not an metal.
-    """
-    procar_filename = file_path("/aln-2d/PROCAR")
-    eigenval_filename = file_path("/aln-2d/EIGENVAL")
-    vasprun_filename = file_path("/aln-2d/vasprun.xml")
-
-    band_structure = BandStructure(procar=Procar(procar_filename),
-                                   vasprun=Vasprun(vasprun_filename),
-                                   eigenval=Eigenvalues(eigenval_filename))
-
-    assert band_structure.is_metal() == False
-
-
-def test_vbm_index_aln_2d(file_path):
-    """
-    Test if the index of the valence maximum band is correct
-    """
-    procar_filename = file_path("/aln-2d/PROCAR")
-    eigenval_filename = file_path("/aln-2d/EIGENVAL")
-    vasprun_filename = file_path("/aln-2d/vasprun.xml")
-    kpoint_vbm = 16
-    band_vbm = 4
-
-    band_structure = BandStructure(procar=Procar(procar_filename),
-                                   vasprun=Vasprun(vasprun_filename),
-                                   eigenval=Eigenvalues(eigenval_filename))
-
-    vbm_index = band_structure.vbm_index()
-    print(vbm_index)
-    assert vbm_index[0] == kpoint_vbm
-    assert vbm_index[1] == band_vbm
-
-
-def test_cbm_index_aln_2d(file_path):
-    """
-    Test if the index of the conduction minimum band is correct
-    """
-    procar_filename = file_path("/aln-2d/PROCAR")
-    eigenval_filename = file_path("/aln-2d/EIGENVAL")
-    vasprun_filename = file_path("/aln-2d/vasprun.xml")
-    kpoint_cbm = 1
-    band_cbm = 5
-
-    band_structure = BandStructure(procar=Procar(procar_filename),
-                                   vasprun=Vasprun(vasprun_filename),
-                                   eigenval=Eigenvalues(eigenval_filename))
-
-    cbm_index = band_structure.cbm_index()
-    assert cbm_index[0] == kpoint_cbm
-    assert cbm_index[1] == band_cbm
-
-
-def test_vbm_projection_aln_2d(file_path):
-    """
-    Test if the projection of the valence maximum band is correct
-    """
-    procar_filename = file_path("/aln-2d/PROCAR")
-    eigenval_filename = file_path("/aln-2d/EIGENVAL")
-    vasprun_filename = file_path("/aln-2d/vasprun.xml")
-    projection = {
-        "Al": [0.000, 0.000, 0.002, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000],
-        "N": [0.000, 0.000, 0.510, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000]
-    }
-
-    band_structure = BandStructure(procar=Procar(procar_filename),
-                                   vasprun=Vasprun(vasprun_filename),
-                                   eigenval=Eigenvalues(eigenval_filename))
-
-    vbm_projection = band_structure.vbm_projection()
-
-    for atom_index, projections in vbm_projection.items():
-        for index, element in enumerate(projections):
-            assert np.isclose(element, projection[atom_index][index])
-
-
-def test_cbm_projection_aln_2d(file_path):
-    """
-    Test if the projection of the valence maximum band is correct
-    """
-    procar_filename = file_path("/aln-2d/PROCAR")
-    eigenval_filename = file_path("/aln-2d/EIGENVAL")
-    vasprun_filename = file_path("/aln-2d/vasprun.xml")
-    projection = {
-        "Al": [0.055, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000],
-        "N": [0.132, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000]
-    }
-
-    band_structure = BandStructure(procar=Procar(procar_filename),
-                                   vasprun=Vasprun(vasprun_filename),
-                                   eigenval=Eigenvalues(eigenval_filename))
-
-    cbm_projection = band_structure.cbm_projection()
-
-    for atom_index, projections in cbm_projection.items():
-        for index, element in enumerate(projections):
-            assert np.isclose(element, projection[atom_index][index])
-
-
-def test_get_band_projection_kpt_9_band_8_aln_2d(file_path):
-    """
-    Verify if the informations returned about projection
-    in the 11ª band of the 9º kpoint is correct for the 2d GeC.
-    """
-    procar_filename = file_path("/aln-2d/PROCAR")
-    eigenval_filename = file_path("/aln-2d/EIGENVAL")
-    vasprun_filename = file_path("/aln-2d/vasprun.xml")
-
-    band_structure = BandStructure(procar=Procar(procar_filename),
-                                   vasprun=Vasprun(vasprun_filename),
-                                   eigenval=Eigenvalues(eigenval_filename))
-
-    kpt_9_band_8_projection = {
-        "Al": [0.000, 0.000, 0.033, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000],
-        "N": [0.000, 0.000, 0.011, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000]
-    }
-
-    band_projection = band_structure.band_projection(9, 8)
-
-    for atom_index, projections in band_projection.items():
-        for index, element in enumerate(projections):
-            assert np.isclose(element,
-                              kpt_9_band_8_projection[atom_index][index])

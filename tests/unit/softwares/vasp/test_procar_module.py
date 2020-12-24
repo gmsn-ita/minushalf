@@ -67,17 +67,17 @@ def test_get_band_projection_kpt_9_band_11_gan_3d(file_path):
                               kpt_9_band_11_projection[atom_index][index])
 
 
-def test_parse_procar_header_bn_2d(file_path):
+def test_parse_procar_header_gan_2d(file_path):
     """
     Test if the procar header is correctly parsed.
     The header of poscar has 3 lines and contain informations
     about the total number of kpoints and the number of
     bands for each kpoint.
     """
-    filename = file_path("/bn-2d/PROCAR")
+    filename = file_path("/gan-2d/PROCAR")
     procar = Procar(filename)
-    number_of_kpoints = 24
-    number_of_bands = 8
+    number_of_kpoints = 36
+    number_of_bands = 16
     size_procar_header = 3
 
     assert procar.num_kpoints == number_of_kpoints
@@ -85,17 +85,17 @@ def test_parse_procar_header_bn_2d(file_path):
     assert procar.size_procar_header == size_procar_header
 
 
-def test_get_band_projection_kpt_1_band_5_bn_2d(file_path):
+def test_get_band_projection_kpt_1_band_5_gan_2d(file_path):
     """
     Verify if the informations returned about projection
-    in the 5ª band of the 1º kpoint is correct for the 2d BN.
+    in the 5ª band of the 1º kpoint is correct for the 2d GaN.
     """
-    filename = file_path("/bn-2d/PROCAR")
+    filename = file_path("/gan-2d/PROCAR")
     procar = Procar(filename)
 
     kpt_1_band_5_projection = {
-        '1': [0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000],
-        '2': [0.041, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000]
+        '1': [0.000, 0.000, 0.000, 0.000, 0.000, 0.002, 0.000, 0.991, 0.000],
+        '2': [0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000]
     }
 
     band_projection = procar.get_band_projection(1, 5)
@@ -106,25 +106,25 @@ def test_get_band_projection_kpt_1_band_5_bn_2d(file_path):
                               kpt_1_band_5_projection[atom_index][index])
 
 
-def test_get_band_projection_kpt_9_band_8_bn_2d(file_path):
+def test_get_band_projection_kpt_9_band_11_gan_2d(file_path):
     """
     Verify if the informations returned about projection
     in the 11ª band of the 9º kpoint is correct for the 2d GaN.
     """
-    filename = file_path("/bn-2d/PROCAR")
+    filename = file_path("/gan-2d/PROCAR")
     procar = Procar(filename)
 
-    kpt_9_band_8_projection = {
-        '1': [0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000],
-        '2': [0.000, 0.000, 0.032, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000]
+    kpt_9_band_11_projection = {
+        '1': [0.000, 0.000, 0.135, 0.000, 0.000, 0.001, 0.000, 0.003, 0.000],
+        '2': [0.000, 0.000, 0.167, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000]
     }
 
-    band_projection = procar.get_band_projection(9, 8)
+    band_projection = procar.get_band_projection(9, 11)
 
     for atom_index, projections in band_projection.items():
         for index, element in enumerate(projections):
             assert np.isclose(element,
-                              kpt_9_band_8_projection[atom_index][index])
+                              kpt_9_band_11_projection[atom_index][index])
 
 
 def test_parse_procar_header_sic_2d(file_path):
@@ -245,63 +245,3 @@ def test_get_band_projection_kpt_9_band_11_gec_2d(file_path):
         for index, element in enumerate(projections):
             assert np.isclose(element,
                               kpt_9_band_11_projection[atom_index][index])
-
-
-def test_parse_procar_header_aln_2d(file_path):
-    """
-    Test if the procar header is correctly parsed.
-    The header of poscar has 3 lines and contain informations
-    about the total number of kpoints and the number of
-    bands for each kpoint.
-    """
-    filename = file_path("/aln-2d/PROCAR")
-    procar = Procar(filename)
-    number_of_kpoints = 16
-    number_of_bands = 8
-    size_procar_header = 3
-
-    assert procar.num_kpoints == number_of_kpoints
-    assert procar.num_bands == number_of_bands
-    assert procar.size_procar_header == size_procar_header
-
-
-def test_get_band_projection_kpt_1_band_5_aln_2d(file_path):
-    """
-    Verify if the informations returned about projection
-    in the 5ª band of the 1º kpoint is correct for the 2d AlN.
-    """
-    filename = file_path("/aln-2d/PROCAR")
-    procar = Procar(filename)
-
-    kpt_1_band_5_projection = {
-        '1': [0.055, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000],
-        '2': [0.132, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000]
-    }
-
-    band_projection = procar.get_band_projection(1, 5)
-
-    for atom_index, projections in band_projection.items():
-        for index, element in enumerate(projections):
-            assert np.isclose(element,
-                              kpt_1_band_5_projection[atom_index][index])
-
-
-def test_get_band_projection_kpt_9_band_8_bn_2d(file_path):
-    """
-    Verify if the informations returned about projection
-    in the 11ª band of the 9º kpoint is correct for the 2d GaN.
-    """
-    filename = file_path("/aln-2d/PROCAR")
-    procar = Procar(filename)
-
-    kpt_9_band_8_projection = {
-        '1': [0.000, 0.000, 0.033, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000],
-        '2': [0.000, 0.000, 0.011, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000]
-    }
-
-    band_projection = procar.get_band_projection(9, 8)
-
-    for atom_index, projections in band_projection.items():
-        for index, element in enumerate(projections):
-            assert np.isclose(element,
-                              kpt_9_band_8_projection[atom_index][index])

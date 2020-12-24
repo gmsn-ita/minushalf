@@ -1,5 +1,6 @@
 """
-Aims to show how the last valence band are composed by the orbitals of each atom.
+Aims to show how the last conduction band and the
+first valence band are composed by the orbitals of each atom.
 """
 import click
 import pandas as pd
