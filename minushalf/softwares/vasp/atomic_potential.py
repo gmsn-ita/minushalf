@@ -82,20 +82,16 @@ class AtomicPotential():
             amplitude = abs(amplitude) * -1
 
         occupation_potential = self.occupy_potential(cut, amplitude)
-        wave_vectors = np.arange(len(self.potcar.potential)) * (
-            self.potcar.k_max / len(self.potcar.potential))
+        wave_vectors = np.arange((len(self.potcar.fourier_coefficients))(
+            self.potcar.k_max / len(self.potcar.fourier_coefficients)))
 
-        correct_potential = np.vectorize(
-            correct_potential_fourier_transform,
-            excluded=['rays', 'occupation_potential'],
-        )
-
+        correct_potential = np.vectorize(correct_potential_fourier_transform)
         potential = correct_potential(
-            coefficient=self.potcar.potential,
-            k=wave_vectors,
-            rays=np.array(self.vtotal.radius, dtype=object),
-            occupation_potential=np.array(occupation_potential, dtype=object),
-            cut=cut,
+            self.potcar.fourier_coefficients,
+            wave_vectors,
+            self.vtotal.radius,
+            occupation_potential,
+            cut,
         )
 
         return potential

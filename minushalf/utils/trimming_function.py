@@ -39,7 +39,6 @@ def trimming_function(radius: float, ion_potential: float, atom_potential,
     if radius >= cut:
         return 0
 
-    return (4 * const.pi_constant * const.rydberg *
-            np.power(const.bohr_radius, 3) *
+    return (4 * const.pi * const.rydberg * np.power(const.bohr_radius, 3) *
             np.power(1 - np.power(radius / cut, const.trimming_exponent), 3) *
             (ion_potential - atom_potential) * amplitude)

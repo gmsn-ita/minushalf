@@ -7,6 +7,7 @@ import click
 from numpy import arange
 from loguru import logger
 from minushalf.utils import welcome_message, end_message
+from minushalf.corrections import Corrections
 
 
 @click.command()
