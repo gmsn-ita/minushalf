@@ -6,10 +6,8 @@ from numpy.distutils.core import Extension, setup
 
 atomic_program = Extension(
     name="minushalf.atomic_program",
-    sources=[
-        "minushalf/atomic_program/atm_cGuima3.f",
-        "minushalf/atomic_program/atm_cGuima3.pyf"
-    ],
+    sources=["minushalf/atomic_program/atm_cGuima3.f",
+             "minushalf/atomic_program/atm_cGuima3.pyf"],
 )
 
 setup(
@@ -19,8 +17,7 @@ setup(
     include_package_data=True,
     author="Henrique Fernandes",
     author_email="hentt30@gmail.com",
-    description=
-    "CLI to provides Pre processing tools for DFT -1/2 calculations",
+    description="CLI to provides Pre processing tools for DFT -1/2 calculations",
     license="GPL",
     install_requires=["pymatgen", "Click", "pyfiglet", "loguru"],
     entry_points="""
