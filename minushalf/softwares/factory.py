@@ -4,7 +4,6 @@
     Supports the following softwares:
     - VASP
 """
-import os
 from abc import ABC, abstractmethod
 from .vasp import (
     BandStructure as VaspBs,
@@ -42,13 +41,8 @@ class VaspFactory(SoftwaresAbstractFactory):
     Concrete Factory for create instances
     for each supported software.
     """
-    def band_structure(
-        self,
-        vasprun_path: str = "vasprun.xml",
-        procar_path: str = "PROCAR",
-        eigenval_path: str = "EIGENVAL",
-        base_path: str = None,
-    ) -> any:
+    def band_structure(self, vasprun_path: str, procar_path: str,
+                       eigenval_path: str) -> any:
         """
         Concrete method for create instance band structure function
 
@@ -56,25 +50,16 @@ class VaspFactory(SoftwaresAbstractFactory):
             vasprun_path (str): Path to vasprun.xml
             eigenval_path (str): Path to EIGENVAL
             procar_path (str): Path to PROCAR
-            base_path(str): Base path to be apllied in all remaining filenames
 
         """
-        if base_path:
-            procar_path = os.path.join(base_path, procar_path)
-            vasprun_path = os.path.join(base_path, vasprun_path)
-            eigenval_path = os.path.join(base_path, eigenval_path)
         procar = Procar(procar_path)
         vasprun = Vasprun(vasprun_path)
         eigenvalues = VaspEigenval(eigenval_path)
 
         return VaspBs(procar, vasprun, eigenvalues)
 
-    def atomic_potential(self,
-                         vtotal: Vtotal,
-                         vtotal_occupied: Vtotal,
-                         input_file: InputFile,
-                         potcar_path: str = 'POTCAR',
-                         base_path: str = None):
+    def atomic_potential(self, vtotal: Vtotal, vtotal_occupied: Vtotal,
+                         input_file: InputFile, potcar_path: str):
         """
         Concrete method for create instance atomic potential function
 
@@ -83,9 +68,6 @@ class VaspFactory(SoftwaresAbstractFactory):
             vtotal_occupied (Vtotal): atomic pseudopotential of the occupied atom
             input_file (Vtotal): input file of the occupied atom
             potcar (Potcar): input for VASP
-            base_path (str): base_path to potcar
         """
-        if base_path:
-            potcar_path = os.path.join(base_path, potcar_path)
         potcar = Potcar(potcar_path)
         return VaspAtomPotential(vtotal, vtotal_occupied, input_file, potcar)
