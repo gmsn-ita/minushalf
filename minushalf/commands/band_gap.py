@@ -64,8 +64,5 @@ def band_gap(software: str, procar_path: str, eigenval_path: str,
     softwares = {"VASP": lambda params: Vasp().band_structure(**params)}
 
     band_structure = softwares[software.upper()](optional_params)
-    gap_report = band_structure.band_gap()
-    click.echo(gap_report["vbm"])
-    click.echo(gap_report["cbm"])
-    click.echo("Gap: {:.3f}eV".format(gap_report["gap"]))
+
     end_message()

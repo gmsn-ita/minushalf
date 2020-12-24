@@ -10,7 +10,6 @@ from minushalf.commands import (
     band_character,
     create_input,
     correct_potfile,
-    band_gap,
 )
 
 
@@ -26,6 +25,5 @@ minushalf.add_command(occupation)
 minushalf.add_command(vbm_character)
 minushalf.add_command(cbm_character)
 minushalf.add_command(band_character)
-minushalf.add_command(band_gap)
 minushalf.add_command(create_input)
 minushalf.add_command(correct_potfile)
