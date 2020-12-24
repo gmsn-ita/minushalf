@@ -3,9 +3,10 @@ Aims to show how the band in a specific k-point is
 composed by the orbitals of each atom.
 """
 import click
+import pandas as pd
 from pathlib import Path
 from minushalf.softwares import Vasp
-from minushalf.utils import (welcome_message, end_message, projection_to_df)
+from minushalf.utils import welcome_message, end_message, Orbital, OrbitalType
 
 
 @click.command()
@@ -66,9 +67,23 @@ def band_character(kpoint: int, band: int, software: str, procar_path: str,
     softwares = {"VASP": lambda params: Vasp().band_structure(**params)}
 
     band_structure = softwares[software.upper()](optional_params)
-    band_projection = band_structure.band_projection(kpoint, band)
-    normalized_df = projection_to_df(band_projection)
+    vbm_projection = band_structure.band_projection(kpoint, band)
+    orbitals = [orbital.__str__() for orbital in Orbital]
+    projection_df = (pd.DataFrame.from_dict(vbm_projection,
+                                            orient="index",
+                                            columns=orbitals))
+    normalized_df = projection_df.div(projection_df.sum().sum())
+    normalized_df = normalized_df.mul(100)
 
+    orbital_type = [str(elem) for elem in OrbitalType]
+
+    def join_orbitals(cols):
+        return [
+            cat for col in cols for cat in orbital_type if col.startswith(cat)
+        ]
+
+    normalized_df = normalized_df.groupby(join_orbitals(projection_df.columns),
+                                          axis=1).sum().round()
     click.echo(normalized_df.to_markdown())
 
     end_message()

@@ -11,7 +11,7 @@ from minushalf.atomic import InputFile
 def test_minimum_setup(file_path):
     """
     Test minimum setup function to
-    generate INP files with the elements
+    generate INP files with the elements 
     symbol and the functional of exchange and exchange
     correlation
     """
@@ -126,7 +126,6 @@ def test_exchange_and_correlation_functional():
         InputFile(type_correlation, "ae", "Ge", "", 1, 1, [])
 
 
-@pytest.mark.xfail
 def test_exchange_and_correlation_functional_relativistic():
     """
         Test if the factor of correlation and exchange with
@@ -139,7 +138,6 @@ def test_exchange_and_correlation_functional_relativistic():
         InputFile(type_correlation, "ae", "Ge", "", 1, 1, [])
 
 
-@pytest.mark.xfail
 def test_exchange_and_correlation_functional_spin():
     """
         Test if the factor of correlation and exchange with
@@ -164,25 +162,25 @@ def test_chemical_symbol():
 @pytest.mark.xfail
 def test_pass_wrong_exchange_functional():
     """
-        Pass wrong correlation and exchange functional and
+        Pass wrong correlation and exchange functional and 
         expect to fail
         """
-    InputFile('sd', 'ae', 'Ge', "", 1, 1, [])
+    inp = InputFile('sd', 'ae', 'Ge', "", 1, 1, [])
 
 
 @pytest.mark.xfail
 def test_pass_wrong_calculation_code():
     """
-        Pass wrong calculation code and
+        Pass wrong calculation code and 
         expect to fail
         """
-    InputFile('pb', 'ee', 'Ge', "", 1, 1, [])
+    inp = InputFile('pb', 'ee', 'Ge', "", 1, 1, [])
 
 
 @pytest.mark.xfail
 def test_pass_wrong_chemical_symbol():
     """
-        Pass wrong chemical symbol and
+        Pass wrong chemical symbol and 
         expect to fail
         """
-    InputFile('pb', 'ae', 'Ss', "", 1, 1, [])
+    inp = InputFile('pb', 'ae', 'Ss', "", 1, 1, [])

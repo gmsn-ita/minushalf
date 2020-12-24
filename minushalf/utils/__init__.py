@@ -10,4 +10,3 @@ from .periodic_table import PeriodicTable
 from .constants import Constants
 from .trimming_function import trimming_function
 from .correct_potential_fourier_transform import correct_potential_fourier_transform
-from .projection_to_df import projection_to_df
