@@ -195,8 +195,7 @@ class InputFile:
         for orbital in self.valence_orbitals:
             occupation = "      ".join(
                 ["{:.2f}".format(value) for value in orbital["occupation"]])
-
-            input_lines.append("{:<4}{}{:<4}{}{:<5}{}\n".format(
+            input_lines.append("{:<4}{}{:<4}{}{:<6}{}\n".format(
                 "", orbital["n"], "", orbital["l"], "", occupation))
 
         for line in self.last_lines:
