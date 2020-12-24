@@ -1,11 +1,11 @@
 [tool.poetry]
-name = "minushalf"
+name = "dftminushalf"
 version = "1.0"
 description = "Preprocessing tools for help in dft minus one half calculations"
 authors = ["Henrique <hentt30@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.7"
 
 [tool.poetry.dev-dependencies]
 

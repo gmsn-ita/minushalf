@@ -37,8 +37,5 @@ class VaspFactory(SoftwaresAbstractFactory):
             procar_path (str): Path to PROCAR
 
         """
-        procar = Procar(procar_path)
-        vasprun = Vasprun(vasprun_path)
-        eigenvalues = Eigenvalues(eigenval_path)
-
-        return BandStructure(procar, vasprun, eigenvalues)
+        return BandStructure(Procar(procar_path), Vasprun(vasprun_path),
+                             Eigenvalues(eigenval_path))

@@ -29,15 +29,13 @@ class BandStructure():
         Returns:
             True if a metal, False if not
         """
-        eigevalues = [*self.eigenval.eigenvalues.values()]
-        for index in range(self.procar.num_bands):
-            band_eigenvalues = np.array([array[index] for array in eigevalues],
-                                        dtype=np.float)
-            if np.any(band_eigenvalues -
-                      self.vasprun.fermi_energy < -tolerance) and np.any(
-                          band_eigenvalues -
-                          self.vasprun.fermi_energy > tolerance):
-                return True
+        for _, values in self.eigenval.eigenvalues.items():
+            for i in range(self.procar.num_bands):
+                if np.any(values[i, :] -
+                          self.vasprun.fermi_energy < -tolerance) and np.any(
+                              values[i, :] -
+                              self.vasprun.fermi_energy > tolerance):
+                    return True
         return False
 
     def vbm_index(self) -> tuple:
@@ -55,12 +53,11 @@ class BandStructure():
         band_vbm = None
         max_energy_reached = -inf
         for kpoint, values in self.eigenval.eigenvalues.items():
-            for band_index, energy in enumerate(values):
+            for energy in values:
                 if energy < self.vasprun.fermi_energy and energy > max_energy_reached:
                     max_energy_reached = energy
                     kpoint_vbm = kpoint
-                    band_vbm = band_index + 1
-
+                    band_vbm = band
         return (kpoint_vbm, band_vbm)
 
     def cbm_index(self) -> tuple:
@@ -78,11 +75,11 @@ class BandStructure():
         band_cbm = None
         min_energy_reached = inf
         for kpoint, values in self.eigenval.eigenvalues.items():
-            for band_index, energy in enumerate(values):
+            for energy in values:
                 if energy >= self.vasprun.fermi_energy and energy < min_energy_reached:
                     min_energy_reached = energy
                     kpoint_cbm = kpoint
-                    band_cbm = band_index + 1
+                    band_cbm = band
         return (kpoint_cbm, band_cbm)
 
     def vbm_projection(self) -> defaultdict(list):
@@ -95,13 +92,7 @@ class BandStructure():
                 of each orbital of each atom in the respective band
         """
         vbm_index = self.vbm_index()
-
-        procar_projection = self.procar.get_band_projection(*vbm_index)
-
-        vbm_projection = {}
-        for index, symbol in self.vasprun.atoms_map.items():
-            vbm_projection[symbol] = procar_projection[index]
-        return vbm_projection
+        return self.procar.get_band_projection(*vbm_index)
 
     def cbm_projection(self) -> defaultdict(list):
         """
@@ -112,13 +103,8 @@ class BandStructure():
                 vbm_projection (defaultdict(list)): Contains the projection
                 of each orbital of each atom in the respective band
         """
-        cbm_index = self.cbm_index()
-        procar_projection = self.procar.get_band_projection(*cbm_index)
-
-        cbm_projection = {}
-        for index, symbol in self.vasprun.atoms_map.items():
-            cbm_projection[symbol] = procar_projection[index]
-        return cbm_projection
+        cbm_index = self.vbm_index()
+        return self.procar.get_band_projection(*cbm_index)
 
     def band_projection(self, kpoint: int, band: int) -> defaultdict(list):
         """
@@ -131,9 +117,4 @@ class BandStructure():
                 band_projection (defaultdict(list)): Contains the projection
                 of each orbital of each atom in the respective band
         """
-        procar_projection = self.procar.get_band_projection(kpoint, band)
-
-        band_projection = {}
-        for index, symbol in self.vasprun.atoms_map.items():
-            band_projection[symbol] = procar_projection[index]
-        return band_projection
+        return self.procar.get_band_projection(kpoint, band)

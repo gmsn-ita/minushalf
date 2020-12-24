@@ -3,7 +3,6 @@ Reads procar file, an output of
 VASP software
 """
 import re
-from itertools import islice
 
 
 class Procar():
@@ -40,7 +39,7 @@ class Procar():
                 if regex.match(line):
                     number_kpoints = regex.match(line).group(1)
                     number_bands = regex.match(line).group(2)
-                    return (int(number_kpoints), int(number_bands))
+                    return (number_kpoints, number_bands)
 
     def get_band_projection(self, kpoint: int, band_number: int):
         """
@@ -55,7 +54,7 @@ class Procar():
         projections_regex = re.compile(
             r"^\s*([0-9]+)\s*([-+]?[0-9]*\.?[0-9]+)")
 
-        with open(self.filename, "r") as procar:
+        with open(self.procar_path, "r") as procar:
             current_kpoint = None
             current_band = None
             band_energy = None
@@ -73,8 +72,7 @@ class Procar():
                 if current_kpoint == kpoint and current_band == band_number:
                     if projections_regex.match(line):
                         parsed_line = line.split()
-                        projections["{}".format(parsed_line[0])] = [
-                            float(elem) for elem in parsed_line[1:-1]
-                        ]
+                        projections["{}".format(
+                            parsed_line[0])] = parsed_line[1:]
                 elif current_kpoint and current_kpoint > kpoint:
                     return projections
