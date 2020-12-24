@@ -26,7 +26,7 @@ class Vtotal():
         self.down_potential = down_potential
 
     @staticmethod
-    def from_file(filename: str = "./VTOTAL.ae") -> Vtotal:
+    def from_file(filename: str = './VTOTAL.ae') -> Vtotal:
         """
         Parse VTOTAL and extract the following informations
         """
@@ -43,7 +43,7 @@ class Vtotal():
                 filename (str): Name of the VTOTAL file
         """
 
-        with open(filename, "r") as vtotal:
+        with open(filename, 'r') as vtotal:
             initial_regex = re.compile(r"^.*Down\s+potential\s+follows")
             for line in vtotal:
                 if initial_regex.match(line):
@@ -73,7 +73,7 @@ class Vtotal():
                 filename (str): Name of the VTOTAL file
         """
 
-        with open(filename, "r") as vtotal:
+        with open(filename, 'r') as vtotal:
             radius = []
             vtotal_header_size = 1  # Skip the header Raios
             stop_regex = re.compile(r"^.*Down\s+potential\s+follows")
