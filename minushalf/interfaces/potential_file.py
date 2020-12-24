@@ -42,10 +42,3 @@ class PotentialFile(ABC):
         the maximum modulus of
         the wave vector in reciprocal space
         """
-
-    @abstractmethod
-    def get_name(self) -> float:
-        """
-        Abstract methods returns
-        the name of the potential file
-        """

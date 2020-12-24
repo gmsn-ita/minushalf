@@ -60,6 +60,13 @@ class SoftwaresAbstractFactory(ABC):
         """
 
     @abstractmethod
+    def get_potential_filename(self) -> str:
+        """
+        Abstract method for returns the name
+        of the file containing the potential fourier transform
+        """
+
+    @abstractmethod
     def get_eigenvalues(self, filename: str, base_path: str = None) -> dict:
         """
         Abstract method for returns eigenvalues

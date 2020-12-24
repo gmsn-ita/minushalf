@@ -6,8 +6,7 @@
 """
 import os
 from minushalf.interfaces import SoftwaresAbstractFactory
-from minushalf.utils import (check_procar_exists, check_vasprun_exists,
-                             check_eigenval_exists, check_potcar_exists)
+from minushalf.utils import check_file_exists
 from .vasp import (
     Procar,
     Vasprun,
@@ -21,7 +20,7 @@ class VaspFactory(SoftwaresAbstractFactory):
     Concrete Factory for create instances
     for each supported software.
     """
-    @check_vasprun_exists
+    @check_file_exists
     def get_atoms_map(self,
                       filename: str = "vasprun.xml",
                       base_path: str = None) -> dict:
@@ -38,7 +37,7 @@ class VaspFactory(SoftwaresAbstractFactory):
         vasprun = Vasprun(filename)
         return vasprun.atoms_map
 
-    @check_vasprun_exists
+    @check_file_exists
     def get_fermi_energy(self,
                          filename: str = "vasprun.xml",
                          base_path: str = None) -> float:
@@ -55,7 +54,7 @@ class VaspFactory(SoftwaresAbstractFactory):
         vasprun = Vasprun(filename)
         return vasprun.fermi_energy
 
-    @check_procar_exists
+    @check_file_exists
     def get_band_projection_class(
         self,
         filename: str = "PROCAR",
@@ -74,7 +73,7 @@ class VaspFactory(SoftwaresAbstractFactory):
             filename = os.path.join(base_path, filename)
         return Procar(filename)
 
-    @check_procar_exists
+    @check_file_exists
     def get_number_of_bands(self,
                             filename: str = "PROCAR",
                             base_path: str = None) -> int:
@@ -91,7 +90,7 @@ class VaspFactory(SoftwaresAbstractFactory):
         procar = Procar(filename)
         return procar.num_bands
 
-    @check_procar_exists
+    @check_file_exists
     def get_number_of_kpoints(self,
                               filename: str = "PROCAR",
                               base_path: str = None) -> int:
@@ -108,7 +107,7 @@ class VaspFactory(SoftwaresAbstractFactory):
         procar = Procar(filename)
         return procar.num_kpoints
 
-    @check_potcar_exists
+    @check_file_exists
     def get_potential_class(
         self,
         filename: str = "POTCAR",
@@ -126,7 +125,18 @@ class VaspFactory(SoftwaresAbstractFactory):
             filename = os.path.join(base_path, filename)
         return Potcar(filename)
 
-    @check_eigenval_exists
+    def get_potential_filename(self) -> str:
+        """
+            Args:
+                filename (str): Path to POTCAR
+                base_path (str): In case you do not need to specify
+                the file name, go to the directory where it is located
+            Returns:
+                Potcar_name: deafault name of potential file in vasp
+        """
+        return "POTCAR"
+
+    @check_file_exists
     def get_eigenvalues(self,
                         filename: str = "EIGENVAL",
                         base_path: str = None) -> dict:

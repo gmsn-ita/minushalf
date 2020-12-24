@@ -3,10 +3,9 @@ Aims to show how the band in a specific k-point is
 composed by the orbitals of each atom.
 """
 import click
-from minushalf.data import Softwares
-from minushalf.softwares import VaspFactory
-from minushalf.utils import (welcome_message, end_message, projection_to_df,
-                             BandStructure)
+from pathlib import Path
+from minushalf.softwares import Vasp
+from minushalf.utils import (welcome_message, end_message, projection_to_df)
 
 
 @click.command()
@@ -14,20 +13,38 @@ from minushalf.utils import (welcome_message, end_message, projection_to_df,
 @click.argument('band', nargs=1, type=int)
 @click.option('-s',
               '--software',
-              type=click.Choice(Softwares.to_list(), case_sensitive=False),
-              default=Softwares.vasp.value,
+              type=click.Choice(['VASP'], case_sensitive=False),
+              default="VASP",
               show_default=True,
               help="""Specifies the software used to define the
               structure of the file containing the atoms potential.""")
+@click.option('-p',
+              '--procar-path',
+              type=click.Path(exists=True),
+              default="PROCAR",
+              nargs=1,
+              show_default=True,
+              help="""Path to PROCAR file. This is only used if the software
+              choosed were VASP.""")
+@click.option('-e',
+              '--eigenval-path',
+              default="EIGENVAL",
+              type=click.Path(exists=True),
+              nargs=1,
+              show_default=True,
+              help="""Path to EIGENVAL file. This is only used if the software
+              choosed were VASP.""")
 @click.option(
-    '-b',
-    '--base-path',
-    type=click.Path(),
+    '-v',
+    '--vasprun-path',
+    type=click.Path(exists=True),
+    default="vasprun.xml",
     nargs=1,
-    help="""folder where the necessary files for the calculation are located"""
-)
-def band_character(kpoint: int, band: int, software: str,
-                   base_path: str) -> None:
+    show_default=True,
+    help="""Path to vasprun.xml file. This is only used if the software
+              choosed were VASP.""")
+def band_character(kpoint: int, band: int, software: str, procar_path: str,
+                   eigenval_path: str, vasprun_path: str) -> None:
     """Uses softwares output files about projections in bands to
     calculate its character. It has to receive a path to an specific file, the list
     of the default names for each software is find bellow:
@@ -37,19 +54,18 @@ def band_character(kpoint: int, band: int, software: str,
 
     welcome_message("minushalf")
 
-    softwares = {"VASP": VaspFactory()}
+    optional_params = {}
 
-    factory = softwares[software.upper()]
+    if software == "VASP":
+        optional_params = {
+            "procar_path": Path(procar_path).__str__(),
+            "eigenval_path": Path(eigenval_path).__str__(),
+            "vasprun_path": Path(vasprun_path).__str__(),
+        }
 
-    eigenvalues = factory.get_eigenvalues(base_path=base_path)
-    fermi_energy = factory.get_fermi_energy(base_path=base_path)
-    atoms_map = factory.get_atoms_map(base_path=base_path)
-    num_bands = factory.get_number_of_bands(base_path=base_path)
-    band_projection_file = factory.get_band_projection_class(
-        base_path=base_path)
+    softwares = {"VASP": lambda params: Vasp().band_structure(**params)}
 
-    band_structure = BandStructure(eigenvalues, fermi_energy, atoms_map,
-                                   num_bands, band_projection_file)
+    band_structure = softwares[software.upper()](optional_params)
     band_projection = band_structure.band_projection(kpoint, band)
     normalized_df = projection_to_df(band_projection)
 
