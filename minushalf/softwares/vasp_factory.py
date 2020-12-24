@@ -6,6 +6,7 @@
 """
 import os
 from minushalf.interfaces import SoftwaresAbstractFactory
+from minushalf.utils import check_file_exists
 from .vasp import (
     Procar,
     Vasprun,
@@ -19,6 +20,7 @@ class VaspFactory(SoftwaresAbstractFactory):
     Concrete Factory for create instances
     for each supported software.
     """
+    @check_file_exists
     def get_atoms_map(self,
                       filename: str = "vasprun.xml",
                       base_path: str = None) -> dict:
@@ -35,6 +37,7 @@ class VaspFactory(SoftwaresAbstractFactory):
         vasprun = Vasprun(filename)
         return vasprun.atoms_map
 
+    @check_file_exists
     def get_fermi_energy(self,
                          filename: str = "vasprun.xml",
                          base_path: str = None) -> float:
@@ -51,6 +54,7 @@ class VaspFactory(SoftwaresAbstractFactory):
         vasprun = Vasprun(filename)
         return vasprun.fermi_energy
 
+    @check_file_exists
     def get_band_projection_class(
         self,
         filename: str = "PROCAR",
@@ -69,6 +73,7 @@ class VaspFactory(SoftwaresAbstractFactory):
             filename = os.path.join(base_path, filename)
         return Procar(filename)
 
+    @check_file_exists
     def get_number_of_bands(self,
                             filename: str = "PROCAR",
                             base_path: str = None) -> int:
@@ -85,6 +90,7 @@ class VaspFactory(SoftwaresAbstractFactory):
         procar = Procar(filename)
         return procar.num_bands
 
+    @check_file_exists
     def get_number_of_kpoints(self,
                               filename: str = "PROCAR",
                               base_path: str = None) -> int:
@@ -101,6 +107,7 @@ class VaspFactory(SoftwaresAbstractFactory):
         procar = Procar(filename)
         return procar.num_kpoints
 
+    @check_file_exists
     def get_potential_class(
         self,
         filename: str = "POTCAR",
@@ -129,6 +136,7 @@ class VaspFactory(SoftwaresAbstractFactory):
         """
         return "POTCAR"
 
+    @check_file_exists
     def get_eigenvalues(self,
                         filename: str = "EIGENVAL",
                         base_path: str = None) -> dict:

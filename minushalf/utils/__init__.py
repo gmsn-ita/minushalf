@@ -12,3 +12,4 @@ from .projection_to_df import projection_to_df
 from .ternary_search import ternary_search
 from .band_structure import BandStructure
 from .atomic_potential import AtomicPotential
+from .check_file_exists import check_file_exists
