@@ -5,15 +5,8 @@
     - VASP
 """
 from abc import ABC, abstractmethod
-from .vasp import (
-    BandStructure as VaspBs,
-    Procar,
-    Vasprun,
-    Eigenvalues as VaspEigenval,
-    Potcar,
-    AtomicPotential as VaspAtomPotential,
-)
 from minushalf.atomic import Vtotal, InputFile
+import minushalf.softwares.vasp as Vasp
 
 
 class SoftwaresAbstractFactory(ABC):
@@ -52,11 +45,11 @@ class VaspFactory(SoftwaresAbstractFactory):
             procar_path (str): Path to PROCAR
 
         """
-        procar = Procar(procar_path)
-        vasprun = Vasprun(vasprun_path)
-        eigenvalues = VaspEigenval(eigenval_path)
+        procar = Vasp.Procar(procar_path)
+        vasprun = Vasp.Vasprun(vasprun_path)
+        eigenvalues = Vasp.Eigenvalues(eigenval_path)
 
-        return VaspBs(procar, vasprun, eigenvalues)
+        return Vasp.BandStructure(procar, vasprun, eigenvalues)
 
     def atomic_potential(self, vtotal: Vtotal, vtotal_occupied: Vtotal,
                          input_file: InputFile, potcar_path: str):
@@ -69,5 +62,6 @@ class VaspFactory(SoftwaresAbstractFactory):
             input_file (Vtotal): input file of the occupied atom
             potcar (Potcar): input for VASP
         """
-        potcar = Potcar(potcar_path)
-        return VaspAtomPotential(vtotal, vtotal_occupied, input_file, potcar)
+        potcar = Vasp.Potcar(potcar_path)
+        return Vasp.AtomicPotential(vtotal, vtotal_occupied, input_file,
+                                    potcar)

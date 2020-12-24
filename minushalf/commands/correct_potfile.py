@@ -1,6 +1,7 @@
 """
 Atomic Correct potential file
 """
+from __future__ import annotations
 import sys
 import click
 import numpy as np

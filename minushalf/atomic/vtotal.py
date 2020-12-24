@@ -1,6 +1,7 @@
 """
 Analyze VTOTAL
 """
+from __future__ import annotations
 import re
 from itertools import islice, chain
 import numpy as np
@@ -25,7 +26,7 @@ class Vtotal():
         self.down_potential = down_potential
 
     @staticmethod
-    def from_file(filename: str = "./VTOTAL.ae") -> any:
+    def from_file(filename: str = "./VTOTAL.ae") -> Vtotal:
         """
         Parse VTOTAL and extract the following informations
         """

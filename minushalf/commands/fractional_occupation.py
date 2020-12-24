@@ -1,6 +1,7 @@
 """
 Makes fractional occupation on INP file
 """
+from __future__ import annotations
 import os
 import sys
 import click
