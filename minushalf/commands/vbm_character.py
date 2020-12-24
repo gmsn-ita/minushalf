@@ -70,8 +70,7 @@ def vbm_character(software: str, procar_path: str, eigenval_path: str,
                                             orient="index",
                                             columns=orbitals))
     normalized_df = projection_df.div(projection_df.sum().sum())
-
-    normalized_df = normalized_df.mul(100)
+    normalized_df = normalized_df.mul(100).round()
 
     orbital_type = [str(elem) for elem in OrbitalType]
 
@@ -81,7 +80,7 @@ def vbm_character(software: str, procar_path: str, eigenval_path: str,
         ]
 
     normalized_df = normalized_df.groupby(join_orbitals(projection_df.columns),
-                                          axis=1).sum().round()
+                                          axis=1).sum()
     click.echo(normalized_df.to_markdown())
 
     end_message()
