@@ -1,8 +1,5 @@
-"""
-Test eletronic distribution database
-"""
-from collections import Counter
 from minushalf.utils import ElectronicDistribution
+from collections import Counter
 
 
 def test_electronic_distribution_h(file_path):
