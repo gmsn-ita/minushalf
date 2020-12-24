@@ -4,6 +4,10 @@ their respective groups
 """
 from enum import Enum, unique
 
+ORBITALS = ["s", "px", "py", "pz", "dxy", "dyz", "dz2", "dxz", "dx2y2"]
+
+PRINCIPAL_SYMBOL_MAP = {0: 's', 1: 'p', 2: 'd', 3: 'f'}
+
 
 @unique
 class OrbitalType(Enum):

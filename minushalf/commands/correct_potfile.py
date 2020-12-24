@@ -12,8 +12,7 @@ from minushalf.corrections import Corrections
 
 @click.command()
 @click.option('--quiet', default=False, is_flag=True)
-@click.option('-p',
-              '--pot_path',
+@click.option('-p', '--pot_path',
               type=click.Path(exists=True),
               show_default=True,
               help="""Path relative to the potential files.
@@ -21,24 +20,21 @@ from minushalf.corrections import Corrections
               name for each software will be used, as described below:
 
               VASP: POTCAR""")
-@click.option('-s',
-              '--software',
-              type=click.Choice(['VASP'], case_sensitive=False),
+@click.option('-s', '--software',
+              type=click.Choice(['VASP'],
+                                case_sensitive=False),
               default="VASP",
               show_default=True,
               help="""Specifies the software used to define the
               structure of the file containing the atoms potential.""")
-@click.option('-c',
-              '--correction',
+@click.option('-c', '--correction',
               type=click.Choice(['VALENCE', 'CONDUCTION'],
                                 case_sensitive=False),
               default="VALENCE",
               show_default=True,
               help="""Indicates whether the correction should be
-                      made in the last valence band, the first conduction band or both."""
-              )
-@click.option('-C',
-              '--cut',
+                      made in the last valence band, the first conduction band or both.""")
+@click.option('-C', '--cut',
               type=str,
               nargs=1,
               help="""
@@ -50,9 +46,9 @@ from minushalf.corrections import Corrections
               \b
               range:  begin(float|integer):pass(float|integer):end(float|integer)
 
-              """)
-@click.option('-a',
-              '--amplitude',
+              """
+              )
+@click.option('-a', '--amplitude',
               type=click.FloatRange(0.0, 20.0),
               default=1.0,
               show_default=True,
@@ -60,12 +56,12 @@ from minushalf.corrections import Corrections
               help="""Multiplying factor to be used to
               correct the artificially generated potential.""")
 def correct_potfile(
-    quiet: bool,
-    pot_path: str,
-    software: str,
-    correction: str,
-    cut: str,
-    amplitude: float,
+        quiet: bool,
+        pot_path: str,
+        software: str,
+        correction: str,
+        cut: str,
+        amplitude: float,
 ) -> None:
     """Generate occupied atomic potential file used for ab initio calculations.
 
@@ -96,12 +92,17 @@ def correct_potfile(
     if correction == 'CONDUCTION':
         amplitude *= -1
 
-    apply_correction(software, amplitude, pot_path, cut)
+    apply_correction(software,
+                     amplitude,
+                     pot_path,
+                     cut)
 
     end_message()
 
 
-def apply_correction(software: str, amplitude: float, potential_file_path: str,
+def apply_correction(software: str,
+                     amplitude: float,
+                     potential_file_path: str,
                      cut: str) -> None:
     """
     Apply corrections on potencial file
@@ -111,18 +112,16 @@ def apply_correction(software: str, amplitude: float, potential_file_path: str,
 
     correction_factory = Corrections()
     softwares = {
-        "VASP":
-        lambda amplitude, pot_file, new_cut: correction_factory.vasp(
-            new_cut, amplitude, pot_file)
-        if pot_file else correction_factory.vasp(new_cut, amplitude)
+        "VASP": lambda amplitude, pot_file, new_cut: correction_factory.vasp(
+            new_cut, amplitude, pot_file)if pot_file else correction_factory.vasp(new_cut, amplitude)
     }
 
     cut_numbers = parse_cut(cut)
 
     for new_cut in cut_numbers:
         logger.info("Correcting POTFILE for cut = {:.3} ".format(new_cut))
-        program = softwares[software.upper()](amplitude, potential_file_path,
-                                              new_cut)
+        program = softwares[software.upper()](
+            amplitude, potential_file_path, new_cut)
 
         program.correction()
 
