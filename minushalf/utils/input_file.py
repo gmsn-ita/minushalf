@@ -5,7 +5,8 @@ read by atomic program.
 import re
 import numpy as np
 import fortranformat as ff
-from minushalf.data import (ElectronicDistribution, PeriodicTable)
+from minushalf.data import (ElectronicDistribution, PeriodicTable,
+                            ExchangeCorreltion, CalculationCode)
 from .drop_comments import drop_comments
 from .parse_valence_orbital_line import parse_valence_orbitals
 
@@ -106,13 +107,14 @@ class InputFile:
             exchange_correlation_type (str): functional of exchange and correlation
             (ca, wi, hl, gl ,bh, pb, rp, rv, bl()
         """
-        validation_regex = re.compile(r"^(ca|wi|hl|gl|bh|pb|rp|rv|bl)$")
-        if not validation_regex.match(exchange_correlation_type):
-            raise ValueError(
+        try:
+            value = ExchangeCorreltion[exchange_correlation_type].value
+        except KeyError as code_not_found:
+            raise KeyError(
                 "Your value of exchange and correlation functional is not valid"
-            )
+            ) from code_not_found
 
-        self._exchange_correlation_type = exchange_correlation_type
+        self._exchange_correlation_type = value
 
     @property
     def calculation_code(self) -> str:
@@ -131,11 +133,13 @@ class InputFile:
         Args:
             calculation code (str): Calculation code for inp file (ae)
         """
-        validation_regex = re.compile(r"(ae)")
-        if not validation_regex.match(calculation_code):
-            raise ValueError("Your value of calculation is not valid")
+        try:
+            value = CalculationCode[calculation_code].value
+        except KeyError as code_not_found:
+            raise KeyError(
+                "Your value of calculation is not valid") from code_not_found
 
-        self._calculation_code = calculation_code
+        self._calculation_code = value
 
     def electron_occupation(self, electron_fraction: float,
                             secondary_quantum_number: int) -> None:

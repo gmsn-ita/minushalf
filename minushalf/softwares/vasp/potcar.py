@@ -19,6 +19,7 @@ class Potcar(PotentialFile):
         self.k_max_text, self.potential = self._get_potential()
         self.k_max = float(self.k_max_text)
         self.last_lines = self._get_last_lines()
+        self.name = "POTCAR"
 
     def get_potential_fourier_transform(self) -> list:
         """
@@ -27,6 +28,12 @@ class Potcar(PotentialFile):
             of the potential
         """
         return self.potential
+
+    def get_name(self) -> str:
+        """
+        Returns potential file name
+        """
+        return self.name
 
     def get_maximum_module_wave_vector(self) -> float:
         """
