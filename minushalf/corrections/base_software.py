@@ -4,8 +4,8 @@ Interface for software correction modules
 from abc import ABC, abstractmethod
 import numpy as np
 from minushalf.atomic import InputFile
-from minushalf.utils import (RYDBERG, BOHR_RADIUS, TRIMING_EXPONENT,
-                             PRINCIPAL_SYMBOL_MAP, PI)
+from minushalf.utils import (
+    RYDBERG, BOHR_RADIUS, TRIMING_EXPONENT, PRINCIPAL_SYMBOL_MAP, PI, find_element)
 
 
 class Software(ABC):
@@ -14,6 +14,7 @@ class Software(ABC):
     corrections of potential files of
     diverse softwares.
     """
+
     def __init__(self, cut: float, potfile_path, amplitude: float = 1.0):
         """
         Init for software
@@ -30,13 +31,13 @@ class Software(ABC):
         self.occupation_potential = np.array([])
         self.resume_inp = ""
 
-    @abstractmethod
+    @ abstractmethod
     def write_new_potfile(self):
         """
         Writes corrected potential file.
         """
 
-    @abstractmethod
+    @ abstractmethod
     def parse_potfile(self):
         """
         Analyses useful informations in potential file.
@@ -55,9 +56,8 @@ class Software(ABC):
 
         for orbital in input_file.valence_orbitals:
 
-            aux = "{}{}{:.3}".format(orbital["n"],
-                                     PRINCIPAL_SYMBOL_MAP[orbital["l"]],
-                                     orbital["occupation"][0])
+            aux = "{}{}{:.3}".format(
+                orbital["n"], PRINCIPAL_SYMBOL_MAP[orbital["l"]], orbital["occupation"][0])
             resume_inp.append(aux)
 
         self.resume_inp = " ".join(resume_inp)
@@ -74,31 +74,24 @@ class Software(ABC):
         potential_down_ion: #TODO: describe it
 
         """
-        with open("VTOTAL.ae", "r") as vtotal, open("VTOTAL_OCC",
-                                                    "r") as vtotal05:
+        with open("VTOTAL.ae", "r") as vtotal, open("VTOTAL_OCC", "r") as vtotal05:
             vtotal_lines = vtotal.readlines()
             vtotal05_lines = vtotal05.readlines()
 
             # Find radius
             initial_radius_index = 1
             final_radius_index = find_element(
-                vtotal_lines, "Down potential follows (l on next line)",
-                initial_radius_index)
-            radius_lines = vtotal_lines[
-                initial_radius_index:final_radius_index]
+                vtotal_lines, "Down potential follows (l on next line)", initial_radius_index)
+            radius_lines = vtotal_lines[initial_radius_index:final_radius_index]
 
-            self.radius = np.array(" ".join(radius_lines).split(),
-                                   dtype=np.float)
+            self.radius = np.array(" " .join(radius_lines).split(), dtype=np.float)
 
             # Find atom and ion potentials
             initial_down_potential_index = final_radius_index + 2
             final_down_potential_index = find_element(
-                vtotal_lines, "Up potential follows (l on next line)",
-                initial_down_potential_index)
-            potential_down_atom_lines = vtotal_lines[
-                initial_down_potential_index:final_down_potential_index]
-            potential_down_ion_lines = vtotal05_lines[
-                initial_down_potential_index:final_down_potential_index]
+                vtotal_lines, "Up potential follows (l on next line)", initial_down_potential_index)
+            potential_down_atom_lines = vtotal_lines[initial_down_potential_index:final_down_potential_index]
+            potential_down_ion_lines = vtotal05_lines[initial_down_potential_index:final_down_potential_index]
 
             self.potential_down_atom = np.array(
                 " ".join(potential_down_atom_lines).split(), dtype=np.float)
@@ -106,8 +99,7 @@ class Software(ABC):
             self.potential_down_ion = np.array(
                 " ".join(potential_down_ion_lines).split(), dtype=np.float)
 
-    def trimming_function(self, atom_radius: float, ion_potential: float,
-                          atom_potential) -> float:
+    def trimming_function(self, atom_radius: float, ion_potential: float, atom_potential) -> float:
         """
         Function that generate the potential for fractional occupation. The potential
         is cuted by a a function 0(r) to avoid divergence in calculations.
@@ -181,7 +173,7 @@ class Software(ABC):
         radius = filter_radius[1:]
         past_radius = filter_radius[:-1]
 
-        occupation_potential = self.occupation_potential[1:len(radius) + 1]
+        occupation_potential = self.occupation_potential[1:len(radius)+1]
         past_occupation_potential = self.occupation_potential[:len(radius)]
 
         partial_coeff_calc = lambda rad, past_rad, occ_pot, past_occ_pot: (occ_pot*np.sin(BOHR_RADIUS*k*rad) +\
@@ -189,10 +181,11 @@ class Software(ABC):
                                                                            np.sin(BOHR_RADIUS*k*past_rad))/2 * (rad-past_rad)
         vectorize_function = np.vectorize(partial_coeff_calc)
 
-        res = vectorize_function(radius, past_radius, occupation_potential,
-                                 past_occupation_potential)
 
-        return coefficient + (fourier_j + res.sum()) / (BOHR_RADIUS * k)
+        res = vectorize_function(radius, past_radius,
+                                 occupation_potential, past_occupation_potential)
+
+        return coefficient + (fourier_j+res.sum())/(BOHR_RADIUS*k)
 
     def set_corrected_fourier_coef(self):
         """

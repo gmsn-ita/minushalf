@@ -2,7 +2,6 @@
 Leads with input file (INP.ae)
 read by atomic program.
 """
-from __future__ import annotations
 import re
 import numpy as np
 from pathlib import Path
@@ -210,7 +209,7 @@ class InputFile:
             input_file.writelines(lines)
 
     @staticmethod
-    def from_file(filename: str = "./INP") -> InputFile:
+    def from_file(filename: str = "./INP"):
         """
         Parse INP.ae file.
 
@@ -270,7 +269,7 @@ class InputFile:
     def minimum_setup(chemical_symbol: str,
                       exchange_correlation_type: str,
                       maximum_iterations: int = 100,
-                      calculation_code: str = "ae") -> InputFile:
+                      calculation_code: str = "ae"):
         """
         Create INP file with minimum setup.
 

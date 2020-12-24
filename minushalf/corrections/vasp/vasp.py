@@ -5,6 +5,7 @@ implemented for VASP software.
 from datetime import date
 import numpy as np
 from minushalf.corrections.base_software import Software
+from minushalf.utils import find_element
 
 
 class Vasp(Software):
@@ -13,10 +14,8 @@ class Vasp(Software):
     and correct pseudopotential file (POTCAR)
     for fractional occupation.
     """
-    def __init__(self,
-                 cut: float,
-                 amplitude: float = 1.0,
-                 potcar_path: str = "POTCAR"):
+
+    def __init__(self, cut: float, amplitude: float = 1.0, potcar_path: str = "POTCAR"):
         """
         Args:
             cut (float): Value of limit radius necessary for DFT -1/2 techinique
@@ -30,8 +29,7 @@ class Vasp(Software):
         if np.isclose(abs(self.amplitude), 1.0):
             self.new_pot_name = "POTCARcut{:.2f}".format(self.cut)
         else:
-            self.new_pot_name = "POTCARcut{:.2f}A{:.1f}".format(
-                self.cut, self.amplitude)
+            self.new_pot_name = "POTCARcut{:.2f}A{:.1f}".format(self.cut, self.amplitude)
 
     def parse_potfile(self):
         """
@@ -59,9 +57,8 @@ class Vasp(Software):
 
             # psctr
             initial_psctr_index = 1
-            final_psctr_index = 2 + find_element(
-                potcar_lines, "END of PSCTR-controll parameters",
-                initial_psctr_index)
+            final_psctr_index = 2+find_element(potcar_lines,
+                                               "END of PSCTR-controll parameters", initial_psctr_index)
 
             self.psctr = potcar_lines[initial_psctr_index:final_psctr_index]
 
@@ -71,13 +68,12 @@ class Vasp(Software):
 
             # Fourier coeficientes
             intial_fourier_coef_index = final_psctr_index + 1
-            final_fourier_coef_index = find_element(
-                potcar_lines, "gradient corrections used for XC",
-                intial_fourier_coef_index)
-            fourier_coef_lines = potcar_lines[
-                intial_fourier_coef_index:final_fourier_coef_index]
-            self.fourier_coef = np.array(" ".join(fourier_coef_lines).split(),
-                                         dtype=np.float)
+            final_fourier_coef_index = find_element(potcar_lines,
+                                                    "gradient corrections used for XC", intial_fourier_coef_index)
+            fourier_coef_lines = potcar_lines[intial_fourier_coef_index:
+                                              final_fourier_coef_index]
+            self.fourier_coef = np.array(
+                " ".join(fourier_coef_lines).split(), dtype=np.float)
 
             # Restant lines
             self.potcar_last_lines = potcar_lines[final_fourier_coef_index:]
@@ -87,9 +83,9 @@ class Vasp(Software):
         Write corrected POTCAR file.
         """
         with open(self.new_pot_name, "w") as new_potcar:
-            new_potcar.write("{} CUT={:.3} {}Amp={:.1} LDA-1/2 {}\n".format(
-                self.potcar_first_line, self.cut, self.resume_inp,
-                self.amplitude, date.today()))
+            new_potcar.write(
+                "{} CUT={:.3} {}Amp={:.1} LDA-1/2 {}\n".format(self.potcar_first_line,
+                                                               self.cut, self.resume_inp, self.amplitude, date.today()))
 
             new_potcar.writelines(self.psctr)
             new_potcar.write("{:.18}\n".format(self.k_max))
@@ -97,7 +93,7 @@ class Vasp(Software):
             for index, value in enumerate(self.corrected_fourier_coef):
                 new_potcar.write(" {}".format(format(value, "15.8E")))
 
-                if index > 0 and (index + 1) % 5 == 0:
+                if index > 0 and (index+1) % 5 == 0:
                     new_potcar.write('\n')
 
             new_potcar.writelines(self.potcar_last_lines)
