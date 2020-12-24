@@ -127,19 +127,3 @@ class AtomicPotential():
         copy_potcar = copy.deepcopy(self.potcar)
         copy_potcar.potential = potential
         copy_potcar.to_file(filename)
-
-    def get_corrected_file_lines(
-        self,
-        potential: list,
-    ) -> list:
-        """
-        Create the potential file corrected
-
-            Args:
-                potential (list): List of corrected potentials fourier transform
-            Returns:
-                potential_lines(list): A List of potcar lines
-        """
-        copy_potcar = copy.deepcopy(self.potcar)
-        copy_potcar.potential = potential
-        return copy_potcar.to_stringlist()

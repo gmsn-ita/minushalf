@@ -6,7 +6,6 @@
 """
 import os
 from abc import ABC, abstractmethod
-from minushalf.atomic import Vtotal, InputFile
 from .vasp import (
     BandStructure as VaspBs,
     Procar,
@@ -15,6 +14,7 @@ from .vasp import (
     Potcar,
     AtomicPotential as VaspAtomPotential,
 )
+from minushalf.atomic import Vtotal, InputFile
 
 
 class SoftwaresAbstractFactory(ABC):

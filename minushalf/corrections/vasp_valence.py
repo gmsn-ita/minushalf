@@ -6,8 +6,7 @@ import os
 import shutil
 from subprocess import Popen, PIPE
 import pandas as pd
-from minushalf.atomic import InputFile, Vtotal
-from minushalf.utils import ternary_search
+from minushalf.atomic import InputFile
 
 
 class VaspValenceCorrection():
@@ -27,7 +26,6 @@ class VaspValenceCorrection():
         exchange_correlation_type: str,
         max_iterations: int,
         calculation_code: str,
-        amplitude: float,
     ):
         """
         init method for the valence correction class
@@ -53,107 +51,29 @@ class VaspValenceCorrection():
         self.calculation_code = calculation_code
         self.runner = runner
         self.software_factory = software_factory
-        self.amplitude = amplitude
-        self.atom_index = None
-        self.atom_potential = None
 
-    def execute(self) -> list:
+    def execute(self):
         """
         Execute valence correction algorithm
         """
-        self.atom_index = self._get_correction_atom_index()
-        self._generate_atom_pseudopotential()
-        self._generate_occupation_potential()
-        self.atom_potential = self._get_atom_potential()
-        cut, eigenvalue = self._find_cut()
-        return [(cut, eigenvalue)]
+        atom_index = self._get_correction_atom_index()
+        self._generate_atom_pseudopotential(atom_index)
+        self._generate_occupation_potential(atom_index)
+        #cut = self._find_cut(atom_index)
 
-    def _get_atom_potential(self):
-        """
-        Creates atom_potential class
-        """
-        atom_symbol = self.atom_index[0]
-        atom_folder = os.path.join(self.root_folder, atom_symbol)
-        vtotal_path = os.path.join(atom_folder, "VTOTAL.ae")
-        vtotal_occ_path = os.path.join(atom_folder, "VTOTAL_OCC")
-        vtotal = Vtotal.from_file(vtotal_path)
-        vtotal_occ = Vtotal.from_file(vtotal_occ_path)
-        input_file = InputFile.minimum_setup(
-            atom_symbol,
-            self.exchange_correlation_type,
-            self.max_iterations,
-            self.calculation_code,
-        )
-        potential_filename = "{}.{}".format(self.potential_filename.upper,
-                                            atom_symbol.lower())
-        return self.software_factory.atomic_potential(
-            vtotal,
-            vtotal_occ,
-            input_file,
-            potcar_path=potential_filename,
-            base_path=self.potential_folder,
-        )
-
-    def _find_cut(self) -> tuple:
+    def _find_cut(self):
         """
         Find the cut which gives the maximum gap
         """
-        folder = os.path.join(self.root_folder, "find_cut")
-        if os.path.exists(folder):
-            shutil.rmtree(folder)
-        os.mkdir(folder)
-        cut, eigenvalue = ternary_search(0, 15, self._find_eigenvalue)
-        return cut, eigenvalue
 
-    def _find_eigenvalue(self, cut: float) -> float:
-        """
-        Run vasp and find the eigenvalue for a value of cut
-            Args:
-                cut (float): cut radius for the atom
-            Returns:
-                eigenvalue (float): eigenvalue for that specific cut
-        """
-        find_cut_path = os.path.join(self.root_folder, "find_cut")
-        cut_folder = os.path.join(find_cut_path, "cut_{:.2f}".format(cut))
-
-        if os.path.exists(cut_folder):
-            shutil.rmtree(cut_folder)
-        os.mkdir(cut_folder)
-
-        vasp_files = ["INCAR", "KPOINTS", "POSCAR"]
-        for file in vasp_files:
-            shutil.copyfile(file, os.path.join(cut_folder, file))
-        try:
-            potential_file = open("POTCAR", "w")
-            for atom in self.atoms:
-                potential_filename = "{}.{}".format(
-                    self.potential_filename.upper, atom.lower())
-                if atom.lower() != self.atom_index[0].lower():
-                    with open(potential_filename, "r") as file:
-                        potential_file.write(file.read())
-                else:
-                    potential = self.atom_potential.correct_potential(
-                        cut, self.amplitude)
-                    lines = self.atom_potential.get_corrected_file_lines(
-                        potential)
-                    potential_file.writelines(lines)
-        finally:
-            potential_file.close()
-
-        self.runner.run(cut_folder)
-        band_structure = self.software_factory.band_structure(
-            base_path=cut_folder)
-        gap_report = band_structure.band_gap()
-        return gap_report["gap"]
-
-    def _generate_occupation_potential(self) -> None:
+    def _generate_occupation_potential(self, atom_index):
         """
         Generate the pseudo potential for the occupation
         of minus one half electron in the most relevant orbital
         on the VBM projection
         """
-        atom_symbol = self.atom_index[0]
-        secondary_quantum_number = self.atom_index[1]
+        atom_symbol = atom_index[0]
+        secondary_quantum_number = atom_index[1]
         folder_path = os.path.join(self.root_folder, atom_symbol)
         if not os.path.exists(folder_path):
             raise FileNotFoundError(
@@ -167,14 +87,14 @@ class VaspValenceCorrection():
 
         _, stderr = process.communicate()
         if stderr:
-            raise Exception("Call to occupation command failed")
+            raise Exception("Call to occupation failed")
 
-    def _generate_atom_pseudopotential(self) -> None:
+    def _generate_atom_pseudopotential(self, atom_index: tuple) -> None:
         """
         Make a dir with the atoms name,generate
         the input file and run the atomic program
         """
-        atom_symbol = self.atom_index[0]
+        atom_symbol = atom_index[0]
         folder_path = os.path.join(self.root_folder, atom_symbol)
         if os.path.exists(folder_path):
             shutil.rmtree(folder_path)

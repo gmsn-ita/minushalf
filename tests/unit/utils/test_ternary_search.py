@@ -13,9 +13,8 @@ def test_ternary_search_first():
     """
     cost_function = lambda x: -x**2 + 2 * x + 1
     result = ternary_search(0, 10, cost_function)
-    print(result)
-    assert np.isclose(result[0], 1.0)
-    assert np.isclose(result[1], 2.0)
+
+    assert np.isclose(result, 1.0)
 
 
 def test_ternary_search_second():
@@ -27,8 +26,7 @@ def test_ternary_search_second():
     cost_function = lambda x: -3 * x**2 + 6 * x - 2
     result = ternary_search(1.0, 10, cost_function)
 
-    assert np.isclose(result[0], 1.0)
-    assert np.isclose(result[1], 1.0)
+    assert np.isclose(result, 1.0)
 
 
 def test_ternary_search_third():
@@ -40,8 +38,7 @@ def test_ternary_search_third():
     cost_function = lambda x: -2 * x**2 + 8 * x - 10
     result = ternary_search(0.0, 2.0, cost_function)
 
-    assert np.isclose(result[0], 2.0)
-    assert np.isclose(result[1], -2.0)
+    assert np.isclose(result, 2.0)
 
 
 def test_ternary_search_fourth():
@@ -53,8 +50,7 @@ def test_ternary_search_fourth():
     cost_function = lambda x: -4 * x**2 + 5 * x - 20
     result = ternary_search(0, 10, cost_function)
 
-    assert np.isclose(result[0], 0.625)
-    assert np.isclose(result[1], -18.4375)
+    assert np.isclose(result, 0.625)
 
 
 def test_ternary_search_sixth():
@@ -66,5 +62,4 @@ def test_ternary_search_sixth():
     cost_function = lambda x: -3 * x**2 + 4 * x - 70
     result = ternary_search(0, 10, cost_function)
 
-    assert np.isclose(result[0], 0.66666666666)
-    assert np.isclose(result[1], -68.66666666666667)
+    assert np.isclose(result, 0.66666666666)
