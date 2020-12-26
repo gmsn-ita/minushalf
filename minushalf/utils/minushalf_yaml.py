@@ -2,7 +2,13 @@
 Parser for minushalf.yaml
 """
 import yaml
-from minushalf.data import Softwares
+from minushalf.data import (
+    Softwares,
+    VaspDefaultParams,
+    AtomicProgramDefaultParams,
+    CorrectionDefaultParams,
+    CorrectionCode,
+)
 
 
 class MinushalfYaml():
@@ -43,13 +49,129 @@ class MinushalfYaml():
             symbol (str): chemical symbol of the element (H, He, Li...)
         """
 
-        available_softwares = Softwares.list()
+        available_softwares = Softwares.to_list()
         is_software_avalilable = any(element == name
                                      for element in available_softwares)
         if not is_software_avalilable:
             raise ValueError("Parameter software is not filled correctly")
 
         self._software = name.upper()
+
+    @property
+    def software_configurations(self) -> str:
+        """
+        Returns:
+            Some configurations for the softwares that runs
+            ab initio calculations
+        """
+        return self._software_configurations
+
+    @software_configurations.setter
+    def software_configurations(self, configurations: dict) -> None:
+        """
+            Verify if the file has all the cofigurations needed. If not, use
+            the default values
+                Args: configurations (dict): Configuration parameters for each software
+                    VASP:
+                        number_of_cores: Number of cores to run the proccess. The
+                        default is one.
+                        path_to_vasp: Path to the VASP software.The deafault is 'vasp'
+        """
+        choice_params = {Softwares.vasp.value: VaspDefaultParams()}
+
+        software_params = choice_params[self.software]
+        default_params = software_params.to_dict()
+
+        if not configurations:
+            configurations = default_params
+        else:
+            for name, value in default_params.items():
+                if not name in configurations:
+                    configurations[name] = value
+            for name, value in configurations.items():
+                if not name in default_params:
+                    raise ValueError("param {} is not defined".format(name))
+
+        self._software_configurations = configurations
+
+    @property
+    def atomic_program(self) -> dict:
+        """
+        Returns:
+            Some configurations for the atomic program
+        """
+        return self._atomic_program
+
+    @atomic_program.setter
+    def atomic_program(self, configurations: dict) -> None:
+        """
+        Verify if the file has all the cofigurations needed. If not, use
+        the default values
+
+            Args:
+                configurations(dict): Configurations params for
+                atomc program. Contain the following fields:
+
+                    exchange_correlation_type: Default is 'pb'
+
+                    calculation_code: Default is 'ae'
+
+                    max_iterations: Default is 100
+        """
+        default_params = AtomicProgramDefaultParams.to_dict()
+        if not configurations:
+            configurations = default_params
+        else:
+            for name, value in default_params.items():
+                if not name in configurations:
+                    configurations[name] = value
+            for name, value in configurations.items():
+                if not name in default_params:
+                    raise ValueError("param {} is not defined".format(name))
+
+        self._atomic_program = configurations
+
+    @property
+    def correction(self) -> dict:
+        """
+        Returns:
+            Some configurations for the correction in the
+            potential files
+        """
+        return self._correction
+
+    @correction.setter
+    def correction(self, configurations: dict) -> None:
+        """
+        Verify if the file has all the cofigurations needed. If not, use
+        the default values
+
+            Args:
+                configurations(dict): Configurations params for
+                correct potential. Contain the following fields:
+
+                    correction_code: Default is 'v'
+
+        """
+        default_params = CorrectionDefaultParams.to_dict()
+        if not configurations:
+            configurations = default_params
+        else:
+            for name, value in default_params.items():
+                if not name in configurations:
+                    configurations[name] = value
+            for name, value in configurations.items():
+                if not name in default_params:
+                    raise ValueError("param {} is not defined".format(name))
+
+        available_correction_codes = CorrectionCode.to_list()
+        is_code_available = any(element == configurations[
+            CorrectionDefaultParams.correction_code.__str__()]
+                                for element in available_correction_codes)
+        if not is_code_available:
+            raise ValueError("Invalid value for correction code")
+
+        self._correction = configurations
 
     @staticmethod
     def from_file(filename: str = "minushalf.yaml"):
