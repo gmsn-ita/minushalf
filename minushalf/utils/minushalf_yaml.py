@@ -2,12 +2,14 @@
 Parser for minushalf.yaml
 """
 import yaml
+from loguru import logger
 from minushalf.data import (
     Softwares,
     VaspDefaultParams,
     AtomicProgramDefaultParams,
     CorrectionDefaultParams,
     CorrectionCode,
+    MinushalfParams,
 )
 
 
@@ -26,7 +28,7 @@ class MinushalfYaml():
         """
         Constructs a class for input in the execute command
         """
-        self.software = software
+        self.software = software.upper()
         self.software_configurations = software_configurations
         self.atomic_program = atomic_program
         self.correction = correction
@@ -77,7 +79,7 @@ class MinushalfYaml():
                         default is one.
                         path_to_vasp: Path to the VASP software.The deafault is 'vasp'
         """
-        choice_params = {Softwares.vasp.value: VaspDefaultParams()}
+        choice_params = {Softwares.vasp.value: VaspDefaultParams}
 
         software_params = choice_params[self.software]
         default_params = software_params.to_dict()
@@ -179,26 +181,30 @@ class MinushalfYaml():
         Receives a file and catch all the parameters
         presents in the documentation
         """
-        with open(filename, "r") as file:
-            parsed_input = yaml.load(file, Loader=yaml.FullLoader)
+        parsed_input = {}
+        try:
+            with open(filename, "r") as file:
+                parsed_input = yaml.load(file, Loader=yaml.FullLoader)
+        except FileNotFoundError:
+            logger.info("File not found, default parameters will be used")
 
-        if "software" in parsed_input:
-            software = parsed_input["software"]
+        if MinushalfParams.software.value in parsed_input:
+            software = parsed_input[MinushalfParams.software.value]
         else:
-            software = "VASP"
+            software = Softwares.vasp.value
 
         if software.lower() in parsed_input:
             software_configurations = parsed_input[software.lower()]
         else:
             software_configurations = None
 
-        if "atomic_program" in parsed_input:
-            atomic_program = parsed_input["atomic_program"]
+        if MinushalfParams.atomic_program.value in parsed_input:
+            atomic_program = parsed_input[MinushalfParams.atomic_program.value]
         else:
             atomic_program = None
 
-        if "correction" in parsed_input:
-            correction = parsed_input["correction"]
+        if MinushalfParams.correction.value in parsed_input:
+            correction = parsed_input[MinushalfParams.correction.value]
         else:
             correction = None
 
