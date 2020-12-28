@@ -7,12 +7,45 @@ from enum import Enum, unique
 
 
 @unique
+class MinushalfParams(Enum):
+    """
+    Parameters that can be
+    passed in minushalf.yaml
+    """
+
+    software = "software"
+    atomic_program = "atomic_program"
+    correction = "correction"
+
+    def __str__(self):
+        return str(self.name)
+
+    @staticmethod
+    def to_list():
+        """
+        Return a list with params name
+        that can be passed in minushalf.yaml
+        """
+        return list(map(lambda element: element.value, MinushalfParams))
+
+    @staticmethod
+    def to_dict():
+        """
+        Returns a dictionary with the  parameters
+        """
+        values = map(lambda element: element.value, MinushalfParams)
+        keys = map(lambda element: element.__str__(), MinushalfParams)
+        return dict(zip(keys, values))
+
+
+@unique
 class CorrectionDefaultParams(Enum):
     """
     Default params for correction field
     """
 
     correction_code = "v"
+    potfiles_folder = "minushalf_potfiles"
 
     def __str__(self):
         return str(self.name)

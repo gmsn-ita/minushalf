@@ -1,0 +1,11 @@
+software: vasp
+vasp:
+  number_of_cores: 6
+  path: ../vasp
+atomic_program:
+  exchange_correlation_code: wi
+  calculation_code: ae
+  max_iterations: 200
+correction:
+  correction_code: df
+  potfiles_folder: ../potcar
