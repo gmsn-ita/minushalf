@@ -65,3 +65,10 @@ class SoftwaresAbstractFactory(ABC):
         Abstract method for returns eigenvalues
         for each band and each kpoint
         """
+
+    @abstractmethod
+    def get_runner(self):
+        """
+        Get a class that run
+        the software for ab initio calculations
+        """
