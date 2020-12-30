@@ -13,6 +13,7 @@ from .vasp import (
     Vasprun,
     Eigenvalues as VaspEigenval,
     Potcar,
+    VaspRunner,
 )
 
 
@@ -143,3 +144,10 @@ class VaspFactory(SoftwaresAbstractFactory):
             filename = os.path.join(base_path, filename)
         eigenval = VaspEigenval(filename)
         return eigenval.eigenvalues
+
+    def get_runner(self):
+        """
+        Return the class
+        that runs VASP
+        """
+        return VaspRunner()
