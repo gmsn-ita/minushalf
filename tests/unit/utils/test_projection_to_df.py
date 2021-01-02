@@ -13,13 +13,13 @@ def test_projection_to_df_first():
     """
     projections = {"In": [1, 2, 3, 4, 5], "Sb": [1, 2, 3, 4, 5, 6]}
 
-    df = projection_to_df(projections)
-    assert np.isclose(df["d"]["In"], 14.0)
-    assert np.isclose(df["d"]["Sb"], 31.0)
-    assert np.isclose(df["p"]["In"], 25.0)
-    assert np.isclose(df["p"]["Sb"], 25.0)
-    assert np.isclose(df["s"]["In"], 3.0)
-    assert np.isclose(df["s"]["Sb"], 3.0)
+    data_frame = projection_to_df(projections)
+    assert np.isclose(data_frame["d"]["In"], 14.0)
+    assert np.isclose(data_frame["d"]["Sb"], 31.0)
+    assert np.isclose(data_frame["p"]["In"], 25.0)
+    assert np.isclose(data_frame["p"]["Sb"], 25.0)
+    assert np.isclose(data_frame["s"]["In"], 3.0)
+    assert np.isclose(data_frame["s"]["Sb"], 3.0)
 
 
 def test_projection_to_df_second():
@@ -35,15 +35,15 @@ def test_projection_to_df_second():
         "Sb": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     }
 
-    df = projection_to_df(projections)
-    assert np.isclose(df["d"]["In"], 7.0)
-    assert np.isclose(df["d"]["Sb"], 50.0)
-    assert np.isclose(df["p"]["In"], 13.0)
-    assert np.isclose(df["p"]["Sb"], 13.0)
-    assert np.isclose(df["s"]["In"], 1.0)
-    assert np.isclose(df["s"]["Sb"], 1.0)
-    assert np.isclose(df["f"]["In"], 0.0)
-    assert np.isclose(df["f"]["Sb"], 14.0)
+    data_frame = projection_to_df(projections)
+    assert np.isclose(data_frame["d"]["In"], 7.0)
+    assert np.isclose(data_frame["d"]["Sb"], 50.0)
+    assert np.isclose(data_frame["p"]["In"], 13.0)
+    assert np.isclose(data_frame["p"]["Sb"], 13.0)
+    assert np.isclose(data_frame["s"]["In"], 1.0)
+    assert np.isclose(data_frame["s"]["Sb"], 1.0)
+    assert np.isclose(data_frame["f"]["In"], 0.0)
+    assert np.isclose(data_frame["f"]["Sb"], 14.0)
 
 
 @pytest.mark.xfail

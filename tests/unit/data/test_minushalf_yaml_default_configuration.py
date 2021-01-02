@@ -1,6 +1,7 @@
 """
 test minushalf_yaml_default_configuration module
 """
+import numpy as np
 from minushalf.data import (
     VaspDefaultParams,
     CorrectionDefaultParams,
@@ -54,6 +55,7 @@ def test_to_list_correction():
     params_list = CorrectionDefaultParams.to_list()
     assert params_list[0] == "v"
     assert params_list[1] == "minushalf_potfiles"
+    assert np.isclose(params_list[2], 1.0)
 
 
 def test_to_dict_correction():
@@ -63,6 +65,7 @@ def test_to_dict_correction():
     params_list = CorrectionDefaultParams.to_dict()
     assert params_list["correction_code"] == "v"
     assert params_list["potfiles_folder"] == "minushalf_potfiles"
+    assert np.isclose(params_list["amplitude"], 1.0)
 
 
 def test_to_list_minushalf_params():

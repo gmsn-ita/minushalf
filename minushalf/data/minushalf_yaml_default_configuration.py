@@ -46,6 +46,7 @@ class CorrectionDefaultParams(Enum):
 
     correction_code = "v"
     potfiles_folder = "minushalf_potfiles"
+    amplitude = 1.0
 
     def __str__(self):
         return str(self.name)
