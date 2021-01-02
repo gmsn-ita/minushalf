@@ -3,7 +3,6 @@ Test input file class
 """
 import pytest
 import numpy as np
-from collections import Counter
 from minushalf.data import ElectronicDistribution, PeriodicTable
 from minushalf.utils import InputFile
 
@@ -42,7 +41,7 @@ def test_from_file(file_path):
         assert from_file_string == minimum_setup_string
 
 
-def test_electron_occupation_Ag():
+def test_electron_occupation_ag():
     """
         Test occupation in INP file for Ag
         """
@@ -52,12 +51,12 @@ def test_electron_occupation_Ag():
 
     for orbital in inp.valence_orbitals:
         if orbital["l"] == 2:
-            assert np.isclose(orbital["occupation"][0], 9.5) == True
+            assert np.isclose(orbital["occupation"][0], 9.5)
         elif orbital["l"] == 0:
-            assert np.isclose(orbital["occupation"][0], 0.8) == True
+            assert np.isclose(orbital["occupation"][0], 0.8)
 
 
-def test_electron_occupation_Si():
+def test_electron_occupation_si():
     """
         Test occupation in INP file for Si
         """
@@ -67,12 +66,12 @@ def test_electron_occupation_Si():
 
     for orbital in inp.valence_orbitals:
         if orbital["l"] == 0:
-            assert np.isclose(orbital["occupation"][0], 1.6) == True
+            assert np.isclose(orbital["occupation"][0], 1.6)
         elif orbital["l"] == 1:
-            assert np.isclose(orbital["occupation"][0], 1.7) == True
+            assert np.isclose(orbital["occupation"][0], 1.7)
 
 
-def test_electron_occupation_Au():
+def test_electron_occupation_au():
     """
         Test occupation in INP file for Au
         """
@@ -82,12 +81,12 @@ def test_electron_occupation_Au():
 
     for orbital in inp.valence_orbitals:
         if orbital["l"] == 0:
-            assert np.isclose(orbital["occupation"][0], 0.9) == True
+            assert np.isclose(orbital["occupation"][0], 0.9)
         elif orbital["l"] == 2:
-            assert np.isclose(orbital["occupation"][0], 9.6) == True
+            assert np.isclose(orbital["occupation"][0], 9.6)
 
 
-def test_electron_occupation_Yb():
+def test_electron_occupation_yb():
     """
         Test occupation in INP file for Yb
         """
@@ -97,12 +96,12 @@ def test_electron_occupation_Yb():
 
     for orbital in inp.valence_orbitals:
         if orbital["l"] == 0:
-            assert np.isclose(orbital["occupation"][0], 1.5) == True
+            assert np.isclose(orbital["occupation"][0], 1.5)
         elif orbital["l"] == 3:
-            assert np.isclose(orbital["occupation"][0], 13.5) == True
+            assert np.isclose(orbital["occupation"][0], 13.5)
 
 
-def test_electron_occupation_Na():
+def test_electron_occupation_na():
     """
         Test occupation in INP file for Na
         """
@@ -111,7 +110,7 @@ def test_electron_occupation_Na():
 
     for orbital in inp.valence_orbitals:
         if orbital["l"] == 0:
-            assert np.isclose(orbital["occupation"][0], 0.5) == True
+            assert np.isclose(orbital["occupation"][0], 0.5)
 
 
 def test_exchange_and_correlation_functional():
