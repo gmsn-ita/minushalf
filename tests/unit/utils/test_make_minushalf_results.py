@@ -17,15 +17,17 @@ def test_only_valence_cuts(file_path):
         ("Br", "s"): 2.33,
     }
     gap = 2.334
-    make_minushalf_results(valence_cuts=valence_cuts, gap=gap)
+    filename = "minushalf_results_only_valence_cuts.dat"
+    make_minushalf_results(valence_cuts=valence_cuts, gap=gap, name=filename)
+
     try:
         expected_file = open(expected_file_path, "r")
-        file = open("minushalf_results.dat", "r")
+        file = open(filename, "r")
         assert expected_file.read() == file.read()
     finally:
         expected_file.close()
         file.close()
-        os.remove("minushalf_results.dat", )
+        os.remove(filename)
 
 
 def test_conduction_cuts(file_path):
@@ -43,14 +45,18 @@ def test_conduction_cuts(file_path):
         ("Br", "d"): 2.33,
     }
     gap = 2.334
-    make_minushalf_results(valence_cuts=valence_cuts,
-                           gap=gap,
-                           conduction_cuts=conduction_cuts)
+    filename = "minushalf_results_conduction_cuts.dat"
+    make_minushalf_results(
+        valence_cuts=valence_cuts,
+        gap=gap,
+        conduction_cuts=conduction_cuts,
+        name=filename,
+    )
     try:
         expected_file = open(expected_file_path, "r")
-        file = open("minushalf_results.dat", "r")
+        file = open(filename, "r")
         assert expected_file.read() == file.read()
     finally:
         expected_file.close()
         file.close()
-        os.remove("minushalf_results.dat", )
+        os.remove(filename)
