@@ -54,8 +54,7 @@ class VaspConductionCorrection(Correction):
 
         self.cbm_projection = cbm_projection
 
-        self.potential_folder = minushalf_yaml.correction[
-            CorrectionDefaultParams.potfiles_folder.name]
+        self.potential_folder = "valence_potfiles"
 
         self.exchange_correlation_type = minushalf_yaml.atomic_program[
             AtomicProgramDefaultParams.exchange_correlation_code.name]
