@@ -2,10 +2,17 @@
 Execute command
 """
 import os
+import sys
 import shutil
 import click
 from loguru import logger
-from minushalf.utils import (MinushalfYaml, BandStructure, projection_to_df)
+from minushalf.utils import (
+    MinushalfYaml,
+    BandStructure,
+    projection_to_df,
+    welcome_message,
+    end_message,
+)
 from minushalf.softwares import (VaspFactory)
 from minushalf.corrections import (VaspCorrectionFactory)
 from minushalf.data import (Softwares, CorrectionCode)
@@ -87,7 +94,8 @@ def make_output_file(
 
 
 @click.command()
-def execute():
+@click.option('--quiet', default=False, is_flag=True)
+def execute(quiet: bool):
     """
         Execute command
             Requires:
@@ -95,6 +103,11 @@ def execute():
             Return:
                 minushalf_results.dat : Results file
     """
+    welcome_message("minushalf")
+
+    if quiet:
+        logger.remove()
+        logger.add(sys.stdout, level="ERROR")
     ## Read yaml file
     logger.info("Reading minushalf.yaml file")
     minushalf_yaml = MinushalfYaml.from_file()
@@ -206,3 +219,4 @@ def execute():
         make_output_file(valence_cuts=valence_cuts,
                          gap=conduction_gap,
                          conduction_cuts=conduction_cuts)
+    end_message()
