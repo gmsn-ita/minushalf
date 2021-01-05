@@ -12,6 +12,7 @@ from minushalf.utils import (
     projection_to_df,
     welcome_message,
     end_message,
+    make_minushalf_results,
 )
 from minushalf.softwares import (VaspFactory)
 from minushalf.corrections import (VaspCorrectionFactory)
@@ -59,38 +60,6 @@ def get_atoms_list(factory: SoftwaresAbstractFactory) -> list:
     """
     atoms_map = factory.get_atoms_map()
     return list(atoms_map.values())
-
-
-def make_output_file(
-    gap: float,
-    valence_cuts: dict,
-    conduction_cuts: dict = None,
-    name: str = "minushalf_results.dat",
-) -> None:
-    """
-    Make output file for execute command
-    """
-    logger.info("Writing output file")
-    with open(name, "w") as file:
-        ## Write valence cuts
-        file.write("Valence correction cuts:\n")
-        for key, value in valence_cuts.items():
-            symbol, orbital = key
-            cut = value
-            file.write("\t({},{}):{:.2f}A\n".format(symbol, orbital, cut))
-        file.write(
-            "----------------------------------------------------------------")
-        ## Write conduction cuts
-        if conduction_cuts:
-            file.write("Conduction correction cuts:\n")
-            for key, value in conduction_cuts.items():
-                symbol, orbital = key
-                cut = value
-                file.write("\t({},{}):{:.2f}A\n".format(symbol, orbital, cut))
-        file.write(
-            "----------------------------------------------------------------")
-        ## Write gap
-        file.write("GAP: {:.3}eV".format(gap))
 
 
 @click.command()
@@ -169,14 +138,14 @@ def execute(quiet: bool):
 
         valence_correction = correction_factory.valence(**valence_options)
         valence_cuts, valence_gap = valence_correction.execute()
-        make_output_file(valence_cuts=valence_cuts, gap=valence_gap)
+        make_minushalf_results(valence_cuts=valence_cuts, gap=valence_gap)
 
     elif minushalf_yaml.correction.correction_code == CorrectionCode.vf.name:
 
         valence_fractionary_correction = correction_factory.valence_fractionary(
             **valence_options)
         valence_cuts, valence_gap = valence_fractionary_correction.execute()
-        make_output_file(valence_cuts=valence_cuts, gap=valence_gap)
+        make_minushalf_results(valence_cuts=valence_cuts, gap=valence_gap)
 
     elif minushalf_yaml.correction.correction_code == CorrectionCode.vc.name:
         valence_correction = correction_factory.valence(**valence_options)
@@ -184,9 +153,9 @@ def execute(quiet: bool):
             **conduction_options)
         valence_cuts, _ = valence_correction.execute()
         conduction_cuts, conduction_gap = conduction_correction.execute()
-        make_output_file(valence_cuts=valence_cuts,
-                         gap=conduction_gap,
-                         conduction_cuts=conduction_cuts)
+        make_minushalf_results(valence_cuts=valence_cuts,
+                               gap=conduction_gap,
+                               conduction_cuts=conduction_cuts)
 
     elif minushalf_yaml.correction.correction_code == CorrectionCode.vfc.name:
 
@@ -196,9 +165,9 @@ def execute(quiet: bool):
             **conduction_options)
         valence_cuts, _ = valence_fractionary_correction.execute()
         conduction_cuts, conduction_gap = conduction_correction.execute()
-        make_output_file(valence_cuts=valence_cuts,
-                         gap=conduction_gap,
-                         conduction_cuts=conduction_cuts)
+        make_minushalf_results(valence_cuts=valence_cuts,
+                               gap=conduction_gap,
+                               conduction_cuts=conduction_cuts)
 
     elif minushalf_yaml.correction.correction_code == CorrectionCode.vfcf.name:
 
@@ -206,8 +175,12 @@ def execute(quiet: bool):
             **valence_options)
         conduction_fractionary_correction = correction_factory.conduction_fractionary(
             **conduction_options)
-        valence_fractionary_correction.execute()
-        conduction_fractionary_correction.execute()
+        valence_cuts, _ = valence_fractionary_correction.execute()
+        conduction_cuts, conduction_gap = conduction_fractionary_correction.execute(
+        )
+        make_minushalf_results(valence_cuts=valence_cuts,
+                               gap=conduction_gap,
+                               conduction_cuts=conduction_cuts)
 
     elif minushalf_yaml.correction.correction_code == CorrectionCode.vcf.name:
         valence_correction = correction_factory.valence(**valence_options)
@@ -216,7 +189,7 @@ def execute(quiet: bool):
         valence_cuts, _ = valence_correction.execute()
         conduction_cuts, conduction_gap = conduction_fractionary_correction.execute(
         )
-        make_output_file(valence_cuts=valence_cuts,
-                         gap=conduction_gap,
-                         conduction_cuts=conduction_cuts)
+        make_minushalf_results(valence_cuts=valence_cuts,
+                               gap=conduction_gap,
+                               conduction_cuts=conduction_cuts)
     end_message()
