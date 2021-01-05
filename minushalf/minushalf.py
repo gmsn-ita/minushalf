@@ -18,7 +18,7 @@ from minushalf.commands import (
 @click.group()
 def minushalf():
     """
-    Group cli minushalf
+    CLI for automating DFT -1/2 calculations
     """
 
 
