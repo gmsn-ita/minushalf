@@ -48,6 +48,7 @@ def vbm_character(software: str, base_path: str) -> None:
                                    num_bands, band_projection_file)
     vbm_projection = band_structure.vbm_projection()
     normalized_df = projection_to_df(vbm_projection)
+
     click.echo(normalized_df.to_markdown())
 
     end_message()

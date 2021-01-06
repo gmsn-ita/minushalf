@@ -2,7 +2,7 @@
 Test vasp factory module
 """
 import numpy as np
-from minushalf.softwares.vasp import Procar, Potcar
+from minushalf.softwares.vasp import Procar, Potcar, VaspRunner
 from minushalf.softwares import VaspFactory
 
 
@@ -76,3 +76,12 @@ def test_get_eigenvalues(file_path):
     factory = VaspFactory()
     eigenvalues = factory.get_eigenvalues(base_path=base_path)
     assert np.isclose(eigenvalues[4][3], -5.397776)
+
+
+def test_get_runner():
+    """
+    Test get vasp rnner class
+    """
+    factory = VaspFactory()
+    runner = factory.get_runner()
+    assert isinstance(runner, VaspRunner)

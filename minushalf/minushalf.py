@@ -11,13 +11,14 @@ from minushalf.commands import (
     create_input,
     correct_potfile,
     band_gap,
+    execute,
 )
 
 
 @click.group()
 def minushalf():
     """
-    Group cli minushalf
+    CLI for automating DFT -1/2 calculations
     """
 
 
@@ -29,3 +30,4 @@ minushalf.add_command(band_character)
 minushalf.add_command(band_gap)
 minushalf.add_command(create_input)
 minushalf.add_command(correct_potfile)
+minushalf.add_command(execute)
