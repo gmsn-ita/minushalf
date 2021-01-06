@@ -15,10 +15,10 @@ class Vtotal():
         """
             Args:
 
-                radius (np.array): rays for which the potential calculations will be made made.
+                radius (np.array):Rays for which the potential calculations will be made made.
 
-                down_potential (np.array): potentials calculated to the state of spin Down for
-                each value of radius
+                down_potential (np.array):Potentials calculated to the state of spin Down for
+                                          each value of radius
         """
         self.vtotal_header_size = 1
         self.radius = radius
@@ -38,6 +38,7 @@ class Vtotal():
         """
         Extracts the potentials related to the state
         of spin Down calculated for the main elements
+            
             Args:
                 filename (str): Name of the VTOTAL file
         """
@@ -68,6 +69,7 @@ class Vtotal():
         """
         Extracts from the file information regarding the rays for
         which the potential calculations will be made made.
+            
             Args:
                 filename (str): Name of the VTOTAL file
         """

@@ -3,6 +3,7 @@ Test procar module
 The functions in this file obey the following rules:
 test_(what the function is meant to do)_(chemical compound)
 """
+import pytest
 import numpy as np
 from minushalf.softwares.vasp import Procar
 
@@ -305,3 +306,13 @@ def test_get_band_projection_kpt_9_band_8_bn_2d(file_path):
         for index, element in enumerate(projections):
             assert np.isclose(element,
                               kpt_9_band_8_projection[atom_index][index])
+
+
+@pytest.mark.xfail
+def test_procar_with_polarized_spin(file_path):
+    """
+    Test if the function colapses if
+    the procar has spin polarized data
+    """
+    filename = file_path("/insb-2d/PROCAR_SPIN_POLARIZED")
+    Procar(filename)

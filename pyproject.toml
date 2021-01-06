@@ -19,8 +19,8 @@ skipsdist=True
 
 [testenv]
 deps=
-    pytest
-    numpy
+    pytest>=6.2.1
+    numpy>=1.19.4
 usedevelop=True
 commands=
     pytest
