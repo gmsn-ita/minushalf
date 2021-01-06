@@ -106,11 +106,13 @@ class AtomicPotential():
 
         return potential
 
-    def correct_file(self,
-                     potential: list,
-                     cut: float,
-                     amplitude: float,
-                     is_conduction: bool = False) -> None:
+    def correct_file(
+        self,
+        potential: list,
+        cut: float,
+        amplitude: float,
+        is_conduction: bool = False,
+    ) -> None:
         """
         Create the potential file corrected
 
