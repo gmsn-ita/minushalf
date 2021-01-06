@@ -17,11 +17,11 @@ def correct_potential_fourier_transform(coefficient: float, k: float,
     v(-r)=-v(r) and n(-r)=-n(r), since purely real and odd functions have purely imaginary Fourier transforms.
     Let v' and n' be the odd extensions of the potential and the number density, respectively.
 
-         /\ inf          /\ inf                  /\ inf                   /\ inf
-         |               |                       |                        |
-    Ev = |  v(r)n(r)dr = |  v'(r)n'(r)dr = (1/2) |  v'(r)n'(r)dr = -(1/2) | V(k)N(k)dk
-         |               |                       |                        |
-        \/  0           \/  0                   \/ -inf                  \/ -inf
+    .. math::
+        E_{v} = \int_{0}^{\infty}v(r)n(r)dr = \int_{0}^{\infty}v'(r)n'(r)dr =
+        \frac{1}{2}\cdot\int_{-\infty}^{\infty}v'(r)n'(r)dr = -\frac{1}{2}\cdot\int_{-\infty}^{\infty}V(k)N(k)dk
+    
+
     On the third equalitty, we used the fact that the product of two odd
     functions is even, and in the last step we have applied Parseval's theorem,
     considering that the Fourier transforms are purely imaginary. Even though
@@ -29,12 +29,11 @@ def correct_potential_fourier_transform(coefficient: float, k: float,
 
     The data stored on POTCAR corresponds to the Fourier transform of the odd extension of v. It can be approximated
     by the summation on the right, where the prefactors were ommited.
-                                                    ______
-                        /\ inf                      \     | Nr
-                        |                            \
-    V(k) = i*sqrt(2/pi) |  v(r)sin(bkr)dr  => V(k) ~  >     (v[i]sin(bkr[i]) + v[i-1]sin(bkr[i-1]))/2 *(r[i]-r[i-1])
-                        |                            /
-                       \/ 0                         /_____| 1
+    
+    .. math::
+        V(k) = i\cdot \sqrt{\frac{2}{\pi}}\cdot\int_{0}^{\infty}v(r)sin(b\cdot k\cdot r)dr 
+        \Rightarrow V(k)\sim \sum^{N_{r}}_{i=1}
+        \frac{(v[i]\cdot sin(b\cdot k\cdot r[i])+v[i-1]\cdot sin(b\cdot k\cdot r[i-1]))}{2\cdot (r[i]-r[i-1])}
 
     Computes the opposite of the imaginary part of the j-th fourier transform coefficient
     through numerical integrationIndex zero stands for the r=DeltaR, and the function is
