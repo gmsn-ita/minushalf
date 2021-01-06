@@ -4,6 +4,7 @@ VASP software
 """
 import re
 from itertools import islice
+from loguru import logger
 from minushalf.interfaces import BandProjectionFile
 
 
@@ -24,6 +25,27 @@ class Procar(BandProjectionFile):
         self.filename = filename
         self.num_kpoints, self.num_bands = self._get_num_kpoints_and_bands()
         self.size_procar_header = 3
+        self.is_spin_polarized = self._is_spin_polarized()
+        if self.is_spin_polarized:
+            logger.error("The calculation is spin polarized")
+            raise ValueError(
+                "Minushalf CLI does not support calculations with spin polarized"
+            )
+
+    def _is_spin_polarized(self) -> bool:
+        """
+        Check if the calculation
+        is spin polarized
+        """
+        header_regex = re.compile(
+            r"^\s*#\s+of\s+k-points:\s+([0-9]+)\s+#\s+of\s+bands:\s+([0-9]+)")
+        with open(self.filename, "r") as procar:
+
+            for line in islice(procar, self.size_procar_header, None):
+                header_match = header_regex.match(line)
+                if header_match:
+                    return True
+        return False
 
     def _get_num_kpoints_and_bands(self) -> tuple:
         """
