@@ -10,13 +10,15 @@ def ternary_search(minimum: float, maximum: float, cost_function: any,
     """
     Given a unimodal cost function, it realizes ternary
     search and return the maximum value of the function
+        
         Args:
             minimum (float): minimum value of the search
             maximum (float): maximum value of the search
             cost_function (function): function to be evaluated
+        
         Returns:
-            (x,y) (tuple): value at which the function reaches its maximum
-                            and the maximum value of the function
+            result (tuple):value at which the function reaches its maximum
+                          and the maximum value of the function
     """
     while not np.isclose(maximum, minimum):
         mid_left = minimum + (maximum - minimum) / 3

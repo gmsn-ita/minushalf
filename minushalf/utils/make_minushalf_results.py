@@ -16,17 +16,13 @@ def make_minushalf_results(
         Args:
             gap (float): final gap in the correction method
 
-            valence_cuts (dict): dictionary inform the atom symbol, orbital
-            and cut for valence correction in the following format.
-            {
-                (symbol,orbital):cut
-            }
+            valence_cuts (dict):dictionary inform the atom symbol, orbital
+                                and cut for valence correction in the following format:
+                                {(symbol,orbital):cut}
 
             conduction_cuts (dict):dictionary inform the atom symbol, orbital
-            and cut for condsuction correction in the following format.
-            {
-                (symbol,orbital):cut
-            }
+                                   and cut for condsuction correction in the following format.
+                                   {(symbol,orbital):cut}
 
             name (str): name of the file
     """
