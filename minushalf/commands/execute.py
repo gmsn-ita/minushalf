@@ -134,20 +134,22 @@ def execute(quiet: bool):
     }
 
     logger.info("Doing corrections")
-    if minushalf_yaml.correction.correction_code == CorrectionCode.v.name:
+    if minushalf_yaml.correction["correction_code"] == CorrectionCode.v.name:
 
         valence_correction = correction_factory.valence(**valence_options)
         valence_cuts, valence_gap = valence_correction.execute()
         make_minushalf_results(valence_cuts=valence_cuts, gap=valence_gap)
 
-    elif minushalf_yaml.correction.correction_code == CorrectionCode.vf.name:
+    elif minushalf_yaml.correction[
+            "correction_code"] == CorrectionCode.vf.name:
 
         valence_fractionary_correction = correction_factory.valence_fractionary(
             **valence_options)
         valence_cuts, valence_gap = valence_fractionary_correction.execute()
         make_minushalf_results(valence_cuts=valence_cuts, gap=valence_gap)
 
-    elif minushalf_yaml.correction.correction_code == CorrectionCode.vc.name:
+    elif minushalf_yaml.correction[
+            "correction_code"] == CorrectionCode.vc.name:
         valence_correction = correction_factory.valence(**valence_options)
         conduction_correction = correction_factory.conduction(
             **conduction_options)
@@ -157,7 +159,8 @@ def execute(quiet: bool):
                                gap=conduction_gap,
                                conduction_cuts=conduction_cuts)
 
-    elif minushalf_yaml.correction.correction_code == CorrectionCode.vfc.name:
+    elif minushalf_yaml.correction[
+            "correction_code"] == CorrectionCode.vfc.name:
 
         valence_fractionary_correction = correction_factory.valence_fractionary(
             **valence_options)
@@ -169,7 +172,8 @@ def execute(quiet: bool):
                                gap=conduction_gap,
                                conduction_cuts=conduction_cuts)
 
-    elif minushalf_yaml.correction.correction_code == CorrectionCode.vfcf.name:
+    elif minushalf_yaml.correction[
+            "correction_code"] == CorrectionCode.vfcf.name:
 
         valence_fractionary_correction = correction_factory.valence_fractionary(
             **valence_options)
@@ -182,7 +186,8 @@ def execute(quiet: bool):
                                gap=conduction_gap,
                                conduction_cuts=conduction_cuts)
 
-    elif minushalf_yaml.correction.correction_code == CorrectionCode.vcf.name:
+    elif minushalf_yaml.correction[
+            "correction_code"] == CorrectionCode.vcf.name:
         valence_correction = correction_factory.valence(**valence_options)
         conduction_fractionary_correction = correction_factory.conduction_fractionary(
             **conduction_options)

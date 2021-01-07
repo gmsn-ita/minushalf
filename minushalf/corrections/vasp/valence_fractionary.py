@@ -65,7 +65,7 @@ class VaspValenceFractionaryCorrection(Correction):
             AtomicProgramDefaultParams.calculation_code.name]
 
         self.amplitude = minushalf_yaml.correction[
-            CorrectionDefaultParams.amplitude.value]
+            CorrectionDefaultParams.amplitude.name]
 
         self.runner = runner
 
@@ -174,10 +174,11 @@ class VaspValenceFractionaryCorrection(Correction):
                 the optimum cut and the gap generated
                 by the correction.
         """
-        folder_name = f"mkpotcar_{symbol}_{orbital}"
+        folder_name = f"mkpotcar_{symbol.lower()}_{orbital.lower()}"
         path = os.path.join(self.root_folder, folder_name)
         if os.path.exists(path):
             shutil.rmtree(path)
+        os.mkdir(folder_name)
         self._generate_atom_pseudopotential(path, symbol)
 
         percentual = 100 * (self.vbm_projection[orbital][symbol] /

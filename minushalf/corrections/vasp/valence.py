@@ -5,9 +5,7 @@ simple valence correction and optimizes the necessary parameters.
 import itertools
 import os
 import shutil
-from math import inf
 from subprocess import Popen, PIPE
-from loguru import logger
 import numpy as np
 import pandas as pd
 from minushalf.data import (CorrectionDefaultParams,
@@ -67,7 +65,7 @@ class VaspValenceCorrection(Correction):
             AtomicProgramDefaultParams.calculation_code.name]
 
         self.amplitude = minushalf_yaml.correction[
-            CorrectionDefaultParams.amplitude.value]
+            CorrectionDefaultParams.amplitude.name]
 
         self.runner = runner
 
@@ -142,7 +140,7 @@ class VaspValenceCorrection(Correction):
         columns_name = self.vbm_projection.columns.tolist()
         rows_name = self.vbm_projection.index.tolist()
 
-        maximum_projection = -inf
+        maximum_projection = -9999999999999999999999
 
         for row, column in itertools.product(rows_name, columns_name):
             projection = self.vbm_projection[column][row]
@@ -178,10 +176,11 @@ class VaspValenceCorrection(Correction):
                 the optimum cut and the gap generated
                 by the correction.
         """
-        folder_name = f"mkpotcar_{symbol}_{orbital}"
+        folder_name = "mkpotcar_{}_{}".format(symbol.lower(), orbital.lower())
         path = os.path.join(self.root_folder, folder_name)
         if os.path.exists(path):
             shutil.rmtree(path)
+        os.mkdir(path)
         self._generate_atom_pseudopotential(path, symbol)
 
         percentual = 100 * (self.vbm_projection[orbital][symbol] /
@@ -209,13 +208,14 @@ class VaspValenceCorrection(Correction):
         folder_path = os.path.join(base_path, "pseudopotential")
         if os.path.exists(folder_path):
             shutil.rmtree(folder_path)
+        os.mkdir(folder_path)
         input_file = InputFile.minimum_setup(
             symbol,
             self.exchange_correlation_type,
             self.max_iterations,
             self.calculation_code,
         )
-        input_file.to_file(folder_path)
+        input_file.to_file(os.path.join(folder_path, "INP"))
         process = Popen(['minushalf', 'run-atomic'],
                         stdout=PIPE,
                         stderr=PIPE,
@@ -223,7 +223,7 @@ class VaspValenceCorrection(Correction):
 
         _, stderr = process.communicate()
         if stderr:
-            logger.error("Call to atomic program failed")
+
             raise Exception("Call to atomic program failed")
 
     def _generate_occupation_potential(
@@ -245,7 +245,7 @@ class VaspValenceCorrection(Correction):
         """
         folder_path = os.path.join(base_path, "pseudopotential")
         if not os.path.exists(folder_path):
-            logger.error("Folder for pseudopotential does not exist")
+
             raise FileNotFoundError(
                 "Folder for pseudopotential does not exist")
         secondary_quantum_number = OrbitalType[orbital].value
@@ -306,12 +306,9 @@ class VaspValenceCorrection(Correction):
             "amplitude": self.amplitude,
             "atoms": self.atoms,
         }
-        cut, eigenvalue = ternary_search(
-            0,
-            15,
-            VaspValenceCorrection.find_band_gap,
-            **function_args,
-        )
+        cut, eigenvalue = ternary_search(0, 15,
+                                         VaspValenceCorrection.find_band_gap,
+                                         **function_args)
         return cut, eigenvalue
 
     @staticmethod
@@ -340,7 +337,7 @@ class VaspValenceCorrection(Correction):
         if os.path.exists(potential_path):
             os.remove(potential_path)
         else:
-            logger.error("Potfile does not found")
+
             raise FileNotFoundError()
 
         potential = atom_potential.correct_potential(cut, amplitude)
