@@ -24,7 +24,7 @@ class VaspRunner(Runner):
         else:
             self.number_of_cores = number_of_cores
 
-    def run(self):
+    def run(self, cwd: str = "."):
         """
         Create a subproccess to run
         vasp
@@ -34,4 +34,4 @@ class VaspRunner(Runner):
             str(self.number_of_cores), self.path_to_vasp
         ]
 
-        subprocess.run(command, check=True)
+        subprocess.run(command, check=True, cwd=cwd)
