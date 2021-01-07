@@ -184,8 +184,8 @@ class VaspValenceCorrection(Correction):
             shutil.rmtree(path)
         self._generate_atom_pseudopotential(path, symbol)
 
-        percentual = (self.vbm_projection[orbital][symbol] /
-                      self.sum_correction_percentual)
+        percentual = 100 * (self.vbm_projection[orbital][symbol] /
+                            self.sum_correction_percentual)
         self._generate_occupation_potential(path, orbital, round(percentual))
         self.atom_potential = self._get_atom_potential(path, symbol)
 
