@@ -424,7 +424,7 @@ class VaspValenceCorrection(Correction):
 
                 Args:
                     cut (float): Cut radius to the algorithm
-                    *args (tuple): tuple containning a dictionary with the 
+                    *args (tuple): tuple containning a dictionary with the
                     following fields:
                         base_path (str): Path to mkpotcar{symbol}_{orbital}
                         symbol (str): Atom symbol
