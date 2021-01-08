@@ -13,7 +13,6 @@ def test_ternary_search_first():
     """
     cost_function = lambda x: -x**2 + 2 * x + 1
     result = ternary_search(0, 10, cost_function)
-    print(result)
     assert np.isclose(result[0], 1.0)
     assert np.isclose(result[1], 2.0)
 
