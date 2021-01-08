@@ -6,12 +6,13 @@ import itertools
 import os
 import shutil
 from subprocess import Popen, PIPE
+from scipy.optimize import minimize
 import numpy as np
 import pandas as pd
 from minushalf.data import (CorrectionDefaultParams,
                             AtomicProgramDefaultParams, OrbitalType)
-from minushalf.utils import (ternary_search, InputFile, Vtotal, MinushalfYaml,
-                             AtomicPotential, BandStructure)
+from minushalf.utils import (InputFile, Vtotal, MinushalfYaml, AtomicPotential,
+                             BandStructure)
 from minushalf.interfaces import (Correction, Runner, SoftwaresAbstractFactory)
 
 
@@ -79,28 +80,33 @@ class VaspValenceCorrection(Correction):
 
         self.valence_potfiles_folder = "valence_potfiles"
 
-    def execute(self) -> list:
+    def execute(self) -> tuple:
         """
         Execute valence correction algorithm
         """
+        ## make valence folder in mkpotfiles
+        self.root_folder = os.path.join(self.root_folder, "valence")
+        if os.path.exists(self.root_folder):
+            shutil.rmtree(self.root_folder)
+        os.mkdir(self.root_folder)
+
         cuts_per_atom_orbital = {}
-        gap = 0
         self._make_valence_potential_folder()
         self.corrections_index = self._get_corrections_indexes()
         self.sum_correction_percentual = self._get_sum_correction_percentual()
 
         for symbol, orbitals in self.corrections_index.items():
             for orbital in orbitals:
-                cut, gap = self._find_best_correction(symbol, orbital)
+                cut = self._find_best_correction(symbol, orbital)
                 cuts_per_atom_orbital[(symbol, orbital)] = cut
 
-        return (cuts_per_atom_orbital, gap)
+        return (cuts_per_atom_orbital)
 
     def _make_valence_potential_folder(self):
         """
-        create the folder valence potfiles
-        and populate it with all potfiles
-        available in the init method.
+        create the folder that will store
+        the potfiles corrected with an cut
+        value that returns tha maximum gap
         """
         name = self.valence_potfiles_folder
         if os.path.exists(name):
@@ -124,8 +130,9 @@ class VaspValenceCorrection(Correction):
 
     def _get_corrections_indexes(self) -> dict:
         """
-        Get dataframe index of the orbital which contributes more
-        to VBM
+        Get index of the orbital which contributes more
+        to VBM.
+
             Returns:
                 correction_indexes (dict): A dict wherw the keys are the atoms
                 symbols and the value is a list with the orbitals type to be
@@ -163,11 +170,12 @@ class VaspValenceCorrection(Correction):
                 total_sum += self.vbm_projection[orbital][symbol]
         return total_sum
 
-    def _find_best_correction(self, symbol: str, orbital: str) -> tuple:
+    def _find_best_correction(self, symbol: str, orbital: str) -> float:
         """
         Correct the potcar of the atom symbol in the
         orbital given. Then, find the best cut to the
         the correciton.
+
             Args:
                 symbol (str): Atom symbol
                 orbital (str): Orbital type (s,p,d,f)
@@ -188,8 +196,38 @@ class VaspValenceCorrection(Correction):
         self._generate_occupation_potential(path, orbital, round(percentual))
         self.atom_potential = self._get_atom_potential(path, symbol)
 
-        cut, gap = self._find_cut(symbol, path)
-        return (cut, gap)
+        cut = self._find_cut(symbol, path)
+        self._write_result_in_potfile(symbol, cut, self.amplitude)
+        return cut
+
+    def _write_result_in_potfile(
+        self,
+        symbol: str,
+        cut: float,
+        amplitude: float,
+    ):
+        """
+        Write the result of the optimization in the
+        valence potfiles folder.
+
+            Args:
+                symbol (str): Atom symbol
+                amplitude (float): Scale factor to trimming function
+                cut (float): Cut radius to the algorithm
+
+        """
+        potential = self.atom_potential.correct_potential(cut, amplitude)
+        lines = self.atom_potential.get_corrected_file_lines(potential)
+
+        new_potential_path = os.path.join(
+            self.valence_potfiles_folder,
+            "{}.{}".format(self.potential_filename.upper(), symbol.lower()))
+
+        if os.path.exists(new_potential_path):
+            os.remove(new_potential_path)
+
+        with open(new_potential_path, "w") as file:
+            file.writelines(lines)
 
     def _generate_atom_pseudopotential(
         self,
@@ -199,10 +237,10 @@ class VaspValenceCorrection(Correction):
         """
         Make a dir with the atoms name,generate
         the input file and run the atomic program
+
             Args:
                 symbol (str): Atom symbol
-                base_path (str): path to folder that will execute
-                ab initio calculations
+                base_path (str): Path to mkpotcar{symbol}_{orbital}
         """
 
         folder_path = os.path.join(base_path, "pseudopotential")
@@ -216,7 +254,7 @@ class VaspValenceCorrection(Correction):
             self.calculation_code,
         )
         input_file.to_file(os.path.join(folder_path, "INP"))
-        process = Popen(['minushalf', 'run-atomic'],
+        process = Popen(['minushalf', 'run-atomic', "--quiet"],
                         stdout=PIPE,
                         stderr=PIPE,
                         cwd=folder_path)
@@ -235,12 +273,10 @@ class VaspValenceCorrection(Correction):
         """
         Generate the pseudo potential for the occupation
         of a fraction of half electron.
+
             Args:
-                base_path (str): path to folder that will execute
-                ab initio calculations
-
+                base_path (str): Path to mkpotcar{symbol}_{orbital}
                 orbital (str): Orbital that will be corrected
-
                 percentual (int): Percentual of the correction
         """
         folder_path = os.path.join(base_path, "pseudopotential")
@@ -251,7 +287,7 @@ class VaspValenceCorrection(Correction):
         secondary_quantum_number = OrbitalType[orbital].value
         process = Popen([
             "minushalf", "occupation", "{}".format(secondary_quantum_number),
-            "{}".format(percentual)
+            "{}".format(percentual), "--quiet"
         ],
                         stdout=PIPE,
                         stderr=PIPE,
@@ -265,10 +301,10 @@ class VaspValenceCorrection(Correction):
                             symbol: str) -> AtomicPotential:
         """
         Creates atom_potential class
+
             Args:
                 symbol (str): Atom symbol
-                base_path (str): path to folder that will execute
-                ab initio calculations
+                base_path (str): Path to mkpotcar{symbol}_{orbital}
         """
         pseudopotential_folder = os.path.join(base_path, "pseudopotential")
         vtotal_path = os.path.join(pseudopotential_folder, "VTOTAL.ae")
@@ -276,8 +312,9 @@ class VaspValenceCorrection(Correction):
         vtotal = Vtotal.from_file(vtotal_path)
         vtotal_occ = Vtotal.from_file(vtotal_occ_path)
 
-        potential_filename = "{}.{}".format(self.potential_filename.upper,
+        potential_filename = "{}.{}".format(self.potential_filename.upper(),
                                             symbol.lower())
+
         potential_class = self.software_factory.get_potential_class(
             potential_filename, self.valence_potfiles_folder)
 
@@ -286,10 +323,10 @@ class VaspValenceCorrection(Correction):
     def _find_cut(self, symbol: str, base_path: str) -> tuple:
         """
         Find the cut which gives the maximum gap
+
             Args:
                 symbol (str): Atom symbol
-                base_path (str): path to folder that will execute
-                ab initio calculations
+                base_path (str): Path to mkpotcar{symbol}_{orbital}
         """
         folder = os.path.join(base_path, "find_cut")
         if os.path.exists(folder):
@@ -302,48 +339,41 @@ class VaspValenceCorrection(Correction):
             "symbol": symbol,
             "default_potential_filename": self.potential_filename,
             "atom_potential": self.atom_potential,
-            "potfiles_folder": self.valence_potfiles_folder,
+            "potfiles_folder": self.potential_folder,
             "amplitude": self.amplitude,
             "atoms": self.atoms,
         }
-        cut, eigenvalue = ternary_search(0, 15,
-                                         VaspValenceCorrection.find_band_gap,
-                                         **function_args)
-        return cut, eigenvalue
+        res = minimize(VaspValenceCorrection.find_band_gap,
+                       x0=3,
+                       args=(function_args),
+                       method="Nelder-Mead",
+                       tol=0.01)
+        cut = res.x[0]
+
+        if not res.success:
+            print("Optimization failed")
+            raise Exception("Optimization failed.")
+
+        return cut
 
     @staticmethod
-    def _write_potfile(
+    def _get_corrected_potfile_lines(
         cut: float,
-        symbol: str,
-        default_potential_filename: str,
         atom_potential: AtomicPotential,
-        potfiles_folder: str,
         amplitude: float,
-    ) -> None:
+    ) -> list:
         """
         Modify the potential file that was corrected
+
             Args:
-                cut (float): cut radius to the algorithm
-                symbol (str): Atom symbol
-                default_potential_filename (str): The default potential filename for each software
-                potfiles_folder (str): folder where the modified potfiles will be placed
-                amplitude (float): scale factor to trimming function
+                cut (float): Cut radius to the algorithm
+                atom_potential(AtomicPotential): Class that represents the
+                potential of the atom
+                amplitude (float): Scale factor to trimming function
         """
-
-        potential_filename = "{}.{}".format(default_potential_filename.upper(),
-                                            symbol.lower())
-
-        potential_path = os.path.join(potfiles_folder, potential_filename)
-        if os.path.exists(potential_path):
-            os.remove(potential_path)
-        else:
-
-            raise FileNotFoundError()
-
         potential = atom_potential.correct_potential(cut, amplitude)
         lines = atom_potential.get_corrected_file_lines(potential)
-        with open(potential_path, "w") as file:
-            file.writelines(lines)
+        return lines
 
     @staticmethod
     def _join_potfiles(
@@ -351,67 +381,69 @@ class VaspValenceCorrection(Correction):
         default_potential_filename: str,
         atoms: list,
         potfiles_folder: str,
+        symbol: str,
+        corrected_potfile_lines: list,
     ):
         """
         Join valence potfiles in one
 
         Args:
-            base_path (str): Path to write the joined potfile
+            base_path (str): Path to mkpotcar{symbol}_{orbital}
             symbol (str): Atom symbol
             default_potential_filename (str): The default potential filename for each software
-            potfiles_folder (str): folder where the modified potfiles will be placed
+            potfiles_folder (str): Folder containing unmodified potfiles
+            symbol (str): symbol of the atom to be corrected
+            potfile_lines (list): Lines of the corrected potential file
 
         """
         path = os.path.join(base_path, default_potential_filename.upper())
         if os.path.exists(path):
-            shutil.rmtree(path)
-        os.mkdir(path)
+            os.remove(path)
         potential_file = open(path, "w")
 
         try:
             for atom in atoms:
 
-                potential_filename = "{}.{}".format(
-                    default_potential_filename.upper(), atom.lower())
-                potential_path = os.path.join(potfiles_folder,
-                                              potential_filename)
+                if not atom == symbol:
+                    potential_filename = "{}.{}".format(
+                        default_potential_filename.upper(), atom.lower())
+                    potential_path = os.path.join(potfiles_folder,
+                                                  potential_filename)
 
-                with open(potential_path, "r") as file:
-                    potential_file.write(file.read())
+                    with open(potential_path, "r") as file:
+                        potential_file.write(file.read())
+                else:
+                    potential_file.writelines(corrected_potfile_lines)
         finally:
             potential_file.close()
 
     @staticmethod
-    def find_band_gap(
-        cut: float,
-        base_path: str,
-        software_factory: SoftwaresAbstractFactory,
-        runner: Runner,
-        symbol: str,
-        default_potential_filename: str,
-        atom_potential: AtomicPotential,
-        potfiles_folder: str,
-        amplitude: float,
-        atoms: list,
-    ) -> float:
+    def find_band_gap(cut: float, *args: tuple) -> float:
         """
             Run vasp and find the eigenvalue for a value of cut
+
                 Args:
-                    base_path (str): path to folder that will execute
-                    ab initio calculations
-                    symbol (str): Atom symbol
-                    default_potential_filename (str): The default potential filename for each software
-                    potfiles_folder (str): folder where the modified potfiles will be placed
-                    cut (float): cut radius to the algorithm
-                    amplitude (float): scale factor to trimming function
-                    runner (Runner): runner for the software
-                    software_factory(SoftwaresAbstractFactory): Factory for each software
+                    cut (float): Cut radius to the algorithm
+                    *args (tuple): tuple containning a dictionary with the 
+                    following fields:
+                        base_path (str): Path to mkpotcar{symbol}_{orbital}
+                        symbol (str): Atom symbol
+                        default_potential_filename (str): The default potential filename for each software
+                        potfiles_folder (str): Folder containing unmodified potfiles
+                        amplitude (float): scale factor to trimming function
+                        runner (Runner): runner for the software
+                        software_factory(SoftwaresAbstractFactory): Factory for each software
+                        atom_potential(AtomicPotential): Holds fourier transforms of the potential
+
                 Returns:
-                    gap (float): band gap for an specific
+                    reverse_gap (float): band gap multiplied for -1
 
         """
+        extra_args = args[0]
+        runner = extra_args["runner"]
+        software_factory = extra_args["software_factory"]
 
-        find_cut_path = os.path.join(base_path, "find_cut")
+        find_cut_path = os.path.join(extra_args["base_path"], "find_cut")
         cut_folder = os.path.join(find_cut_path, "cut_{:.2f}".format(cut))
 
         if os.path.exists(cut_folder):
@@ -422,19 +454,18 @@ class VaspValenceCorrection(Correction):
         for file in vasp_files:
             shutil.copyfile(file, os.path.join(cut_folder, file))
 
-        VaspValenceCorrection._write_potfile(
+        potfile_lines = VaspValenceCorrection._get_corrected_potfile_lines(
             cut,
-            symbol,
-            default_potential_filename,
-            atom_potential,
-            potfiles_folder,
-            amplitude,
+            extra_args["atom_potential"],
+            extra_args["amplitude"],
         )
         VaspValenceCorrection._join_potfiles(
-            base_path,
-            default_potential_filename,
-            atoms,
-            potfiles_folder,
+            cut_folder,
+            extra_args["default_potential_filename"],
+            extra_args["atoms"],
+            extra_args["potfiles_folder"],
+            extra_args["symbol"],
+            potfile_lines,
         )
 
         runner.run(cut_folder)
@@ -450,4 +481,4 @@ class VaspValenceCorrection(Correction):
                                        num_bands, band_projection_file)
 
         gap_report = band_structure.band_gap()
-        return gap_report["gap"]
+        return (-1) * gap_report["gap"]

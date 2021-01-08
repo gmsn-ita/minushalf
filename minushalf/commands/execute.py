@@ -4,6 +4,7 @@ Execute command
 import os
 import sys
 import shutil
+from collections import OrderedDict
 import click
 from loguru import logger
 from minushalf.utils import (
@@ -59,7 +60,8 @@ def get_atoms_list(factory: SoftwaresAbstractFactory) -> list:
     Returns atoms_list
     """
     atoms_map = factory.get_atoms_map()
-    return list(atoms_map.values())
+    atoms = [atoms_map[key] for key in sorted(atoms_map)]
+    return list(OrderedDict.fromkeys(atoms))
 
 
 @click.command()
@@ -99,13 +101,6 @@ def execute(quiet: bool):
     if os.path.exists(root_folder):
         shutil.rmtree(root_folder)
     os.mkdir(root_folder)
-    ## make valence folder
-    valence_path = os.path.join(root_folder, "valence")
-    os.mkdir(valence_path)
-
-    ## make conduction folder
-    conduction_path = os.path.join(root_folder, "conduction")
-    os.mkdir(conduction_path)
 
     ## get vbm projection
     logger.info("Get Vbm and CBM projections")
@@ -117,7 +112,7 @@ def execute(quiet: bool):
     atoms = get_atoms_list(software_factory)
 
     valence_options = {
-        "root_folder": valence_path,
+        "root_folder": root_folder,
         "software_factory": software_factory,
         "runner": runner,
         "minushalf_yaml": minushalf_yaml,
@@ -125,7 +120,7 @@ def execute(quiet: bool):
         "atoms": atoms
     }
     conduction_options = {
-        "root_folder": valence_path,
+        "root_folder": root_folder,
         "software_factory": software_factory,
         "runner": runner,
         "minushalf_yaml": minushalf_yaml,
