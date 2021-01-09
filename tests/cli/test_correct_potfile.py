@@ -87,7 +87,6 @@ def test_correct_potfile_ga_third(file_path):
                 filename = "POTCARcut{:.2f}".format(cut)
             else:
                 filename = "POTCARcut{:.2f}A{:.1f}".format(cut, amplitude)
-            print(filename)
 
             assert os.path.exists(filename) == True
 
