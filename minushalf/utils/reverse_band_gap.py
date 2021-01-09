@@ -5,6 +5,7 @@ cut value that results in the maximum band_gap
 """
 import os
 import shutil
+import math
 from .atomic_potential import AtomicPotential
 from .band_structure import BandStructure
 
@@ -97,6 +98,10 @@ def find_reverse_band_gap(cuts: list, *args: tuple) -> float:
         """
     extra_args = args[0]
     cut = cuts[0]
+    print(cut)
+    print(extra_args)
+    if cut <= 0:
+        return (-1) * math.inf
     runner = extra_args["runner"]
     software_factory = extra_args["software_factory"]
 
