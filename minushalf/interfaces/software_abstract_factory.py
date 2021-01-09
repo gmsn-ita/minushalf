@@ -67,7 +67,7 @@ class SoftwaresAbstractFactory(ABC):
         """
 
     @abstractmethod
-    def get_runner(self):
+    def get_runner(self, path: str, number_of_cores: int):
         """
         Get a class that run
         the software for ab initio calculations
