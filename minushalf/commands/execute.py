@@ -92,7 +92,8 @@ def execute(quiet: bool):
 
     ## Makes abinition calculation
     logger.info("Running ab initio calculations")
-    runner = software_factory.get_runner()
+    software_configurations = minushalf_yaml.software_configurations
+    runner = software_factory.get_runner(**software_configurations)
     runner.run()
 
     ## Makes root folder

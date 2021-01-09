@@ -35,7 +35,7 @@ def test_to_list_vasp():
     Test to_list method in vasp params
     """
     params_list = VaspDefaultParams.to_list()
-    assert params_list[0] == 4
+    assert params_list[0] == 1
     assert params_list[1] == "vasp"
 
 
@@ -44,7 +44,7 @@ def test_to_dict_vasp():
     Test to_dict method in vasp params
     """
     params_list = VaspDefaultParams.to_dict()
-    assert params_list["number_of_cores"] == 4
+    assert params_list["number_of_cores"] == 1
     assert params_list["path"] == "vasp"
 
 
@@ -56,6 +56,9 @@ def test_to_list_correction():
     assert params_list[0] == "v"
     assert params_list[1] == "minushalf_potfiles"
     assert np.isclose(params_list[2], 1.0)
+    assert np.isclose(params_list[3], 3.0)
+    assert np.isclose(params_list[4], 2.0)
+    assert np.isclose(params_list[5], 0.01)
 
 
 def test_to_dict_correction():
@@ -66,6 +69,9 @@ def test_to_dict_correction():
     assert params_list["correction_code"] == "v"
     assert params_list["potfiles_folder"] == "minushalf_potfiles"
     assert np.isclose(params_list["amplitude"], 1.0)
+    assert np.isclose(params_list["valence_initial_guess"], 3.0)
+    assert np.isclose(params_list["conduction_initial_guess"], 2.0)
+    assert np.isclose(params_list["tolerance"], 0.01)
 
 
 def test_to_list_minushalf_params():

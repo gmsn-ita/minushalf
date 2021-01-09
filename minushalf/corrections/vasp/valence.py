@@ -68,6 +68,12 @@ class VaspValenceCorrection(Correction):
         self.amplitude = minushalf_yaml.correction[
             CorrectionDefaultParams.amplitude.name]
 
+        self.cut_initial_guess = minushalf_yaml.correction[
+            CorrectionDefaultParams.valence_initial_guess.name]
+
+        self.tolerance = minushalf_yaml.correction[
+            CorrectionDefaultParams.tolerance.name]
+
         self.runner = runner
 
         self.software_factory = software_factory
@@ -78,7 +84,7 @@ class VaspValenceCorrection(Correction):
 
         self.sum_correction_percentual = 100
 
-        self.valence_potfiles_folder = "valence_potfiles"
+        self.valence_potfiles_folder = "corrected_valence_potfiles"
 
     def execute(self) -> tuple:
         """
@@ -99,8 +105,54 @@ class VaspValenceCorrection(Correction):
             for orbital in orbitals:
                 cut = self._find_best_correction(symbol, orbital)
                 cuts_per_atom_orbital[(symbol, orbital)] = cut
+        gap = self._get_result_gap()
+        return (cuts_per_atom_orbital, gap)
 
-        return (cuts_per_atom_orbital)
+    def _get_result_gap(self) -> float:
+        """
+        Return the gap after the optimization of all potfiles
+        """
+        calculation_folder = "calculate_valence_gap"
+        if os.path.exists(calculation_folder):
+            shutil.rmtree(calculation_folder)
+        os.mkdir(calculation_folder)
+
+        vasp_files = ["INCAR", "KPOINTS", "POSCAR"]
+        for file in vasp_files:
+            shutil.copyfile(file, os.path.join(calculation_folder, file))
+
+        potfile_path = os.path.join(calculation_folder,
+                                    self.potential_filename)
+        potential_file = open(potfile_path, "w")
+        try:
+            for atom in self.atoms:
+                atom_potfilename = "{}.{}".format(
+                    self.potential_filename.upper(), atom.lower())
+                atom_potpath = os.path.join(self.valence_potfiles_folder,
+                                            atom_potfilename)
+                with open(atom_potpath) as file:
+                    potential_file.write(file.read())
+        finally:
+            potential_file.close()
+        ## Run ab initio calculations
+        self.runner.run(calculation_folder)
+
+        eigenvalues = self.software_factory.get_eigenvalues(
+            base_path=calculation_folder)
+        fermi_energy = self.software_factory.get_fermi_energy(
+            base_path=calculation_folder)
+        atoms_map = self.software_factory.get_atoms_map(
+            base_path=calculation_folder)
+        num_bands = self.software_factory.get_number_of_bands(
+            base_path=calculation_folder)
+        band_projection_file = self.software_factory.get_band_projection_class(
+            base_path=calculation_folder)
+
+        band_structure = BandStructure(eigenvalues, fermi_energy, atoms_map,
+                                       num_bands, band_projection_file)
+
+        gap_report = band_structure.band_gap()
+        return gap_report["gap"]
 
     def _make_valence_potential_folder(self):
         """
@@ -344,10 +396,10 @@ class VaspValenceCorrection(Correction):
             "atoms": self.atoms,
         }
         res = minimize(VaspValenceCorrection.find_band_gap,
-                       x0=3,
+                       x0=self.cut_initial_guess,
                        args=(function_args),
                        method="Nelder-Mead",
-                       tol=0.01)
+                       tol=self.tolerance)
         cut = res.x[0]
 
         if not res.success:
@@ -418,12 +470,12 @@ class VaspValenceCorrection(Correction):
             potential_file.close()
 
     @staticmethod
-    def find_band_gap(cut: float, *args: tuple) -> float:
+    def find_band_gap(cuts: list, *args: tuple) -> float:
         """
             Run vasp and find the eigenvalue for a value of cut
 
                 Args:
-                    cut (float): Cut radius to the algorithm
+                    cuts (float): List of cuts
                     *args (tuple): tuple containning a dictionary with the
                     following fields:
                         base_path (str): Path to mkpotcar{symbol}_{orbital}
@@ -440,6 +492,7 @@ class VaspValenceCorrection(Correction):
 
         """
         extra_args = args[0]
+        cut = cuts[0]
         runner = extra_args["runner"]
         software_factory = extra_args["software_factory"]
 
