@@ -98,8 +98,6 @@ def find_reverse_band_gap(cuts: list, *args: tuple) -> float:
         """
     extra_args = args[0]
     cut = cuts[0]
-    print(cut)
-    print(extra_args)
     if cut <= 0:
         return (-1) * math.inf
     runner = extra_args["runner"]
