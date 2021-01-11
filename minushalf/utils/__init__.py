@@ -9,7 +9,6 @@ from .parse_valence_orbital_line import parse_valence_orbitals
 from .trimming_function import trimming_function
 from .correct_potential_fourier_transform import correct_potential_fourier_transform
 from .projection_to_df import projection_to_df
-from .ternary_search import ternary_search
 from .band_structure import BandStructure
 from .atomic_potential import AtomicPotential
 from .check_file_exists import (check_eigenval_exists, check_vasprun_exists,
