@@ -6,6 +6,7 @@ import os
 import shutil
 from subprocess import Popen, PIPE
 from scipy.optimize import minimize
+from loguru import logger
 import pandas as pd
 from minushalf.data import (CorrectionDefaultParams,
                             AtomicProgramDefaultParams, OrbitalType)
@@ -53,8 +54,11 @@ class VaspCorrection(Correction):
 
         self.band_projection = band_projection
 
-        self.potential_folder = minushalf_yaml.correction[
-            CorrectionDefaultParams.potfiles_folder.name]
+        if is_conduction:
+            self.potential_folder = "corrected_valence_potfiles"
+        else:
+            self.potential_folder = minushalf_yaml.correction[
+                CorrectionDefaultParams.potfiles_folder.name]
 
         self.exchange_correlation_type = minushalf_yaml.atomic_program[
             AtomicProgramDefaultParams.exchange_correlation_code.name]
@@ -103,6 +107,35 @@ class VaspCorrection(Correction):
         self.get_corrections_indexes = get_correction_indexes
 
         self.software_files = ["INCAR", "POSCAR", "KPOINTS"]
+
+    @property
+    def potential_folder(self) -> str:
+        """
+        Returns:
+            Name of the folder that helds all the potential files
+            initially not corrected.
+        """
+        return self._potential_folder
+
+    @potential_folder.setter
+    def potential_folder(self, path: str) -> None:
+        """
+        Verify if the folder exists and contains all files needed
+
+        Args:
+            path (str): Path of the folder that helds all the potential files
+            initially not corrected.
+        """
+
+        for atom in self.atoms:
+            filename = "{}.{}".format(self.potential_filename.upper(),
+                                      atom.lower())
+            abs_path = os.path.join(path, filename)
+            if not os.path.exists(abs_path):
+                logger.error("Potential folder incomplete")
+                raise FileNotFoundError("Potential folder lacks of files.")
+
+        self._potential_folder = path
 
     def execute(self) -> tuple:
         """
