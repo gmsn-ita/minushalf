@@ -288,7 +288,8 @@ class VaspCorrection(Correction):
                 cut (float): Cut radius to the algorithm
 
         """
-        potential = self.atom_potential.correct_potential(cut, amplitude)
+        potential = self.atom_potential.correct_potential(
+            cut, amplitude, is_conduction=self.is_conduction)
         lines = self.atom_potential.get_corrected_file_lines(potential)
 
         new_potential_path = os.path.join(
