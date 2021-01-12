@@ -10,6 +10,8 @@ correction:
   correction_code: vf
   potfiles_folder: ../potcar
   amplitude: 3.0
-  valence_initial_guess: 2.0
-  conduction_initial_guess: 1.0
+  valence_cut_guess: 2.0
+  conduction_cut_guess: 1.0
   tolerance: 0.001
+  fractionary_valence_treshold: 15
+  fractionary_conduction_treshold: 23

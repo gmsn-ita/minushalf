@@ -29,7 +29,7 @@ class VaspCorrection(Correction):
         band_projection: pd.DataFrame,
         atoms: list,
         is_conduction: bool,
-        get_correction_indexes: any,
+        correction_indexes: dict,
     ):
         """
         init method for the vasp correction class
@@ -74,10 +74,10 @@ class VaspCorrection(Correction):
 
         if is_conduction:
             self.cut_initial_guess = minushalf_yaml.correction[
-                CorrectionDefaultParams.conduction_initial_guess.name]
+                CorrectionDefaultParams.conduction_cut_guess.name]
         else:
             self.cut_initial_guess = minushalf_yaml.correction[
-                CorrectionDefaultParams.valence_initial_guess.name]
+                CorrectionDefaultParams.valence_cut_guess.name]
 
         self.tolerance = minushalf_yaml.correction[
             CorrectionDefaultParams.tolerance.name]
@@ -85,8 +85,6 @@ class VaspCorrection(Correction):
         self.runner = runner
 
         self.software_factory = software_factory
-
-        self.corrections_index = None
 
         self.atom_potential = None
 
@@ -104,7 +102,7 @@ class VaspCorrection(Correction):
 
         self.is_conduction = is_conduction
 
-        self.get_corrections_indexes = get_correction_indexes
+        self.correction_indexes = correction_indexes
 
         self.software_files = ["INCAR", "POSCAR", "KPOINTS"]
 
@@ -149,11 +147,10 @@ class VaspCorrection(Correction):
 
         cuts_per_atom_orbital = {}
         self._make_corrected_potential_folder()
-        self.corrections_index = self.get_corrections_indexes(
-            self.band_projection)
+
         self.sum_correction_percentual = self._get_sum_correction_percentual()
 
-        for symbol, orbitals in self.corrections_index.items():
+        for symbol, orbitals in self.correction_indexes.items():
             for orbital in orbitals:
                 cut = self._find_best_correction(symbol, orbital)
                 cuts_per_atom_orbital[(symbol, orbital)] = cut
@@ -237,7 +234,7 @@ class VaspCorrection(Correction):
         that will be corrected.
         """
         total_sum = 0
-        for symbol, orbitals in self.corrections_index.items():
+        for symbol, orbitals in self.correction_indexes.items():
             for orbital in orbitals:
                 total_sum += self.band_projection[orbital][symbol]
         return total_sum
