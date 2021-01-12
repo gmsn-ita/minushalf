@@ -34,10 +34,14 @@ def test_default_parameters():
         CorrectionDefaultParams.potfiles_folder)] == "minushalf_potfiles"
     assert file.correction[str(CorrectionDefaultParams.amplitude)] == 1.0
     assert file.correction[str(
-        CorrectionDefaultParams.valence_initial_guess)] == 3.0
+        CorrectionDefaultParams.valence_cut_guess)] == 3.0
     assert file.correction[str(
-        CorrectionDefaultParams.conduction_initial_guess)] == 2.0
+        CorrectionDefaultParams.conduction_cut_guess)] == 2.0
     assert file.correction[str(CorrectionDefaultParams.tolerance)] == 0.01
+    assert file.correction[str(
+        CorrectionDefaultParams.fractionary_conduction_treshold)] == 9
+    assert file.correction[str(
+        CorrectionDefaultParams.fractionary_valence_treshold)] == 10
 
 
 def test_minushalf_without_filling_correction(file_path):
@@ -64,10 +68,14 @@ def test_minushalf_without_filling_correction(file_path):
         CorrectionDefaultParams.potfiles_folder)] == "minushalf_potfiles"
     assert file.correction[str(CorrectionDefaultParams.amplitude)] == 1.0
     assert file.correction[str(
-        CorrectionDefaultParams.valence_initial_guess)] == 3.0
+        CorrectionDefaultParams.valence_cut_guess)] == 3.0
     assert file.correction[str(
-        CorrectionDefaultParams.conduction_initial_guess)] == 2.0
+        CorrectionDefaultParams.conduction_cut_guess)] == 2.0
     assert file.correction[str(CorrectionDefaultParams.tolerance)] == 0.01
+    assert file.correction[str(
+        CorrectionDefaultParams.fractionary_conduction_treshold)] == 9
+    assert file.correction[str(
+        CorrectionDefaultParams.fractionary_valence_treshold)] == 10
 
 
 def test_minushalf_filled_out(file_path):
@@ -94,10 +102,14 @@ def test_minushalf_filled_out(file_path):
         CorrectionDefaultParams.potfiles_folder)] == "../potcar"
     assert file.correction[str(CorrectionDefaultParams.amplitude)] == 3.0
     assert file.correction[str(
-        CorrectionDefaultParams.valence_initial_guess)] == 2.0
+        CorrectionDefaultParams.valence_cut_guess)] == 2.0
     assert file.correction[str(
-        CorrectionDefaultParams.conduction_initial_guess)] == 1.0
+        CorrectionDefaultParams.conduction_cut_guess)] == 1.0
     assert file.correction[str(CorrectionDefaultParams.tolerance)] == 0.001
+    assert file.correction[str(
+        CorrectionDefaultParams.fractionary_conduction_treshold)] == 23
+    assert file.correction[str(
+        CorrectionDefaultParams.fractionary_valence_treshold)] == 15
 
 
 @pytest.mark.xfail
