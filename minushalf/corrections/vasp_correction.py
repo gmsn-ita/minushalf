@@ -6,7 +6,7 @@ import os
 import shutil
 from subprocess import Popen, PIPE
 from scipy.optimize import minimize
-from loguru import logger
+#from loguru import logger
 import pandas as pd
 from minushalf.data import (CorrectionDefaultParams,
                             AtomicProgramDefaultParams, OrbitalType)
@@ -130,7 +130,7 @@ class VaspCorrection(Correction):
                                       atom.lower())
             abs_path = os.path.join(path, filename)
             if not os.path.exists(abs_path):
-                logger.error("Potential folder incomplete")
+                #logger.error("Potential folder incomplete")
                 raise FileNotFoundError("Potential folder lacks of files.")
 
         self._potential_folder = path
@@ -151,9 +151,9 @@ class VaspCorrection(Correction):
         self.sum_correction_percentual = self._get_sum_correction_percentual()
 
         for symbol, orbitals in self.correction_indexes.items():
-            for orbital in orbitals:
-                cut = self._find_best_correction(symbol, orbital)
-                cuts_per_atom_orbital[(symbol, orbital)] = cut
+            cut = self._find_best_correction(symbol, orbitals)
+            cuts_per_atom_orbital[symbol] = cut
+
         gap = self._get_result_gap()
         return (cuts_per_atom_orbital, gap)
 
@@ -239,7 +239,7 @@ class VaspCorrection(Correction):
                 total_sum += self.band_projection[orbital][symbol]
         return total_sum
 
-    def _find_best_correction(self, symbol: str, orbital: str) -> float:
+    def _find_best_correction(self, symbol: str, orbitals: list) -> float:
         """
         Correct the potcar of the atom symbol in the
         orbital given. Then, find the best cut to the
@@ -253,16 +253,20 @@ class VaspCorrection(Correction):
                 the optimum cut and the gap generated
                 by the correction.
         """
-        folder_name = "mkpotcar_{}_{}".format(symbol.lower(), orbital.lower())
+        folder_name = "mkpotcar_{}".format(symbol.lower())
         path = os.path.join(self.root_folder, folder_name)
         if os.path.exists(path):
             shutil.rmtree(path)
         os.mkdir(path)
         self._generate_atom_pseudopotential(path, symbol)
 
-        percentual = 100 * (self.band_projection[orbital][symbol] /
-                            self.sum_correction_percentual)
-        self._generate_occupation_potential(path, orbital, round(percentual))
+        percentuals = {}
+        for orbital in orbitals:
+            value = 100 * (self.band_projection[orbital][symbol] /
+                           self.sum_correction_percentual)
+            percentuals[orbital] = round(value)
+        self._generate_occupation_potential(path, percentuals)
+
         self.atom_potential = self._get_atom_potential(path, symbol)
 
         cut = self._find_cut(symbol, path)
@@ -310,7 +314,7 @@ class VaspCorrection(Correction):
 
             Args:
                 symbol (str): Atom symbol
-                base_path (str): Path to mkpotcar{symbol}_{orbital}
+                base_path (str): Path to mkpotcar{symbol}
         """
 
         folder_path = os.path.join(base_path, "pseudopotential")
@@ -337,27 +341,31 @@ class VaspCorrection(Correction):
     def _generate_occupation_potential(
         self,
         base_path: str,
-        orbital: str,
-        percentual: int,
+        percentuals: dict,
     ) -> None:
         """
         Generate the pseudo potential for the occupation
         of a fraction of half electron.
 
             Args:
-                base_path (str): Path to mkpotcar{symbol}_{orbital}
-                orbital (str): Orbital that will be corrected
-                percentual (int): Percentual of the correction
+                base_path (str): Path to mkpotcar{symbol}
+                percentual (dict): Dict where the key is the orbital type
+                and the value is the percentual to be corrected
         """
         folder_path = os.path.join(base_path, "pseudopotential")
         if not os.path.exists(folder_path):
 
             raise FileNotFoundError(
                 "Folder for pseudopotential does not exist")
-        secondary_quantum_number = OrbitalType[orbital].value
+        secondary_quantum_numbers = ",".join(
+            [str(OrbitalType[key].value) for key in percentuals.keys()])
+
+        joined_percentual = ",".join(
+            [str(value) for value in percentuals.values()])
+
         process = Popen([
-            "minushalf", "occupation", "{}".format(secondary_quantum_number),
-            "{}".format(percentual), "--quiet"
+            "minushalf", "occupation", "{}".format(secondary_quantum_numbers),
+            "{}".format(joined_percentual), "--quiet"
         ],
                         stdout=PIPE,
                         stderr=PIPE,
@@ -374,7 +382,7 @@ class VaspCorrection(Correction):
 
             Args:
                 symbol (str): Atom symbol
-                base_path (str): Path to mkpotcar{symbol}_{orbital}
+                base_path (str): Path to mkpotcar{symbol}
         """
         pseudopotential_folder = os.path.join(base_path, "pseudopotential")
         vtotal_path = os.path.join(pseudopotential_folder, "VTOTAL.ae")
@@ -396,7 +404,7 @@ class VaspCorrection(Correction):
 
             Args:
                 symbol (str): Atom symbol
-                base_path (str): Path to mkpotcar{symbol}_{orbital}
+                base_path (str): Path to mkpotcar{symbol}
         """
         folder = os.path.join(base_path, "find_cut")
         if os.path.exists(folder):
