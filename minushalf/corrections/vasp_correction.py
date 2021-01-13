@@ -6,7 +6,7 @@ import os
 import shutil
 from subprocess import Popen, PIPE
 from scipy.optimize import minimize
-#from loguru import logger
+from loguru import logger
 import pandas as pd
 from minushalf.data import (CorrectionDefaultParams,
                             AtomicProgramDefaultParams, OrbitalType)
@@ -130,7 +130,7 @@ class VaspCorrection(Correction):
                                       atom.lower())
             abs_path = os.path.join(path, filename)
             if not os.path.exists(abs_path):
-                #logger.error("Potential folder incomplete")
+                logger.error("Potential folder incomplete")
                 raise FileNotFoundError("Potential folder lacks of files.")
 
         self._potential_folder = path
