@@ -20,14 +20,6 @@ minushalf.interfaces.correction module
    :undoc-members:
    :show-inheritance:
 
-minushalf.interfaces.correction\_abstract\_factory module
----------------------------------------------------------
-
-.. automodule:: minushalf.interfaces.correction_abstract_factory
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 minushalf.interfaces.potential\_file module
 -------------------------------------------
 

@@ -12,15 +12,18 @@ def get_fractionary_corrections_indexes(band_projection: pd.DataFrame,
     """
         Get dataframe index of the orbitals which contributes more
         than 5 percent to (VBM|CBM)
+
             Returns:
-                correction_indexes (dict): A dict wherw the keys are the atoms
-                symbols and the value is a list with the orbitals type to be
-                corrected.
-                Ex:
-                {
-                    'Ga': ['p','s'],
-                    'N' : ['d','f'],
-                }
+
+                correction_indexes (dict):A dict wherw the keys are the atoms
+                                          symbols and the value is a list with the orbitals type to be
+                                          corrected.
+                                          Ex:
+                                          {
+                                          'Ga': ['p','s'],
+                                          'N' : ['d','f'],
+                                          }
+
     """
     columns_name = band_projection.columns.tolist()
     rows_name = band_projection.index.tolist()

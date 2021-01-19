@@ -13,15 +13,18 @@ def get_simple_corrections_indexes(band_projection: pd.DataFrame) -> dict:
     """
         Get dataframe index of the orbital which contributes more
         to (VBM|CBM)
+
             Returns:
-                correction_indexes (dict): A dict wherw the keys are the atoms
-                symbols and the value is a list with the orbitals type to be
-                corrected.
-                Ex:
-                {
-                    'Ga': ['p','s'],
-                    'N' : ['d','f'],
-                }
+
+                correction_indexes (dict):A dict wherw the keys are the atoms
+                                          symbols and the value is a list with the orbitals type to be
+                                          corrected.
+                                          Ex:
+                                          {
+                                          'Ga': ['p','s'],
+                                          'N' : ['d','f'],
+                                          }
+
         """
 
     columns_name = band_projection.columns.tolist()
