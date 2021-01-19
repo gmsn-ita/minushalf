@@ -11,12 +11,12 @@ def trimming_function(radius: float, ion_potential: float, atom_potential,
         Function that generate the potential for fractional occupation. The potential
         is cuted by a a function theta(r) to avoid divergence in calculations.
         The function of potential is defined as follows:
-        
+
         .. math::
             V_{1/2} = (V_{atom}- V_{ion})\cdot \theta (r)
-        
+
         where theta is:
-    
+
 
         .. math::
             \theta (r)=A\cdot (1-(\frac{r}{CUT})^{n})^{3},r\leq CUT

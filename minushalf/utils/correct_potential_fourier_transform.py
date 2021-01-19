@@ -20,7 +20,7 @@ def correct_potential_fourier_transform(coefficient: float, k: float,
     .. math::
         E_{v} = \int_{0}^{\infty}v(r)n(r)dr = \int_{0}^{\infty}v'(r)n'(r)dr =
         \frac{1}{2}\cdot\int_{-\infty}^{\infty}v'(r)n'(r)dr = -\frac{1}{2}\cdot\int_{-\infty}^{\infty}V(k)N(k)dk
-    
+
 
     On the third equalitty, we used the fact that the product of two odd
     functions is even, and in the last step we have applied Parseval's theorem,
@@ -29,9 +29,9 @@ def correct_potential_fourier_transform(coefficient: float, k: float,
 
     The data stored on POTCAR corresponds to the Fourier transform of the odd extension of v. It can be approximated
     by the summation on the right, where the prefactors were ommited.
-    
+
     .. math::
-        V(k) = i\cdot \sqrt{\frac{2}{\pi}}\cdot\int_{0}^{\infty}v(r)sin(b\cdot k\cdot r)dr 
+        V(k) = i\cdot \sqrt{\frac{2}{\pi}}\cdot\int_{0}^{\infty}v(r)sin(b\cdot k\cdot r)dr
         \Rightarrow V(k)\sim \sum^{N_{r}}_{i=1}
         \frac{(v[i]\cdot sin(b\cdot k\cdot r[i])+v[i-1]\cdot sin(b\cdot k\cdot r[i-1]))}{2\cdot (r[i]-r[i-1])}
 
