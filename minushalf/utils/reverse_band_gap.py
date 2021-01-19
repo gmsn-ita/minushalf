@@ -20,9 +20,10 @@ def _get_corrected_potfile_lines(
         Modify the potential file that was corrected
 
             Args:
+
                 cut (float): Cut radius to the algorithm
                 atom_potential(AtomicPotential): Class that represents the
-                potential of the atom
+                                                 potential of the atom
                 amplitude (float): Scale factor to trimming function
         """
     potential = atom_potential.correct_potential(cut,
@@ -44,6 +45,7 @@ def _join_potfiles(
         Join valence potfiles in one
 
         Args:
+
             base_path (str): Path to mkpotcar{symbol}_{orbital}
             symbol (str): Atom symbol
             default_potential_filename (str): The default potential filename for each software
@@ -80,19 +82,20 @@ def find_reverse_band_gap(cuts: list, *args: tuple) -> float:
 
                 Args:
                     cuts (float): List of cuts
-                    *args (tuple): tuple containning a dictionary with the
-                    following fields:
-                        base_path (str): Path to mkpotcar{symbol}_{orbital}
-                        symbol (str): Atom symbol
-                        default_potential_filename (str): The default potential filename for each software
-                        potfiles_folder (str): Folder containing unmodified potfiles
-                        amplitude (float): scale factor to trimming function
-                        runner (Runner): runner for the software
-                        software_factory(SoftwaresAbstractFactory): Factory for each software
-                        atom_potential(AtomicPotential): Holds fourier transforms of the potential
-                        software_files (list): Aditional files besides potential file to make ab initio calculations
+
+                    args (tuple): tuple containning a dictionary with the fields
+                                   base_path (str): Path to mkpotcar{symbol}_{orbital}
+                                   symbol (str): Atom symbol
+                                   default_potential_filename (str): The default potential filename for each software
+                                   potfiles_folder (str): Folder containing unmodified potfiles
+                                   amplitude (float): scale factor to trimming function
+                                   runner (Runner): runner for the software
+                                   software_factory(SoftwaresAbstractFactory): Factory for each software
+                                   atom_potential(AtomicPotential): Holds fourier transforms of the potential
+                                   software_files (list): Aditional files besides potential file to make ab initio calculations
 
                 Returns:
+
                     reverse_gap (float): band gap multiplied for -1
 
         """

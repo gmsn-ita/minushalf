@@ -1,21 +1,13 @@
 minushalf.corrections package
 =============================
 
-Subpackages
------------
-
-.. toctree::
-   :maxdepth: 4
-
-   minushalf.corrections.vasp
-
 Submodules
 ----------
 
-minushalf.corrections.vasp\_correction\_factory module
-------------------------------------------------------
+minushalf.corrections.vasp\_correction module
+---------------------------------------------
 
-.. automodule:: minushalf.corrections.vasp_correction_factory
+.. automodule:: minushalf.corrections.vasp_correction
    :members:
    :undoc-members:
    :show-inheritance:
