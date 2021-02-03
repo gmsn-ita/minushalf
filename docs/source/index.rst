@@ -12,6 +12,6 @@ Welcome to minushalf's documentation!
 
    introduction
    installation
-   usage
+   commands
    api
 
