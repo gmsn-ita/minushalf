@@ -20,7 +20,7 @@ from minushalf.utils import (welcome_message, end_message, projection_to_df,
               '--base-path',
               type=click.Path(),
               nargs=1,
-              help="""Path to folder where the relevant files are located""")
+              help="""Path to folder where the relevant files are located.""")
 def vbm_character(software: str, base_path: str) -> None:
     """Uses output files from softwares that perform ab initio calculations to discover the
        last valence band (VBM) and extract, in percentage, its character corresponding to each

@@ -9,24 +9,23 @@ from minushalf.utils import (welcome_message, end_message, BandStructure)
 
 
 @click.command()
-@click.option('-s',
-              '--software',
-              type=click.Choice(Softwares.to_list(), case_sensitive=False),
-              default=Softwares.vasp.value,
-              show_default=True,
-              help="""Specifies the software used to define the
-              structure of the file containing the atoms potential.""")
 @click.option(
-    '-b',
-    '--base-path',
-    type=click.Path(),
-    nargs=1,
-    help="""folder where the necessary files for the calculation are located"""
-)
+    '-s',
+    '--software',
+    type=click.Choice(Softwares.to_list(), case_sensitive=False),
+    default=Softwares.vasp.value,
+    show_default=True,
+    help="""Specifies the software used to perform ab initio calculations.""")
+@click.option('-b',
+              '--base-path',
+              type=click.Path(),
+              nargs=1,
+              help="""Path to folder where the relevant files are located.""")
 def band_gap(software: str, base_path: str) -> None:
-    """Uses softwares output files about projections in bands to
-    calculate its character. It has to receive a path to an specific file, the list
-    of the default names for each software is find bellow:
+    """Uses output files from softwares that perform ab initio calculations to
+      provide the locations of VBM, CBM and the Gap value in electronvolts.The
+      names of the files required for each software are listed below, it is
+      worth mentioning that their names cannot be modified.
 
     VASP: PROCAR, EIGENVAL, vasprun.xml
     """
