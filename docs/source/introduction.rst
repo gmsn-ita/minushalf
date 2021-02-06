@@ -21,7 +21,7 @@ Unlike atoms, where energy levels are discrete, one tried to use half occupation
 in the energy bands of a crystal. The intuition for this application comes from the fact that the energy bands of a crystal are formed
 by the overlap of atomic orbitals, mainly by those that constitute the outermost layers [8]_. This relationship can be quantified
 by the projection of the wave function in a given orbital, Figure 1 shows the character of the last valence band and the first
-driving to the CdO, the color magnet represents the character :math:`d` of the band and yellow the character :math:`p` [10] _. Thus, considering
+driving to the CdO, the color magnet represents the character :math:`d` of the band and yellow the character :math:`p` [10]_. Thus, considering
 this existing relationship, corrections in eigenvalues for atomic orbitals could propagate and trigger corrections in systems
 crystalline. 
 
