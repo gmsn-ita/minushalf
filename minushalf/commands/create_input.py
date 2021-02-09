@@ -72,17 +72,18 @@ def create_input(chemical_symbol: str, exchange_correlation_code: str,
                  calculation_code: str, maximum_iterations: int, filename: str,
                  quiet: bool):
     """
-    Create the input file for the ATOM program.
+    Create the input file for the run-atomic command.
 
 
     Requires:
 
-        CHEMICAL_SYMBOL: defines the orbital in which the occupation will be made, it can assume four values:
+        CHEMICAL_SYMBOL: Chemical symbol of the atom (H, He, Na, Li...). Check the list
+                         of available atoms in the docs
 
 
     Returns:
 
-        INP: The input file for the ATOM program
+        INP: The input file for run-atomic command
     """
 
     welcome_message("minushalf")

@@ -650,21 +650,23 @@ input file with the occupation in the :math:`p` and :math:`d` orbitals, as shown
 ``minushalf create-input``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+This command creates the input files for the run-atomic command. See :ref:`here <atoms_list>` the list of available atoms.
+
 .. code-block:: console
 
     $ minushalf create-input --help     
     Usage: minushalf create-input [OPTIONS] CHEMICAL_SYMBOL
     
-      Create the input file for the ATOM program.
+      Create the input file for the run-atomic command.
 
       Requires:
 
-          CHEMICAL_SYMBOL: defines the orbital in which the occupation will be
-          made, it can assume four values:
+          CHEMICAL_SYMBOL: Chemical symbol of the atom (H, He, Na, Li...). Check the list
+                           of available atoms in the docs.
 
       Returns:
 
-          INP: The input file for the ATOM program
+          INP: The input file for run-atomic command
 
     Options:
       -e, --exchange_correlation_code [ca|wi|hl|gl|bh|pb|rp|rv|bl]
