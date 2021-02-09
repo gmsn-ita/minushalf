@@ -650,7 +650,7 @@ input file with the occupation in the :math:`p` and :math:`d` orbitals, as shown
 ``minushalf create-input``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-This command creates the input files for the run-atomic command. See :ref:`here <atoms_list>` the list of available atoms.
+This command creates the input files for the run-atomic command. Check :ref:`here <atoms_list>` the list of available atoms.
 
 .. code-block:: console
 
@@ -708,6 +708,10 @@ This command creates the input files for the run-atomic command. See :ref:`here 
       -f, --filename TEXT             Name of the created file  [default: INP]
       --quiet
       --help                          Show this message and exit.
+
+
+``minushalf correct-potfile``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 ``minushalf execute``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
