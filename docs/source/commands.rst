@@ -1,9 +1,9 @@
-=========
+##############
 Commands
-=========
+##############
 
 ``minushalf vbm-character``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+************************************************
 
 .. code-block:: console
 
@@ -28,7 +28,7 @@ Commands
       --help                 Show this message and exit.
 
 Examples
-**********
+=============
 
 To demonstrate the command usage, one calculated the character of the last valence band of `GaN-2d <http://www.2dmatpedia.org/2dmaterials/doc/2dm-2992>`_ .
 
@@ -101,7 +101,7 @@ To demonstrate the command usage, one calculated the character of the last valen
 
 
 ``minushalf cbm-character``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+************************************************
 
 .. code-block:: console
 
@@ -126,7 +126,7 @@ To demonstrate the command usage, one calculated the character of the last valen
       --help                 Show this message and exit.
 
 Examples
-**********
+=============
 
 To demonstrate the command usage, one calculated the character of the first conduction band of `SiC-2d <http://www.2dmatpedia.org/2dmaterials/doc/2dm-2686>`_ .
 
@@ -201,7 +201,7 @@ To demonstrate the command usage, one calculated the character of the first cond
     with the :math:`p_{z}`  orbitals of the least electronegative element [1]_.
 
 ``minushalf band-character``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+************************************************
 
 .. code-block:: console
 
@@ -227,7 +227,7 @@ To demonstrate the command usage, one calculated the character of the first cond
 
 
 Examples
-**********
+===========
 
 To demonstrate the command usage, one calculated the character of the sixth band of the second kpoint  of `SiC-2d <http://www.2dmatpedia.org/2dmaterials/doc/2dm-2686>`_ .
 
@@ -301,7 +301,7 @@ To demonstrate the command usage, one calculated the character of the sixth band
 
 
 ``minushalf band-gap``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+************************************************
 
 .. code-block:: console
 
@@ -325,7 +325,7 @@ To demonstrate the command usage, one calculated the character of the sixth band
       --help                 Show this message and exit.
 
 Examples
-**********
+==========
 
 To demonstrate the command usage, one calculated the positions of CBM, VBM and the Gap value of `SiC-2d <http://www.2dmatpedia.org/2dmaterials/doc/2dm-2686>`_ .
 
@@ -399,7 +399,7 @@ To demonstrate the command usage, one calculated the positions of CBM, VBM and t
 
 
 ``minushalf run-atomic``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+************************************************
 
 The atomic software used in this command is a modified version of the program `ATOM <https://siesta.icmab.es/SIESTA_MATERIAL/Pseudos/atom_licence.html>`_
 by professor `Luiz Guimarães Ferreira <http://lattes.cnpq.br/4694847711359239>`_. The respective modifications are listed below:
@@ -461,7 +461,7 @@ by professor `Luiz Guimarães Ferreira <http://lattes.cnpq.br/4694847711359239>`
         --help   Show this message and exit.
 
 ``minushalf occupation``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+************************************************
 
 .. code-block:: console
 
@@ -519,7 +519,8 @@ by professor `Luiz Guimarães Ferreira <http://lattes.cnpq.br/4694847711359239>`
     --help   Show this message and exit.
 
 Example of occupation in only one orbital
-******************************************
+=============================================
+
 Suppose one need to generate a pseudopotential for the Ga atom with the occupation of half an electron in the :math:`p` orbital. The following command 
 can be used for this purpose:
 
@@ -582,7 +583,7 @@ input file with the occupation of half an electron in the :math:`p` orbital, as 
     100 maxit
 
 Example of occupation in multiple orbitals
-*******************************************
+================================================
 
 Now, imagine a scenario where one need to generate a pseudopotential for the Ga atom with the electron medium equally divided between the orbitals :math:`p` and :math:`d`. The following command 
 can be used for this purpose:
@@ -648,7 +649,7 @@ input file with the occupation in the :math:`p` and :math:`d` orbitals, as shown
 
 
 ``minushalf create-input``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+************************************************
 
 This command creates the input files for the run-atomic command. Check :ref:`here <atoms_list>` the list of available atoms.
 
@@ -711,15 +712,91 @@ This command creates the input files for the run-atomic command. Check :ref:`her
 
 
 ``minushalf correct-potfile``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+************************************************
+
 
 ``minushalf execute``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+************************************************
+
+This command completely automates the use of the DFT -1/2 method, requiring only the provision of
+the input files of the software that performs ab initio calculations and the corresponding potential files
+for each atom. The command uses the Nelder-Mead [3]_ algorithm to find the optimal values of the CUT(S) and
+generates a text file with all the respective CUTS and the final value of the gap. 
+
+
+.. code-block:: console
+
+    $ minushalf execute --help
+    Usage: minushalf execute [OPTIONS]
+
+    Uses the Nelder-Mead method to find the optimal values for the CUT(S) and,
+    finally, find the corrected Gap value. This command uses external software
+    to perform ab initio calculations, so it must be installed in order to
+    perform the command. Check the docs for an list of the softwares supported
+    by the CLI.
+
+        Requires:
+
+            minushalf.yaml : Parameters file. Check the docs
+            for a more detailed description.
+
+            ab_initio_files: Files needed to perform the ab initio
+                             calculations. They must be in the same
+                             directory as the input file minushalf.yaml
+
+        Returns:
+
+            minushalf_results.dat : File that contains the optimal
+                                    values of the cutsand the final
+                                    value of the Gap.
+
+    Options:
+    --quiet
+    --help   Show this message and exit.
+
+
+
+
+minushalf.yaml
+=========================
+:code:`minushalf.yaml` is the input file for the command :code:`execute`, each of its tags and
+default values are described below.
+
+software tag
+-----------------
+This tag specifies the software that to perform ab initio calculations. For a while
+, the command supports the following values for the software tag:
+
+- VASP (Default value)
+
+Currently, minushalf only supports one software, but one hope to support much more in a while.
+
+.. code-block:: yaml
+
+    software: VASP
+
+vasp tag
+-----------------
+The vasp tag is a set of various informations that specify the settings
+for the VASP execution. The informations are:
+
+- number_of_cores: The number of colors used to run VASP. (Default: 1)
+- path: entry-point for the executable (Default: vasp)
+
+Thus, the command that runs the software is :code:`mpirun -np $ {number_of_cores} $ {path}`. Below follows
+an example of the vasp tag in the :code:`minushalf.yaml` file:
+
+.. code-block:: yaml
+
+    vasp:
+        number_of_cores: 4
+        path: vasp_bin
 
 
 References
-^^^^^^^^^^^^
+********************
 
 .. [1] I. Guilhon, D. S. Koda, L. G. Ferreira, M. Marques, and L. K. Teles `Phys. Rev. B 97, 045426  <https://journals.aps.org/prb/abstract/10.1103/PhysRevB.97.045426>`_ .
 .. [2] J. P. Perdew, M. Ernzerhof, and K. Burke, `J. Chem. Phys. 105, 9982 (1996) <https://doi.org/10.1063/1.472933>`_.
+.. [3]  Nelder, John A.; R. Mead (1965). A simplex method for function minimization. `Computer Journal. 7 (4): 308–313 <doi:10.1093/comjnl/7.4.308>`_.
 
