@@ -70,11 +70,32 @@ def get_atoms_list(factory: SoftwaresAbstractFactory) -> list:
 @click.option('--quiet', default=False, is_flag=True)
 def execute(quiet: bool):
     """
-        Execute command
+
+        Uses the Nelder-Mead method to find
+        the optimal values for the CUT(S) and,
+        finally, find the corrected Gap value.
+        This command uses external software to
+        perform ab initio calculations, so it must
+        be installed in order to perform the command.
+        Check the docs for an list of the softwares supported
+        by the CLI.
+
+
             Requires:
-                minushalf.yaml file : Parameters file
-            Return:
-                minushalf_results.dat : Results file
+
+
+                minushalf.yaml : Parameters file. Check the docs
+                                 for a more detailed description.
+
+                ab_initio_files: Files needed to perform the ab initio calculations.
+                                 They must be in the same directory as the input
+                                 file minushalf.yaml
+
+            Returns:
+
+                minushalf_results.dat : File that contains the optimal
+                                        values of the cutsand the final
+                                        value of the Gap.
     """
     welcome_message("minushalf")
 
