@@ -743,12 +743,20 @@ generates a text file with all the respective CUTS and the final value of the ga
             ab_initio_files: Files needed to perform the ab initio
                              calculations. They must be in the same
                              directory as the input file minushalf.yaml
+            
+            potential_folder: Folder with the potential files for each atom in
+                              the crystal. The files must be named in the following pattern 
+                              ${POTENTIAL_FILE_NAME}.${LOWERCASE_CHEMICAL_SYMBOL}
 
         Returns:
 
             minushalf_results.dat : File that contains the optimal
                                     values of the cutsand the final
                                     value of the Gap.
+            
+            corrected_valence_potfiles: Potential files resulting from valence correction.
+
+            corrected_conduction_potfiles: Potential files resulting from conduction correction.
 
     Options:
     --quiet
@@ -845,7 +853,7 @@ The correction tag is a set of various informations that specifies
 how the DFT -1/2 method is executed. The informations are:
 
 - correction_code: Code thar specifies the potential correction (Default: v)
-- potfiles_folder: Path to folder that holds the potential files for each atom. The files must be named in the following pattern :code:`${POTENTIAL_FILE_NAME}.${LOWERCASE_ATOMIC_SYMBOL}` (Default: minushalf_potfiles)
+- potfiles_folder: Path to folder that holds the potential files for each atom. The files must be named in the following pattern :code:`${POTENTIAL_FILE_NAME}.${LOWERCASE_CHEMICAL_SYMBOL}` (Default: minushalf_potfiles)
 - amplitude: Scale Factor for the trimming function (Default: 1.0)
 - valence_cut_guess: Initial Guess for the Nelder-Mead algorithm for cut in valence correction (Default: 3.0)
 - conduction_cut_guess: Initial Guess for the Nelder-Mead algorithm for cut in valence correction (Default: 2.0)
@@ -895,7 +903,7 @@ To demonstrate the command usage, one apply the simple valence and simple conduc
 
         **VASP**
   
-    Para executar o comando, os seguintes arquivos precisam ser fornecidos na seguinte estrutura:    
+    To execute the command, the files must be provided in the following structure:
 
     .. code-block:: console
 
@@ -909,7 +917,7 @@ To demonstrate the command usage, one apply the simple valence and simple conduc
             ├── POTCAR.c
             └── POTCAR.si
     
-    Para o arquivo de input, escolheu-se as seguintes configurações iniciais:
+    For the input file, the following initial settings were chosen:
 
     .. code-block:: yaml
 
@@ -922,7 +930,38 @@ To demonstrate the command usage, one apply the simple valence and simple conduc
             potfiles_folder: ./potcars
             valence_cut_guess: 3.20
             conduction_cut_guess: 3.0
-    
+
+    After executing the command, one can view the result in the file :code:`minushalf_results.dat`. he file contains information
+    on the values obtained in the optimization of the CUT and the resulting band energy Gap (in eV). 
+
+        .. code-block:: xml
+
+            Valence correction cuts:
+                    (C):3.13A
+            ----------------------------------------------------------------
+            Conduction correction cuts:
+                    (Si):2.77A
+            ----------------------------------------------------------------
+            GAP: 4.37eV
+
+
+    For comparison purposes, the table below shows the values obtained by the method compared with
+    Pure GGA, functional hybrids and GW.
+
+        .. list-table:: SiC-2D band energy gap (in eV)
+           :widths: 40 40 40 40
+           :header-rows: 1
+       
+           * - GGA
+             - Hybrid
+             - GW
+             - DFT -1/2
+           * - 2.54
+             - 3.35,3.46 [4]_
+             - 4.19 [5]_,4.42 [6]_
+             - 4.37
+         
+  
 
 
 References
@@ -931,4 +970,7 @@ References
 .. [1] I. Guilhon, D. S. Koda, L. G. Ferreira, M. Marques, and L. K. Teles `Phys. Rev. B 97, 045426  <https://journals.aps.org/prb/abstract/10.1103/PhysRevB.97.045426>`_ .
 .. [2] J. P. Perdew, M. Ernzerhof, and K. Burke, `J. Chem. Phys. 105, 9982 (1996) <https://doi.org/10.1063/1.472933>`_.
 .. [3]  Nelder, John A.; R. Mead (1965). A simplex method for function minimization. `Computer Journal. 7 (4): 308–313 <doi:10.1093/comjnl/7.4.308>`_.
+.. [4] Y. Rao, S. Yu, and X.-M. Duan, `Phys. Chem. Chem. Phys. 19, 17250 (2017) <https://doi.org/10.1039/C7CP02616A>`_.
+.. [5] H. Sahin, S. Cahangirov, M. Topsakal, E. Bekaroglu, E. Akturk, R. T. Senger, and S. Ciraci, `Phys. Rev. B 80, 155453 (2009) <https://doi.org/10.1103/PhysRevB.80.155453>`_.
+.. [6] H. C. Hsueh, G. Y. Guo, and S. G. Louie, `Phys. Rev. B 84, 085404 (2011) <https://doi.org/10.1103/PhysRevB.84.085404>`_.
 

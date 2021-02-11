@@ -91,11 +91,19 @@ def execute(quiet: bool):
                                  They must be in the same directory as the input
                                  file minushalf.yaml
 
+                potential_folder: Folder with the potential files for each atom in
+                                  the crystal. The files must be named in the following pattern
+                                  ${POTENTIAL_FILE_NAME}.${LOWERCASE_CHEMICAL_SYMBOL}
+
             Returns:
 
                 minushalf_results.dat : File that contains the optimal
                                         values of the cutsand the final
                                         value of the Gap.
+
+                corrected_valence_potfiles: Potential files resulting from valence correction.
+
+                corrected_conduction_potfiles: Potential files resulting from conduction correction.
     """
     welcome_message("minushalf")
 
