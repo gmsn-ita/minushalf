@@ -102,6 +102,8 @@ The simple correction method is applied when an index :math:`a_{ij}` mainly repr
 composition of the band, so that the influence of the other orbitals is negligible.
 Thus, the correction of half an electron is done only in the orbital :math:`j` of the atom :math:`i`. 
 
+.. _frac_correction:
+
 Fractional correction
 ************************
 The fractional correction method is applied when different atomic orbitals have a significant influence

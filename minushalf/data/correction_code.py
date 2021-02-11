@@ -11,12 +11,12 @@ class CorrectionCode(Enum):
     Enum type for the softwares suport by the program
     """
 
-    v = "v"  # Only valence correction
-    vf = "vf"  # fractionary valence correction
-    vc = "vc"  # valence and conduction corrections
-    vfc = "vfc"  # valence fractionary and conduction corrections
-    vcf = "vcf"  # valence correction and conduction fractionary corrections
-    vfcf = "vfcf"  # valence fractionary and confduction fractionary corrections
+    v = "v"  # Simple valence correction
+    vf = "vf"  # Fractionary valence correction
+    vc = "vc"  # Simple valence and simple conduction corrections
+    vfc = "vfc"  # Valence fractionary and simple conduction corrections
+    vcf = "vcf"  # Simple valence  and conduction fractionary corrections
+    vfcf = "vfcf"  # Valence fractionary and conduction fractionary corrections
 
     def __str__(self):
         return str(self.name)
