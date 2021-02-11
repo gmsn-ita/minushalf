@@ -181,8 +181,8 @@ def execute(quiet: bool):
             "correction_indexes"] = get_simple_corrections_indexes(
                 cbm_projection)
         valence_correction = correction(**valence_options)
-        conduction_correction = correction(**conduction_options)
         valence_cuts, _ = valence_correction.execute()
+        conduction_correction = correction(**conduction_options)
         conduction_cuts, conduction_gap = conduction_correction.execute()
         make_minushalf_results(valence_cuts=valence_cuts,
                                gap=conduction_gap,
@@ -202,8 +202,8 @@ def execute(quiet: bool):
                 cbm_projection)
 
         valence_fractionary_correction = correction(**valence_options)
-        conduction_correction = correction(**conduction_options)
         valence_cuts, _ = valence_fractionary_correction.execute()
+        conduction_correction = correction(**conduction_options)
         conduction_cuts, conduction_gap = conduction_correction.execute()
         make_minushalf_results(valence_cuts=valence_cuts,
                                gap=conduction_gap,
@@ -225,8 +225,8 @@ def execute(quiet: bool):
                 correction["fractionary_conduction_treshold"])
 
         valence_fractionary_correction = correction(**valence_options)
-        conduction_fractionary_correction = correction(**conduction_options)
         valence_cuts, _ = valence_fractionary_correction.execute()
+        conduction_fractionary_correction = correction(**conduction_options)
         conduction_cuts, conduction_gap = conduction_fractionary_correction.execute(
         )
         make_minushalf_results(valence_cuts=valence_cuts,
@@ -245,8 +245,8 @@ def execute(quiet: bool):
                 correction["fractionary_conduction_treshold"])
 
         valence_correction = correction(**valence_options)
-        conduction_fractionary_correction = correction(**conduction_options)
         valence_cuts, _ = valence_correction.execute()
+        conduction_fractionary_correction = correction(**conduction_options)
         conduction_cuts, conduction_gap = conduction_fractionary_correction.execute(
         )
         make_minushalf_results(valence_cuts=valence_cuts,

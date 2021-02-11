@@ -777,7 +777,7 @@ Currently, minushalf only supports one software, but one hope to support much mo
 
 vasp tag
 -----------------
-The vasp tag is a set of various informations that specify the settings
+The vasp tag is a set of various informations that specifies the settings
 for the VASP execution. The informations are:
 
 - number_of_cores: The number of colors used to run VASP. (Default: 1)
@@ -791,6 +791,138 @@ an example of the vasp tag in the :code:`minushalf.yaml` file:
     vasp:
         number_of_cores: 4
         path: vasp_bin
+
+
+atomic_program tag
+---------------------
+The atomic_program tag is a set of various informations that specifies
+the settings for the atomic program execution. The informations are:
+
+- exchange_correlation_code: Functional of exchange and correlation (Default: pb)
+- calculation_code: Calculation code for the atomic program (Default: ae)
+- max_iterations: Maximum number of iterations performed by the atomic program (Default: 100) 
+
+The values that the exchange_correlation_code and calculation_code tags can assume are listed below:
+
+.. container:: toggle
+
+    .. container:: header
+
+        ``exchange_correlation_code``
+    
+    - ca: Ceperley-Alder
+    - wi: Wigner
+    - hl: Hedin-Lundqvist
+    - gl: Gunnarson-Lundqvist
+    - bh: Von Barth-Hedin
+    - pb: PBE scheme by Perdew, Burke, and Ernzerhof                 
+    - rp: RPBE scheme by Hammer, Hansen, and Norskov
+    - rv: revPBE scheme by Zhang and Yang                            
+    - bl: BLYP (Becke-Lee-Yang-Parr) scheme
+
+.. container:: toggle
+
+    .. container:: header
+
+        ``calculation_code``
+    
+    - ae: All electrons
+
+
+
+Below follows an example of the atomic_program tag in the :code:`minushalf.yaml` file:
+
+.. code-block:: yaml
+
+    atomic_program:
+        exchange_correlation_code: wi
+        calculation_code: ae
+        max_iterations: 200
+    
+correction tag
+----------------------
+The correction tag is a set of various informations that specifies
+how the DFT -1/2 method is executed. The informations are:
+
+- correction_code: Code thar specifies the potential correction (Default: v)
+- potfiles_folder: Path to folder that holds the potential files for each atom. The files must be named in the following pattern :code:`${POTENTIAL_FILE_NAME}.${LOWERCASE_ATOMIC_SYMBOL}` (Default: minushalf_potfiles)
+- amplitude: Scale Factor for the trimming function (Default: 1.0)
+- valence_cut_guess: Initial Guess for the Nelder-Mead algorithm for cut in valence correction (Default: 3.0)
+- conduction_cut_guess: Initial Guess for the Nelder-Mead algorithm for cut in valence correction (Default: 2.0)
+- tolerance: Minimum level of precision for the result of the Nelder-Mead algorithm (Default: 0.01)
+- fractionary_valence_treshold: :ref:`Treshold  <frac_correction>` :math:`\epsilon` for fractionary valence correction (Default: 10). 
+- fractionary_conduction_treshold: :ref:`Treshold  <frac_correction>` :math:`\epsilon` for fractionary conduction correction (Default: 9).
+
+The values that the correction_code tag can assume are listed below:
+
+.. container:: toggle
+
+    .. container:: header
+
+        ``correction_code``
+    
+    - v: Simple valence correction
+    - vf: Fractionary valence correction
+    - vc: Simple valence and simple conduction corrections
+    - vfc: Fractionary valence and simple conduction corrections
+    - vcf: Simple valence and fractionary conduction corrections
+    - vfcf: Fractionary valence and fractionary conduction corrections
+
+
+Below follows an example of the atomic_program tag in the :code:`minushalf.yaml` file:
+
+.. code-block:: yaml
+
+        correction:
+            correction_code: vf
+            potfiles_folder: ../potcar
+            amplitude: 3.0
+            valence_cut_guess: 2.0
+            conduction_cut_guess: 1.0
+            tolerance: 0.001
+            fractionary_valence_treshold: 15
+            fractionary_conduction_treshold: 23
+
+
+Examples
+====================
+To demonstrate the command usage, one apply the simple valence and simple conduction correction on `SiC-2d <http://www.2dmatpedia.org/2dmaterials/doc/2dm-2686>`_ .
+
+
+.. container:: toggle
+
+    .. container:: header
+
+        **VASP**
+  
+    Para executar o comando, os seguintes arquivos precisam ser fornecidos na seguinte estrutura:    
+
+    .. code-block:: console
+
+        .
+        ├── INCAR
+        ├── KPOINTS
+        ├── minushalf.yaml
+        ├── POSCAR
+        ├── POTCAR
+        └── potcars
+            ├── POTCAR.c
+            └── POTCAR.si
+    
+    Para o arquivo de input, escolheu-se as seguintes configurações iniciais:
+
+    .. code-block:: yaml
+
+        software: VASP
+        vasp:
+            number_of_cores: 4
+  
+        correction:
+            correction_code: vc
+            potfiles_folder: ./potcars
+            valence_cut_guess: 3.20
+            conduction_cut_guess: 3.0
+    
 
 
 References
