@@ -14,4 +14,5 @@ Welcome to minushalf's documentation!
    installation
    commands
    api
+   support
 
