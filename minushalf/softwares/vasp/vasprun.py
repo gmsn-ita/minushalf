@@ -79,9 +79,9 @@ class Vasprun():
 
         start_tag_regex = re.compile(rf'^.*<{tag}\s*(name="{name}")?\s*>')
         end_tag_regex = re.compile(rf"^.*</{tag}\s*>")
-        start_tag_identified = False
         xml_text = []
         with open(self.filename, "r") as vasprun:
+            start_tag_identified = False
             for line in vasprun:
                 if start_tag_identified and end_tag_regex.match(line):
                     end_tag = end_tag_regex.search(line).group(0)

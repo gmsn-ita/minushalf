@@ -76,7 +76,7 @@ def occupation(orbital_quantum_number: str, occupation_percentual: str,
 
     try:
         quantum_numbers = np.array(orbital_quantum_number.split(","),
-                                   dtype=np.int)
+                                   dtype=int)
     except ValueError as wrong_input:
         raise ValueError(
             "Invalid value for secondary quantum number") from wrong_input
