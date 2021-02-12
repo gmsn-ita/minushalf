@@ -31,6 +31,7 @@ setup(
         "loguru>=0.5.3",
         "tabulate>=0.8.7",
         "pyyaml>=5.3.1",
+        "scipy>=1.5.4",
     ],
     entry_points="""
         [console_scripts]

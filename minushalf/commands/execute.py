@@ -4,6 +4,7 @@ Execute command
 import os
 import sys
 import shutil
+from collections import OrderedDict
 import click
 from loguru import logger
 from minushalf.utils import (
@@ -13,9 +14,11 @@ from minushalf.utils import (
     welcome_message,
     end_message,
     make_minushalf_results,
+    get_fractionary_corrections_indexes,
+    get_simple_corrections_indexes,
 )
 from minushalf.softwares import (VaspFactory)
-from minushalf.corrections import (VaspCorrectionFactory)
+from minushalf.corrections import (VaspCorrection)
 from minushalf.data import (Softwares, CorrectionCode)
 from minushalf.interfaces import (SoftwaresAbstractFactory)
 
@@ -59,18 +62,48 @@ def get_atoms_list(factory: SoftwaresAbstractFactory) -> list:
     Returns atoms_list
     """
     atoms_map = factory.get_atoms_map()
-    return list(atoms_map.values())
+    atoms = [atoms_map[key] for key in sorted(atoms_map)]
+    return list(OrderedDict.fromkeys(atoms))
 
 
 @click.command()
 @click.option('--quiet', default=False, is_flag=True)
 def execute(quiet: bool):
     """
-        Execute command
+
+        Uses the Nelder-Mead method to find
+        the optimal values for the CUT(S) and,
+        finally, find the corrected Gap value.
+        This command uses external software to
+        perform ab initio calculations, so it must
+        be installed in order to perform the command.
+        Check the docs for an list of the softwares supported
+        by the CLI.
+
+
             Requires:
-                minushalf.yaml file : Parameters file
-            Return:
-                minushalf_results.dat : Results file
+
+
+                minushalf.yaml : Parameters file. Check the docs
+                                 for a more detailed description.
+
+                ab_initio_files: Files needed to perform the ab initio calculations.
+                                 They must be in the same directory as the input
+                                 file minushalf.yaml
+
+                potential_folder: Folder with the potential files for each atom in
+                                  the crystal. The files must be named in the following pattern
+                                  ${POTENTIAL_FILE_NAME}.${LOWERCASE_CHEMICAL_SYMBOL}
+
+            Returns:
+
+                minushalf_results.dat : File that contains the optimal
+                                        values of the cutsand the final
+                                        value of the Gap.
+
+                corrected_valence_potfiles: Potential files resulting from valence correction.
+
+                corrected_conduction_potfiles: Potential files resulting from conduction correction.
     """
     welcome_message("minushalf")
 
@@ -80,17 +113,16 @@ def execute(quiet: bool):
     ## Read yaml file
     logger.info("Reading minushalf.yaml file")
     minushalf_yaml = MinushalfYaml.from_file()
-    correction_factory_chooser = {
-        Softwares.vasp.value: VaspCorrectionFactory()
-    }
+    correction_factory_chooser = {Softwares.vasp.value: VaspCorrection}
     software_factory_chooser = {Softwares.vasp.value: VaspFactory()}
 
-    correction_factory = correction_factory_chooser[minushalf_yaml.software]
+    correction = correction_factory_chooser[minushalf_yaml.software]
     software_factory = software_factory_chooser[minushalf_yaml.software]
 
     ## Makes abinition calculation
     logger.info("Running ab initio calculations")
-    runner = software_factory.get_runner()
+    software_configurations = minushalf_yaml.software_configurations
+    runner = software_factory.get_runner(**software_configurations)
     runner.run()
 
     ## Makes root folder
@@ -99,13 +131,6 @@ def execute(quiet: bool):
     if os.path.exists(root_folder):
         shutil.rmtree(root_folder)
     os.mkdir(root_folder)
-    ## make valence folder
-    valence_path = os.path.join(root_folder, "valence")
-    os.mkdir(valence_path)
-
-    ## make conduction folder
-    conduction_path = os.path.join(root_folder, "conduction")
-    os.mkdir(conduction_path)
 
     ## get vbm projection
     logger.info("Get Vbm and CBM projections")
@@ -117,76 +142,119 @@ def execute(quiet: bool):
     atoms = get_atoms_list(software_factory)
 
     valence_options = {
-        "root_folder": valence_path,
+        "root_folder": root_folder,
         "software_factory": software_factory,
         "runner": runner,
         "minushalf_yaml": minushalf_yaml,
-        "vbm_projection": vbm_projection,
-        "atoms": atoms
+        "band_projection": vbm_projection,
+        "atoms": atoms,
+        "is_conduction": False
     }
     conduction_options = {
-        "root_folder": valence_path,
+        "root_folder": root_folder,
         "software_factory": software_factory,
         "runner": runner,
         "minushalf_yaml": minushalf_yaml,
-        "cbm_projection": cbm_projection,
-        "atoms": atoms
+        "band_projection": cbm_projection,
+        "atoms": atoms,
+        "is_conduction": True
     }
 
     logger.info("Doing corrections")
-    if minushalf_yaml.correction.correction_code == CorrectionCode.v.name:
-
-        valence_correction = correction_factory.valence(**valence_options)
+    if minushalf_yaml.correction["correction_code"] == CorrectionCode.v.name:
+        valence_options["correction_indexes"] = get_simple_corrections_indexes(
+            vbm_projection)
+        valence_correction = correction(**valence_options)
         valence_cuts, valence_gap = valence_correction.execute()
         make_minushalf_results(valence_cuts=valence_cuts, gap=valence_gap)
 
-    elif minushalf_yaml.correction.correction_code == CorrectionCode.vf.name:
+    elif minushalf_yaml.correction[
+            "correction_code"] == CorrectionCode.vf.name:
 
-        valence_fractionary_correction = correction_factory.valence_fractionary(
-            **valence_options)
+        valence_options[
+            "correction_indexes"] = get_fractionary_corrections_indexes(
+                vbm_projection,
+                treshold=minushalf_yaml.
+                correction["fractionary_valence_treshold"])
+
+        valence_fractionary_correction = correction(**valence_options)
         valence_cuts, valence_gap = valence_fractionary_correction.execute()
         make_minushalf_results(valence_cuts=valence_cuts, gap=valence_gap)
 
-    elif minushalf_yaml.correction.correction_code == CorrectionCode.vc.name:
-        valence_correction = correction_factory.valence(**valence_options)
-        conduction_correction = correction_factory.conduction(
-            **conduction_options)
+    elif minushalf_yaml.correction[
+            "correction_code"] == CorrectionCode.vc.name:
+        valence_options["correction_indexes"] = get_simple_corrections_indexes(
+            vbm_projection)
+        conduction_options[
+            "correction_indexes"] = get_simple_corrections_indexes(
+                cbm_projection)
+        valence_correction = correction(**valence_options)
         valence_cuts, _ = valence_correction.execute()
+        conduction_correction = correction(**conduction_options)
         conduction_cuts, conduction_gap = conduction_correction.execute()
         make_minushalf_results(valence_cuts=valence_cuts,
                                gap=conduction_gap,
                                conduction_cuts=conduction_cuts)
 
-    elif minushalf_yaml.correction.correction_code == CorrectionCode.vfc.name:
+    elif minushalf_yaml.correction[
+            "correction_code"] == CorrectionCode.vfc.name:
 
-        valence_fractionary_correction = correction_factory.valence_fractionary(
-            **valence_options)
-        conduction_correction = correction_factory.conduction(
-            **conduction_options)
+        valence_options[
+            "correction_indexes"] = get_fractionary_corrections_indexes(
+                vbm_projection,
+                treshold=minushalf_yaml.
+                correction["fractionary_valence_treshold"])
+
+        conduction_options[
+            "correction_indexes"] = get_simple_corrections_indexes(
+                cbm_projection)
+
+        valence_fractionary_correction = correction(**valence_options)
         valence_cuts, _ = valence_fractionary_correction.execute()
+        conduction_correction = correction(**conduction_options)
         conduction_cuts, conduction_gap = conduction_correction.execute()
         make_minushalf_results(valence_cuts=valence_cuts,
                                gap=conduction_gap,
                                conduction_cuts=conduction_cuts)
 
-    elif minushalf_yaml.correction.correction_code == CorrectionCode.vfcf.name:
+    elif minushalf_yaml.correction[
+            "correction_code"] == CorrectionCode.vfcf.name:
 
-        valence_fractionary_correction = correction_factory.valence_fractionary(
-            **valence_options)
-        conduction_fractionary_correction = correction_factory.conduction_fractionary(
-            **conduction_options)
+        valence_options[
+            "correction_indexes"] = get_fractionary_corrections_indexes(
+                vbm_projection,
+                treshold=minushalf_yaml.
+                correction["fractionary_valence_treshold"])
+
+        conduction_options[
+            "correction_indexes"] = get_fractionary_corrections_indexes(
+                cbm_projection,
+                treshold=minushalf_yaml.
+                correction["fractionary_conduction_treshold"])
+
+        valence_fractionary_correction = correction(**valence_options)
         valence_cuts, _ = valence_fractionary_correction.execute()
+        conduction_fractionary_correction = correction(**conduction_options)
         conduction_cuts, conduction_gap = conduction_fractionary_correction.execute(
         )
         make_minushalf_results(valence_cuts=valence_cuts,
                                gap=conduction_gap,
                                conduction_cuts=conduction_cuts)
 
-    elif minushalf_yaml.correction.correction_code == CorrectionCode.vcf.name:
-        valence_correction = correction_factory.valence(**valence_options)
-        conduction_fractionary_correction = correction_factory.conduction_fractionary(
-            **conduction_options)
+    elif minushalf_yaml.correction[
+            "correction_code"] == CorrectionCode.vcf.name:
+        valence_options["correction_indexes"] = get_simple_corrections_indexes(
+            vbm_projection)
+
+        conduction_options[
+            "correction_indexes"] = get_fractionary_corrections_indexes(
+                cbm_projection,
+                treshold=minushalf_yaml.
+                correction["fractionary_conduction_treshold"])
+
+        valence_correction = correction(**valence_options)
         valence_cuts, _ = valence_correction.execute()
+        conduction_fractionary_correction = correction(**conduction_options)
         conduction_cuts, conduction_gap = conduction_fractionary_correction.execute(
         )
         make_minushalf_results(valence_cuts=valence_cuts,

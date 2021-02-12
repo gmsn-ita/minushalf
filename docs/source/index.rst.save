@@ -10,9 +10,14 @@ Welcome to minushalf's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   introduction
-   installation
-   commands
-   api
-   support
+   
+api
+   
 
+
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`search`

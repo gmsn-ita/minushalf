@@ -145,9 +145,9 @@ class VaspFactory(SoftwaresAbstractFactory):
         eigenval = VaspEigenval(filename)
         return eigenval.eigenvalues
 
-    def get_runner(self):
+    def get_runner(self, path: str = "vasp", number_of_cores: int = 1):
         """
         Return the class
         that runs VASP
         """
-        return VaspRunner()
+        return VaspRunner(path, number_of_cores)

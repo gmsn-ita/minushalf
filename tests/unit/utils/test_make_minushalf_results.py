@@ -13,8 +13,8 @@ def test_only_valence_cuts(file_path):
     expected_file_path = file_path(
         "/minushalf_results/minushalf_results_only_valence_cuts.dat")
     valence_cuts = {
-        ("Ag", "s"): 1.23,
-        ("Br", "s"): 2.33,
+        "Ag": 1.23,
+        "Br": 2.33,
     }
     gap = 2.334
     filename = "minushalf_results_only_valence_cuts.dat"
@@ -37,12 +37,12 @@ def test_conduction_cuts(file_path):
     expected_file_path = file_path(
         "/minushalf_results/minushalf_results_conduction_cuts.dat")
     valence_cuts = {
-        ("Ag", "s"): 1.23,
-        ("Br", "s"): 2.33,
+        "Ag": 1.23,
+        "Br": 2.33,
     }
     conduction_cuts = {
-        ("Ag", "d"): 1.23,
-        ("Br", "d"): 2.33,
+        "Ag": 1.23,
+        "Br": 2.33,
     }
     gap = 2.334
     filename = "minushalf_results_conduction_cuts.dat"

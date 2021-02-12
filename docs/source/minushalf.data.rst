@@ -22,7 +22,6 @@ minushalf.data.constants module
 
 minushalf.data.correction\_code module
 --------------------------------------
-
 .. automodule:: minushalf.data.correction_code
    :members:
    :undoc-members:
@@ -30,7 +29,7 @@ minushalf.data.correction\_code module
 
 minushalf.data.electronic\_distribution module
 ----------------------------------------------
-
+.. _atoms_list:
 .. automodule:: minushalf.data.electronic_distribution
    :members:
    :undoc-members:

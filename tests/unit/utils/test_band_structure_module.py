@@ -434,7 +434,6 @@ def test_vbm_index_sic_2d(file_path):
                                    band_projection=procar)
 
     vbm_index = band_structure.vbm_index()
-    print(vbm_index)
     assert vbm_index[0] == kpoint_vbm
     assert vbm_index[1] == band_vbm
 
@@ -617,7 +616,6 @@ def test_vbm_index_gec_2d(file_path):
                                    band_projection=procar)
 
     vbm_index = band_structure.vbm_index()
-    print(vbm_index)
     assert vbm_index[0] == kpoint_vbm
     assert vbm_index[1] == band_vbm
 
@@ -800,7 +798,6 @@ def test_vbm_index_aln_2d(file_path):
                                    band_projection=procar)
 
     vbm_index = band_structure.vbm_index()
-    print(vbm_index)
     assert vbm_index[0] == kpoint_vbm
     assert vbm_index[1] == band_vbm
 
