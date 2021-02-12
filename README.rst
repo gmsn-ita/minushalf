@@ -5,6 +5,13 @@ minushalf
     :target: https://minushalf.readthedocs.org
     :alt: Documentation Status
 
+.. image:: https://img.shields.io/lgtm/alerts/g/lmmentel/mendeleev.svg?logo=lgtm&logoWidth=18
+    :target: https://lgtm.com/projects/g/lmmentel/mendeleev/alerts/
+    :alt: Total alerts
+
+.. image:: https://img.shields.io/lgtm/grade/python/g/hentt30/minushalf.svg?logo=lgtm&logoWidth=18
+    :target: https://lgtm.com/projects/g/hentt30/minushalf/context:python
+    :alt: Language grade: Python
 
 What is minushalf?
 ----------------------
