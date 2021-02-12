@@ -10,7 +10,7 @@ minushalf
     :alt: Total alerts
 
 .. image:: https://img.shields.io/lgtm/grade/python/g/hentt30/minushalf.svg?logo=lgtm&logoWidth=18
-    :target: https://lgtm.com/projects/g/hentt30/minushalf/context:python
+    :target: https://lgtm.com/projects/g/hentt30/minushalf/context:pythonfi
     :alt: Language grade: Python
 
 What is minushalf?
