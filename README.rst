@@ -2,16 +2,16 @@
 minushalf
 ##############
 .. image:: https://readthedocs.org/projects/minushalf/badge/
-    :target: https://minushalf.readthedocs.org
-    :alt: Documentation Status
+   :target: https://minushalf.readthedocs.org
+   :alt: Documentation Status
 
 .. image:: https://img.shields.io/lgtm/alerts/g/lmmentel/mendeleev.svg?logo=lgtm&logoWidth=18
-    :target: https://lgtm.com/projects/g/lmmentel/mendeleev/alerts/
-    :alt: Total alerts
+   :target: https://lgtm.com/projects/g/lmmentel/mendeleev/alerts/
+   :alt: Total alerts
 
 .. image:: https://img.shields.io/lgtm/grade/python/g/hentt30/minushalf.svg?logo=lgtm&logoWidth=18
-    :target: https://lgtm.com/projects/g/hentt30/minushalf/context:pythonfi
-    :alt: Language grade: Python
+   :target: https://lgtm.com/projects/g/hentt30/minushalf/context:pythonfi
+   :alt: Language grade: Python
 
 What is minushalf?
 ----------------------
