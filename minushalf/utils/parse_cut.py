@@ -36,4 +36,4 @@ def parse_cut(cut: str) -> list:
     return np.arange(cut_number[0],
                      cut_number[2],
                      cut_number[1],
-                     dtype=np.float)
+                     dtype=np.float64)
