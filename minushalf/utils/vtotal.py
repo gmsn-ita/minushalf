@@ -60,7 +60,7 @@ class Vtotal():
 
                 if stop_regex.match(line):
                     down_potential = list(chain.from_iterable(down_potential))
-                    return np.array(down_potential, dtype=np.float)
+                    return np.array(down_potential, dtype=np.float64)
 
                 down_potential.append(line.split())
 
@@ -82,6 +82,6 @@ class Vtotal():
 
                 if stop_regex.match(line):
                     radius = list(chain.from_iterable(radius))
-                    return np.array(radius, dtype=np.float)
+                    return np.array(radius, dtype=np.float64)
 
                 radius.append(line.split())

@@ -35,7 +35,7 @@ class BandStructure():
         eigevalues = [*self.eigenvalues.values()]
         for index in range(self.num_bands):
             band_eigenvalues = np.array([array[index] for array in eigevalues],
-                                        dtype=np.float)
+                                        dtype=np.float64)
             if np.any(band_eigenvalues -
                       self.fermi_energy < -tolerance) and np.any(
                           band_eigenvalues - self.fermi_energy > tolerance):

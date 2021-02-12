@@ -2,7 +2,6 @@
 Leads with input file (INP.ae)
 read by atomic program.
 """
-import re
 import numpy as np
 import fortranformat as ff
 from minushalf.data import (ElectronicDistribution, PeriodicTable,

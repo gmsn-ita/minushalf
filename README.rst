@@ -15,4 +15,4 @@ encompass both the defined steps and the entire process, this choice was made so
 More information
 ------------------------
 - Read the `docs <https://minushalf.readthedocs.io/en/latest/>`_
-- known `GMSN <http://www.gmsn.ita.br/>`_
+- Known `GMSN <http://www.gmsn.ita.br/>`_
