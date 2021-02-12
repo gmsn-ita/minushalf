@@ -125,7 +125,7 @@ class Potcar(PotentialFile):
             for line in potcar:
                 if regex_end_catch.match(line):
                     potential = list(chain.from_iterable(potential))
-                    return (k_max_text, np.array(potential, dtype=np.float))
+                    return (k_max_text, np.array(potential, dtype=np.float64))
                 potential.append(line.split())
 
     def _get_last_lines(self) -> list:
