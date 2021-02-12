@@ -1,6 +1,10 @@
 ##############
 minushalf
 ##############
+.. image:: https://readthedocs.org/projects/minushalf/badge/
+    :target: https://minushalf.readthedocs.org
+    :alt: Documentation Status
+
 
 What is minushalf?
 ----------------------
