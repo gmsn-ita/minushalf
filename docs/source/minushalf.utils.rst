@@ -52,6 +52,14 @@ minushalf.utils.drop\_comments module
    :undoc-members:
    :show-inheritance:
 
+minushalf.utils.fractionary\_correction\_indexes module
+-------------------------------------------------------
+
+.. automodule:: minushalf.utils.fractionary_correction_indexes
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 minushalf.utils.input\_file module
 ----------------------------------
 
@@ -100,10 +108,18 @@ minushalf.utils.projection\_to\_df module
    :undoc-members:
    :show-inheritance:
 
-minushalf.utils.ternary\_search module
---------------------------------------
+minushalf.utils.reverse\_band\_gap module
+-----------------------------------------
 
-.. automodule:: minushalf.utils.ternary_search
+.. automodule:: minushalf.utils.reverse_band_gap
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+minushalf.utils.simple\_correction\_indexes module
+--------------------------------------------------
+
+.. automodule:: minushalf.utils.simple_correction_indexes
    :members:
    :undoc-members:
    :show-inheritance:

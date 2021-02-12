@@ -10,7 +10,7 @@ class Runner(ABC):
     realizes ab initio calculations
     """
     @abstractmethod
-    def run(self):
+    def run(self, cwd: str):
         """
         Create command and
         run the subprocess for it

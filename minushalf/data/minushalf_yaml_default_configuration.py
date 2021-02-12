@@ -47,6 +47,11 @@ class CorrectionDefaultParams(Enum):
     correction_code = "v"
     potfiles_folder = "minushalf_potfiles"
     amplitude = 1.0
+    valence_cut_guess = 3.0
+    conduction_cut_guess = 2.0
+    tolerance = 0.01
+    fractionary_valence_treshold = 10
+    fractionary_conduction_treshold = 9
 
     def __str__(self):
         return str(self.name)
@@ -75,7 +80,7 @@ class VaspDefaultParams(Enum):
     Default params for vasp
     """
 
-    number_of_cores = 4
+    number_of_cores = 1
     path = "vasp"
 
     def __str__(self):

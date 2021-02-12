@@ -21,7 +21,7 @@ def test_default_parameters():
     file = MinushalfYaml.from_file()
     assert file.software == Softwares.vasp.value
     assert file.software_configurations[str(
-        VaspDefaultParams.number_of_cores)] == 4
+        VaspDefaultParams.number_of_cores)] == 1
     assert file.software_configurations[str(VaspDefaultParams.path)] == "vasp"
     assert file.atomic_program[str(
         AtomicProgramDefaultParams.exchange_correlation_code)] == "pb"
@@ -32,6 +32,16 @@ def test_default_parameters():
     assert file.correction[str(CorrectionDefaultParams.correction_code)] == "v"
     assert file.correction[str(
         CorrectionDefaultParams.potfiles_folder)] == "minushalf_potfiles"
+    assert file.correction[str(CorrectionDefaultParams.amplitude)] == 1.0
+    assert file.correction[str(
+        CorrectionDefaultParams.valence_cut_guess)] == 3.0
+    assert file.correction[str(
+        CorrectionDefaultParams.conduction_cut_guess)] == 2.0
+    assert file.correction[str(CorrectionDefaultParams.tolerance)] == 0.01
+    assert file.correction[str(
+        CorrectionDefaultParams.fractionary_conduction_treshold)] == 9
+    assert file.correction[str(
+        CorrectionDefaultParams.fractionary_valence_treshold)] == 10
 
 
 def test_minushalf_without_filling_correction(file_path):
@@ -56,6 +66,16 @@ def test_minushalf_without_filling_correction(file_path):
     assert file.correction[str(CorrectionDefaultParams.correction_code)] == "v"
     assert file.correction[str(
         CorrectionDefaultParams.potfiles_folder)] == "minushalf_potfiles"
+    assert file.correction[str(CorrectionDefaultParams.amplitude)] == 1.0
+    assert file.correction[str(
+        CorrectionDefaultParams.valence_cut_guess)] == 3.0
+    assert file.correction[str(
+        CorrectionDefaultParams.conduction_cut_guess)] == 2.0
+    assert file.correction[str(CorrectionDefaultParams.tolerance)] == 0.01
+    assert file.correction[str(
+        CorrectionDefaultParams.fractionary_conduction_treshold)] == 9
+    assert file.correction[str(
+        CorrectionDefaultParams.fractionary_valence_treshold)] == 10
 
 
 def test_minushalf_filled_out(file_path):
@@ -80,6 +100,16 @@ def test_minushalf_filled_out(file_path):
         CorrectionDefaultParams.correction_code)] == "vf"
     assert file.correction[str(
         CorrectionDefaultParams.potfiles_folder)] == "../potcar"
+    assert file.correction[str(CorrectionDefaultParams.amplitude)] == 3.0
+    assert file.correction[str(
+        CorrectionDefaultParams.valence_cut_guess)] == 2.0
+    assert file.correction[str(
+        CorrectionDefaultParams.conduction_cut_guess)] == 1.0
+    assert file.correction[str(CorrectionDefaultParams.tolerance)] == 0.001
+    assert file.correction[str(
+        CorrectionDefaultParams.fractionary_conduction_treshold)] == 23
+    assert file.correction[str(
+        CorrectionDefaultParams.fractionary_valence_treshold)] == 15
 
 
 @pytest.mark.xfail
