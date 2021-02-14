@@ -87,7 +87,6 @@ class Vasprun():
                     end_tag = end_tag_regex.search(line).group(0)
                     end_line_splited = line.partition(end_tag)
                     end_line = "".join(end_line_splited[:2])
-                    start_tag_identified = False
                     xml_text.append(end_line)
                     break
 
