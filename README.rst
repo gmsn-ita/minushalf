@@ -17,7 +17,7 @@ What is minushalf?
 ----------------------
 Minushalf is a CLI developed by GMSN that aims to automate 
 the application of the DFT -1/2 method. The commands available in this 
-CLI automate both the entire process and each of its steps, in order to be 
+CLI automate both the entire process and each of its steps in order to be 
 used by the user for any purposes.
 
 More information
