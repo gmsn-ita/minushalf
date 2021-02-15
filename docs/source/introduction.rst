@@ -5,11 +5,10 @@ Introduction
 What is minushalf?
 ###################
 
-Minushalf is a CLI that aims to considerably reduce the application time of the method
-DFT -1/2 using the automation of processes made manually. The commands seek
-encompass both the defined steps and the entire process, this choice was made so that the commands can be reused
-by the user, enabling an application for any purpose. 
-
+Minushalf is a CLI developed by GMSN that aims to automate 
+the application of the DFT -1/2 method. The commands available in this 
+CLI automate both the entire process and each of its steps, in order to be 
+used by the user for any purposes.
 An intuitive explanation of the DFT -1/2 method
 ##################################################
 DFT-1/2, an alternative way of referring to the LDA -1/2 [1]_ [2]_ and GGA -1/2 [2]_ techniques, 
