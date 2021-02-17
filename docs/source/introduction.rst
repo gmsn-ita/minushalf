@@ -9,20 +9,27 @@ Minushalf is a CLI developed by GMSN that aims to automate
 the application of the DFT -1/2 method. The commands available in this 
 CLI automate both the entire process and each of its steps in order to be 
 used by the user for any purposes.
+
 An intuitive explanation of the DFT -1/2 method
 ##################################################
+
 DFT-1/2, an alternative way of referring to the LDA -1/2 [1]_ [2]_ and GGA -1/2 [2]_ techniques, 
 is a method that performs semiconductor band-gap calculations with precision close 
 to the state of the art algorithms [2]_. These technique aim to expand the half-occupation 
 technique [3]_ [4]_ [5]_, formalized by Janak's theorem, to crystals using modern exchange-correlation approaches [6]_ [7]_.
 
-Unlike atoms, where energy levels are discrete, one tried to use half occupation
-in the energy bands of a crystal. The intuition for this application comes from the fact that the energy bands of a crystal are formed
+The Slater half-occupation scheme has already proven to be quite efficient for calculating atomic ionization 
+energies values close to the experimental [5]_. However, this technique cannot be applied blindly to
+extended systems like crystals, since the crystal is described by means of Bloch waves and removing the population
+of just one Bloch state would have no consequences[1]_. Moreover, removing the population of one Bloch State and set periodic
+conditions would result in a infinitely charged system.
+
+Thus, the proposed solution is to apply the Slater procedure to cystaline energy bands. 
+The intuition for this application comes from the fact that the energy bands of a crystal are formed
 by the overlap of atomic orbitals, mainly by those that constitute the outermost layers [8]_. This relationship can be quantified
 by the projection of the wave function in a given orbital, Figure 1 shows the character of the last valence band and the first
-driving to the CdO, the color magnet represents the character :math:`d` of the band and yellow the character :math:`p` [10]_. Thus, considering
-this existing relationship, corrections in eigenvalues for atomic orbitals could propagate and trigger corrections in systems
-crystalline. 
+driving to the CdO, the color magnet represents the character :math:`d` of the band and yellow the character :math:`p` [10]_. Thereby, considering
+this existing relationship, self-energy corrections performed in atoms could propagate and shift the energy of the bands, resulting in a band gap correction. 
 
 .. figure:: images/cdo_bands.png
    :width: 500
@@ -39,7 +46,7 @@ half occupation, however a change in charge density in a unit cell would result 
 divergence in the Khon-Shan calculations. Furthermore, it would also be irrelevant to be able to modify only a finite amount of electrons in the crystal since
 the charge would become irrelevant to the infinite amount of electrons present in the system. To bypass
 this problem, approximations are used in order to make it possible to calculate the potential for the half occupation of the
-crystal through other potentials [1] _ [2] _, as shown in the equation below: 
+crystal through other potentials [1]_ [2]_, as shown in the equation below: 
 
 .. math:: 
    V_{crystal}^{-1/2} = V_{crystal} - V_{1/2e}
@@ -67,7 +74,7 @@ CUT is the radius of cut and A is a scale factor named amplitude.
 The need to have a cutting function is due to the fact that an artificial charged system is generated, therefore the correction
 in a cell it generates an  potential that reaches neighboring cells, which would lead to a divergence in the Khon-Shan calculations.
 It is worth mentioning that the values ​​for :math:`CUT` and :math:`A` must not be chosen arbitrarily, by means of variational 
-arguments it can be proved that the optimal values ​​for these parameters are those that maximize the Gap of the crystalline system [1] _ [2] _.
+arguments it can be proved that the optimal values ​​for these parameters are those that maximize the Gap of the crystalline system [1]_ [2]_.
 
 Finally, since the atoms are repeated in each unit cell, the potential :math:`V_{1/2e}` is periodic, joining this
 information with the fact that :math:`V_{crystal}` is periodic, it has the implication that :math:`V_{crystal}^{-1/2}`
