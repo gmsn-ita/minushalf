@@ -91,7 +91,7 @@ potential is given by:
 
 .. math::
    \nabla^{2}V_{m}{'}(\vec{r}) = \frac{q\rho_{m}{'}(\vec{r})}{\epsilon_{0}} \\
-   f_{i}=f_{i}{'}, i \neq \alpha
+   f_{i}=f_{i}{'}, i \neq \alpha \\
    f_{\alpha} \neq f_{\alpha}{'}
 
 Thus, one want to calculate the potential for all distributions, which is obtained by adding
