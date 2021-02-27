@@ -182,27 +182,26 @@ Thus, the correction of half an electron is done only in the orbital :math:`j` o
 Fractional correction
 =========================
 The fractional correction method is applied when different atomic orbitals have a significant influence
-in the composition of the band. To distribute half an electron, a threshold is chosen
+in the composition of the band. To distribute half an  electron, a threshold is chosen
 :math:`\epsilon`, which represents the minimum value of :math:`a_{ij}` considered in the correction. Given these
-values, half an electron will be divided among the atoms, proportionally to the coefficient :math:`a_{ij}`.
+values,the half an electron will be divided among the atoms, proportionally to the coefficient :math:`a_{ij}`.
 
 Is conduction band correction always necessary?
 ======================================================
-In many cases, the correction in the valence band already returns satisfactory and close enough to the 
-experimental results, which rules out the need for an additional correction in the conduction band. 
+In many cases, the correction in the valence band already returns satisfactory and close enough results, which rules out the need for an additional correction in the conduction band. 
 
 Final considerations
 =============================
-After applying the correction, the optimum cut and amplitude must be found for each corrected atom to, finally,
+After applying the correction, the optimum cut must be found for each corrected atom to, finally,
 we find the final value for the gap. 
 
 
 DFT -1/2 results
 *********************
 
-The results obtained by the application the method has the same precision [2]_ as the GW [9]_ algorithm considered 
-the state of the art for calculating the band-gap of semiconductors. In addition, the computational complexity of the method 
-is equivalent to calculating the Khon-Shan gap, which allows the technique to be applied to complex systems.
+The results obtained by the application the method have the same precision [2]_ as the GW [9]_ algorithm, considered 
+the state of the art for calculating band gap of semiconductors. In addition, the computational complexity of the method 
+is equivalent to the standard DFT approach, which allows the technique to be applied to complex systems.
 
 
 
