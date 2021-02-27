@@ -14,12 +14,12 @@ An intuitive explanation of the DFT -1/2 method
 ************************************************
 
 DFT-1/2, an alternative way of referring to the LDA -1/2 [1]_ [2]_ and GGA -1/2 [2]_ techniques, 
-is a method that performs semiconductor band-gap calculations with precision close 
-to the state of the art algorithms [2]_. These technique aim to expand the half-occupation 
+is a method that performs semiconductor band gap calculations with precision close 
+to the state of the art algorithms [2]_. This method aim to expand the half-occupation 
 technique [3]_ [4]_ [5]_, formalized by Janak's theorem, to crystals using modern exchange-correlation approaches [6]_ [7]_.
 
 The Slater half-occupation scheme has already proven to be quite efficient for calculating atomic ionization 
-energies values close to the experimental [5]_. However, this technique cannot be applied blindly to
+energies values close to the experimental ones [5]_. However, this technique cannot be applied blindly to
 extended systems like crystals, since the crystal is described by means of Bloch waves and removing the population
 of just one Bloch state would have no consequences [1]_. Moreover, removing the population of one Bloch State and set periodic
 conditions would result in a infinitely charged system.
