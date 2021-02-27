@@ -28,7 +28,7 @@ Thus, the proposed solution is to apply the Slater procedure to cystaline energy
 The intuition for this application comes from the fact that the energy bands of a crystal are formed
 by the overlap of atomic orbitals, mainly by those that constitute the outermost layers [8]_. This relationship can be quantified
 by the projection of the wave function in a given orbital, Figure 1 shows the character of the last valence band and the first
-driving to the CdO, the color magnet represents the character :math:`d` of the band and yellow the character :math:`p` [10]_. Thereby, considering
+conduction band to the CdO, the color magnet represents the character :math:`d` of the band and yellow the character :math:`p` [10]_. Thereby, considering
 this existing relationship, self-energy corrections performed in atoms could propagate and shift the energy of the bands, resulting in a band gap correction. 
 
 .. figure:: images/cdo_bands.png
