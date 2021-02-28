@@ -477,22 +477,22 @@ by professor `Luiz Guimarães Ferreira <http://lattes.cnpq.br/4694847711359239>`
 
             ORBITAL_QUANTUM_NUMBER: A string that defines the orbital(s) in which
             the occupation will be made, it can assume four values: (0: s | 1:
-            p | 2: d | 3: f). if going to pass multiple orbitals, pass a
-            string with numbers separated by commas : ("0,1,2,3")
+            p | 2: d | 3: f). if going to modify multiple orbitals, pass a
+            string with numbers separated by commas : ("0,1,2,3").
 
-            OCCUPATION_PERCENTUAL: A string that defines percentual of half
-            electron to be used in the occupation. The default is 100%, wich
+            OCCUPATION_PERCENTUAL: A string that defines percentual of half an
+            electron to be used in the occupation. The default is 100%, which
             states for 0.5e. For multiple occupations in different orbitals, pass
             a string separated by commas ("100,50,40,100"). For simplicity, to
             avoid the excessive repetition of the number 100, just replace the
             number with * ("*,30,*"). If this argument is not used, the occupation
-            of half electron will be made for all orbitals
+            of half electron will be made for all orbitals passed as arguments.
 
-            INP: A copy of the input file used in ATOM program
+            INP: Input file of the run-atomic command.
 
         Returns:
 
-            INP_OCC : Input file modified for fractional occupation
+            INP_OCC : Input file modified for fractional occupation.
 
             INP.ae: A copy of the input file for the calculation.
 
@@ -719,7 +719,7 @@ This command creates the input files for the run-atomic command. Check :ref:`her
     $ minushalf correct-potfile --help          
     Usage: minushalf correct-potfile [OPTIONS]
 
-    Generate occupied atomic potential file used for ab initio calculations.
+    Generate the occupied atomic potential file used for ab initio calculations.
 
     Requires:
 
@@ -770,13 +770,15 @@ This command creates the input files for the run-atomic command. Check :ref:`her
                                     range:  begin(float|integer):pass(float|integer):end(float|integer). Ex: 1.0:0.1:2.0  
                                     [default: 2.0]
 
-    -a, --amplitude FLOAT RANGE     Scaling factor to be used to correct the
-                                    artificially generated potential.  [default:
-                                    1.0]
+    -a, --amplitude FLOAT RANGE     Scaling factor to be used to correct the artificially generated potential.
+                                    In the vast majority of cases, the amplitude value is 1.0. However, there are some
+                                    special cases where this value needs to be adjusted. Therefore, we recommend that
+                                    you do not change this value unless you know exactly what you are doing  [default: 1.0]
 
     --help                          Show this message and exit.
 
 
+To consult a case where changing the amplitude value is necessary, check the reference [7]_.
 
 
 ``minushalf execute``
@@ -1037,4 +1039,4 @@ References
 .. [4] Y. Rao, S. Yu, and X.-M. Duan, `Phys. Chem. Chem. Phys. 19, 17250 (2017) <https://doi.org/10.1039/C7CP02616A>`_.
 .. [5] H. Sahin, S. Cahangirov, M. Topsakal, E. Bekaroglu, E. Akturk, R. T. Senger, and S. Ciraci, `Phys. Rev. B 80, 155453 (2009) <https://doi.org/10.1103/PhysRevB.80.155453>`_.
 .. [6] H. C. Hsueh, G. Y. Guo, and S. G. Louie, `Phys. Rev. B 84, 085404 (2011) <https://doi.org/10.1103/PhysRevB.84.085404>`_.
-
+.. [7] C. A. Ataide, R. R. Pelá, M. Marques, L. K. Teles, J. Furthmüller, and F. Bechstedt `Phys. Rev. B 95, 045126 – Published 17 January 2017 <https://journals.aps.org/prb/abstract/10.1103/PhysRevB.95.045126>`_.
