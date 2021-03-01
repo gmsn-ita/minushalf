@@ -915,12 +915,15 @@ Below follows an example of the atomic_program tag in the :code:`minushalf.yaml`
     
 correction tag
 ----------------------
- The atomic_program tag  specifies the settings 
- for the atomic program execution. These settings are:
+ The correction tag specifies how the DFT -1/2
+  method is executed. It contains the following parameters:
 
 - correction_code: Code thar specifies the potential correction (Default: v)
 - potfiles_folder: Path to folder that holds the potential files for each atom. The files must be named in the following pattern :code:`${POTENTIAL_FILE_NAME}.${LOWERCASE_CHEMICAL_SYMBOL}` (Default: minushalf_potfiles)
-- amplitude: Scale Factor for the trimming function (Default: 1.0)
+- amplitude: caling factor to be used to correct the artificially generated potential. 
+             In the vast majority of cases, the amplitude value is 1.0. However, 
+             there are some special cases where this value needs to be adjusted [7]_. 
+             Therefore, we recommend that you do not change this value unless you know exactly what you are doing (Default: 1.0)
 - valence_cut_guess: Initial Guess for the Nelder-Mead algorithm for cut in valence correction (Default: 3.0)
 - conduction_cut_guess: Initial Guess for the Nelder-Mead algorithm for cut in valence correction (Default: 2.0)
 - tolerance: Minimum level of precision for the result of the Nelder-Mead algorithm (Default: 0.01)
@@ -943,7 +946,7 @@ The values that the correction_code tag can assume are listed below:
     - vfcf: Fractionary valence and fractionary conduction corrections
 
 
-The example below shows an use of the atomic_program tag in the :code:`minushalf.yaml` file:
+The example below shows an use of correction tag in the :code:`minushalf.yaml` file:
 
 .. code-block:: yaml
 
