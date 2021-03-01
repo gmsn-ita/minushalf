@@ -784,10 +784,10 @@ To consult a case where changing the amplitude value is necessary, check the ref
 ``minushalf execute``
 ************************************************
 
-This command completely automates the use of the DFT -1/2 method, requiring only the provision of
-the input files of the software that performs ab initio calculations and the corresponding potential files
-for each atom. The command uses the Nelder-Mead [3]_ algorithm to find the optimal values of the CUT(S) and
-generates a text file with all the respective CUTS and the final value of the gap. 
+This command automates the use of the DFT -1/2, requiring the input files of the software that
+performs ab initio calculations and the potential files for each atom. It uses the Nelder-Mead
+algorithm [3]_ to find the optimal values of CUT(S) and generates a text file with all the
+respective CUTS and the final value of the gap.
 
 
 .. code-block:: console
@@ -817,12 +817,12 @@ generates a text file with all the respective CUTS and the final value of the ga
         Returns:
 
             minushalf_results.dat : File that contains the optimal
-                                    values of the cutsand the final
+                                    values of the cuts and the final
                                     value of the Gap.
             
-            corrected_valence_potfiles: Potential files resulting from valence correction.
+            corrected_valence_potfiles: Potential files corrected with opti-mum valence cuts.
 
-            corrected_conduction_potfiles: Potential files resulting from conduction correction.
+            corrected_conduction_potfiles: Potential files corrected with optimum conduction cuts.
 
     Options:
     --quiet
@@ -838,12 +838,12 @@ default values are described below.
 
 software tag
 -----------------
-This tag specifies the software that to perform ab initio calculations. For a while
-, the command supports the following values for the software tag:
+This tag specifies the software that to perform ab initio calculations. For now,
+the command supports the following values for the software tag:
 
 - VASP (Default value)
 
-Currently, minushalf only supports one software, but one hope to support much more in a while.
+Currently, minushalf only supports one software, but one hope to add more soon.
 
 .. code-block:: yaml
 
@@ -852,13 +852,13 @@ Currently, minushalf only supports one software, but one hope to support much mo
 vasp tag
 -----------------
 The vasp tag is a set of various informations that specifies the settings
-for the VASP execution. The informations are:
+for executing VASP. These informations are:
 
-- number_of_cores: The number of colors used to run VASP. (Default: 1)
+- number_of_cores: The number of cores used to run VASP. (Default: 1)
 - path: entry-point for the executable (Default: vasp)
 
-Thus, the command that runs the software is :code:`mpirun -np $ {number_of_cores} $ {path}`. Below follows
-an example of the vasp tag in the :code:`minushalf.yaml` file:
+Thus, the command that runs the software is :code:`mpirun -np $ {number_of_cores} $ {path}`. The example below 
+shows an use of the vasp tag in the :code:`minushalf.yaml file`:
 
 .. code-block:: yaml
 

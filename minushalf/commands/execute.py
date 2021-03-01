@@ -98,12 +98,12 @@ def execute(quiet: bool):
             Returns:
 
                 minushalf_results.dat : File that contains the optimal
-                                        values of the cutsand the final
+                                        values of the cuts and the final
                                         value of the Gap.
 
-                corrected_valence_potfiles: Potential files resulting from valence correction.
+                corrected_valence_potfiles: Potential files corrected with opti-mum valence cuts.
 
-                corrected_conduction_potfiles: Potential files resulting from conduction correction.
+                corrected_conduction_potfiles: Potential files corrected with optimum conduction cuts.
     """
     welcome_message("minushalf")
 
