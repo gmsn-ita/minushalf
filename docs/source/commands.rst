@@ -915,8 +915,8 @@ Below follows an example of the atomic_program tag in the :code:`minushalf.yaml`
     
 correction tag
 ----------------------
-The correction tag is a set of various informations that specifies
-how the DFT -1/2 method is executed. The informations are:
+ The atomic_program tag  specifies the settings 
+ for the atomic program execution. These settings are:
 
 - correction_code: Code thar specifies the potential correction (Default: v)
 - potfiles_folder: Path to folder that holds the potential files for each atom. The files must be named in the following pattern :code:`${POTENTIAL_FILE_NAME}.${LOWERCASE_CHEMICAL_SYMBOL}` (Default: minushalf_potfiles)
@@ -943,7 +943,7 @@ The values that the correction_code tag can assume are listed below:
     - vfcf: Fractionary valence and fractionary conduction corrections
 
 
-Below follows an example of the atomic_program tag in the :code:`minushalf.yaml` file:
+The example below shows an use of the atomic_program tag in the :code:`minushalf.yaml` file:
 
 .. code-block:: yaml
 
@@ -953,7 +953,7 @@ Below follows an example of the atomic_program tag in the :code:`minushalf.yaml`
             amplitude: 3.0
             valence_cut_guess: 2.0
             conduction_cut_guess: 1.0
-            tolerance: 0.001
+            tolerance: 0.01
             fractionary_valence_treshold: 15
             fractionary_conduction_treshold: 23
 
