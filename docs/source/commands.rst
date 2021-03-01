@@ -784,11 +784,9 @@ To consult a case where changing the amplitude value is necessary, check the ref
 ``minushalf execute``
 ************************************************
 
-This command automates the use of the DFT -1/2, requiring the input files of the software that
-performs ab initio calculations and the potential files for each atom. It uses the Nelder-Mead
-algorithm [3]_ to find the optimal values of CUT(S) and generates a text file with all the
-respective CUTS and the final value of the gap.
-
+This command automates the use of the DFT -1/2. It uses the Nelder-Mead algorithm [3]_ to find
+the optimal values of CUT(S) and generates a text file with all the respective CUTS and the final value 
+of the gap. To function correctly, the command requires the following files to be provided:
 
 .. code-block:: console
 
