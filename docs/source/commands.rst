@@ -786,7 +786,7 @@ To consult a case where changing the amplitude value is necessary, check the ref
 
 This command automates the use of the DFT -1/2. It uses the Nelder-Mead algorithm [3]_ to find
 the optimal values of CUT(S) and generates a text file with all the respective CUTS and the final value 
-of the gap. To function correctly, the command requires the following files to be provided:
+of the gap. 
 
 .. code-block:: console
 
