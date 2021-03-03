@@ -5,6 +5,7 @@ import os
 import sys
 import shutil
 from collections import OrderedDict
+import numpy as np
 import click
 from loguru import logger
 from minushalf.utils import (
@@ -19,7 +20,7 @@ from minushalf.utils import (
 )
 from minushalf.softwares import (VaspFactory)
 from minushalf.corrections import (VaspCorrection)
-from minushalf.data import (Softwares, CorrectionCode)
+from minushalf.data import (Softwares, CorrectionCode, CorrectionDefaultParams)
 from minushalf.interfaces import (SoftwaresAbstractFactory)
 
 
@@ -140,6 +141,14 @@ def execute(quiet: bool):
     ## get atoms list
     logger.info("Get atoms list")
     atoms = get_atoms_list(software_factory)
+
+    ## amplitude logger
+    if not np.isclose(
+            minushalf_yaml.correction[CorrectionDefaultParams.amplitude.name],
+            CorrectionDefaultParams.amplitude.value):
+        logger.warning(
+            "Amplitude value is different from 1.0. This is not recommended unless you know exactly what you are doing."
+        )
 
     valence_options = {
         "root_folder": root_folder,

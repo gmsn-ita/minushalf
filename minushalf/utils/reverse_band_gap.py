@@ -6,6 +6,7 @@ cut value that results in the maximum band_gap
 import os
 import shutil
 import math
+from loguru import logger
 from .atomic_potential import AtomicPotential
 from .band_structure import BandStructure
 
@@ -101,6 +102,19 @@ def find_reverse_band_gap(cuts: list, *args: tuple) -> float:
         """
     extra_args = args[0]
     cut = cuts[0]
+    ## Cut logger
+    if extra_args["is_conduction"]:
+        logger.info(
+            "CONDUCTION CORRECTION: Current CUT value is {:.2f}".format(cut))
+    else:
+        logger.info(
+            "VALENCE CORRECTION: Current CUT value is {:.2f}".format(cut))
+
+    if cut < 0.5:
+        logger.warning(
+            "Pay attention, CUT values less than 0.5 generally have no physical meaning."
+        )
+
     if cut <= extra_args["atom_potential"].vtotal.radius[1]:
         return math.inf
     runner = extra_args["runner"]
