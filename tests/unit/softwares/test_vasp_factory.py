@@ -85,3 +85,14 @@ def test_get_runner():
     factory = VaspFactory()
     runner = factory.get_runner()
     assert isinstance(runner, VaspRunner)
+
+
+def test_get_nearest_neighbor_distance(file_path):
+    """
+    Test get nearest neighbor distance function
+    """
+    base_path = file_path("/sic-2d/")
+    factory = VaspFactory()
+    distance = factory.get_nearest_neighbor_distance(ion_index='1',
+                                                     base_path=base_path)
+    assert np.isclose(distance, 1.78)

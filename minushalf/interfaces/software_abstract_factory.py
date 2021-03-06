@@ -72,3 +72,13 @@ class SoftwaresAbstractFactory(ABC):
         Get a class that run
         the software for ab initio calculations
         """
+
+    @abstractmethod
+    def get_nearest_neighbor_distance(self,
+                                      ion_index: str,
+                                      filename: str,
+                                      base_path: str = None) -> float:
+        """
+        Abstract method for returns the nearest neighbor distance for
+        an ion in the solid.
+        """
