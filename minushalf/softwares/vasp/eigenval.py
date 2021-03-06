@@ -15,6 +15,7 @@ class Eigenvalues():
         """
             Args:
                 filename (str): name of the EIGENVAL file in VASP
+
             Members:
                 eigenvalues (defaultdict(list)): An dictionary where
                 the keys are kpoint index and the values are lists
