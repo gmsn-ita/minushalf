@@ -32,10 +32,10 @@ class Outcar():
         to this ion
 
             Args:
-                ion_index (str): The index of the ion given by VASP
+                ion_index (str): The index of the ion given by VASP.
 
             Returns:
-                nearest_neighbor_distance (float): The distance of the nearest neighbor
+                nearest_neighbor_distance (float): The distance of the nearest neighbor.
         """
         distances = self.relative_distances[ion_index]
         nearest_distance = math.inf
