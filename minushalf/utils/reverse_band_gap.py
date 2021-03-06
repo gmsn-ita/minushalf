@@ -102,18 +102,6 @@ def find_reverse_band_gap(cuts: list, *args: tuple) -> float:
         """
     extra_args = args[0]
     cut = cuts[0]
-    ## Cut logger
-    if extra_args["is_conduction"]:
-        logger.info(
-            "CONDUCTION CORRECTION: Current CUT value is {:.2f}".format(cut))
-    else:
-        logger.info(
-            "VALENCE CORRECTION: Current CUT value is {:.2f}".format(cut))
-
-    if cut < 0.5:
-        logger.warning(
-            "Pay attention, CUT values less than 0.5 generally have no physical meaning."
-        )
 
     if cut <= extra_args["atom_potential"].vtotal.radius[1]:
         return math.inf
@@ -159,4 +147,23 @@ def find_reverse_band_gap(cuts: list, *args: tuple) -> float:
                                    num_bands, band_projection_file)
 
     gap_report = band_structure.band_gap()
+
+    ## Cut and Gap logger
+    if extra_args["is_conduction"]:
+        logger.info(
+            "CONDUCTION CORRECTION: Current CUT value is {:.2f}A".format(cut))
+        logger.info(
+            "CONDUCTION CORRECTION: Current Gap value is {:.2f}eV".format(
+                gap_report["gap"]))
+    else:
+        logger.info(
+            "VALENCE CORRECTION: Current CUT value is {:.2f}A".format(cut))
+        logger.info("VALENCE CORRECTION: Current Gap value is {:.2f}eV".format(
+            gap_report["gap"]))
+
+    if cut < 0.5:
+        logger.warning(
+            "Pay attention, CUT values less than 0.5 might have no physical meaning."
+        )
+
     return (-1) * gap_report["gap"]
