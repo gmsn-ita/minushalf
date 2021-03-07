@@ -26,7 +26,8 @@ def projection_to_df(projection: defaultdict(list)) -> pd.DataFrame:
 
     if not number_columns:
         raise ValueError('The projection vector is empty')
-    elif number_columns > len(orbitals):
+
+    if number_columns > len(orbitals):
         raise ValueError(
             'the projection vector has more columns than necessary')
 

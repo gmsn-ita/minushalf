@@ -56,8 +56,8 @@ def test_to_list_correction():
     assert params_list[0] == "v"
     assert params_list[1] == "minushalf_potfiles"
     assert np.isclose(params_list[2], 1.0)
-    assert np.isclose(params_list[3], 3.0)
-    assert np.isclose(params_list[4], 2.0)
+    assert params_list[3] is 0
+    assert params_list[4] is None
     assert np.isclose(params_list[5], 0.01)
     assert np.isclose(params_list[6], 10)
     assert np.isclose(params_list[7], 9)
@@ -71,8 +71,8 @@ def test_to_dict_correction():
     assert params_list["correction_code"] == "v"
     assert params_list["potfiles_folder"] == "minushalf_potfiles"
     assert np.isclose(params_list["amplitude"], 1.0)
-    assert np.isclose(params_list["valence_cut_guess"], 3.0)
-    assert np.isclose(params_list["conduction_cut_guess"], 2.0)
+    assert params_list["valence_cut_guess"] is 0
+    assert params_list["conduction_cut_guess"] is None
     assert np.isclose(params_list["tolerance"], 0.01)
     assert np.isclose(params_list["fractionary_valence_treshold"], 10)
     assert np.isclose(params_list["fractionary_conduction_treshold"], 9)

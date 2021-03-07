@@ -58,7 +58,7 @@ class BandStructure():
         max_energy_reached = -inf
         for kpoint, values in self.eigenvalues.items():
             for band_index, energy in enumerate(values):
-                if energy < self.fermi_energy and energy > max_energy_reached:
+                if max_energy_reached < energy < self.fermi_energy:
                     max_energy_reached = energy
                     kpoint_vbm = kpoint
                     band_vbm = band_index + 1
@@ -81,7 +81,7 @@ class BandStructure():
         min_energy_reached = inf
         for kpoint, values in self.eigenvalues.items():
             for band_index, energy in enumerate(values):
-                if energy >= self.fermi_energy and energy < min_energy_reached:
+                if self.fermi_energy <= energy < min_energy_reached:
                     min_energy_reached = energy
                     kpoint_cbm = kpoint
                     band_cbm = band_index + 1
