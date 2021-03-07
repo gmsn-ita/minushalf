@@ -9,9 +9,11 @@ from scipy.optimize import minimize
 from loguru import logger
 import pandas as pd
 from minushalf.data import (CorrectionDefaultParams,
-                            AtomicProgramDefaultParams, OrbitalType)
+                            AtomicProgramDefaultParams, OrbitalType,
+                            CutInitialGuessMethods)
 from minushalf.utils import (InputFile, Vtotal, MinushalfYaml, AtomicPotential,
-                             BandStructure, find_reverse_band_gap)
+                             BandStructure, find_reverse_band_gap,
+                             CutInitialGuess)
 from minushalf.interfaces import (Correction, Runner, SoftwaresAbstractFactory)
 
 
@@ -78,6 +80,12 @@ class VaspCorrection(Correction):
         else:
             self.cut_initial_guess = minushalf_yaml.correction[
                 CorrectionDefaultParams.valence_cut_guess.name]
+
+        self.automatic_cut_guess = False
+        if not self.cut_initial_guess:
+            self.automatic_cut_guess = True
+
+        self.cut_guesser = CutInitialGuess()
 
         self.tolerance = minushalf_yaml.correction[
             CorrectionDefaultParams.tolerance.name]
@@ -423,6 +431,14 @@ class VaspCorrection(Correction):
             "software_files": self.software_files,
             "is_conduction": self.is_conduction,
         }
+        if self.automatic_cut_guess:
+            ion_index = self.atoms[symbol]
+            nearest_distance = self.software_factory.get_nearest_neighbor_distance(
+                ion_index)
+            self.cut_initial_guess = self.cut_guesser.guess(
+                nearest_distance,
+                CutInitialGuessMethods.three_dimensions.value)
+
         res = minimize(find_reverse_band_gap,
                        x0=self.cut_initial_guess,
                        args=(function_args),
