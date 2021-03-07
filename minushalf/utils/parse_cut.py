@@ -30,7 +30,7 @@ def parse_cut(cut: str) -> list:
 
     if len(cut_number) == 1:
         return cut_number
-    elif len(cut_number) != 3:
+    if len(cut_number) != 3:
         raise ValueError()
 
     return np.arange(cut_number[0],

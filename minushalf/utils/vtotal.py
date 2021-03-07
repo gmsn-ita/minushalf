@@ -38,7 +38,7 @@ class Vtotal():
         """
         Extracts the potentials related to the state
         of spin Down calculated for the main elements
-            
+
             Args:
                 filename (str): Name of the VTOTAL file
         """
@@ -69,7 +69,7 @@ class Vtotal():
         """
         Extracts from the file information regarding the rays for
         which the potential calculations will be made made.
-            
+
             Args:
                 filename (str): Name of the VTOTAL file
         """
@@ -82,6 +82,7 @@ class Vtotal():
 
                 if stop_regex.match(line):
                     radius = list(chain.from_iterable(radius))
-                    return np.array(radius, dtype=np.float64)
+                    break
 
                 radius.append(line.split())
+        return np.array(radius, dtype=np.float64)

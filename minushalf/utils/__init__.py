@@ -20,3 +20,4 @@ from .make_minushalf_results import make_minushalf_results
 from .reverse_band_gap import find_reverse_band_gap
 from .fractionary_correction_indexes import get_fractionary_corrections_indexes
 from .simple_correction_indexes import get_simple_corrections_indexes
+from .cut_initial_guess import CutInitialGuess
