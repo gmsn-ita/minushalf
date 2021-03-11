@@ -918,12 +918,9 @@ correction tag
 
 - correction_code: Code thar specifies the potential correction (Default: v)
 - potfiles_folder: Path to folder that holds the potential files for each atom. The files must be named in the following pattern :code:`${POTENTIAL_FILE_NAME}.${LOWERCASE_CHEMICAL_SYMBOL}` (Default: minushalf_potfiles)
-- amplitude: caling factor to be used to correct the artificially generated potential. 
-             In the vast majority of cases, the amplitude value is 1.0. However, 
-             there are some special cases where this value needs to be adjusted [7]_. 
-             Therefore, we recommend that you do not change this value unless you know exactly what you are doing (Default: 1.0)
-- valence_cut_guess: Initial Guess for the Nelder-Mead algorithm for cut in valence correction (Default: 3.0)
-- conduction_cut_guess: Initial Guess for the Nelder-Mead algorithm for cut in valence correction (Default: 2.0)
+- amplitude: Scaling factor to be used to correct the artificially generated potential. In the vast majority of cases, the amplitude value is 1.0. However,  there are some special cases where this value needs to be adjusted [7]_.  Therefore, we recommend that you do not change this value unless you know exactly what you are doing (Default: 1.0)
+- valence_cut_guess: Initial Guess for the Nelder-Mead algorithm for cut in valence correction. If not provided, the default value of :math:`0.15 + 0.84d` [8]_ will be used for each optimization, where :math:`d` is the distance of the nearest neighbor in the unit cell. (Default: :math:`0.15 + 0.84d`)
+- conduction_cut_guess: Initial Guess for the Nelder-Mead algorithm for cut in valence correction. If not provided, the default value of :math:`0.15 + 0.84d`  will be used will be used for each optimization, where :math:`d` is the distance of the nearest neighbor in the unit cell. (Default: :math:`0.15 + 0.84d`)
 - tolerance: Minimum level of precision for the result of the Nelder-Mead algorithm (Default: 0.01)
 - fractionary_valence_treshold: :ref:`Treshold  <frac_correction>` :math:`\epsilon` for fractionary valence correction (Default: 10). 
 - fractionary_conduction_treshold: :ref:`Treshold  <frac_correction>` :math:`\epsilon` for fractionary conduction correction (Default: 9).
@@ -1041,3 +1038,4 @@ References
 .. [5] H. Sahin, S. Cahangirov, M. Topsakal, E. Bekaroglu, E. Akturk, R. T. Senger, and S. Ciraci, `Phys. Rev. B 80, 155453 (2009) <https://doi.org/10.1103/PhysRevB.80.155453>`_.
 .. [6] H. C. Hsueh, G. Y. Guo, and S. G. Louie, `Phys. Rev. B 84, 085404 (2011) <https://doi.org/10.1103/PhysRevB.84.085404>`_.
 .. [7] C. A. Ataide, R. R. Pelá, M. Marques, L. K. Teles, J. Furthmüller, and F. Bechstedt `Phys. Rev. B 95, 045126 – Published 17 January 2017 <https://journals.aps.org/prb/abstract/10.1103/PhysRevB.95.045126>`_.
+.. [8] L. G. Ferreira, M. Marques, and L. K. Teles, `Phys. Rev. B 78, 125116 (2008) <http://dx.doi.org/10.1103/PhysRevB.78.125116>`_.
