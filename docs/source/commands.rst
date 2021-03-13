@@ -923,7 +923,9 @@ correction tag
 - conduction_cut_guess: Initial Guess for the Nelder-Mead algorithm for cut in valence correction. If not provided, the default value of :math:`0.15 + 0.84d`  will be used will be used for each optimization, where :math:`d` is the distance of the nearest neighbor in the unit cell. (Default: :math:`0.15 + 0.84d`)
 - tolerance: Minimum level of precision for the result of the Nelder-Mead algorithm (Default: 0.01)
 - fractionary_valence_treshold: :ref:`Treshold  <frac_correction>` :math:`\epsilon` for fractionary valence correction (Default: 10). 
-- fractionary_conduction_treshold: :ref:`Treshold  <frac_correction>` :math:`\epsilon` for fractionary conduction correction (Default: 9).
+- overwrite_vbm: In some special cases [8]_, it is necessary to overwrite the value of band projection in a given orbital and ion. This tag is made for these situations. It is necessary to inform the symbol of the chemical element of the corresponding ion, the orbital and the value to be replaced. The program immediately overwrites the old projection values for the last valence band. (Default: No overwrite)
+- overwrite_vbm: In some special cases [8]_, it is necessary to overwrite the value of band projection in a given orbital and ion. This tag is made for these situations. It is necessary to inform the symbol of the chemical element of the corresponding ion, the orbital and the value to be replaced. The program immediately overwrites the old projection values for the first conduction band.
+
 
 The values that the correction_code tag can assume are listed below:
 
@@ -954,6 +956,12 @@ The example below shows an use of correction tag in the :code:`minushalf.yaml` f
             tolerance: 0.01
             fractionary_valence_treshold: 15
             fractionary_conduction_treshold: 23
+            overwrite_vbm:
+                - [C, p, 23.4]
+                - [Si, d, 11]
+            overwrite_cbm:
+                - [Ag, f, 9]
+
 
 
 Examples
