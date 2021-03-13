@@ -32,6 +32,7 @@ setup(
         "tabulate>=0.8.7",
         "pyyaml>=5.3.1",
         "scipy>=1.5.4",
+        "aenum>=3.0.0",
     ],
     entry_points="""
         [console_scripts]

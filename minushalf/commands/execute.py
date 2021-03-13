@@ -6,6 +6,7 @@ import sys
 import shutil
 from collections import OrderedDict
 import numpy as np
+import pandas as pd
 import click
 from loguru import logger
 from minushalf.utils import (
@@ -24,7 +25,7 @@ from minushalf.data import (Softwares, CorrectionCode, CorrectionDefaultParams)
 from minushalf.interfaces import (SoftwaresAbstractFactory)
 
 
-def get_vbm_projection(factory: SoftwaresAbstractFactory):
+def get_vbm_projection(factory: SoftwaresAbstractFactory) -> pd.DataFrame:
     """
     Returns vbm projection
     """
@@ -41,7 +42,7 @@ def get_vbm_projection(factory: SoftwaresAbstractFactory):
     return normalized_df
 
 
-def get_cbm_projection(factory: SoftwaresAbstractFactory):
+def get_cbm_projection(factory: SoftwaresAbstractFactory) -> pd.DataFrame:
     """
     Returns cbm projection
     """
@@ -65,6 +66,26 @@ def get_atoms_list(factory: SoftwaresAbstractFactory) -> list:
     atoms_map = factory.get_atoms_map()
     atoms = [atoms_map[key] for key in sorted(atoms_map)]
     return list(OrderedDict.fromkeys(atoms))
+
+
+def overwrite_band_projection(new_values: list,
+                              band_projection: pd.DataFrame) -> pd.DataFrame:
+    """
+    Overwrite values in VBM or CBM band projection
+
+        Args:
+            new_values (list): Arguments passed in overwrite_vbm or overwrite_cbm.
+            band_projection (pd.Dataframe): Dataframe with the value of projections
+                                            of VBM or CBM.
+        Returns:
+            modified_band_projection (pd.Dataframe): Band projection data frame
+                                                    with the values overwrited.
+    """
+    for case in new_values:
+        atom = case[0].capitalize()
+        orbital = case[1].lower()
+        projection = int(case[2])
+        band_projection[orbital][atom] = projection
 
 
 @click.command()
@@ -137,6 +158,24 @@ def execute(quiet: bool):
     logger.info("Get Vbm and CBM projections")
     vbm_projection = get_vbm_projection(software_factory)
     cbm_projection = get_cbm_projection(software_factory)
+
+    ### Overwrite band projections
+    if len(minushalf_yaml.correction[
+            CorrectionDefaultParams.overwrite_vbm.name]) > 0:
+        logger.warning(
+            "You're changing directly the band character. This is not recommendend unless you know exactly what are you doing."
+        )
+        vbm_projection = overwrite_band_projection(
+            minushalf_yaml.correction[
+                CorrectionDefaultParams.overwrite_vbm.name], vbm_projection)
+    if len(minushalf_yaml.correction[
+            CorrectionDefaultParams.overwrite_cbm.name]) > 0:
+        logger.warning(
+            "You're changing directly the band character. This is not recommendend unless you know exactly what are you doing."
+        )
+        cbm_projection = overwrite_band_projection(
+            minushalf_yaml.correction[
+                CorrectionDefaultParams.overwrite_cbm.name], cbm_projection)
 
     ## get atoms list
     logger.info("Get atoms list")
