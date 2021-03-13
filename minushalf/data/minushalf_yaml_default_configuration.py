@@ -4,6 +4,7 @@ default values to be used in the
 minushalf.yaml file
 """
 from enum import Enum, unique
+import aenum
 
 
 @unique
@@ -38,7 +39,7 @@ class MinushalfParams(Enum):
         return dict(zip(keys, values))
 
 
-class CorrectionDefaultParams(Enum):
+class CorrectionDefaultParams(aenum.Enum, settings=aenum.NoAlias):
     """
     Default params for correction field
     """
@@ -46,11 +47,13 @@ class CorrectionDefaultParams(Enum):
     correction_code = "v"
     potfiles_folder = "minushalf_potfiles"
     amplitude = 1.0
-    valence_cut_guess = 0
+    valence_cut_guess = None
     conduction_cut_guess = None
     tolerance = 0.01
     fractionary_valence_treshold = 10
     fractionary_conduction_treshold = 9
+    overwrite_vbm = []
+    overwrite_cbm = []
 
     def __str__(self):
         return str(self.name)
