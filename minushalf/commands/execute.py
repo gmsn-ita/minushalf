@@ -86,6 +86,7 @@ def overwrite_band_projection(new_values: list,
         orbital = case[1].lower()
         projection = int(case[2])
         band_projection[orbital][atom] = projection
+    return band_projection
 
 
 @click.command()
