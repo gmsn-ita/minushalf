@@ -245,6 +245,13 @@ class VaspCorrection(Correction):
         for symbol, orbitals in self.correction_indexes.items():
             for orbital in orbitals:
                 total_sum += self.band_projection[orbital][symbol]
+
+        if total_sum == 0:
+            logger.error(
+                "No orbital selected for correction. Check you treshhold")
+            raise ValueError(
+                "No orbital selected for correction. Check you treshhold")
+
         return total_sum
 
     def _find_best_correction(self, symbol: str, orbitals: list) -> float:
