@@ -439,7 +439,7 @@ class VaspCorrection(Correction):
             "is_conduction": self.is_conduction,
         }
         if self.automatic_cut_guess:
-            ion_index = self.atoms[symbol]
+            ion_index = self.software_factory.get_atoms_map()[symbol]
             nearest_distance = self.software_factory.get_nearest_neighbor_distance(
                 ion_index)
             self.cut_initial_guess = self.cut_guesser.guess(
