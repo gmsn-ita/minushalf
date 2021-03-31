@@ -133,6 +133,7 @@ def correct_potfile(
         logger.info("Correcting POTFILE for cut = {:.3} ".format(new_cut))
         new_potential = atomic_potential.correct_potential(
             new_cut, amplitude, is_conduction)
-        atomic_potential.correct_file(new_potential, new_cut, amplitude)
+        atomic_potential.correct_file(new_potential, new_cut, amplitude,
+                                      is_conduction)
 
     end_message()
