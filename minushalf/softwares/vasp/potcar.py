@@ -111,8 +111,7 @@ class Potcar(PotentialFile):
         k_max_text = ""
         potential = []
         regex_begin_catch = re.compile(r"^\s*local\s+part")
-        regex_end_catch = re.compile(
-            r"^\s*gradient\s+corrections\s+used\s+for\s+XC")
+        regex_end_catch = re.compile(r"^\s*[a-z]+")
 
         with open(self.filename, "r") as potcar:
             ## Jump lines
@@ -138,13 +137,21 @@ class Potcar(PotentialFile):
                 for correction purposes
         """
         last_lines = []
-        regex_begin_catch = re.compile(
-            r"^\s*gradient\s+corrections\s+used\s+for\s+XC")
+        regex_begin_potential = re.compile(r"^\s*local\s+part")
+        regex_end_potential = re.compile(r"^\s*[a-z]+")
+
         with open(self.filename, "r") as potcar:
+            ## Jump potential lines
             for line in potcar:
-                if regex_begin_catch.match(line):
+                if regex_begin_potential.match(line):
+                    break
+
+            for line in potcar:
+                if regex_end_potential.match(line):
                     last_lines.append(line)
                     break
+            ## Catch all lines from here
             for line in potcar:
                 last_lines.append(line)
+
         return last_lines
