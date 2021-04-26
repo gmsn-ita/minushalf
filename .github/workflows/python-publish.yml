@@ -40,10 +40,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v3
         name: Install Python
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: "3.8"
 
       - name: Build sdist
         run: pip install numpy && python setup.py sdist
@@ -67,6 +67,6 @@ jobs:
 
       - uses: pypa/gh-action-pypi-publish@master
         with:
-          user: ${{ secrets.pypi_userna }}
+          user: ${{ secrets.pypi_username }}
           password: ${{ secrets.pypi_password }}
           # To test: repository_url: https://test.pypi.org/legacy/
