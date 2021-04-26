@@ -53,7 +53,6 @@ def test_to_list_correction():
     test to_list method in correction params
     """
     params_list = CorrectionDefaultParams.to_list()
-    print(params_list)
     assert params_list[0] == "v"
     assert params_list[1] == "minushalf_potfiles"
     assert np.isclose(params_list[2], 1.0)
