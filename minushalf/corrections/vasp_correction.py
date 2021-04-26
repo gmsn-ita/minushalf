@@ -9,9 +9,11 @@ from scipy.optimize import minimize
 from loguru import logger
 import pandas as pd
 from minushalf.data import (CorrectionDefaultParams,
-                            AtomicProgramDefaultParams, OrbitalType)
+                            AtomicProgramDefaultParams, OrbitalType,
+                            CutInitialGuessMethods)
 from minushalf.utils import (InputFile, Vtotal, MinushalfYaml, AtomicPotential,
-                             BandStructure, find_reverse_band_gap)
+                             BandStructure, find_reverse_band_gap,
+                             CutInitialGuess)
 from minushalf.interfaces import (Correction, Runner, SoftwaresAbstractFactory)
 
 
@@ -78,6 +80,12 @@ class VaspCorrection(Correction):
         else:
             self.cut_initial_guess = minushalf_yaml.correction[
                 CorrectionDefaultParams.valence_cut_guess.name]
+
+        self.automatic_cut_guess = False
+        if not self.cut_initial_guess:
+            self.automatic_cut_guess = True
+
+        self.cut_guesser = CutInitialGuess()
 
         self.tolerance = minushalf_yaml.correction[
             CorrectionDefaultParams.tolerance.name]
@@ -237,6 +245,13 @@ class VaspCorrection(Correction):
         for symbol, orbitals in self.correction_indexes.items():
             for orbital in orbitals:
                 total_sum += self.band_projection[orbital][symbol]
+
+        if total_sum == 0:
+            logger.error(
+                "No orbital selected for correction. Check you treshhold")
+            raise ValueError(
+                "No orbital selected for correction. Check you treshhold")
+
         return total_sum
 
     def _find_best_correction(self, symbol: str, orbitals: list) -> float:
@@ -261,9 +276,14 @@ class VaspCorrection(Correction):
         self._generate_atom_pseudopotential(path, symbol)
 
         percentuals = {}
+        ## Check for bonds with equal atoms
+        atoms_map = self.software_factory.get_atoms_map()
+        number_equal_neighbors = self.software_factory.get_number_of_equal_neighbors(
+            atoms_map=atoms_map, symbol=symbol)
         for orbital in orbitals:
-            value = 100 * (self.band_projection[orbital][symbol] /
-                           self.sum_correction_percentual)
+            value = (100 / (1 + number_equal_neighbors)) * (
+                self.band_projection[orbital][symbol] /
+                self.sum_correction_percentual)
             percentuals[orbital] = round(value)
         self._generate_occupation_potential(path, percentuals)
 
@@ -423,6 +443,20 @@ class VaspCorrection(Correction):
             "software_files": self.software_files,
             "is_conduction": self.is_conduction,
         }
+        if self.automatic_cut_guess:
+            atoms_map = self.software_factory.get_atoms_map()
+            ion_index = None
+            for key, value in atoms_map.items():
+                if value == symbol:
+                    ion_index = key
+                    break
+
+            nearest_distance = self.software_factory.get_nearest_neighbor_distance(
+                ion_index)
+            self.cut_initial_guess = self.cut_guesser.guess(
+                nearest_distance,
+                CutInitialGuessMethods.three_dimensions.value)
+
         res = minimize(find_reverse_band_gap,
                        x0=self.cut_initial_guess,
                        args=(function_args),
@@ -431,7 +465,7 @@ class VaspCorrection(Correction):
         cut = res.x[0]
 
         if not res.success:
-            print("Optimization failed")
+            logger.error("Optimization failed")
             raise Exception("Optimization failed.")
 
         return cut

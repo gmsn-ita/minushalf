@@ -15,3 +15,8 @@ correction:
   tolerance: 0.001
   fractionary_valence_treshold: 15
   fractionary_conduction_treshold: 23
+  overwrite_vbm:
+    - [C, p, 23.4]
+    - [Si, d, 11]
+  overwrite_cbm:
+    - [Ag, f, 9]

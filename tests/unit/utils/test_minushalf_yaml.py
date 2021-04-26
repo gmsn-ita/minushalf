@@ -34,14 +34,22 @@ def test_default_parameters():
         CorrectionDefaultParams.potfiles_folder)] == "minushalf_potfiles"
     assert file.correction[str(CorrectionDefaultParams.amplitude)] == 1.0
     assert file.correction[str(
-        CorrectionDefaultParams.valence_cut_guess)] == 3.0
+        CorrectionDefaultParams.valence_cut_guess)] is None
     assert file.correction[str(
-        CorrectionDefaultParams.conduction_cut_guess)] == 2.0
+        CorrectionDefaultParams.conduction_cut_guess)] is None
     assert file.correction[str(CorrectionDefaultParams.tolerance)] == 0.01
     assert file.correction[str(
         CorrectionDefaultParams.fractionary_conduction_treshold)] == 9
     assert file.correction[str(
         CorrectionDefaultParams.fractionary_valence_treshold)] == 10
+    assert len(file.correction[str(
+        CorrectionDefaultParams.overwrite_vbm)]) == 0
+    assert isinstance(
+        file.correction[str(CorrectionDefaultParams.overwrite_vbm)], list)
+    assert len(file.correction[str(
+        CorrectionDefaultParams.overwrite_cbm)]) == 0
+    assert isinstance(
+        file.correction[str(CorrectionDefaultParams.overwrite_cbm)], list)
 
 
 def test_minushalf_without_filling_correction(file_path):
@@ -68,14 +76,22 @@ def test_minushalf_without_filling_correction(file_path):
         CorrectionDefaultParams.potfiles_folder)] == "minushalf_potfiles"
     assert file.correction[str(CorrectionDefaultParams.amplitude)] == 1.0
     assert file.correction[str(
-        CorrectionDefaultParams.valence_cut_guess)] == 3.0
+        CorrectionDefaultParams.valence_cut_guess)] is None
     assert file.correction[str(
-        CorrectionDefaultParams.conduction_cut_guess)] == 2.0
+        CorrectionDefaultParams.conduction_cut_guess)] is None
     assert file.correction[str(CorrectionDefaultParams.tolerance)] == 0.01
     assert file.correction[str(
         CorrectionDefaultParams.fractionary_conduction_treshold)] == 9
     assert file.correction[str(
         CorrectionDefaultParams.fractionary_valence_treshold)] == 10
+    assert len(file.correction[str(
+        CorrectionDefaultParams.overwrite_vbm)]) == 0
+    assert isinstance(
+        file.correction[str(CorrectionDefaultParams.overwrite_vbm)], list)
+    assert len(file.correction[str(
+        CorrectionDefaultParams.overwrite_cbm)]) == 0
+    assert isinstance(
+        file.correction[str(CorrectionDefaultParams.overwrite_cbm)], list)
 
 
 def test_minushalf_filled_out(file_path):
@@ -110,6 +126,28 @@ def test_minushalf_filled_out(file_path):
         CorrectionDefaultParams.fractionary_conduction_treshold)] == 23
     assert file.correction[str(
         CorrectionDefaultParams.fractionary_valence_treshold)] == 15
+    assert len(file.correction[str(
+        CorrectionDefaultParams.overwrite_vbm)]) == 2
+    assert file.correction[str(
+        CorrectionDefaultParams.overwrite_vbm)][0][0] == "C"
+    assert file.correction[str(
+        CorrectionDefaultParams.overwrite_vbm)][0][1] == "p"
+    assert file.correction[str(
+        CorrectionDefaultParams.overwrite_vbm)][0][2] == 23.4
+    assert file.correction[str(
+        CorrectionDefaultParams.overwrite_vbm)][1][0] == "Si"
+    assert file.correction[str(
+        CorrectionDefaultParams.overwrite_vbm)][1][1] == "d"
+    assert file.correction[str(
+        CorrectionDefaultParams.overwrite_vbm)][1][2] == 11
+    assert len(file.correction[str(
+        CorrectionDefaultParams.overwrite_cbm)]) == 1
+    assert file.correction[str(
+        CorrectionDefaultParams.overwrite_cbm)][0][0] == "Ag"
+    assert file.correction[str(
+        CorrectionDefaultParams.overwrite_cbm)][0][1] == "f"
+    assert file.correction[str(
+        CorrectionDefaultParams.overwrite_cbm)][0][2] == 9
 
 
 @pytest.mark.xfail

@@ -683,3 +683,38 @@ def test_potcar_stringlist_xe(file_path):
         potcar_generated_lines = potcar.to_stringlist()
         for index, line in enumerate(file):
             assert line.strip() == potcar_generated_lines[index].strip()
+
+
+def test_potcar_lda_si(file_path):
+    """
+    Test the potcar using LDA for silicium
+    """
+    path = file_path('/Si/POTCAR_LDA')
+    potcar = Potcar(path)
+
+    assert potcar.get_name() == "POTCAR"
+    assert potcar.psctr_parameters[-1].strip() == "local part"
+    assert potcar.psctr_parameters[0].strip() == "PAW Si 02Apr1999"
+    assert np.isclose(potcar.get_maximum_module_wave_vector(),
+                      98.2657514061040)
+    assert np.isclose(potcar.get_potential_fourier_transform()[0],
+                      0.59359744e1)
+    assert np.isclose(potcar.get_potential_fourier_transform()[-1],
+                      0.75621166e-1)
+    assert potcar.last_lines[0].strip() == "core charge-density (partial)"
+    assert potcar.last_lines[-1].strip() == "End of Dataset"
+
+
+def test_potcar_stringlist_si_lda(file_path):
+    """
+    Test the potcar function
+    to_stringlist for Silicium. The
+    potcar uses LDA approximation.
+    """
+    path = file_path('/Si/POTCAR_LDA')
+    potcar = Potcar(path)
+
+    with open(path, "r") as file:
+        potcar_generated_lines = potcar.to_stringlist()
+        for index, line in enumerate(file):
+            assert line.strip() == potcar_generated_lines[index].strip()

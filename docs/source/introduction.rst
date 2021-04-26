@@ -1,52 +1,125 @@
-=============
+##############
 Introduction
-=============
+##############
 
 What is minushalf?
-###################
+********************
 
-Minushalf is a CLI that aims to considerably reduce the application time of the method
-DFT -1/2 using the automation of processes made manually. The commands seek
-encompass both the defined steps and the entire process, this choice was made so that the commands can be reused
-by the user, enabling an application for any purpose. 
+Minushalf is a CLI developed by GMSN that aims to automate 
+the application of the DFT -1/2 method. The commands available in this 
+CLI automate both the entire process and each of its steps in order to be 
+used by the user for any purposes.
 
 An intuitive explanation of the DFT -1/2 method
-##################################################
+************************************************
+
 DFT-1/2, an alternative way of referring to the LDA -1/2 [1]_ [2]_ and GGA -1/2 [2]_ techniques, 
-is a method that performs semiconductor band-gap calculations with precision close 
-to the state of the art algorithms [2]_. These technique aim to expand the half-occupation 
+is a method that performs semiconductor band gap calculations with precision close 
+to the state of the art algorithms [2]_. This method aim to expand the half-occupation 
 technique [3]_ [4]_ [5]_, formalized by Janak's theorem, to crystals using modern exchange-correlation approaches [6]_ [7]_.
 
-Unlike atoms, where energy levels are discrete, one tried to use half occupation
-in the energy bands of a crystal. The intuition for this application comes from the fact that the energy bands of a crystal are formed
+The Slater half-occupation scheme has already proven to be quite efficient for calculating atomic ionization 
+energies values close to the experimental ones [5]_. However, this technique cannot be applied blindly to
+extended systems like crystals, since the crystal is described by means of Bloch waves and removing the population
+of just one Bloch state would have no consequences [1]_. Moreover, removing the population of one Bloch State and set periodic
+conditions would result in a infinitely charged system.
+
+Thus, the proposed solution is to apply the Slater procedure to cystaline energy bands. 
+The intuition for this application comes from the fact that the energy bands of a crystal are formed
 by the overlap of atomic orbitals, mainly by those that constitute the outermost layers [8]_. This relationship can be quantified
 by the projection of the wave function in a given orbital, Figure 1 shows the character of the last valence band and the first
-driving to the CdO, the color magnet represents the character :math:`d` of the band and yellow the character :math:`p` [10]_. Thus, considering
-this existing relationship, corrections in eigenvalues for atomic orbitals could propagate and trigger corrections in systems
-crystalline. 
+conduction band to the CdO, the color magnet represents the character :math:`d` of the band and yellow the character :math:`p` [10]_. Thereby, considering
+this existing relationship, self-energy corrections performed in atoms could propagate and shift the energy of the bands, resulting in a band gap correction. 
 
 .. figure:: images/cdo_bands.png
    :width: 500
 
-   Orbital character for CdO valence bands. The character :math:`p` is represented
+   Fig 1. Orbital character for CdO valence bands. The character :math:`p` is represented
    in yellow and the character :math:`d` in a magnet [10]_.
 
 
 How to perform potential correction in crystals
-###################################################
+****************************************************
 
-Following the Slater half occupation procedure, a change in charge density is necessary to obtain the potential for 
-half occupation, however a change in charge density in a unit cell would result in an infinitely charged system, which would lead to a 
+In this section, calculations were developed using some approximations in order to demonstrate
+intuitively how the potential correction in crystals is made. To access the rigorous demonstration, consult the references [1]_ [2]_ . 
+
+Following the Slater half occupation procedure for atoms, a change in charge density is required
+to obtain the potential for semi-occupation and perform the consistent calculations using the Khon-Shan equation, as well as
+shown in Figure 2.
+
+.. figure:: images/slater-atoms.svg
+   :width: 400
+
+   Fig 2. Flowchart representing the Slater procedure in atoms
+   
+
+
+Altough in extended systems like crystals a change in charge density in a unit cell would result in an infinitely charged system, which would lead to a 
 divergence in the Khon-Shan calculations. Furthermore, it would also be irrelevant to be able to modify only a finite amount of electrons in the crystal since
-the charge would become irrelevant to the infinite amount of electrons present in the system. To bypass
-this problem, approximations are used in order to make it possible to calculate the potential for the half occupation of the
-crystal through other potentials [1] _ [2] _, as shown in the equation below: 
+the charge would become irrelevant to the infinite amount of electrons present in the system. To bypass this problem, it is necessary to find a new way
+to derive the semi-occupied potential.
+
+Firstly, one have to define the system that corresponds to the semi-occupied potential for a solid. For an atom containing
+:math:`N` electrons in its ground state, the semi-occupied potential is defined as the potential of the atom with :math:`N-\frac{1}{2}` electrons. Similarly, we should 
+consider that the semi-occupied potential of a solid would be the potential generated by a solid with :math:`M-\frac{1}{2}` electrons per primitive cell, where :math:`M` is the number of electrons
+of the unit cell in the ground state, as shown in Figure 3.
+
+.. figure:: images/semi-solid.svg
+   :width: 400
+
+   Fig 3. Scheme representing the unit cells of a solid that would generate the potential semi-occupied.
+
+So, to outline the solution, suppose one have :math:`N` independent charge distributions, where the :math:`mth` is given by:
+
+.. math::
+   \rho_{m}(\vec{r}) = (1+f_{m})n_{m}(\vec{r}) \\
+   n_{m}(\vec{r}) = -q \cdot \eta_{m} \\
+   \int \eta_{m}(\vec{r})d\vec{r} = 1 \\
+
+Where :math:`\rho` represents the density of the distribution :math:`m`, :math:`q` represents the charge of the electron, :math:`\eta` a normalized function in space and :math:`f` represents an occupancy factor that varies continuously from
+0(occupied) to -1(unoccupied).
+
+Considering the charge density represented above, one can find the Coulomb potentials for each distribution
+by the Poison equation:
+
+.. math::
+   \nabla^{2}V_{m}(\vec{r}) = \frac{q\rho_{m}(\vec{r})}{\epsilon_{0}}
+
+Now, suppose another situation where one only alternate the occupation of the :math:`\alpha` level and the same charge distribution remains. In this scenario, the :math:`mth`
+potential is given by:
+
+.. math::
+   \nabla^{2}V_{m}{'}(\vec{r}) = \frac{q\rho_{m}{'}(\vec{r})}{\epsilon_{0}} \\
+   f_{i}=f_{i}{'}, i \neq \alpha \\
+   f_{\alpha} \neq f_{\alpha}{'}
+
+Thus, one want to calculate the potential for all distributions, which is obtained by adding
+of the potential of all distributions, as shown in the equations below.
+
+.. math::
+   \nabla^{2}V(\vec{r}) = \frac{q\sum_{m=1}^{N}\rho_{m}}{\epsilon_{0}} \\
+   \nabla^{2}V{'}(\vec{r}) = \frac{q\sum_{m=1}^{N}\rho_{m}{'}}{\epsilon_{0}}
+
+Subtracting these two equations:
+
+.. math::
+   \nabla^{2}(V(\vec{r})-V{'}(\vec{r})) = \frac{q(f_{\alpha}-f_{\alpha}{'})n_{\alpha}(\vec{r})}{\epsilon_{0}}
+
+Using the above equation for the specific case of :math:`f_{\alpha} = 0` and :math:`f_{\alpha}{'} = -1/2`, the following equation is obtained:
+
+.. math::
+   \nabla^{2}(V(\vec{r})-V{'}(\vec{r})) = \frac{qn_{\alpha}(\vec{r})}{2\epsilon_{0}}\Rightarrow V{'}(\vec{r}) = V(\vec{r}) - V_{\alpha}^{f_{\alpha}=-1/2}
+
+
+Hence, using the equation above, one can calculate the potential semi-occupied from other potentials, which discards the need for
+modify the charge density. For a crystal, the equation is written as follows:
 
 .. math:: 
    V_{crystal}^{-1/2} = V_{crystal} - V_{1/2e}
 
-Where :math:`V_ {crystal}^{- 1/2}` is the potential of the half-occupied crystal, :math:`V_ {crystal}`
-is the potential of the crystal with the standard occupation and :math:`V_ {1 / 2e}` is the potential of the respective level
+Where :math:`V_ {crystal}^{- 1/2}` is the potential of the semi-occupied crystal, :math:`V_ {crystal}`
+is the potential of the crystal in the ground state and :math:`V_ {1 / 2e}` is the potential of the respective level
 occupied with half an electron. 
 
 To generate :math:`V_ {1 / 2e}`, the following equation is used for the atoms that compose the crystal [1]_ [2]_:
@@ -61,29 +134,31 @@ To generate :math:`V_ {1 / 2e}`, the following equation is used for the atoms th
    \end{matrix}\right.
 
 
-Where :math:`V_{atom}` is the potential of the atom with the standard occupation, :math:`V_{atom}^{f_{\alpha}=-1/2}`
-is the potential of the atom with the level :math:`\alpha` occupied, :math:`\theta (r)` is a cutting function,
-CUT is the radius of cut and A is a scale factor named amplitude.
+Where :math:`V_{atom}` is the potential of the atom in the ground state, :math:`V_{atom}^{f_{\alpha}=-1/2}`
+is the potential of the atom with the level :math:`\alpha` occupied, :math:`\theta (r)` is a trimming function,
+CUT is the cut radius  and A is a scale factor named amplitude.
 
-The need to have a cutting function is due to the fact that an artificial charged system is generated, therefore the correction
-in a cell it generates an  potential that reaches neighboring cells, which would lead to a divergence in the Khon-Shan calculations.
-It is worth mentioning that the values ​​for :math:`CUT` and :math:`A` must not be chosen arbitrarily, by means of variational 
-arguments it can be proved that the optimal values ​​for these parameters are those that maximize the Gap of the crystalline system [1] _ [2] _.
-
-Finally, since the atoms are repeated in each unit cell, the potential :math:`V_{1/2e}` is periodic, joining this
-information with the fact that :math:`V_{crystal}` is periodic, it has the implication that :math:`V_{crystal}^{-1/2}`
-is periodic, which implies that the boundary conditions remain periodic. 
+There is a problem with adding :math:`-V_ {1 / 2e}` to all the atoms of an infinite crystal: the potential will
+diverge. :math:`-V_ {1 / 2e}` is a potential of an excess charge of 1/2 proton and has a tail of 0.5/r
+that cannot be summed in an infinite lattice. Therefore the tail has to be trimmed by a step function [2]_.
+Besides, it is worth mentioning that the values ​​for :math:`CUT` and :math:`A` must not be chosen arbitrarily, by means of variational 
+arguments it can be proved that the optimal values ​​for these parameters are those that maximize the band gap of the crystalline system [1]_ [2]_.
 
 
-Where to perform the half occupation? 
-############################################
+Finally, since the atoms repeats in each unit cell, the potential :math:`V_{1/2e}` is periodic, joining this
+information with the fact that :math:`V_{crystal}` is periodic, one can conclude that :math:`V_{crystal}^{-1/2}`
+is periodic, which implies that the boundary conditions remain periodic and the Khon-Shan calculations can be applied to the system. 
+
+
+Where to perform semi-occupation? 
+**************************************************
 
 There are two types of correction, simple and fractional, and they must be performed in the last valence band (:math:`VBM`) and the first conduction band (:math:`CBM`).
 The choice of which correction cannot be made blindly, it requires an analysis of the band's composition. To explain these two corrections, suppose that we have a matrix where the atoms 
-of the unit cell are represented as lines and the types of atomic orbitals :math:`(s, p, d, f ...)` as columns , each value `a_{ij}` 
+of the unit cell are represented as lines and the types of atomic orbitals :math:`(s, p, d, f ...)` as columns , each value :math:`a_{ij}` 
 represents, in percentage, how much that orbital :math:`j` of a given atom :math:`i` contributes to the total module of the wave function. 
 
-.. math ::
+.. math::
    A = \begin{bmatrix} 
    a_{11} & a_{12} & \dots \\
    \vdots & \ddots & \\
@@ -92,12 +167,12 @@ represents, in percentage, how much that orbital :math:`j` of a given atom :math
 
 Where:
 
-.. math ::
+.. math::
    \sum_{i=1}^{N} \sum_{j=1}^{K} a_{ij} = 100
 
 
 Simple correction
-********************
+========================
 The simple correction method is applied when an index :math:`a_{ij}` mainly represents the
 composition of the band, so that the influence of the other orbitals is negligible.
 Thus, the correction of half an electron is done only in the orbital :math:`j` of the atom :math:`i`. 
@@ -105,35 +180,34 @@ Thus, the correction of half an electron is done only in the orbital :math:`j` o
 .. _frac_correction:
 
 Fractional correction
-************************
+=========================
 The fractional correction method is applied when different atomic orbitals have a significant influence
-in the composition of the band. To distribute the electron medium, a threshold is chosen
+in the composition of the band. To distribute half an  electron, a threshold is chosen
 :math:`\epsilon`, which represents the minimum value of :math:`a_{ij}` considered in the correction. Given these
-values, half an electron will be divided among the atoms, proportionally to the coefficient :math:`a_{ij}`.
+values,the half an electron will be divided among the atoms, proportionally to the coefficient :math:`a_{ij}`.
 
 Is conduction band correction always necessary?
-********************************************************
-In many cases, the correction in the valence band already returns satisfactory and close enough to the 
-experimental results, which rules out the need for an additional correction in the conduction band. 
+======================================================
+In many cases, the correction in the valence band already returns satisfactory and close enough results, which rules out the need for an additional correction in the conduction band. 
 
 Final considerations
-***********************
-After applying the correction, the optimum cut and amplitude must be found for each corrected atom to, finally,
+=============================
+After applying the correction, the optimum cut must be found for each corrected atom to, finally,
 we find the final value for the gap. 
 
 
 DFT -1/2 results
-###################
+*********************
 
-The results obtained by the application the method has the same precision [2]_ as the GW [9]_ algorithm ,as shown in Figure 2, considered 
-the state of the art for calculating the band-gap of semiconductors. In addition, the computational complexity of the method 
-is equivalent to calculating the Khon-Shan gap, which allows the technique to be applied to complex systems.
+The results obtained by the application the method have the same precision [2]_ as the GW [9]_ algorithm, considered 
+the state of the art for calculating band gap of semiconductors. In addition, the computational complexity of the method 
+is equivalent to the standard DFT approach, which allows the technique to be applied to complex systems.
 
 
 
 
 References
-###########
+********************
 
 .. [1] L. G. Ferreira, M. Marques, and L. K. Teles, `Phys. Rev. B 78, 125116 (2008) <http://dx.doi.org/10.1103/PhysRevB.78.125116>`_.
 

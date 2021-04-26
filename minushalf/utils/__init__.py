@@ -12,10 +12,12 @@ from .projection_to_df import projection_to_df
 from .band_structure import BandStructure
 from .atomic_potential import AtomicPotential
 from .check_file_exists import (check_eigenval_exists, check_vasprun_exists,
-                                check_procar_exists, check_potcar_exists)
+                                check_procar_exists, check_potcar_exists,
+                                check_outcar_exists)
 from .parse_cut import parse_cut
 from .minushalf_yaml import MinushalfYaml
 from .make_minushalf_results import make_minushalf_results
 from .reverse_band_gap import find_reverse_band_gap
 from .fractionary_correction_indexes import get_fractionary_corrections_indexes
 from .simple_correction_indexes import get_simple_corrections_indexes
+from .cut_initial_guess import CutInitialGuess

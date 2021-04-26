@@ -64,3 +64,20 @@ def check_potcar_exists(func):
         return func(self, filename, base_path)
 
     return func_wrapper
+
+
+def check_outcar_exists(func):
+    """
+    Function decrator to check if a file exists
+    """
+    def func_wrapper(self, *args, **kwargs):
+        kwargs["filename"] = "OUTCAR"
+        path = kwargs["filename"]
+        if kwargs["base_path"]:
+            path = os.path.join(kwargs["base_path"], kwargs["filename"])
+        if not os.path.exists(path):
+            raise ValueError("File {} does not exist".format(
+                kwargs["filename"]))
+        return func(self, *args, **kwargs)
+
+    return func_wrapper

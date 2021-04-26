@@ -63,14 +63,19 @@ from minushalf.utils import (welcome_message, end_message, Vtotal,
               range:  begin(float|integer):pass(float|integer):end(float|integer). Ex: 1.0:0.1:2.0
 
               """)
-@click.option('-a',
-              '--amplitude',
-              type=click.FloatRange(0.0, 20.0),
-              default=1.0,
-              show_default=True,
-              nargs=1,
-              help="""Scaling factor to be used to
-              correct the artificially generated potential.""")
+@click.option(
+    '-a',
+    '--amplitude',
+    type=float,
+    default=1.0,
+    show_default=True,
+    nargs=1,
+    help=
+    """Scaling factor to be used to correct the artificially generated potential.
+               In the vast majority of cases, the amplitude value is 1.0. However, there are some
+               special cases where this value needs to be adjusted. Therefore, we recommend that
+                you do not change this value unless you know exactly what you are doing"""
+)
 def correct_potfile(
     quiet: bool,
     base_potfile_path: str,
@@ -81,7 +86,7 @@ def correct_potfile(
     cut: str,
     amplitude: float,
 ) -> None:
-    """Generate occupied atomic potential file used for ab initio calculations.
+    """Generate the occupied atomic potential file used for ab initio calculations.
 
     Requires:
 
@@ -100,7 +105,7 @@ def correct_potfile(
 
         POTFILEcut${CUT_VALUE} (If amplitude is equal to 1.0)
 
-        POTFILEcut${CUT_VALUE}A${AMP_VALUE} (If amplitude is different from 1.0)
+        POTFILEcut${CUT_VALUE}A${AMPLITUDE_VALUE} (If amplitude is different from 1.0)
 
     """
     welcome_message("minushalf")
@@ -128,6 +133,7 @@ def correct_potfile(
         logger.info("Correcting POTFILE for cut = {:.3} ".format(new_cut))
         new_potential = atomic_potential.correct_potential(
             new_cut, amplitude, is_conduction)
-        atomic_potential.correct_file(new_potential, new_cut, amplitude)
+        atomic_potential.correct_file(new_potential, new_cut, amplitude,
+                                      is_conduction)
 
     end_message()

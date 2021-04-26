@@ -12,9 +12,9 @@ from minushalf import atomic_program
 
 @click.command()
 @click.argument('orbital_quantum_number', type=str, nargs=1)
-@click.argument('occupation_percentual', type=str, nargs=1, default="100")
+@click.argument('occupation_percentage', type=str, nargs=1, default="100")
 @click.option('--quiet', default=False, is_flag=True)
-def occupation(orbital_quantum_number: str, occupation_percentual: str,
+def occupation(orbital_quantum_number: str, occupation_percentage: str,
                quiet: bool):
     """
     Perform fractional occupation on the atom and generate the pseudopotential for this occupation.
@@ -23,22 +23,22 @@ def occupation(orbital_quantum_number: str, occupation_percentual: str,
     Requires:
 
         ORBITAL_QUANTUM_NUMBER: A string that defines the orbital(s) in which the occupation will be made,
-        it can assume four values: (0: s | 1: p | 2: d | 3: f). if going to pass multiple orbitals,
-        pass a string with numbers separated by commas : ("0,1,2,3")
+        it can assume four values: (0: s | 1: p | 2: d | 3: f). if going to modify multiple orbitals,
+        pass a string with numbers separated by commas : ("0,1,2,3").
 
 
-        OCCUPATION_PERCENTUAL: A string that defines percentual of half eletron to be used in the occupation.
-        The default is 100%, wich states for 0.5e. For multiple occupations in different orbitals, pass a string
+        OCCUPATION_PERCENTAGE: A string that defines percentual of half an electron to be used in the occupation.
+        The default is 100%, which states for 0.5e. For multiple occupations in different orbitals, pass a string
         separated by commas ("100,50,40,100"). For simplicity, to avoid the excessive repetition of the number
-        100, just replace the number with * ("*,30,*"). If this argument is not used, the occupation of 
-        half electron will be made for all orbitals
+        100, just replace the number with * ("*,30,*"). If this argument is not used, the occupation of
+        half an electron will be made for all orbitals assed as arguments.
 
 
-        INP: A copy of the input file used in ATOM program
+        INP: Input file of the run-atomic command.
 
     Returns:
 
-        INP_OCC : Input file modified for fractional occupation
+        INP_OCC : Input file modified for fractional occupation.
 
 
         INP.ae: A copy of the input file for the calculation.
@@ -87,7 +87,7 @@ def occupation(orbital_quantum_number: str, occupation_percentual: str,
 
     percentuals = np.ones(len(quantum_numbers)) * 100
 
-    for index, percentual in enumerate(occupation_percentual.split(",")):
+    for index, percentual in enumerate(occupation_percentage.split(",")):
         if percentual != "*":
             if float(percentual) < 0 or float(percentual) > 100:
                 raise ValueError("Invalid value for occupation percentual")

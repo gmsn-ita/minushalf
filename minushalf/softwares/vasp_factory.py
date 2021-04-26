@@ -6,14 +6,20 @@
 """
 import os
 from minushalf.interfaces import SoftwaresAbstractFactory
-from minushalf.utils import (check_procar_exists, check_vasprun_exists,
-                             check_eigenval_exists, check_potcar_exists)
-from .vasp import (
+from minushalf.utils import (
+    check_procar_exists,
+    check_vasprun_exists,
+    check_eigenval_exists,
+    check_potcar_exists,
+    check_outcar_exists,
+)
+from minushalf.softwares.vasp import (
     Procar,
     Vasprun,
     Eigenvalues as VaspEigenval,
     Potcar,
     VaspRunner,
+    Outcar,
 )
 
 
@@ -28,9 +34,9 @@ class VaspFactory(SoftwaresAbstractFactory):
                       base_path: str = None) -> dict:
         """
             Args:
-                filename (str): Path to vasprun.xml
-                base_path (str): In case you do not need to specify
-                the file name, go to the directory where it is located
+                filename (str): Name of the vasprun.xml file.
+                base_path (str): Path to the folder where the file is located.
+
             Returns:
                 atoms_map (dict): Map of atomic symbols for their respective indexes
         """
@@ -44,10 +50,10 @@ class VaspFactory(SoftwaresAbstractFactory):
                          filename: str = "vasprun.xml",
                          base_path: str = None) -> float:
         """
-        Args:
-                filename (str): Path to vasprun.xml
-                base_path (str): In case you do not need to specify
-                the file name, go to the directory where it is located
+            Args:
+                filename (str): Name of the vasprun.xml file.
+                base_path (str): Path to the folder where the file is located.
+
             Returns:
                 fermi_energy (dict): Energy of the fermi level
         """
@@ -64,9 +70,9 @@ class VaspFactory(SoftwaresAbstractFactory):
     ) -> Procar:
         """
             Args:
-                filename (str): Path to PROCAR
-                base_path (str): In case you do not need to specify
-                the file name, go to the directory where it is located
+                filename (str): Name of the PROCAR file
+                base_path (str): Path to the folder where the file is located.
+
             Returns:
                 procar (Procar): Contains the class that handles files
                 that contains informations about band projections
@@ -81,9 +87,9 @@ class VaspFactory(SoftwaresAbstractFactory):
                             base_path: str = None) -> int:
         """
             Args:
-                filename (str): Path to PROCAR
-                base_path (str): In case you do not need to specify
-                the file name, go to the directory where it is located
+                filename (str): Name of the PROCAR file
+                base_path (str): Path to the folder where the file is located.
+
             Returns:
                 number_of_bands(int): Number of bands used in calculation
         """
@@ -98,9 +104,9 @@ class VaspFactory(SoftwaresAbstractFactory):
                               base_path: str = None) -> int:
         """
             Args:
-                filename (str): Path to PROCAR
-                base_path (str): In case you do not need to specify
-                the file name, go to the directory where it is located
+                filename (str): Name of the PROCAR file.
+                base_path (str): Path to the folder where the file is located.
+
             Returns:
                 number_of_kpoints(int): Number of kpoints used in calculation
         """
@@ -117,9 +123,9 @@ class VaspFactory(SoftwaresAbstractFactory):
     ) -> Potcar:
         """
             Args:
-                filename (str): Path to POTCAR
-                base_path (str): In case you do not need to specify
-                the file name, go to the directory where it is located
+                filename (str): Name of the POTCAR file.
+                base_path (str): Path to the folder where the file is located.
+
             Returns:
                 Potcar: class to the potential file
         """
@@ -133,9 +139,9 @@ class VaspFactory(SoftwaresAbstractFactory):
                         base_path: str = None) -> dict:
         """
             Args:
-                filename (str): Path to EIGENVAL
-                base_path (str): In case you do not need to specify
-                the file name, go to the directory where it is located
+                filename (str): Name of the EIGENVAL file
+                base_path (str): Path to the folder where the file is located.
+
             Returns:
                 eigenvalues (dict): dictionary containing the eigenvalues
                 for each kpoint and each band
@@ -151,3 +157,48 @@ class VaspFactory(SoftwaresAbstractFactory):
         that runs VASP
         """
         return VaspRunner(path, number_of_cores)
+
+    @check_outcar_exists
+    def get_nearest_neighbor_distance(self,
+                                      ion_index: str,
+                                      filename: str = "OUTCAR",
+                                      base_path: str = None) -> float:
+        """
+            Args:
+                ion_index (str): The index of the ion given by VASP.
+                filename (str): Name of the OUTCAR file.
+                base_path (str): Path to the folder where the file is located.
+
+            Returns:
+                distance (float): The distance of the nearest neighbor.
+        """
+        if base_path:
+            filename = os.path.join(base_path, filename)
+
+        outcar = Outcar(filename)
+        return outcar.nearest_neighbor_distance(ion_index)
+
+    @check_outcar_exists
+    def get_number_of_equal_neighbors(self,
+                                      atoms_map: dict,
+                                      symbol: str,
+                                      filename: str = "OUTCAR",
+                                      base_path: str = None) -> float:
+        """
+        Given an map that links atoms symbols with it's index
+        this function returns the number of neighbors of the atom with
+        equal symbol but different indexes.
+
+            Args:
+                atoms_map (dict): Map the atoms index to their symbol.
+                symbom (str): The symbol of the target atom.
+
+            Returns:
+                number_equal_neighbors (int): Returns the number of neighbors with
+                                        same symbol but different indexes.
+        """
+        if base_path:
+            filename = os.path.join(base_path, filename)
+
+        outcar = Outcar(filename)
+        return outcar.number_of_equal_neighbors(atoms_map, symbol)

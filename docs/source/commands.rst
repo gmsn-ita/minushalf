@@ -477,22 +477,22 @@ by professor `Luiz Guimarães Ferreira <http://lattes.cnpq.br/4694847711359239>`
 
             ORBITAL_QUANTUM_NUMBER: A string that defines the orbital(s) in which
             the occupation will be made, it can assume four values: (0: s | 1:
-            p | 2: d | 3: f). if going to pass multiple orbitals, pass a
-            string with numbers separated by commas : ("0,1,2,3")
+            p | 2: d | 3: f). if going to modify multiple orbitals, pass a
+            string with numbers separated by commas : ("0,1,2,3").
 
-            OCCUPATION_PERCENTUAL: A string that defines percentual of half
-            electron to be used in the occupation. The default is 100%, wich
+            OCCUPATION_PERCENTUAL: A string that defines percentual of half an
+            electron to be used in the occupation. The default is 100%, which
             states for 0.5e. For multiple occupations in different orbitals, pass
             a string separated by commas ("100,50,40,100"). For simplicity, to
             avoid the excessive repetition of the number 100, just replace the
             number with * ("*,30,*"). If this argument is not used, the occupation
-            of half electron will be made for all orbitals
+            of half electron will be made for all orbitals passed as arguments.
 
-            INP: A copy of the input file used in ATOM program
+            INP: Input file of the run-atomic command.
 
         Returns:
 
-            INP_OCC : Input file modified for fractional occupation
+            INP_OCC : Input file modified for fractional occupation.
 
             INP.ae: A copy of the input file for the calculation.
 
@@ -719,7 +719,7 @@ This command creates the input files for the run-atomic command. Check :ref:`her
     $ minushalf correct-potfile --help          
     Usage: minushalf correct-potfile [OPTIONS]
 
-    Generate occupied atomic potential file used for ab initio calculations.
+    Generate the occupied atomic potential file used for ab initio calculations.
 
     Requires:
 
@@ -770,23 +770,23 @@ This command creates the input files for the run-atomic command. Check :ref:`her
                                     range:  begin(float|integer):pass(float|integer):end(float|integer). Ex: 1.0:0.1:2.0  
                                     [default: 2.0]
 
-    -a, --amplitude FLOAT RANGE     Scaling factor to be used to correct the
-                                    artificially generated potential.  [default:
-                                    1.0]
+    -a, --amplitude FLOAT RANGE     Scaling factor to be used to correct the artificially generated potential.
+                                    In the vast majority of cases, the amplitude value is 1.0. However, there are some
+                                    special cases where this value needs to be adjusted. Therefore, we recommend that
+                                    you do not change this value unless you know exactly what you are doing  [default: 1.0]
 
     --help                          Show this message and exit.
 
 
+To consult a case where changing the amplitude value is necessary, check the reference [7]_.
 
 
 ``minushalf execute``
 ************************************************
 
-This command completely automates the use of the DFT -1/2 method, requiring only the provision of
-the input files of the software that performs ab initio calculations and the corresponding potential files
-for each atom. The command uses the Nelder-Mead [3]_ algorithm to find the optimal values of the CUT(S) and
-generates a text file with all the respective CUTS and the final value of the gap. 
-
+This command automates the use of the DFT -1/2. It uses the Nelder-Mead algorithm [3]_ to find
+the optimal values of CUT(S) and generates a text file with all the respective CUTS and the final value 
+of the gap. 
 
 .. code-block:: console
 
@@ -815,12 +815,12 @@ generates a text file with all the respective CUTS and the final value of the ga
         Returns:
 
             minushalf_results.dat : File that contains the optimal
-                                    values of the cutsand the final
+                                    values of the cuts and the final
                                     value of the Gap.
             
-            corrected_valence_potfiles: Potential files resulting from valence correction.
+            corrected_valence_potfiles: Potential files corrected with opti-mum valence cuts.
 
-            corrected_conduction_potfiles: Potential files resulting from conduction correction.
+            corrected_conduction_potfiles: Potential files corrected with optimum conduction cuts.
 
     Options:
     --quiet
@@ -836,12 +836,12 @@ default values are described below.
 
 software tag
 -----------------
-This tag specifies the software that to perform ab initio calculations. For a while
-, the command supports the following values for the software tag:
+This tag specifies the software that to perform ab initio calculations. For now,
+the command supports the following values for the software tag:
 
 - VASP (Default value)
 
-Currently, minushalf only supports one software, but one hope to support much more in a while.
+Currently, minushalf only supports one software, but one hope to add more soon.
 
 .. code-block:: yaml
 
@@ -850,13 +850,13 @@ Currently, minushalf only supports one software, but one hope to support much mo
 vasp tag
 -----------------
 The vasp tag is a set of various informations that specifies the settings
-for the VASP execution. The informations are:
+for executing VASP. These informations are:
 
-- number_of_cores: The number of colors used to run VASP. (Default: 1)
+- number_of_cores: The number of cores used to run VASP. (Default: 1)
 - path: entry-point for the executable (Default: vasp)
 
-Thus, the command that runs the software is :code:`mpirun -np $ {number_of_cores} $ {path}`. Below follows
-an example of the vasp tag in the :code:`minushalf.yaml` file:
+Thus, the command that runs the software is :code:`mpirun -np $ {number_of_cores} $ {path}`. The example below 
+shows an use of the vasp tag in the :code:`minushalf.yaml file`:
 
 .. code-block:: yaml
 
@@ -913,17 +913,19 @@ Below follows an example of the atomic_program tag in the :code:`minushalf.yaml`
     
 correction tag
 ----------------------
-The correction tag is a set of various informations that specifies
-how the DFT -1/2 method is executed. The informations are:
+ The correction tag specifies how the DFT -1/2
+  method is executed. It contains the following parameters:
 
 - correction_code: Code thar specifies the potential correction (Default: v)
 - potfiles_folder: Path to folder that holds the potential files for each atom. The files must be named in the following pattern :code:`${POTENTIAL_FILE_NAME}.${LOWERCASE_CHEMICAL_SYMBOL}` (Default: minushalf_potfiles)
-- amplitude: Scale Factor for the trimming function (Default: 1.0)
-- valence_cut_guess: Initial Guess for the Nelder-Mead algorithm for cut in valence correction (Default: 3.0)
-- conduction_cut_guess: Initial Guess for the Nelder-Mead algorithm for cut in valence correction (Default: 2.0)
+- amplitude: Scaling factor to be used to correct the artificially generated potential. In the vast majority of cases, the amplitude value is 1.0. However,  there are some special cases where this value needs to be adjusted [7]_.  Therefore, we recommend that you do not change this value unless you know exactly what you are doing (Default: 1.0)
+- valence_cut_guess: Initial Guess for the Nelder-Mead algorithm for cut in valence correction. If not provided, the default value of :math:`0.15 + 0.84d` [8]_ will be used for each optimization, where :math:`d` is the distance of the nearest neighbor in the unit cell. (Default: :math:`0.15 + 0.84d`)
+- conduction_cut_guess: Initial Guess for the Nelder-Mead algorithm for cut in valence correction. If not provided, the default value of :math:`0.15 + 0.84d`  will be used will be used for each optimization, where :math:`d` is the distance of the nearest neighbor in the unit cell. (Default: :math:`0.15 + 0.84d`)
 - tolerance: Minimum level of precision for the result of the Nelder-Mead algorithm (Default: 0.01)
 - fractionary_valence_treshold: :ref:`Treshold  <frac_correction>` :math:`\epsilon` for fractionary valence correction (Default: 10). 
-- fractionary_conduction_treshold: :ref:`Treshold  <frac_correction>` :math:`\epsilon` for fractionary conduction correction (Default: 9).
+- overwrite_vbm: In some special cases [8]_, it is necessary to overwrite the value of band projection in a given orbital and ion. This tag is made for these situations. It is necessary to inform the chemical element symbol of the corresponding ion, the orbital and the value to be replaced. The program immediately overwrites the old projection values for the last valence band and use the new values for DFT -1/2 calculations (Default: No overwrite)
+- overwrite_vbm: In some special cases [8]_, it is necessary to overwrite the value of band projection in a given orbital and ion. This tag is made for these situations. It is necessary to inform the chemical element symbol of the corresponding ion, the orbital and the value to be replaced. The program immediately overwrites the old projection values for the first conduction band and use the new values for DFT -1/2 calculations (Default: No overwrite)
+
 
 The values that the correction_code tag can assume are listed below:
 
@@ -941,7 +943,7 @@ The values that the correction_code tag can assume are listed below:
     - vfcf: Fractionary valence and fractionary conduction corrections
 
 
-Below follows an example of the atomic_program tag in the :code:`minushalf.yaml` file:
+The example below shows an use of correction tag in the :code:`minushalf.yaml` file:
 
 .. code-block:: yaml
 
@@ -951,9 +953,15 @@ Below follows an example of the atomic_program tag in the :code:`minushalf.yaml`
             amplitude: 3.0
             valence_cut_guess: 2.0
             conduction_cut_guess: 1.0
-            tolerance: 0.001
+            tolerance: 0.01
             fractionary_valence_treshold: 15
             fractionary_conduction_treshold: 23
+            overwrite_vbm:
+                - [C, p, 23.4]
+                - [Si, d, 11]
+            overwrite_cbm:
+                - [Ag, f, 9]
+
 
 
 Examples
@@ -1037,4 +1045,5 @@ References
 .. [4] Y. Rao, S. Yu, and X.-M. Duan, `Phys. Chem. Chem. Phys. 19, 17250 (2017) <https://doi.org/10.1039/C7CP02616A>`_.
 .. [5] H. Sahin, S. Cahangirov, M. Topsakal, E. Bekaroglu, E. Akturk, R. T. Senger, and S. Ciraci, `Phys. Rev. B 80, 155453 (2009) <https://doi.org/10.1103/PhysRevB.80.155453>`_.
 .. [6] H. C. Hsueh, G. Y. Guo, and S. G. Louie, `Phys. Rev. B 84, 085404 (2011) <https://doi.org/10.1103/PhysRevB.84.085404>`_.
-
+.. [7] C. A. Ataide, R. R. Pelá, M. Marques, L. K. Teles, J. Furthmüller, and F. Bechstedt `Phys. Rev. B 95, 045126 – Published 17 January 2017 <https://journals.aps.org/prb/abstract/10.1103/PhysRevB.95.045126>`_.
+.. [8] L. G. Ferreira, M. Marques, and L. K. Teles, `Phys. Rev. B 78, 125116 (2008) <http://dx.doi.org/10.1103/PhysRevB.78.125116>`_.
