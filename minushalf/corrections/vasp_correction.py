@@ -276,9 +276,14 @@ class VaspCorrection(Correction):
         self._generate_atom_pseudopotential(path, symbol)
 
         percentuals = {}
+        ## Check for bonds with equal atoms
+        atoms_map = self.software_factory.get_atoms_map()
+        number_equal_neighbors = self.software_factory.get_number_of_equal_neighbors(
+            atoms_map=atoms_map, symbol=symbol)
         for orbital in orbitals:
-            value = 100 * (self.band_projection[orbital][symbol] /
-                           self.sum_correction_percentual)
+            value = (100 / (1 + number_equal_neighbors)) * (
+                self.band_projection[orbital][symbol] /
+                self.sum_correction_percentual)
             percentuals[orbital] = round(value)
         self._generate_occupation_potential(path, percentuals)
 
@@ -439,7 +444,13 @@ class VaspCorrection(Correction):
             "is_conduction": self.is_conduction,
         }
         if self.automatic_cut_guess:
-            ion_index = self.software_factory.get_atoms_map()[symbol]
+            atoms_map = self.software_factory.get_atoms_map()
+            ion_index = None
+            for key, value in atoms_map.items():
+                if value == symbol:
+                    ion_index = key
+                    break
+
             nearest_distance = self.software_factory.get_nearest_neighbor_distance(
                 ion_index)
             self.cut_initial_guess = self.cut_guesser.guess(

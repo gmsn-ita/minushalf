@@ -102,7 +102,7 @@ def test_outcar_exists(file_path):
     outcar_path = file_path("/sic-2d/")
     func = lambda _, ion_index, filename, base_path=None: f"{filename}{base_path}"
     func_wrapper = check_outcar_exists(func)
-    func_wrapper({}, '', base_path=outcar_path)
+    func_wrapper({}, ion_index='', base_path=outcar_path)
 
 
 @pytest.mark.xfail
@@ -113,4 +113,4 @@ def test_outcar_dont_exists(file_path):
     outcar_path = file_path("/Co/")
     func = lambda _, ion_index, filename, base_path=None: f"{filename}{base_path}"
     func_wrapper = check_outcar_exists(func)
-    func_wrapper({}, '', base_path=outcar_path)
+    func_wrapper({}, ion_index='', base_path=outcar_path)

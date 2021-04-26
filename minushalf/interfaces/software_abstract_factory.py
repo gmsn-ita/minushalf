@@ -82,3 +82,23 @@ class SoftwaresAbstractFactory(ABC):
         Abstract method for returns the nearest neighbor distance for
         an ion in the solid.
         """
+
+    @abstractmethod
+    def get_number_of_equal_neighbors(self,
+                                      atoms_map: dict,
+                                      symbol: str,
+                                      filename: str = "OUTCAR",
+                                      base_path: str = None) -> float:
+        """
+        Given an map that links atoms symbols with it's index
+        this function returns the number of neighbors of the atom with
+        equal symbol but different indexes.
+
+            Args:
+                atoms_map (dict): Map the atoms index to their symbol.
+                symbom (str): The symbol of the target atom.
+
+            Returns:
+                number_equal_neighbors (int): Returns the number of neighbors with
+                                        same symbol but different indexes.
+        """

@@ -177,3 +177,28 @@ class VaspFactory(SoftwaresAbstractFactory):
 
         outcar = Outcar(filename)
         return outcar.nearest_neighbor_distance(ion_index)
+
+    @check_outcar_exists
+    def get_number_of_equal_neighbors(self,
+                                      atoms_map: dict,
+                                      symbol: str,
+                                      filename: str = "OUTCAR",
+                                      base_path: str = None) -> float:
+        """
+        Given an map that links atoms symbols with it's index
+        this function returns the number of neighbors of the atom with
+        equal symbol but different indexes.
+
+            Args:
+                atoms_map (dict): Map the atoms index to their symbol.
+                symbom (str): The symbol of the target atom.
+
+            Returns:
+                number_equal_neighbors (int): Returns the number of neighbors with
+                                        same symbol but different indexes.
+        """
+        if base_path:
+            filename = os.path.join(base_path, filename)
+
+        outcar = Outcar(filename)
+        return outcar.number_of_equal_neighbors(atoms_map, symbol)
