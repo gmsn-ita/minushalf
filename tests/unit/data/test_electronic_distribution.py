@@ -38,6 +38,83 @@ def test_electronic_distribution_li(file_path):
         assert Counter(lines) == Counter(ElectronicDistribution["Li"].value)
 
 
+def test_electronic_distribution_la(file_path):
+    """
+    Test eletronic distribution of the element La
+    """
+    distribution_path = file_path("/La/electronic_distribution.txt")
+
+    with open(distribution_path, "r") as file:
+        lines = file.readlines()
+        assert Counter(lines) == Counter(ElectronicDistribution["La"].value)
+
+
+def test_electronic_distribution_pr(file_path):
+    """
+    Test eletronic distribution of the element Pr
+    """
+    distribution_path = file_path("/Pr/electronic_distribution.txt")
+
+    with open(distribution_path, "r") as file:
+        lines = file.readlines()
+        assert Counter(lines) == Counter(ElectronicDistribution["Pr"].value)
+
+
+def test_electronic_distribution_eu(file_path):
+    """
+    Test eletronic distribution of the element Eu
+    """
+    distribution_path = file_path("/Eu/electronic_distribution.txt")
+
+    with open(distribution_path, "r") as file:
+        lines = file.readlines()
+        assert Counter(lines) == Counter(ElectronicDistribution["Eu"].value)
+
+
+def test_electronic_distribution_tb(file_path):
+    """
+    Test eletronic distribution of the element Tb
+    """
+    distribution_path = file_path("/Tb/electronic_distribution.txt")
+
+    with open(distribution_path, "r") as file:
+        lines = file.readlines()
+        assert Counter(lines) == Counter(ElectronicDistribution["Tb"].value)
+
+
+def test_electronic_distribution_dy(file_path):
+    """
+    Test eletronic distribution of the element Dy
+    """
+    distribution_path = file_path("/Dy/electronic_distribution.txt")
+
+    with open(distribution_path, "r") as file:
+        lines = file.readlines()
+        assert Counter(lines) == Counter(ElectronicDistribution["Dy"].value)
+
+
+def test_electronic_distribution_ho(file_path):
+    """
+    Test eletronic distribution of the element Ho
+    """
+    distribution_path = file_path("Ho/electronic_distribution.txt")
+
+    with open(distribution_path, "r") as file:
+        lines = file.readlines()
+        assert Counter(lines) == Counter(ElectronicDistribution["Ho"].value)
+
+
+def test_electronic_distribution_fr(file_path):
+    """
+    Test eletronic distribution of the element Fr
+    """
+    distribution_path = file_path("Fr/electronic_distribution.txt")
+
+    with open(distribution_path, "r") as file:
+        lines = file.readlines()
+        assert Counter(lines) == Counter(ElectronicDistribution["Fr"].value)
+
+
 def test_electronic_distribution_be(file_path):
     """
     Test eletronic distribution of the element Be
@@ -894,3 +971,146 @@ def test_electronic_distribution_ac(file_path):
     with open(distribution_path, "r") as file:
         lines = file.readlines()
         assert Counter(lines) == Counter(ElectronicDistribution["Ac"].value)
+
+
+def test_electronic_distribution_th(file_path):
+    """
+    Test eletronic distribution of the element Th
+    """
+    distribution_path = file_path("Th/electronic_distribution.txt")
+
+    with open(distribution_path, "r") as file:
+        lines = file.readlines()
+        assert Counter(lines) == Counter(ElectronicDistribution["Th"].value)
+
+
+def test_electronic_distribution_u(file_path):
+    """
+    Test eletronic distribution of the element U
+    """
+    distribution_path = file_path("U/electronic_distribution.txt")
+
+    with open(distribution_path, "r") as file:
+        lines = file.readlines()
+        assert Counter(lines) == Counter(ElectronicDistribution["U"].value)
+
+
+def test_electronic_distribution_np(file_path):
+    """
+    Test eletronic distribution of the element Np
+    """
+    distribution_path = file_path("Np/electronic_distribution.txt")
+
+    with open(distribution_path, "r") as file:
+        lines = file.readlines()
+        assert Counter(lines) == Counter(ElectronicDistribution["Np"].value)
+
+
+def test_electronic_distribution_pu(file_path):
+    """
+    Test eletronic distribution of the element Pu
+    """
+    distribution_path = file_path("Pu/electronic_distribution.txt")
+
+    with open(distribution_path, "r") as file:
+        lines = file.readlines()
+        assert Counter(lines) == Counter(ElectronicDistribution["Pu"].value)
+
+
+def test_electronic_distribution_am(file_path):
+    """
+    Test eletronic distribution of the element Am
+    """
+    distribution_path = file_path("Am/electronic_distribution.txt")
+
+    with open(distribution_path, "r") as file:
+        lines = file.readlines()
+        assert Counter(lines) == Counter(ElectronicDistribution["Am"].value)
+
+
+def test_electronic_distribution_cm(file_path):
+    """
+    Test eletronic distribution of the element Cm
+    """
+    distribution_path = file_path("Cm/electronic_distribution.txt")
+
+    with open(distribution_path, "r") as file:
+        lines = file.readlines()
+        assert Counter(lines) == Counter(ElectronicDistribution["Cm"].value)
+
+
+def test_electronic_distribution_bk(file_path):
+    """
+    Test eletronic distribution of the element Bk
+    """
+    distribution_path = file_path("Bk/electronic_distribution.txt")
+
+    with open(distribution_path, "r") as file:
+        lines = file.readlines()
+        assert Counter(lines) == Counter(ElectronicDistribution["Bk"].value)
+
+
+def test_electronic_distribution_cf(file_path):
+    """
+    Test eletronic distribution of the element Cf
+    """
+    distribution_path = file_path("Cf/electronic_distribution.txt")
+
+    with open(distribution_path, "r") as file:
+        lines = file.readlines()
+        assert Counter(lines) == Counter(ElectronicDistribution["Cf"].value)
+
+
+def test_electronic_distribution_es(file_path):
+    """
+    Test eletronic distribution of the element Es
+    """
+    distribution_path = file_path("Es/electronic_distribution.txt")
+
+    with open(distribution_path, "r") as file:
+        lines = file.readlines()
+        assert Counter(lines) == Counter(ElectronicDistribution["Es"].value)
+
+
+def test_electronic_distribution_fm(file_path):
+    """
+    Test eletronic distribution of the element Fm
+    """
+    distribution_path = file_path("Fm/electronic_distribution.txt")
+
+    with open(distribution_path, "r") as file:
+        lines = file.readlines()
+        assert Counter(lines) == Counter(ElectronicDistribution["Fm"].value)
+
+
+def test_electronic_distribution_md(file_path):
+    """
+    Test eletronic distribution of the element Md
+    """
+    distribution_path = file_path("Md/electronic_distribution.txt")
+
+    with open(distribution_path, "r") as file:
+        lines = file.readlines()
+        assert Counter(lines) == Counter(ElectronicDistribution["Md"].value)
+
+
+def test_electronic_distribution_no(file_path):
+    """
+    Test eletronic distribution of the element No
+    """
+    distribution_path = file_path("No/electronic_distribution.txt")
+
+    with open(distribution_path, "r") as file:
+        lines = file.readlines()
+        assert Counter(lines) == Counter(ElectronicDistribution["No"].value)
+
+
+def test_electronic_distribution_lr(file_path):
+    """
+    Test eletronic distribution of the element Lr
+    """
+    distribution_path = file_path("Lr/electronic_distribution.txt")
+
+    with open(distribution_path, "r") as file:
+        lines = file.readlines()
+        assert Counter(lines) == Counter(ElectronicDistribution["Lr"].value)
