@@ -93,6 +93,23 @@ def test_get_nearest_neighbor_distance(file_path):
     """
     base_path = file_path("/sic-2d/")
     factory = VaspFactory()
-    distance = factory.get_nearest_neighbor_distance(ion_index='1',
+    distance = factory.get_nearest_neighbor_distance(ion_index="1",
                                                      base_path=base_path)
     assert np.isclose(distance, 1.78)
+
+
+def test_get_number_of_equal_neighbors(file_path):
+    """
+    Test get number of equal neighbors
+    """
+    base_path = file_path("/sic-2d/")
+    factory = VaspFactory()
+    fake_atoms_map = {"1": "Si", "2": "Si"}
+    real_atoms_map = {"1": "Si", "2": "C"}
+
+    assert factory.get_number_of_equal_neighbors(fake_atoms_map,
+                                                 symbol="Si",
+                                                 base_path=base_path) == 1
+    assert factory.get_number_of_equal_neighbors(real_atoms_map,
+                                                 symbol="Si",
+                                                 base_path=base_path) == 0

@@ -43,6 +43,38 @@ class Outcar():
             nearest_distance = min(distance[1], nearest_distance)
         return nearest_distance
 
+    def number_of_equal_neighbors(self, atoms_map: dict, symbol: str) -> int:
+        """
+        Given an map that links atoms symbols with it's index
+        this function returns the number of neighbors of the atom with
+        equal symbol but different indexes.
+
+            Args:
+                atoms_map (dict): Map the atoms index to their symbol.
+                symbom (str): The symbol of the target atom.
+
+            Returns:
+                number_equal_neighbors (int): Returns the number of neighbors with
+                                        same symbol but different indexes.
+        """
+        ion_index = None
+        for key, value in atoms_map.items():
+            if value == symbol:
+                ion_index = key
+                break
+
+        number_equal_neighbors = 0
+        ## Already listed neighbors
+        visited_neighbors = {key: False for key in atoms_map.keys()}
+        for element in self.relative_distances[ion_index]:
+            if element[0] != ion_index and atoms_map[str(
+                    element[0])] == symbol and not visited_neighbors[str(
+                        element[0])]:
+                visited_neighbors[str(element[0])] = True
+                number_equal_neighbors += 1
+
+        return number_equal_neighbors
+
     def _get_distances(self) -> defaultdict(list):
         """
             Returns:
