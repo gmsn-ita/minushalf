@@ -13,6 +13,11 @@ minushalf
    :target: https://lgtm.com/projects/g/hentt30/minushalf/context:python
    :alt: Language grade: Python
 
+.. image:: https://img.shields.io/pypi/v/minushalf.svg?style=flat-square&label=PYPI%20version
+   :target: https://pypi.python.org/pypi/minushalf
+   :alt: Latest version released on PyPi
+
+
 What is minushalf?
 ----------------------
 Minushalf is a CLI developed by GMSN that aims to automate 
