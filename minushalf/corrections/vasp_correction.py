@@ -465,7 +465,7 @@ class VaspCorrection(Correction):
         cut = res.x[0]
 
         if not res.success:
-            print("Optimization failed")
+            logger.error("Optimization failed")
             raise Exception("Optimization failed.")
 
         return cut
