@@ -1,8 +1,13 @@
 """
 Configuration setup for python project
 """
+from os import path
 import setuptools
 from numpy.distutils.core import Extension, setup
+
+this_directory = path.abspath(path.dirname(__file__))
+with open(path.join(this_directory, 'README.rst'), encoding='utf-8') as f:
+    long_description = f.read()
 
 atomic_program = Extension(
     name="minushalf.atomic_program",
@@ -14,13 +19,14 @@ atomic_program = Extension(
 
 setup(
     name="minushalf",
-    version="1.0",
+    version="1.2",
     packages=setuptools.find_packages(),
     include_package_data=True,
     author="Henrique Fernandes",
     author_email="hentt30@gmail.com",
     description=
     "CLI to provides Pre processing tools for DFT -1/2 calculations",
+    long_description=long_description,
     license="GPL",
     install_requires=[
         "numpy>=1.19.4",
