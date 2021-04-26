@@ -70,4 +70,5 @@ jobs:
         with:
           user: __token__
           password: ${{ secrets.pypi_api_token }}
+          verbose: true
           # To test: repository_url: https://test.pypi.org/legacy/
