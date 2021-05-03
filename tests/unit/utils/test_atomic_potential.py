@@ -47,8 +47,8 @@ def test_correct_potential_ag(file_path):
     corrected_potential = atomic_potential.correct_potential(
         cut, amplitude, is_conduction)
 
-    assert np.isclose(corrected_potential[0], 115.01526160861792)
-    assert np.isclose(corrected_potential[-1], 0.3483004586739098)
+    assert np.isclose(corrected_potential[0], 42.134427008617926)
+    assert np.isclose(corrected_potential[-1], 3.3388329555573573)
     assert len(corrected_potential) == 1000
 
 
@@ -93,8 +93,8 @@ def test_correct_potential_c(file_path):
     corrected_potential = atomic_potential.correct_potential(
         cut, amplitude, is_conduction)
 
-    assert np.isclose(corrected_potential[0], 98.80257671169966)
-    assert np.isclose(corrected_potential[-1], 0.0469647743921682)
+    assert np.isclose(corrected_potential[0], 82.71034211169965)
+    assert np.isclose(corrected_potential[-1], 2.222216630996971)
     assert len(corrected_potential) == 1000
 
 
@@ -139,8 +139,8 @@ def test_correct_potential_er(file_path):
     corrected_potential = atomic_potential.correct_potential(
         cut, amplitude, is_conduction)
 
-    assert np.isclose(corrected_potential[0], 247.34325191992465)
-    assert np.isclose(corrected_potential[-1], 0.7748708762400962)
+    assert np.isclose(corrected_potential[0], -82.04984588007534)
+    assert np.isclose(corrected_potential[-1], 3.3337994605567602)
     assert len(corrected_potential) == 1000
 
 
@@ -185,8 +185,8 @@ def test_correct_potential_f(file_path):
     corrected_potential = atomic_potential.correct_potential(
         cut, amplitude, is_conduction)
 
-    assert np.isclose(corrected_potential[0], 100.3215204531089)
-    assert np.isclose(corrected_potential[-1], 0.08422915502323297)
+    assert np.isclose(corrected_potential[0], 78.5746517531089)
+    assert np.isclose(corrected_potential[-1], 1.1111107999962797)
     assert len(corrected_potential) == 1000
 
 
@@ -231,8 +231,8 @@ def test_correct_potential_fe(file_path):
     corrected_potential = atomic_potential.correct_potential(
         cut, amplitude, is_conduction)
 
-    assert np.isclose(corrected_potential[0], 202.79657167321233)
-    assert np.isclose(corrected_potential[-1], 0.2200274503723977)
+    assert np.isclose(corrected_potential[0], 120.74779607321234)
+    assert np.isclose(corrected_potential[-1], 4.419636704868847)
     assert len(corrected_potential) == 1000
 
 
@@ -277,8 +277,8 @@ def test_correct_potential_ga(file_path):
     corrected_potential = atomic_potential.correct_potential(
         cut, amplitude, is_conduction)
 
-    assert np.isclose(corrected_potential[0], 95.2423412913233)
-    assert np.isclose(corrected_potential[-1], 0.10633063376322688)
+    assert np.isclose(corrected_potential[0], 40.22661269132331)
+    assert np.isclose(corrected_potential[-1], 2.218316919876328)
     assert len(corrected_potential) == 1000
 
 
@@ -323,8 +323,8 @@ def test_correct_potential_h(file_path):
     corrected_potential = atomic_potential.correct_potential(
         cut, amplitude, is_conduction)
 
-    assert np.isclose(corrected_potential[0], -118.93495256634807)
-    assert np.isclose(corrected_potential[-1], 0.00622937466765834)
+    assert np.isclose(corrected_potential[0], -118.03778676634806)
+    assert np.isclose(corrected_potential[-1], 4.4443560211104325)
     assert len(corrected_potential) == 1000
 
 
@@ -369,8 +369,8 @@ def test_correct_potential_he(file_path):
     corrected_potential = atomic_potential.correct_potential(
         cut, amplitude, is_conduction)
 
-    assert np.isclose(corrected_potential[0], 100.4524327715395)
-    assert np.isclose(corrected_potential[-1], 0.012553526993934958)
+    assert np.isclose(corrected_potential[0], 98.95795397153951)
+    assert np.isclose(corrected_potential[-1], 4.4337736399639365)
     assert len(corrected_potential) == 1000
 
 
@@ -415,8 +415,8 @@ def test_correct_potential_ir(file_path):
     corrected_potential = atomic_potential.correct_potential(
         cut, amplitude, is_conduction)
 
-    assert np.isclose(corrected_potential[0], 6.140173773194022)
-    assert np.isclose(corrected_potential[-1], 0.3162435044942796)
+    assert np.isclose(corrected_potential[0], -116.10754182680598)
+    assert np.isclose(corrected_potential[-1], 4.412557155252129)
     assert len(corrected_potential) == 1000
 
 
@@ -461,8 +461,8 @@ def test_correct_potential_mg(file_path):
     corrected_potential = atomic_potential.correct_potential(
         cut, amplitude, is_conduction)
 
-    assert np.isclose(corrected_potential[0], 47.34636933554096)
-    assert np.isclose(corrected_potential[-1], 0.04059877663883569)
+    assert np.isclose(corrected_potential[0], 25.954627435540964)
+    assert np.isclose(corrected_potential[-1], 3.3338022720905234)
     assert len(corrected_potential) == 1000
 
 
@@ -507,8 +507,8 @@ def test_correct_potential_mo(file_path):
     corrected_potential = atomic_potential.correct_potential(
         cut, amplitude, is_conduction)
 
-    assert np.isclose(corrected_potential[0], 137.53062283135532)
-    assert np.isclose(corrected_potential[-1], 0.2352508564448766)
+    assert np.isclose(corrected_potential[0], 25.349795031355335)
+    assert np.isclose(corrected_potential[-1], 1.1292868819325126)
     assert len(corrected_potential) == 1000
 
 
@@ -553,8 +553,8 @@ def test_correct_potential_n(file_path):
     corrected_potential = atomic_potential.correct_potential(
         cut, amplitude, is_conduction)
 
-    assert np.isclose(corrected_potential[0], 67.96921965079568)
-    assert np.isclose(corrected_potential[-1], 0.05861094487981112)
+    assert np.isclose(corrected_potential[0], 50.754467050795675)
+    assert np.isclose(corrected_potential[-1], 2.2232765357932323)
     assert len(corrected_potential) == 1000
 
 
@@ -599,8 +599,8 @@ def test_correct_potential_ne(file_path):
     corrected_potential = atomic_potential.correct_potential(
         cut, amplitude, is_conduction)
 
-    assert np.isclose(corrected_potential[0], 87.64705324646312)
-    assert np.isclose(corrected_potential[-1], 0.12060586248801818)
+    assert np.isclose(corrected_potential[0], 71.53985054646311)
+    assert np.isclose(corrected_potential[-1], 4.444443311513178)
     assert len(corrected_potential) == 1000
 
 
@@ -645,8 +645,8 @@ def test_correct_potential_ru(file_path):
     corrected_potential = atomic_potential.correct_potential(
         cut, amplitude, is_conduction)
 
-    assert np.isclose(corrected_potential[0], -60.589230030754685)
-    assert np.isclose(corrected_potential[-1], 0.295579883132542)
+    assert np.isclose(corrected_potential[0], -114.60821673075468)
+    assert np.isclose(corrected_potential[-1], 4.499762390411456)
     assert len(corrected_potential) == 1000
 
 
@@ -691,8 +691,8 @@ def test_correct_potential_s(file_path):
     corrected_potential = atomic_potential.correct_potential(
         cut, amplitude, is_conduction)
 
-    assert np.isclose(corrected_potential[0], -26.717791487457156)
-    assert np.isclose(corrected_potential[-1], 0.113274749072086)
+    assert np.isclose(corrected_potential[0], -47.430987087457154)
+    assert np.isclose(corrected_potential[-1], 4.445449320860461)
     assert len(corrected_potential) == 1000
 
 
@@ -737,8 +737,8 @@ def test_correct_potential_sn(file_path):
     corrected_potential = atomic_potential.correct_potential(
         cut, amplitude, is_conduction)
 
-    assert np.isclose(corrected_potential[0], -50.37416152010086)
-    assert np.isclose(corrected_potential[-1], 0.18732773744957626)
+    assert np.isclose(corrected_potential[0], -80.53606842010086)
+    assert np.isclose(corrected_potential[-1], 1.4141791515446953)
     assert len(corrected_potential) == 1000
 
 
@@ -783,8 +783,8 @@ def test_correct_potential_tc(file_path):
     corrected_potential = atomic_potential.correct_potential(
         cut, amplitude, is_conduction)
 
-    assert np.isclose(corrected_potential[0], 122.29978601959654)
-    assert np.isclose(corrected_potential[-1], 0.29092379877065466)
+    assert np.isclose(corrected_potential[0], 93.21778221959654)
+    assert np.isclose(corrected_potential[-1], 1.2892575561440929)
     assert len(corrected_potential) == 1000
 
 
@@ -829,8 +829,8 @@ def test_correct_potential_v(file_path):
     corrected_potential = atomic_potential.correct_potential(
         cut, amplitude, is_conduction)
 
-    assert np.isclose(corrected_potential[0], 153.43341811386603)
-    assert np.isclose(corrected_potential[-1], 0.18561953575232004)
+    assert np.isclose(corrected_potential[0], 92.55058321386603)
+    assert np.isclose(corrected_potential[-1], 2.221542666741145)
     assert len(corrected_potential) == 1000
 
 
@@ -875,8 +875,8 @@ def test_correct_potential_w(file_path):
     corrected_potential = atomic_potential.correct_potential(
         cut, amplitude, is_conduction)
 
-    assert np.isclose(corrected_potential[0], 145.25189229671955)
-    assert np.isclose(corrected_potential[-1], 0.23495231083197574)
+    assert np.isclose(corrected_potential[0], 28.22421669671955)
+    assert np.isclose(corrected_potential[-1], 4.444104106630428)
     assert len(corrected_potential) == 1000
 
 
@@ -921,8 +921,8 @@ def test_correct_potential_xe(file_path):
     corrected_potential = atomic_potential.correct_potential(
         cut, amplitude, is_conduction)
 
-    assert np.isclose(corrected_potential[0], 341.67331634926904)
-    assert np.isclose(corrected_potential[-1], 0.25592177527226323)
+    assert np.isclose(corrected_potential[0], 43.33294744926906)
+    assert np.isclose(corrected_potential[-1], 6.13351807697526)
     assert len(corrected_potential) == 1000
 
 
@@ -946,9 +946,9 @@ def test_get_lines_corrected_potential_xe(file_path):
         cut, amplitude, is_conduction)
     lines = atomic_potential.get_corrected_file_lines(corrected_potential)
 
-    assert lines[0].strip() == "PAW_PBE Xe 07Sep2000"
+    assert lines[3].strip() == "PAW_PBE Xe 21Sep2222"
     assert lines[-1].strip() == "End of Dataset"
-    assert len(lines) == 2037
+    assert len(lines) == 2040
 
 
 def test_get_lines_corrected_potential_w(file_path):
@@ -971,6 +971,6 @@ def test_get_lines_corrected_potential_w(file_path):
         cut, amplitude, is_conduction)
     lines = atomic_potential.get_corrected_file_lines(corrected_potential)
 
-    assert lines[0].strip() == "PAW_PBE W 08Apr2002"
+    assert lines[3].strip() == "PAW_PBE W 41Apr4444"
     assert lines[-1].strip() == "End of Dataset"
-    assert len(lines) == 2583
+    assert len(lines) == 2586
