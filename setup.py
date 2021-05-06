@@ -15,7 +15,6 @@ atomic_program = Extension(
         "minushalf/atomic_program/atm_cGuima3.f",
         "minushalf/atomic_program/atm_cGuima3.pyf",
     ],
-    define_macros=[('F2PY_THREAD_LOCAL_DECL', None)],
 )
 
 setup(

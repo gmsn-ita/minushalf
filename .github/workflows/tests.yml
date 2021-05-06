@@ -21,28 +21,3 @@ jobs:
       - name: Run Tox
         # Run tox using the version of Python in `PATH`
         run: tox -e py
-
-  test-windows:
-    runs-on: windows-latest
-
-    strategy:
-      matrix:
-        python: [3.6, 3.7, 3.8]
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Setup Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: ${{ matrix.python }}
-
-      - name: Use mingw32
-        run: echo "[build]`ncompiler=mingw32" | Out-File -Encoding ASCII ~/pydistutils.cfg
-        shell: powershell
-
-      - name: Install Pytest and dependencies
-        run: pip install pytest && pip install .
-
-      - name: Run pytest
-        run: pytest
