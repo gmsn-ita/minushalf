@@ -49,7 +49,7 @@ jobs:
 
       - name: Install package
         # Run tox using the version of Python in `PATH`
-        run: pip install -e .
+        run: python setup.py install
       - name: Install pytest
         run: pip install pytest
       - name: Run pytest
