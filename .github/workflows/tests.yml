@@ -24,6 +24,8 @@ jobs:
 
   test-windows:
     runs-on: windows-latest
+    env:
+      CC: g++ # changing c compiler
     strategy:
       matrix:
         python: [3.6, 3.7, 3.8]
