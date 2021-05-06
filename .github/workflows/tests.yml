@@ -40,7 +40,7 @@ jobs:
         run: pip install tox
 
       - name: Setting up windows fortran compiler and powershell
-        run: echo "[build]`ncompiler=msvc" | Out-File -Encoding ASCII ~/pydistutils.cfg
+        run: echo "[build]`ncompiler=mingw64" | Out-File -Encoding ASCII ~/pydistutils.cfg
         shell: powershell
 
       - name: Install package
