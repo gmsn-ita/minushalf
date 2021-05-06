@@ -8,10 +8,10 @@ from numpy.distutils.core import Extension, setup
 import sys
 
 extra_link_args = []
-os.environ["CC"] = "g++"
 
 if sys.platform == "win32":
     extra_link_args.append("--fcompiler=gnu95")
+    os.environ["CC"] = "g++"
 
 this_directory = path.abspath(path.dirname(__file__))
 with open(path.join(this_directory, 'README.rst'), encoding='utf-8') as f:
