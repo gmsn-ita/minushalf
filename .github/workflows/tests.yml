@@ -47,6 +47,10 @@ jobs:
       - name: Upgrade mingw
         run: choco upgrade mingw --force
 
+      - name: Install numpy
+        # Run tox using the version of Python in `PATH`
+        run: pip install numpy
+
       - name: Install package
         # Run tox using the version of Python in `PATH`
         run: python setup.py install
