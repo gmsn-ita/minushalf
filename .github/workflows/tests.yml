@@ -38,9 +38,13 @@ jobs:
           python-version: ${{ matrix.python }}
       - name: Install Tox and any other packages
         run: pip install tox
+      - name: Choco help
+        uses: crazy-max/ghaction-chocolatey@v1
+        with:
+          args: -h
+        run: choco install mingw
 
       - name: Setting up windows fortran compiler and powershell
-        run: echo "[build]`ncompiler=mingw32" | Out-File -Encoding ASCII ~/pydistutils.cfg
         shell: powershell
 
       - name: Install package
