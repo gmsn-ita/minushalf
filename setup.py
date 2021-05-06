@@ -23,7 +23,8 @@ atomic_program = Extension(name="minushalf.atomic_program",
                                "minushalf/atomic_program/atm_cGuima3.f",
                                "minushalf/atomic_program/atm_cGuima3.pyf"
                            ],
-                           extra_link_args=extra_link_args)
+                           extra_link_args=extra_link_args,
+                           extra_compile_args=['-std=c11'])
 
 setup(
     name="minushalf",
