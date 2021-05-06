@@ -2,7 +2,6 @@
 Configuration setup for python project
 """
 from os import path
-import sys
 import setuptools
 from numpy.distutils.core import Extension, setup
 
@@ -10,16 +9,12 @@ this_directory = path.abspath(path.dirname(__file__))
 with open(path.join(this_directory, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
-args = []
-
-if sys.platform == "win32":
-    args = ['-static', '-static-libgcc', '-static-libgfortran']
-
 atomic_program = Extension(name="minushalf.atomic_program",
                            sources=[
                                "minushalf/atomic_program/atm_cGuima3.f",
+                               "minushalf/atomic_program/atm_cGuima3.pyf",
                            ],
-                           extra_link_args=args)
+                           undef_macros=['F2PY_THREAD_LOCAL_DECL'])
 
 setup(
     name="minushalf",

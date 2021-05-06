@@ -24,37 +24,25 @@ jobs:
 
   test-windows:
     runs-on: windows-latest
-    env:
-      CC: g++ # changing c compiler
+
     strategy:
       matrix:
         python: [3.6, 3.7, 3.8]
 
     steps:
       - uses: actions/checkout@v2
+
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python }}
-      - name: Install Tox and any other packages
-        run: pip install tox
 
-      - name: Choco help
-        uses: crazy-max/ghaction-chocolatey@v1
-        with:
-          args: -h
-
-      - name: Upgrade mingw
-        run: choco upgrade mingw --force
-
-      - name: Install numpy
-        # Run tox using the version of Python in `PATH`
-        run: pip install numpy
-
-      - name: Install package
-        # Run tox using the version of Python in `PATH`
-        run: python setup.py install
-      - name: Install pytest
+      - name: Install Pytest
         run: pip install pytest
+
+      - name: Use mingw32
+        run: echo "[build]`ncompiler=mingw32" | Out-File -Encoding ASCII ~/pydistutils.cfg
+        shell: powershell
+
       - name: Run pytest
         run: pytest
