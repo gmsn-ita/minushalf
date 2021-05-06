@@ -43,6 +43,8 @@ jobs:
         run: echo "[build]`ncompiler=msvc" | Out-File -Encoding ASCII ~/pydistutils.cfg
         shell: powershell
 
-      - name: Run pytest
+      - name: Install package
         # Run tox using the version of Python in `PATH`
-        run: pip install -e . && pytest
+        run: pip install -e .
+      - name: Run pytest
+        run: pytest
