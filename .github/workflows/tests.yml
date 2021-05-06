@@ -38,6 +38,7 @@ jobs:
           python-version: ${{ matrix.python }}
       - name: Install Tox and any other packages
         run: pip install tox
+
       - name: Choco help
         uses: crazy-max/ghaction-chocolatey@v1
         with:
@@ -45,9 +46,6 @@ jobs:
 
       - name: Install mingw
         run: choco install mingw
-
-      - name: Setting up windows fortran compiler and powershell
-        shell: powershell
 
       - name: Install package
         # Run tox using the version of Python in `PATH`
