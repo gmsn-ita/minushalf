@@ -15,7 +15,7 @@ atomic_program = Extension(
         "minushalf/atomic_program/atm_cGuima3.f",
         "minushalf/atomic_program/atm_cGuima3.pyf"
     ],
-    extra_link_args=["-static", "-static-libgfortran", "-static-libgcc"])
+)
 
 setup(
     name="minushalf",
