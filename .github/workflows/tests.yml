@@ -37,12 +37,12 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
 
-      - name: Install Pytest and dependencies
-        run: pip install pytest && pip install .
-
       - name: Use mingw32
         run: echo "[build]`ncompiler=mingw32" | Out-File -Encoding ASCII ~/pydistutils.cfg
         shell: powershell
+
+      - name: Install Pytest and dependencies
+        run: pip install pytest && pip install .
 
       - name: Run pytest
         run: pytest
