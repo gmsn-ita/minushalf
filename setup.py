@@ -2,20 +2,27 @@
 Configuration setup for python project
 """
 from os import path
+import os
 import setuptools
 from numpy.distutils.core import Extension, setup
+import sys
+
+extra_link_args = []
+os.environ["CC"] = "g++"
+
+if sys.platform == "win32":
+    extra_link_args.append("--fcompiler=gnu95")
 
 this_directory = path.abspath(path.dirname(__file__))
 with open(path.join(this_directory, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
-atomic_program = Extension(
-    name="minushalf.atomic_program",
-    sources=[
-        "minushalf/atomic_program/atm_cGuima3.f",
-        "minushalf/atomic_program/atm_cGuima3.pyf"
-    ],
-)
+atomic_program = Extension(name="minushalf.atomic_program",
+                           sources=[
+                               "minushalf/atomic_program/atm_cGuima3.f",
+                               "minushalf/atomic_program/atm_cGuima3.pyf"
+                           ],
+                           extra_link_args=extra_link_args)
 
 setup(
     name="minushalf",
