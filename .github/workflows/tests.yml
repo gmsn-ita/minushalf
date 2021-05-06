@@ -45,7 +45,7 @@ jobs:
           args: -h
 
       - name: Install mingw
-        run: choco install mingw
+        run: choco install mingw --force
 
       - name: Install package
         # Run tox using the version of Python in `PATH`
