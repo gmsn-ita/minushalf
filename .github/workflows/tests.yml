@@ -40,11 +40,9 @@ jobs:
         run: pip install tox
 
       - name: Setting up windows fortran compiler and powershell
-        run: echo "[build]`ncompiler=mingw32" | Out-File -Encoding ASCII ~/pydistutils.cfg
+        run: echo "[build]`ncompiler=msvc" | Out-File -Encoding ASCII ~/pydistutils.cfg
         shell: powershell
 
-      - name: Update GCC
-        run: mingw-get update && mingw-get upgrade
       - name: Run pytest
         # Run tox using the version of Python in `PATH`
         run: pip install -e . && pytest
