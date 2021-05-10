@@ -33,7 +33,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        many_linux_tag: [manylinux1 manylinux2010 manylinux2014]
+        many_linux_tag: [manylinux1, manylinux2010, manylinux2014]
 
     steps:
       - uses: actions/checkout@v2
