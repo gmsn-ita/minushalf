@@ -2,6 +2,22 @@ name: Build and upload to PyPI
 
 env:
   CIBW_BUILD: cp36-* cp37-* cp38-* ## Only compile this cpython versions
+  # build using the manylinux1 image to ensure manylinux1 wheels are produced
+  # skip PyPy, since there is no PyPy manylinux1 image
+  CIBW_MANYLINUX_X86_64_IMAGE: manylinux1
+  CIBW_MANYLINUX_I686_IMAGE: manylinux1
+  CIBW_SKIP: pp*
+
+  # build using the manylinux2014 image
+  CIBW_MANYLINUX_X86_64_IMAGE: manylinux2014
+  CIBW_MANYLINUX_I686_IMAGE: manylinux2014
+  CIBW_SKIP: cp27-manylinux*
+
+  # build using the latest manylinux2010 release, instead of the cibuildwheel
+  # pinned version
+  CIBW_MANYLINUX_X86_64_IMAGE: quay.io/pypa/manylinux2010_x86_64:latest
+  CIBW_MANYLINUX_I686_IMAGE: quay.io/pypa/manylinux2010_i686:latest
+
 # Build on every branch push, tag push, and pull request change:
 #on: [push, pull_request]
 # Alternatively, to publish when a (published) GitHub Release is created, use the following:
