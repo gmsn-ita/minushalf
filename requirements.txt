@@ -5,6 +5,6 @@ Click>=7.1.2
 pyfiglet>=0.8
 loguru>=0.5.3
 tabulate>=0.8.7
-pyyaml>=5.3.1
+pyyaml
 scipy>=1.5.4
 aenum>=3.0.0
