@@ -11,7 +11,6 @@ env:
   # build using the manylinux2014 image
   CIBW_MANYLINUX_X86_64_IMAGE: manylinux2014
   CIBW_MANYLINUX_I686_IMAGE: manylinux2014
-  CIBW_SKIP: cp27-manylinux*
 
   # build using the latest manylinux2010 release, instead of the cibuildwheel
   # pinned version
