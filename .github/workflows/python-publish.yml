@@ -4,9 +4,8 @@ env:
   CIBW_BUILD: cp36-* cp37-* cp38-* ## Only compile this cpython versions
   # build using the manylinux1 image to ensure manylinux1 wheels are produced
   # skip PyPy, since there is no PyPy manylinux1 image
-  CIBW_MANYLINUX_X86_64_IMAGE: manylinux2014
-  CIBW_MANYLINUX_I686_IMAGE: manylinux2014
-  CIBW_SKIP: pp*
+  CIBW_MANYLINUX_X86_64_IMAGE: manylinux1
+  CIBW_MANYLINUX_I686_IMAGE: manylinux1
 
 # Build on every branch push, tag push, and pull request change:
 #on: [push, pull_request]
