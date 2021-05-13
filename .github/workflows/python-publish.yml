@@ -7,6 +7,7 @@ env:
   # run the package tests using `pytest`
   CIBW_BEFORE_TEST: pip install pytest && pip install -r requirements.txt
   CIBW_TEST_COMMAND: pytest {package}/tests
+  CIBW_SKIP: "*-win32"
 
 # Build on every branch push, tag push, and pull request change:
 #on: [push, pull_request]
@@ -47,10 +48,6 @@ jobs:
         name: Install Python
         with:
           python-version: "3.8"
-
-      - name: Use powershell
-        shell: powershell
-        if: matrix.os == 'windows-2019'
 
       - name: Build wheels
         uses: joerick/cibuildwheel@v1.10.0
