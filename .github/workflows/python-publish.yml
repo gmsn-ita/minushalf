@@ -50,7 +50,7 @@ jobs:
 
       - name: Use powershell
         shell: powershell
-        if: matrix.is == 'windows-2019'
+        if: matrix.os == 'windows-2019'
 
       - name: Build wheels
         uses: joerick/cibuildwheel@v1.10.0
