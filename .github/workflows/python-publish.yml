@@ -37,7 +37,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest, windows_latest]
+        os: [ubuntu-latest, windows-latest]
         many_linux_tag: [manylinux1, manylinux2010, manylinux2014]
 
     steps:
