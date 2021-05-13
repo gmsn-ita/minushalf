@@ -2,7 +2,7 @@ name: Build and upload to PyPI
 
 env:
   CIBW_BUILD: cp36-* cp37-* cp38-* ## Only compile this cpython versions
-  CIBW_BEFORE_BUILD_WINDOWS: pip install delvewheel && delvewheel
+  CIBW_BEFORE_BUILD_WINDOWS: pip install delvewheel
   CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: "delvewheel repair -w {dest_dir} {wheel}"
   # run the package tests using `pytest`
   CIBW_BEFORE_TEST: pip install pytest && pip install -r requirements.txt
