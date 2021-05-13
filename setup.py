@@ -9,13 +9,12 @@ this_directory = path.abspath(path.dirname(__file__))
 with open(path.join(this_directory, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
-atomic_program = Extension(
-    name="minushalf.atomic_program",
-    sources=[
-        "minushalf/atomic_program/atm_cGuima3.f",
-        "minushalf/atomic_program/atm_cGuima3.pyf",
-    ],
-)
+atomic_program = Extension(name="minushalf.atomic_program",
+                           sources=[
+                               "minushalf/atomic_program/atm_cGuima3.f",
+                               "minushalf/atomic_program/atm_cGuima3.pyf",
+                           ],
+                           extra_compile_args=['-static'])
 
 setup(
     name="minushalf",
