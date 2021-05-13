@@ -17,7 +17,10 @@ minushalf
    :target: https://pypi.python.org/pypi/minushalf
    :alt: Latest version released on PyPi
 
-
+.. image:: https://pepy.tech/badge/minushalf
+   :target: https://pepy.tech/project/minushalf
+   :alt: Number of downloads
+   
 What is minushalf?
 ----------------------
 Minushalf is a CLI developed by GMSN that aims to automate 

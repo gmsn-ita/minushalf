@@ -436,8 +436,6 @@ by professor `Luiz Guimarães Ferreira <http://lattes.cnpq.br/4694847711359239>`
 
         Returns:
 
-            INP.ae: A copy of the input file for the calculation.
-
             VTOTAL.ae: Contains the atom potential.
 
             OUT: Contains detailed information about the run.

@@ -2,12 +2,25 @@ name: Build and upload to PyPI
 
 env:
   CIBW_BUILD: cp36-* cp37-* cp38-* ## Only compile this cpython versions
+  #CIBW_BEFORE_BUILD_WINDOWS: pip install delvewheel
+  #CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: "delvewheel repair -w {dest_dir} {wheel}"
+  # run the package tests using `pytest`
+  CIBW_BEFORE_TEST: pip install pytest && pip install -r requirements.txt
+  CIBW_TEST_COMMAND: pytest {package}/tests
+  #CIBW_SKIP: "*-win32"
+
 # Build on every branch push, tag push, and pull request change:
 #on: [push, pull_request]
 # Alternatively, to publish when a (published) GitHub Release is created, use the following:
 on:
   push:
+    branches:
+      - develop
+      - main
   pull_request:
+    branches:
+      - develop
+      - main
   release:
     types:
       - published
@@ -16,9 +29,17 @@ jobs:
   build_wheels:
     name: Build wheels on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
+    env:
+      CIBW_MANYLINUX_X86_64_IMAGE: ${{ matrix.many_linux_tag }}
+      CIBW_MANYLINUX_I686_IMAGE: ${{ matrix.many_linux_tag }}
+      CIBW_MANYLINUX_AARCH64_IMAGE: ${{ matrix.many_linux_tag }}
+      CIBW_MANYLINUX_PPC64LE_IMAGE: ${{ matrix.many_linux_tag }}
+      CIBW_MANYLINUX_S390X_IMAGE: ${{ matrix.many_linux_tag }}
+
     strategy:
       matrix:
-        os: [ubuntu-20.04, windows-2019]
+        os: [ubuntu-latest]
+        many_linux_tag: [manylinux1, manylinux2010, manylinux2014]
 
     steps:
       - uses: actions/checkout@v2
@@ -47,7 +68,7 @@ jobs:
           python-version: "3.8"
 
       - name: Build sdist
-        run: pip install numpy && python setup.py sdist
+        run: pip install numpy && python setup.py sdist build_src --inplace
 
       - uses: actions/upload-artifact@v2
         with:
@@ -57,9 +78,9 @@ jobs:
     needs: [build_wheels, build_sdist]
     runs-on: ubuntu-latest
     # upload to PyPI on every tag starting with 'v'
-    if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v')
+    if: github.event_name == 'release' && github.event.action == 'published'
     # alternatively, to publish when a GitHub Release is created, use the following rule:
-    # if: github.event_name == 'release' && github.event.action == 'published'
+    #
     steps:
       - uses: actions/download-artifact@v2
         with:
@@ -69,6 +90,6 @@ jobs:
       - uses: pypa/gh-action-pypi-publish@master
         with:
           user: __token__
-          password: ${{ secrets.PYPI_TOKEN }}
+          password: ${{ secrets.pypi_api_token }}
           verbose: true
           # To test: repository_url: https://test.pypi.org/legacy/
