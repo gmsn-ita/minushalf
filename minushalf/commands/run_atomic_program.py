@@ -23,9 +23,6 @@ def run_atomic(quiet: bool):
 
     Returns:
 
-        INP.ae: A copy of the input file for the calculation.
-
-
         VTOTAL.ae: Contains the atom potential.
 
 
