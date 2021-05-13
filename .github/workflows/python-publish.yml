@@ -2,7 +2,7 @@ name: Build and upload to PyPI
 
 env:
   CIBW_BUILD: cp36-* cp37-* cp38-* ## Only compile this cpython versions
-  CIBW_BEFORE_BUILD_WINDOWS: "pip install delvewheel"
+  CIBW_BEFORE_BUILD_WINDOWS: pip install delvewheel && delvewheel
   CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: "delvewheel repair -w {dest_dir} {wheel}"
   # run the package tests using `pytest`
   CIBW_BEFORE_TEST: pip install pytest && pip install -r requirements.txt
@@ -47,6 +47,10 @@ jobs:
         name: Install Python
         with:
           python-version: "3.8"
+
+      - name: Use powershell
+        shell: powershell
+        if: matrix.is == 'windows-2019'
 
       - name: Build wheels
         uses: joerick/cibuildwheel@v1.10.0
