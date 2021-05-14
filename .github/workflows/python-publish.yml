@@ -8,11 +8,9 @@ env:
 on:
   push:
     branches:
-      - develop
       - main
   pull_request:
     branches:
-      - develop
       - main
   release:
     types:
@@ -22,7 +20,6 @@ jobs:
   build_wheels:
     name: Build wheels on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
-    if: github.event_name == 'release' && github.event.action == 'published'
     env:
       CIBW_MANYLINUX_X86_64_IMAGE: ${{ matrix.many_linux_tag }}
       CIBW_MANYLINUX_I686_IMAGE: ${{ matrix.many_linux_tag }}
