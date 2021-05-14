@@ -17,7 +17,7 @@ from minushalf import atomic_program
 def occupation(orbital_quantum_number: str, occupation_percentage: str,
                quiet: bool):
     """
-    Perform fractional occupation on the atom and generate the pseudopotential for this occupation.
+    Perform fractional occupation on the atom and generate the potential for this occupation.
     The occupation can subtract any fraction of the electron between 0 and 0.5, half occupation is the default.
 
     Requires:
