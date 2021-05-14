@@ -1,6 +1,5 @@
 """
-List calculation code code
-for INP file
+List calculation code options for the INP file
 """
 from enum import Enum, unique
 

@@ -24,7 +24,7 @@ class OrbitalType(Enum):
 @unique
 class Orbital(Enum):
     """
-    Enum type for specific orbitals. The indices are basically the order in
+    Enum type for orbitals. The indices are basically the order in
     which the orbitals are reported in VASP and has no special meaning.
     """
 

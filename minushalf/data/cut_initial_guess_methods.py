@@ -1,5 +1,5 @@
 """
-List the available methods to derive cut initial guess from the
+List the available methods to obtain cut initial guess from the
 nearest neighbor distance.
 """
 from enum import Enum, unique
@@ -8,10 +8,10 @@ from enum import Enum, unique
 @unique
 class CutInitialGuessMethods(Enum):
     """
-    Enum type for the methods of derive initial guess.
+    Enum for different methods of obtaining the initial cut guess.
     """
 
-    three_dimensions = "3d"  # All electrons
+    three_dimensions = "3d"  # three dimensional crystals
 
     def __str__(self):
         return str(self.name)
@@ -19,6 +19,6 @@ class CutInitialGuessMethods(Enum):
     @staticmethod
     def to_list():
         """
-        Generate list of available calculation codes
+        Generate list of available methods
         """
         return list(map(lambda element: element.value, CutInitialGuessMethods))

@@ -1,7 +1,5 @@
 """
-It helds the parameters and the
-default values to be used in the
-minushalf.yaml file
+Lists minushalf.yml parameters and their default values
 """
 from enum import Enum, unique
 import aenum
@@ -10,8 +8,7 @@ import aenum
 @unique
 class MinushalfParams(Enum):
     """
-    Parameters that can be
-    passed in minushalf.yaml
+    minushalf.yaml parameters.
     """
 
     software = "software"
@@ -24,15 +21,14 @@ class MinushalfParams(Enum):
     @staticmethod
     def to_list():
         """
-        Return a list with params name
-        that can be passed in minushalf.yaml
+        Returns a list with the name of the parameters present in minushalf.yaml.
         """
         return list(map(lambda element: element.value, MinushalfParams))
 
     @staticmethod
     def to_dict():
         """
-        Returns a dictionary with the  parameters
+        Returns a dictionary with the name of the parameters present in minushalf.yaml.
         """
         values = map(lambda element: element.value, MinushalfParams)
         keys = map(lambda element: element.__str__(), MinushalfParams)
@@ -41,7 +37,7 @@ class MinushalfParams(Enum):
 
 class CorrectionDefaultParams(aenum.Enum, settings=aenum.NoAlias):
     """
-    Default params for correction field
+    Default value of parameters in the correction tag.
     """
 
     correction_code = "v"
@@ -61,7 +57,7 @@ class CorrectionDefaultParams(aenum.Enum, settings=aenum.NoAlias):
     @staticmethod
     def to_list():
         """
-        Return a list with default parameters
+        Returns a list of default parameters.
         """
         return list(map(lambda element: element.value,
                         CorrectionDefaultParams))
@@ -69,7 +65,7 @@ class CorrectionDefaultParams(aenum.Enum, settings=aenum.NoAlias):
     @staticmethod
     def to_dict():
         """
-        Returns a dictionary with the default parameters
+        Returns a dictionary of default parameters.
         """
         values = map(lambda element: element.value, CorrectionDefaultParams)
         keys = map(lambda element: element.__str__(), CorrectionDefaultParams)
@@ -79,7 +75,7 @@ class CorrectionDefaultParams(aenum.Enum, settings=aenum.NoAlias):
 @unique
 class VaspDefaultParams(Enum):
     """
-    Default params for vasp
+    Default value of parameters in the vasp tag.
     """
 
     number_of_cores = 1
@@ -91,14 +87,14 @@ class VaspDefaultParams(Enum):
     @staticmethod
     def to_list():
         """
-        Return a list with default parameters
+        Returns a list of default parameters.
         """
         return list(map(lambda element: element.value, VaspDefaultParams))
 
     @staticmethod
     def to_dict():
         """
-        Returns a dictionary with the default parameters
+        Returns a dictionary of default parameters.
         """
         values = map(lambda element: element.value, VaspDefaultParams)
         keys = map(lambda element: element.__str__(), VaspDefaultParams)
@@ -108,7 +104,7 @@ class VaspDefaultParams(Enum):
 @unique
 class AtomicProgramDefaultParams(Enum):
     """
-    Default params for atomic_program
+    Default value of parameters in the atomic_program tag.
     """
 
     exchange_correlation_code = "pb"
@@ -121,7 +117,7 @@ class AtomicProgramDefaultParams(Enum):
     @staticmethod
     def to_list():
         """
-        Return a list with default parameters
+        Returns a list of default parameters.
         """
         return list(
             map(lambda element: element.value, AtomicProgramDefaultParams))
@@ -129,7 +125,7 @@ class AtomicProgramDefaultParams(Enum):
     @staticmethod
     def to_dict():
         """
-        Returns a dictionary with the default parameters
+        Returns a dictionary of default parameters.
         """
         values = map(lambda element: element.value, AtomicProgramDefaultParams)
         keys = map(lambda element: element.__str__(),

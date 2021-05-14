@@ -1,13 +1,13 @@
 """
-Enum class for all the elements
-of periodic table
+Enum class for all elements
+of the periodic table
 """
 from enum import Enum, unique
 
 
 @unique
 class PeriodicTable(Enum):
-    """Enum representing an element in the periodic table."""
+    """Enum type for the elements of the periodic table."""
     H = "H"
     He = "He"
     Li = "Li"

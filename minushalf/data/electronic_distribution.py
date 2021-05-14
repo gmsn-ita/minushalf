@@ -8,8 +8,7 @@ from enum import Enum, unique
 @unique
 class ElectronicDistribution(Enum):
     """
-    Enum type for orbital type. Indices are basically the azimuthal quantum
-    number, l.
+    Enum type for the electronic distributions of atoms
     """
 
     H = [
