@@ -1,6 +1,5 @@
 """
-List exchange correlations code
-for INP file
+List exchange and correlation codes for the INP file
 """
 from enum import Enum, unique
 
@@ -8,7 +7,7 @@ from enum import Enum, unique
 @unique
 class ExchangeCorreltion(Enum):
     """
-    Enum type for the exchange correlations code
+    Enum type for exchange and correlation codes
     """
 
     ca = "ca"  # Ceperley-Alder
@@ -27,6 +26,6 @@ class ExchangeCorreltion(Enum):
     @staticmethod
     def to_list():
         """
-        Generate list of exchange correlation types
+        Generate list of exchange and correlation codes
         """
         return list(map(lambda element: element.value, ExchangeCorreltion))

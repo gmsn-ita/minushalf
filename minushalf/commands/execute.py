@@ -74,12 +74,17 @@ def overwrite_band_projection(new_values: list,
     Overwrite values in VBM or CBM band projection
 
         Args:
+
             new_values (list): Arguments passed in overwrite_vbm or overwrite_cbm.
+
             band_projection (pd.Dataframe): Dataframe with the value of projections
                                             of VBM or CBM.
+
         Returns:
+
             modified_band_projection (pd.Dataframe): Band projection data frame
                                                     with the values overwrited.
+
     """
     for case in new_values:
         atom = case[0].capitalize()
@@ -93,40 +98,39 @@ def overwrite_band_projection(new_values: list,
 @click.option('--quiet', default=False, is_flag=True)
 def execute(quiet: bool):
     """
-
-        Uses the Nelder-Mead method to find
-        the optimal values for the CUT(S) and,
-        finally, find the corrected Gap value.
-        This command uses external software to
-        perform ab initio calculations, so it must
-        be installed in order to perform the command.
-        Check the docs for an list of the softwares supported
-        by the CLI.
-
-
-            Requires:
+    Uses the Nelder-Mead method to find
+    the optimal values for the CUT(S) and,
+    finally, find the corrected Gap value.
+    This command uses external software to
+    perform ab initio calculations, so it must
+    be installed in order to perform the command.
+    Check the docs for an list of the softwares supported
+    by the CLI.
 
 
-                minushalf.yaml : Parameters file. Check the docs
-                                 for a more detailed description.
+        Requires:
 
-                ab_initio_files: Files needed to perform the ab initio calculations.
-                                 They must be in the same directory as the input
-                                 file minushalf.yaml
 
-                potential_folder: Folder with the potential files for each atom in
-                                  the crystal. The files must be named in the following pattern
-                                  ${POTENTIAL_FILE_NAME}.${LOWERCASE_CHEMICAL_SYMBOL}
+            minushalf.yaml : Parameters file. Check the docs
+                            for a more detailed description.
 
-            Returns:
+            ab_initio_files: Files needed to perform the ab initio calculations.
+                            They must be in the same directory as the input
+                            file minushalf.yaml
 
-                minushalf_results.dat : File that contains the optimal
-                                        values of the cuts and the final
-                                        value of the Gap.
+            potential_folder: Folder with the potential files for each atom in
+                            the crystal. The files must be named in the following pattern
+                            ${POTENTIAL_FILE_NAME}.${LOWERCASE_CHEMICAL_SYMBOL}
 
-                corrected_valence_potfiles: Potential files corrected with opti-mum valence cuts.
+        Returns:
 
-                corrected_conduction_potfiles: Potential files corrected with optimum conduction cuts.
+            minushalf_results.dat : File that contains the optimal
+                                values of the cuts and the final
+                                value of the Gap.
+
+            corrected_valence_potfiles: Potential files corrected with opti-mum valence cuts.
+
+            corrected_conduction_potfiles: Potential files corrected with optimum conduction cuts.
     """
     welcome_message("minushalf")
 

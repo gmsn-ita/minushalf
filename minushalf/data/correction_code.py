@@ -1,5 +1,5 @@
 """
-Enum type for correction code used
+Enum type for correction codes used
 in minushalf.yaml
 """
 from enum import Enum, unique
@@ -8,7 +8,7 @@ from enum import Enum, unique
 @unique
 class CorrectionCode(Enum):
     """
-    Enum type for the softwares suport by the program
+    Enum type for the correction codes
     """
 
     v = "v"  # Simple valence correction
@@ -24,6 +24,6 @@ class CorrectionCode(Enum):
     @staticmethod
     def to_list():
         """
-        Generate list of available softwares
+        Generate list of available correction codes
         """
         return list(map(lambda element: element.value, CorrectionCode))

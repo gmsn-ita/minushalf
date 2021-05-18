@@ -1,5 +1,5 @@
 """
-List softwares suported
+List softwares supported
 by the CLI
 """
 from enum import Enum, unique
@@ -8,7 +8,7 @@ from enum import Enum, unique
 @unique
 class Softwares(Enum):
     """
-    Enum type for the softwares suport by the program
+    Enum type for the softwares supported by the program
     """
 
     vasp = "VASP"
