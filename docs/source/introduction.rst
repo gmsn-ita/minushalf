@@ -10,7 +10,7 @@ which can be used not only with the local density approximation (LDA), but also 
 
 The method aims to predict energy gaps results with the same precision [2]_ as the quasiparticle correction [9]_ algorithm, considered 
 the state of the art for calculating energy gap of semiconductors. In addition, the computational effort of the method 
-is equivalent to the standard DFT approach, which allows the technique to be applied to complex systems.
+is equivalent to the standard DFT approach and and is three orders of magnitude lower than the aforementioned GW method [16]_ , which allows the technique to be applied to complex systems.
 
 .. figure:: images/dft_05_demonstration.png
    :width: 400
@@ -31,10 +31,8 @@ used for several purposes.
 An intuitive explanation of the DFT -1/2 method
 ************************************************
 
-DFT-1/2, an alternative way of referring to the LDA -1/2 [1]_ [2]_ and GGA -1/2 [2]_ techniques, 
-is a method that performs semiconductor band gap calculations with precision close 
-to the state of the art algorithms [2]_. This method aim to expand the half-occupation 
-technique [3]_ [4]_ [5]_, formalized by Janak's theorem, to crystals using modern exchange-correlation approaches [6]_ [7]_.
+This method aim to expand the half-occupation  technique [3]_ [4]_ [5]_, formalized by Janak's theorem, 
+to crystals using modern exchange-correlation approaches [6]_ [7]_.
 
 The Slater half-occupation scheme has already proven to be quite efficient for calculating atomic ionization 
 energies values close to the experimental ones [5]_. However, this technique cannot be applied blindly to
@@ -45,15 +43,14 @@ conditions would result in a infinitely charged system.
 Thus, the proposed solution is to apply the Slater procedure to cystaline energy bands. 
 The intuition for this application comes from the fact that the energy bands of a crystal are formed
 by the overlap of atomic orbitals, mainly by those that constitute the outermost layers [8]_. This relationship can be quantified
-by the projection of the wave function in a given orbital, Figure 1 shows the character of the last valence band and the first
-conduction band to the CdO, the color magnet represents the character :math:`d` of the band and yellow the character :math:`p` [10]_. Thereby, considering
+by the projection of the wave function in a given orbital, Figure 1 shows the character of the last valence band of the Graphene, the color magnet represents the character :math:`pz` [10]_. Thereby, considering
 this existing relationship, self-energy corrections performed in atoms could propagate and shift the energy of the bands, resulting in a band gap correction. 
 
 .. figure:: images/cdo_bands.png
    :width: 500
 
-   Fig 2. Orbital character for CdO valence bands. The character :math:`p` is represented
-   in yellow and the character :math:`d` in a magnet [10]_.
+   Fig 2. Orbital character for Graphene last valence band. The character :math:`pz` is represented
+   in yellow  [10]_.
 
 
 How to perform potential correction in crystals
@@ -239,3 +236,5 @@ References
 .. [14] G. Kresse and J. Furthmüller, `Comput. Mater. Sci. 6, 15 (1996) <https://doi.org/10.1016/0927-0256(96)00008-0>`_.
 
 .. [15] P. Blaha, K. Schwarz, P. Sorantin, and S. B. Trickey, `Comput. Phys. Commun <http://dx.doi.org/10.1016/0010-4655(90)90187-6>`_. 59, 399 (1990), see www.wien2k.at.
+
+.. [16] R R Pela et al 2015 `J. Phys.: Condens. Matter 27 505502 <http://dx.doi.org/10.1088/0953-8984/27/50/505502>_`
