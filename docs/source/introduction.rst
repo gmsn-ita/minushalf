@@ -13,7 +13,8 @@ the state of the art for calculating energy gap of semiconductors. In addition, 
 is equivalent to the standard DFT approach and and is three orders of magnitude lower than the aforementioned GW method [16]_ , which allows the technique to be applied to complex systems.
 
 .. figure:: images/dft_05_demonstration.png
-   :width: 400
+   :align: center
+   :width: 600
 
    Fig 1. Comparison of calculated band gaps with experiment. The red square are the SCF LDA-1/2 (standard
    LDA-1/2). The crosses are standard LDA. The small gap semiconductors are metals (negative gaps), when calculated with
@@ -43,14 +44,14 @@ conditions would result in a infinitely charged system.
 Thus, the proposed solution is to apply the Slater procedure to cystaline energy bands. 
 The intuition for this application comes from the fact that the energy bands of a crystal are formed
 by the overlap of atomic orbitals, mainly by those that constitute the outermost layers [8]_. This relationship can be quantified
-by the projection of the wave function in a given orbital, Figure 1 shows the character of the last valence band of the Graphene, the color magnet represents the character :math:`pz` [10]_. Thereby, considering
+by the projection of the wave function in a given orbital, Figure 1 shows the :math:`p` character for each atom in the band structure of the h-BN, the bigger the blue dots, the stronger the character. Thereby, considering
 this existing relationship, self-energy corrections performed in atoms could propagate and shift the energy of the bands, resulting in a band gap correction. 
 
-.. figure:: images/cdo_bands.png
-   :width: 500
+.. figure:: images/bands.svg
+   :align: center
+   :width: 800
 
-   Fig 2. Orbital character for Graphene last valence band. The character :math:`pz` is represented
-   in yellow  [10]_.
+   Fig 2. :math:`p` character for each atom in the h-BN band structure. The bigger the blue dots, the stronger the character.
 
 
 How to perform potential correction in crystals
@@ -74,6 +75,7 @@ consider that the semi-occupied potential of a solid would be the potential gene
 of the unit cell in the ground state, as shown in Figure 2.
 
 .. figure:: images/semi-solid.svg
+   :align: center
    :width: 400
 
    Fig 3. Scheme representing the unit cells of a solid that would generate the potential semi-occupied.
