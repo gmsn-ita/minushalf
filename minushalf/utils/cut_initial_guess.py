@@ -14,7 +14,7 @@ def _3d_crystals(distance: float) -> float:
             Returns:
                 cut_guess (float): An initial guess to cut.
         """
-    return 0.15 + 0.84 * distance
+    return 0.15 + 0.84 * 1.88973 * distance
 
 
 class CutInitialGuess:
