@@ -65,22 +65,6 @@ Currently, the following softwares are supported by the program:
 
 - VASP 
 
-Commands
------------
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
-
-   /docs/source/vbm-character
-   /docs/source/cbm-character
-   /docs/source/band-character
-   /docs/source/band-gap
-   /docs/source/run-atomic
-   /docs/source/occupation
-   /docs/source/create-input
-   /docs/source/correct-potfile
-   /docs/source/execute  
-
 More information
 ------------------------
 - `Read the docs <https://minushalf.readthedocs.io/en/latest/>`_
