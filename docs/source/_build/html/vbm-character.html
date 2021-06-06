@@ -1,0 +1,345 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>minushalf vbm-character &mdash; minushalf 1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="minushalf cbm-character" href="cbm-character.html" />
+    <link rel="prev" title="Commands" href="commands.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> minushalf
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="commands.html">Commands</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">minushalf</span> <span class="pre">vbm-character</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#examples">Examples</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#vasp"><strong>VASP</strong></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cbm-character.html"><code class="docutils literal notranslate"><span class="pre">minushalf</span> <span class="pre">cbm-character</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="band-character.html"><code class="docutils literal notranslate"><span class="pre">minushalf</span> <span class="pre">band-character</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="band-gap.html"><code class="docutils literal notranslate"><span class="pre">minushalf</span> <span class="pre">band-gap</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="run-atomic.html"><code class="docutils literal notranslate"><span class="pre">minushalf</span> <span class="pre">run-atomic</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="occupation.html"><code class="docutils literal notranslate"><span class="pre">minushalf</span> <span class="pre">occupation</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="create-input.html"><code class="docutils literal notranslate"><span class="pre">minushalf</span> <span class="pre">create-input</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="correct-potfile.html"><code class="docutils literal notranslate"><span class="pre">minushalf</span> <span class="pre">correct-potfile</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="execute.html"><code class="docutils literal notranslate"><span class="pre">minushalf</span> <span class="pre">execute</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="support.html">Support and financing</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">minushalf</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="commands.html">Commands</a> &raquo;</li>
+        
+      <li><code class="docutils literal notranslate"><span class="pre">minushalf</span> <span class="pre">vbm-character</span></code></li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/vbm-character.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="minushalf-vbm-character">
+<h1><code class="docutils literal notranslate"><span class="pre">minushalf</span> <span class="pre">vbm-character</span></code><a class="headerlink" href="#minushalf-vbm-character" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> minushalf vbm-character --help
+
+<span class="go">  Usage: minushalf vbm-character [OPTIONS]</span>
+
+<span class="go">  Uses output files from softwares that perform ab initio calculations to</span>
+<span class="go">  discover the last valence band (VBM) and extract, in percentage, its</span>
+<span class="go">  character corresponding to each orbital type (s, p, d, ... ). The</span>
+<span class="go">  names of the files required for each software are listed below, it is</span>
+<span class="go">  worth mentioning that their names cannot be modified.</span>
+
+<span class="go">  VASP: PROCAR, EIGENVAL, vasprun.xml</span>
+
+<span class="go">  Options:</span>
+<span class="go">  -s, --software [VASP]  Specifies the software used to perform ab initio calculations.</span>
+<span class="go">                         [default: VASP]</span>
+
+<span class="go">  -b, --base-path PATH   Path to folder where the relevant files are located.</span>
+
+<span class="go">  --help                 Show this message and exit.</span>
+</pre></div>
+</div>
+<div class="section" id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<p>To demonstrate the command usage, one calculated the character of the last valence band of <a class="reference external" href="http://www.2dmatpedia.org/2dmaterials/doc/2dm-2992">GaN-2d</a> .</p>
+<div class="section" id="vasp">
+<h3><strong>VASP</strong><a class="headerlink" href="#vasp" title="Permalink to this headline">¶</a></h3>
+<p>The following input files were used:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span>GaN POSCAR
+1.00000000000000
+3.2180000000000004    0.0000000000000000    0.0000000000000000
+-1.6090000000000002    2.7868697493783232    0.0000000000000000
+0.0000000000000000    0.0000000000000000   20.0000000000000000
+Ga   N
+1     1
+Selective dynamics
+Direct
+0.3333000000000013  0.6666600000000003  0.5000000000000000   T   T   F
+0.0000000000000000  0.0000000000000000  0.5000000000000000   F   F   F
+</pre></div>
+</div>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span>PREC = Normal
+EDIFF = 0.0001
+ENCUT = 500.0
+ISMEAR= -5
+ISTART = 0
+LREAL = .FALSE.
+LORBIT=11
+</pre></div>
+</div>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span>Kpoints
+0
+Gamma
+12 12 1
+0.0 0.0 0.0
+</pre></div>
+</div>
+<p>Electronic properties are investigated within the DFT by applying the Perdew-Burke-Ernzerhof (PBE) functional within the general
+gradient approximation (GGA) <a class="footnote-reference brackets" href="#id4" id="id1">2</a>. After running the VASP program, the <code class="code docutils literal notranslate"><span class="pre">minushalf</span> <span class="pre">vbm-character</span></code> command returned the following output:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> minushalf vbm-character -s VASP
+
+<span class="go">_ __ ___ (_)_ __  _   _ ___| |__   __ _| |/ _|</span>
+<span class="go">| &#39;_ ` _ \| | &#39;_ \| | | / __| &#39;_ \ / _` | | |_</span>
+<span class="go">| | | | | | | | | | |_| \__ \ | | | (_| | |  _|</span>
+<span class="go">|_| |_| |_|_|_| |_|\__,_|___/_| |_|\__,_|_|_|</span>
+
+
+<span class="go">|    |   d |   p |   s |</span>
+<span class="go">|:---|----:|----:|----:|</span>
+<span class="go">| Ga |  11 |   0 |   0 |</span>
+<span class="go">| N  |   0 |  89 |   0 |</span>
+<span class="go">_____ _   _ ____</span>
+<span class="go">| ____| \ | |  _ \</span>
+<span class="go">|  _| |  \| | | | |</span>
+<span class="go">| |___| |\  | |_| |</span>
+<span class="go">|_____|_| \_|____/</span>
+</pre></div>
+</div>
+<p>As expected for honeycomb binary materials based on III-V elements, The VBM states located at the Kpoint are integrally
+derived from the anion <span class="math notranslate nohighlight">\(p_{z}\)</span> atomic orbitals <a class="footnote-reference brackets" href="#id3" id="id2">1</a>.</p>
+</div>
+</div>
+<div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<dl class="footnote brackets">
+<dt class="label" id="id3"><span class="brackets"><a class="fn-backref" href="#id2">1</a></span></dt>
+<dd><ol class="upperroman simple">
+<li><p>Guilhon, D. S. Koda, L. G. Ferreira, M. Marques, and L. K. Teles <a class="reference external" href="https://journals.aps.org/prb/abstract/10.1103/PhysRevB.97.045426">Phys. Rev. B 97, 045426</a> .</p></li>
+</ol>
+</dd>
+<dt class="label" id="id4"><span class="brackets"><a class="fn-backref" href="#id1">2</a></span></dt>
+<dd><ol class="upperalpha simple" start="10">
+<li><ol class="upperalpha simple" start="16">
+<li><p>Perdew, M. Ernzerhof, and K. Burke, <a class="reference external" href="https://doi.org/10.1063/1.472933">J. Chem. Phys. 105, 9982 (1996)</a>.</p></li>
+</ol>
+</li>
+</ol>
+</dd>
+</dl>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="cbm-character.html" class="btn btn-neutral float-right" title="minushalf cbm-character" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="commands.html" class="btn btn-neutral float-left" title="Commands" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Henrique Fernandes Feitosa.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+  
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

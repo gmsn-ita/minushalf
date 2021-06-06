@@ -1,0 +1,531 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>minushalf execute &mdash; minushalf 1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API Documentation" href="api.html" />
+    <link rel="prev" title="minushalf correct-potfile" href="correct-potfile.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> minushalf
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="commands.html">Commands</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="vbm-character.html"><code class="docutils literal notranslate"><span class="pre">minushalf</span> <span class="pre">vbm-character</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="cbm-character.html"><code class="docutils literal notranslate"><span class="pre">minushalf</span> <span class="pre">cbm-character</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="band-character.html"><code class="docutils literal notranslate"><span class="pre">minushalf</span> <span class="pre">band-character</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="band-gap.html"><code class="docutils literal notranslate"><span class="pre">minushalf</span> <span class="pre">band-gap</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="run-atomic.html"><code class="docutils literal notranslate"><span class="pre">minushalf</span> <span class="pre">run-atomic</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="occupation.html"><code class="docutils literal notranslate"><span class="pre">minushalf</span> <span class="pre">occupation</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="create-input.html"><code class="docutils literal notranslate"><span class="pre">minushalf</span> <span class="pre">create-input</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="correct-potfile.html"><code class="docutils literal notranslate"><span class="pre">minushalf</span> <span class="pre">correct-potfile</span></code></a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">minushalf</span> <span class="pre">execute</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#minushalf-yaml">minushalf.yaml</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#software-tag">software tag</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#vasp-tag">vasp tag</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#atomic-program-tag">atomic_program tag</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#correction-tag">correction tag</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#examples">Examples</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#vasp"><strong>VASP</strong></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="support.html">Support and financing</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">minushalf</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="commands.html">Commands</a> &raquo;</li>
+        
+      <li><code class="docutils literal notranslate"><span class="pre">minushalf</span> <span class="pre">execute</span></code></li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/execute.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="minushalf-execute">
+<h1><code class="docutils literal notranslate"><span class="pre">minushalf</span> <span class="pre">execute</span></code><a class="headerlink" href="#minushalf-execute" title="Permalink to this headline">¶</a></h1>
+<p>This command automates the use of the DFT -1/2. It uses the Nelder-Mead algorithm <a class="footnote-reference brackets" href="#id8" id="id1">1</a> to find
+the optimal values of CUT(S) and generates a text file with all the respective CUTS and the final value
+of the gap.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> minushalf execute --help
+<span class="go">Usage: minushalf execute [OPTIONS]</span>
+
+<span class="go">Uses the Nelder-Mead method to find the optimal values for the CUT(S) and,</span>
+<span class="go">finally, find the corrected Gap value. This command uses external software</span>
+<span class="go">to perform ab initio calculations, so it must be installed in order to</span>
+<span class="go">perform the command. Check the docs for an list of the softwares supported</span>
+<span class="go">by the CLI.</span>
+
+<span class="go">    Requires:</span>
+
+<span class="go">        minushalf.yaml : Parameters file. Check the docs</span>
+<span class="go">        for a more detailed description.</span>
+
+<span class="go">        ab_initio_files: Files needed to perform the ab initio</span>
+<span class="go">                         calculations. They must be in the same</span>
+<span class="go">                         directory as the input file minushalf.yaml</span>
+
+<span class="go">        potential_folder: Folder with the potential files for each atom in</span>
+<span class="go">                          the crystal. The files must be named in the following pattern</span>
+<span class="gp">                          $</span><span class="o">{</span>POTENTIAL_FILE_NAME<span class="o">}</span>.<span class="si">${</span><span class="nv">LOWERCASE_CHEMICAL_SYMBOL</span><span class="si">}</span>
+
+<span class="go">    Returns:</span>
+
+<span class="go">        minushalf_results.dat : File that contains the optimal</span>
+<span class="go">                                values of the cuts and the final</span>
+<span class="go">                                value of the Gap.</span>
+
+<span class="go">        corrected_valence_potfiles: Potential files corrected with opti-mum valence cuts.</span>
+
+<span class="go">        corrected_conduction_potfiles: Potential files corrected with optimum conduction cuts.</span>
+
+<span class="go">Options:</span>
+<span class="go">--quiet</span>
+<span class="go">--help   Show this message and exit.</span>
+</pre></div>
+</div>
+<div class="section" id="minushalf-yaml">
+<h2>minushalf.yaml<a class="headerlink" href="#minushalf-yaml" title="Permalink to this headline">¶</a></h2>
+<p><code class="code docutils literal notranslate"><span class="pre">minushalf.yaml</span></code> is the input file for the command <code class="code docutils literal notranslate"><span class="pre">execute</span></code>, each of its tags and
+default values are described below.</p>
+<div class="section" id="software-tag">
+<h3>software tag<a class="headerlink" href="#software-tag" title="Permalink to this headline">¶</a></h3>
+<p>This tag specifies the software that to perform ab initio calculations. For now,
+the command supports the following values for the software tag:</p>
+<ul class="simple">
+<li><p>VASP (Default value)</p></li>
+</ul>
+<p>Currently, minushalf only supports one software, but one hope to add more soon.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">software</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">VASP</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="vasp-tag">
+<h3>vasp tag<a class="headerlink" href="#vasp-tag" title="Permalink to this headline">¶</a></h3>
+<p>The vasp tag is a set of various informations that specifies the settings
+for executing VASP. These informations are:</p>
+<ul class="simple">
+<li><p>number_of_cores: The number of cores used to run VASP. (Default: 1)</p></li>
+<li><p>path: entry-point for the executable (Default: vasp)</p></li>
+</ul>
+<p>Thus, the command that runs the software is <code class="code docutils literal notranslate"><span class="pre">mpirun</span> <span class="pre">-np</span> <span class="pre">$</span> <span class="pre">{number_of_cores}</span> <span class="pre">$</span> <span class="pre">{path}</span></code>. The example below
+shows an use of the vasp tag in the <code class="code docutils literal notranslate"><span class="pre">minushalf.yaml</span> <span class="pre">file</span></code>:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">vasp</span><span class="p">:</span>
+    <span class="nt">number_of_cores</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">4</span>
+    <span class="nt">path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">vasp_bin</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="atomic-program-tag">
+<h3>atomic_program tag<a class="headerlink" href="#atomic-program-tag" title="Permalink to this headline">¶</a></h3>
+<p>The atomic_program tag is a set of various informations that specifies
+the settings for the atomic program execution. The informations are:</p>
+<ul class="simple">
+<li><p>exchange_correlation_code: Functional of exchange and correlation (Default: pb)</p></li>
+<li><p>calculation_code: Calculation code for the atomic program (Default: ae)</p></li>
+<li><p>max_iterations: Maximum number of iterations performed by the atomic program (Default: 100)</p></li>
+</ul>
+<p>The values that the exchange_correlation_code and calculation_code tags can assume are listed below:</p>
+<div class="section" id="exchange-correlation-code">
+<h4><code class="docutils literal notranslate"><span class="pre">exchange_correlation_code</span></code><a class="headerlink" href="#exchange-correlation-code" title="Permalink to this headline">¶</a></h4>
+<blockquote>
+<div><ul class="simple">
+<li><p>ca: Ceperley-Alder</p></li>
+<li><p>wi: Wigner</p></li>
+<li><p>hl: Hedin-Lundqvist</p></li>
+<li><p>gl: Gunnarson-Lundqvist</p></li>
+<li><p>bh: Von Barth-Hedin</p></li>
+<li><p>pb: PBE scheme by Perdew, Burke, and Ernzerhof</p></li>
+<li><p>rp: RPBE scheme by Hammer, Hansen, and Norskov</p></li>
+<li><p>rv: revPBE scheme by Zhang and Yang</p></li>
+<li><p>bl: BLYP (Becke-Lee-Yang-Parr) scheme</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="calculation-code">
+<h4><code class="docutils literal notranslate"><span class="pre">calculation_code</span></code><a class="headerlink" href="#calculation-code" title="Permalink to this headline">¶</a></h4>
+<blockquote>
+<div><ul class="simple">
+<li><p>ae: All electrons</p></li>
+</ul>
+</div></blockquote>
+<p>Below follows an example of the atomic_program tag in the <code class="code docutils literal notranslate"><span class="pre">minushalf.yaml</span></code> file:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">atomic_program</span><span class="p">:</span>
+    <span class="nt">exchange_correlation_code</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">wi</span>
+    <span class="nt">calculation_code</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">ae</span>
+    <span class="nt">max_iterations</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">200</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="correction-tag">
+<h3>correction tag<a class="headerlink" href="#correction-tag" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><dl class="simple">
+<dt>The correction tag specifies how the DFT -1/2</dt><dd><p>method is executed. It contains the following parameters:</p>
+</dd>
+</dl>
+</div></blockquote>
+<ul class="simple">
+<li><p>correction_code: Code thar specifies the potential correction (Default: v)</p></li>
+<li><p>potfiles_folder: Path to folder that holds the potential files for each atom. The files must be named in the following pattern <code class="code docutils literal notranslate"><span class="pre">${POTENTIAL_FILE_NAME}.${LOWERCASE_CHEMICAL_SYMBOL}</span></code> (Default: minushalf_potfiles)</p></li>
+<li><p>amplitude: Scaling factor to be used to correct the artificially generated potential. In the vast majority of cases, the amplitude value is 1.0. However,  there are some special cases where this value needs to be adjusted <a class="footnote-reference brackets" href="#id12" id="id2">5</a>.  Therefore, we recommend that you do not change this value unless you know exactly what you are doing (Default: 1.0)</p></li>
+<li><p>valence_cut_guess: Initial Guess for the Nelder-Mead algorithm for cut in valence correction. If not provided, the default value of <span class="math notranslate nohighlight">\(0.15 + 0.84d\)</span> [6</p></li>
+<li><p>]_ will be used for each optimization, where <span class="math notranslate nohighlight">\(d\)</span> is the distance of the nearest neighbor in the unit cell. (Default: <span class="math notranslate nohighlight">\(0.15 + 0.84d\)</span>)</p></li>
+<li><p>conduction_cut_guess: Initial Guess for the Nelder-Mead algorithm for cut in valence correction. If not provided, the default value of <span class="math notranslate nohighlight">\(0.15 + 0.84d\)</span>  will be used will be used for each optimization, where <span class="math notranslate nohighlight">\(d\)</span> is the distance of the nearest neighbor in the unit cell. (Default: <span class="math notranslate nohighlight">\(0.15 + 0.84d\)</span>)</p></li>
+<li><p>tolerance: Minimum level of precision for the result of the Nelder-Mead algorithm (Default: 0.01)</p></li>
+<li><p>fractionary_valence_treshold: <a class="reference internal" href="introduction.html#frac-correction"><span class="std std-ref">Treshold</span></a> <span class="math notranslate nohighlight">\(\epsilon\)</span> for fractionary valence correction (Default: 10).</p></li>
+<li><p>overwrite_vbm: In some special cases <a class="footnote-reference brackets" href="#id13" id="id3">6</a>, it is necessary to overwrite the value of band projection in a given orbital and ion. This tag is made for these situations. It is necessary to inform the chemical element symbol of the corresponding ion, the orbital and the value to be replaced. The program immediately overwrites the old projection values for the last valence band and use the new values for DFT -1/2 calculations (Default: No overwrite)</p></li>
+<li><p>overwrite_vbm: In some special cases <a class="footnote-reference brackets" href="#id13" id="id4">6</a>, it is necessary to overwrite the value of band projection in a given orbital and ion. This tag is made for these situations. It is necessary to inform the chemical element symbol of the corresponding ion, the orbital and the value to be replaced. The program immediately overwrites the old projection values for the first conduction band and use the new values for DFT -1/2 calculations (Default: No overwrite)</p></li>
+</ul>
+<p>The values that the correction_code tag can assume are listed below:</p>
+<div class="section" id="correction-code">
+<h4><code class="docutils literal notranslate"><span class="pre">correction_code</span></code><a class="headerlink" href="#correction-code" title="Permalink to this headline">¶</a></h4>
+<blockquote>
+<div><ul class="simple">
+<li><p>v: Simple valence correction</p></li>
+<li><p>vf: Fractionary valence correction</p></li>
+<li><p>vc: Simple valence and simple conduction corrections</p></li>
+<li><p>vfc: Fractionary valence and simple conduction corrections</p></li>
+<li><p>vcf: Simple valence and fractionary conduction corrections</p></li>
+<li><p>vfcf: Fractionary valence and fractionary conduction corrections</p></li>
+</ul>
+</div></blockquote>
+<p>The example below shows an use of correction tag in the <code class="code docutils literal notranslate"><span class="pre">minushalf.yaml</span></code> file:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">correction</span><span class="p">:</span>
+    <span class="nt">correction_code</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">vf</span>
+    <span class="nt">potfiles_folder</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">../potcar</span>
+    <span class="nt">amplitude</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">3.0</span>
+    <span class="nt">valence_cut_guess</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">2.0</span>
+    <span class="nt">conduction_cut_guess</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.0</span>
+    <span class="nt">tolerance</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.01</span>
+    <span class="nt">fractionary_valence_treshold</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">15</span>
+    <span class="nt">fractionary_conduction_treshold</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">23</span>
+    <span class="nt">overwrite_vbm</span><span class="p">:</span>
+        <span class="p p-Indicator">-</span> <span class="p p-Indicator">[</span><span class="nv">C</span><span class="p p-Indicator">,</span> <span class="nv">p</span><span class="p p-Indicator">,</span> <span class="nv">23.4</span><span class="p p-Indicator">]</span>
+        <span class="p p-Indicator">-</span> <span class="p p-Indicator">[</span><span class="nv">Si</span><span class="p p-Indicator">,</span> <span class="nv">d</span><span class="p p-Indicator">,</span> <span class="nv">11</span><span class="p p-Indicator">]</span>
+    <span class="nt">overwrite_cbm</span><span class="p">:</span>
+        <span class="p p-Indicator">-</span> <span class="p p-Indicator">[</span><span class="nv">Ag</span><span class="p p-Indicator">,</span> <span class="nv">f</span><span class="p p-Indicator">,</span> <span class="nv">9</span><span class="p p-Indicator">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<p>To demonstrate the command usage, one apply the simple valence and simple conduction correction on <a class="reference external" href="http://www.2dmatpedia.org/2dmaterials/doc/2dm-2686">SiC-2d</a> .</p>
+<div class="section" id="vasp">
+<h3><strong>VASP</strong><a class="headerlink" href="#vasp" title="Permalink to this headline">¶</a></h3>
+<p>To execute the command, the files must be provided in the following structure:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">.</span>
+<span class="go">├── INCAR</span>
+<span class="go">├── KPOINTS</span>
+<span class="go">├── minushalf.yaml</span>
+<span class="go">├── POSCAR</span>
+<span class="go">├── POTCAR</span>
+<span class="go">└── potcars</span>
+<span class="go">    ├── POTCAR.c</span>
+<span class="go">    └── POTCAR.si</span>
+</pre></div>
+</div>
+<p>For the input file, the following initial settings were chosen:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">software</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">VASP</span>
+<span class="nt">vasp</span><span class="p">:</span>
+    <span class="nt">number_of_cores</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">4</span>
+
+<span class="nt">correction</span><span class="p">:</span>
+    <span class="nt">correction_code</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">vc</span>
+    <span class="nt">potfiles_folder</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">./potcars</span>
+    <span class="nt">valence_cut_guess</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">3.20</span>
+    <span class="nt">conduction_cut_guess</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">3.0</span>
+</pre></div>
+</div>
+<p>After executing the command, one can view the result in the file <code class="code docutils literal notranslate"><span class="pre">minushalf_results.dat</span></code>. he file contains information
+on the values obtained in the optimization of the CUT and the resulting band energy Gap (in eV).</p>
+<blockquote>
+<div><div class="highlight-xml notranslate"><div class="highlight"><pre><span></span>Valence correction cuts:
+        (C):3.13 a.u
+----------------------------------------------------------------
+Conduction correction cuts:
+        (Si):2.77 a.u
+----------------------------------------------------------------
+GAP: 4.37eV
+</pre></div>
+</div>
+</div></blockquote>
+<p>For comparison purposes, the table below shows the values obtained by the method compared with
+Pure GGA, functional hybrids and GW.</p>
+<table class="colwidths-given docutils align-default" id="id14">
+<caption><span class="caption-text">SiC-2D band energy gap (in eV)</span><a class="headerlink" href="#id14" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>GGA</p></th>
+<th class="head"><p>Hybrid</p></th>
+<th class="head"><p>GW</p></th>
+<th class="head"><p>DFT -1/2</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>2.54</p></td>
+<td><p>3.35,3.46 <a class="footnote-reference brackets" href="#id9" id="id5">2</a></p></td>
+<td><p>4.19 <a class="footnote-reference brackets" href="#id10" id="id6">3</a>,4.42 <a class="footnote-reference brackets" href="#id11" id="id7">4</a></p></td>
+<td><p>4.37</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<dl class="footnote brackets">
+<dt class="label" id="id8"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>Nelder, John A.; R. Mead (1965). A simplex method for function minimization. <a class="reference external" href="doi:10.1093/comjnl/7.4.308">Computer Journal. 7 (4): 308–313</a>.</p>
+</dd>
+<dt class="label" id="id9"><span class="brackets"><a class="fn-backref" href="#id5">2</a></span></dt>
+<dd><ol class="upperalpha simple" start="25">
+<li><p>Rao, S. Yu, and X.-M. Duan, <a class="reference external" href="https://doi.org/10.1039/C7CP02616A">Phys. Chem. Chem. Phys. 19, 17250 (2017)</a>.</p></li>
+</ol>
+</dd>
+<dt class="label" id="id10"><span class="brackets"><a class="fn-backref" href="#id6">3</a></span></dt>
+<dd><ol class="upperalpha simple" start="8">
+<li><p>Sahin, S. Cahangirov, M. Topsakal, E. Bekaroglu, E. Akturk, R. T. Senger, and S. Ciraci, <a class="reference external" href="https://doi.org/10.1103/PhysRevB.80.155453">Phys. Rev. B 80, 155453 (2009)</a>.</p></li>
+</ol>
+</dd>
+<dt class="label" id="id11"><span class="brackets"><a class="fn-backref" href="#id7">4</a></span></dt>
+<dd><ol class="upperalpha simple" start="8">
+<li><ol class="upperalpha simple" start="3">
+<li><p>Hsueh, G. Y. Guo, and S. G. Louie, <a class="reference external" href="https://doi.org/10.1103/PhysRevB.84.085404">Phys. Rev. B 84, 085404 (2011)</a>.</p></li>
+</ol>
+</li>
+</ol>
+</dd>
+<dt class="label" id="id12"><span class="brackets"><a class="fn-backref" href="#id2">5</a></span></dt>
+<dd><ol class="upperalpha simple" start="3">
+<li><ol class="upperalpha simple">
+<li><p>Ataide, R. R. Pelá, M. Marques, L. K. Teles, J. Furthmüller, and F. Bechstedt <a class="reference external" href="https://journals.aps.org/prb/abstract/10.1103/PhysRevB.95.045126">Phys. Rev. B 95, 045126 – Published 17 January 2017</a>.</p></li>
+</ol>
+</li>
+</ol>
+</dd>
+<dt class="label" id="id13"><span class="brackets">6</span><span class="fn-backref">(<a href="#id3">1</a>,<a href="#id4">2</a>)</span></dt>
+<dd><ol class="upperalpha simple" start="12">
+<li><ol class="upperalpha simple" start="7">
+<li><p>Ferreira, M. Marques, and L. K. Teles, <a class="reference external" href="http://dx.doi.org/10.1103/PhysRevB.78.125116">Phys. Rev. B 78, 125116 (2008)</a>.</p></li>
+</ol>
+</li>
+</ol>
+</dd>
+</dl>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="api.html" class="btn btn-neutral float-right" title="API Documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="correct-potfile.html" class="btn btn-neutral float-left" title="minushalf correct-potfile" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Henrique Fernandes Feitosa.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+  
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

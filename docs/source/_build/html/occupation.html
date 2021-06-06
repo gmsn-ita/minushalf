@@ -1,0 +1,408 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>minushalf occupation &mdash; minushalf 1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="minushalf create-input" href="create-input.html" />
+    <link rel="prev" title="minushalf run-atomic" href="run-atomic.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> minushalf
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="commands.html">Commands</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="vbm-character.html"><code class="docutils literal notranslate"><span class="pre">minushalf</span> <span class="pre">vbm-character</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="cbm-character.html"><code class="docutils literal notranslate"><span class="pre">minushalf</span> <span class="pre">cbm-character</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="band-character.html"><code class="docutils literal notranslate"><span class="pre">minushalf</span> <span class="pre">band-character</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="band-gap.html"><code class="docutils literal notranslate"><span class="pre">minushalf</span> <span class="pre">band-gap</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="run-atomic.html"><code class="docutils literal notranslate"><span class="pre">minushalf</span> <span class="pre">run-atomic</span></code></a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">minushalf</span> <span class="pre">occupation</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#example-of-occupation-in-only-one-orbital">Example of occupation in only one orbital</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#example-of-occupation-in-multiple-orbitals">Example of occupation in multiple orbitals</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="create-input.html"><code class="docutils literal notranslate"><span class="pre">minushalf</span> <span class="pre">create-input</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="correct-potfile.html"><code class="docutils literal notranslate"><span class="pre">minushalf</span> <span class="pre">correct-potfile</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="execute.html"><code class="docutils literal notranslate"><span class="pre">minushalf</span> <span class="pre">execute</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="support.html">Support and financing</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">minushalf</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="commands.html">Commands</a> &raquo;</li>
+        
+      <li><code class="docutils literal notranslate"><span class="pre">minushalf</span> <span class="pre">occupation</span></code></li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/occupation.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="minushalf-occupation">
+<h1><code class="docutils literal notranslate"><span class="pre">minushalf</span> <span class="pre">occupation</span></code><a class="headerlink" href="#minushalf-occupation" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> minushalf occupation --help
+<span class="go">Usage: minushalf occupation [OPTIONS] ORBITAL_QUANTUM_NUMBER</span>
+<span class="go">                        [OCCUPATION_PERCENTUAL]</span>
+
+<span class="go">Perform fractional occupation on the atom and generate the pseudopotential</span>
+<span class="go">for this occupation. The occupation can subtract any fraction of the</span>
+<span class="go">electron between 0 and 0.5, half occupation is the default.</span>
+
+<span class="go">    Requires:</span>
+
+<span class="go">        ORBITAL_QUANTUM_NUMBER: A string that defines the orbital(s) in which</span>
+<span class="go">        the occupation will be made, it can assume four values: (0: s | 1:</span>
+<span class="go">        p | 2: d | 3: f). if going to modify multiple orbitals, pass a</span>
+<span class="go">        string with numbers separated by commas : (&quot;0,1,2,3&quot;).</span>
+
+<span class="go">        OCCUPATION_PERCENTUAL: A string that defines percentual of half an</span>
+<span class="go">        electron to be used in the occupation. The default is 100%, which</span>
+<span class="go">        states for 0.5e. For multiple occupations in different orbitals, pass</span>
+<span class="go">        a string separated by commas (&quot;100,50,40,100&quot;). For simplicity, to</span>
+<span class="go">        avoid the excessive repetition of the number 100, just replace the</span>
+<span class="go">        number with * (&quot;*,30,*&quot;). If this argument is not used, the occupation</span>
+<span class="go">        of half electron will be made for all orbitals passed as arguments.</span>
+
+<span class="go">        INP: Input file of the run-atomic command.</span>
+
+<span class="go">    Returns:</span>
+
+<span class="go">        INP_OCC : Input file modified for fractional occupation.</span>
+
+<span class="go">        INP.ae: A copy of the input file for the calculation.</span>
+
+<span class="go">        VTOTAL_OCC: Contains the atom potential for fractional occupation.</span>
+
+<span class="go">        OUT: Contains detailed information about the run.</span>
+
+<span class="go">        AECHARGE: Contains in four columns values of r, the “up” and “down”</span>
+<span class="go">        parts of the total     charge density, and the total core charge</span>
+<span class="go">        density (the charges multiplied by 4πr^2 ).</span>
+
+<span class="go">        CHARGE: is exactly identical to AECHARGE and is generated for</span>
+<span class="go">        backwards compatibility.</span>
+
+<span class="go">        RHO: Like CHARGE, but without the 4πr^2 factor</span>
+
+<span class="go">        AEWFNR0...AEWFNR3: All-electron valence wavefunctions as function of</span>
+<span class="go">        radius, for s, p, d, and f valence orbitals (0, 1, 2, 3,</span>
+<span class="go">        respectively — some channels might not be available). They include</span>
+<span class="go">        a factor of r, the s orbitals also going to zero at the origin.</span>
+
+<span class="go">Options:</span>
+<span class="go">--quiet</span>
+<span class="go">--help   Show this message and exit.</span>
+</pre></div>
+</div>
+<div class="section" id="example-of-occupation-in-only-one-orbital">
+<h2>Example of occupation in only one orbital<a class="headerlink" href="#example-of-occupation-in-only-one-orbital" title="Permalink to this headline">¶</a></h2>
+<p>Suppose one need to generate a pseudopotential for the Ga atom with the occupation of half an electron in the <span class="math notranslate nohighlight">\(p\)</span> orbital. The following command
+can be used for this purpose:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> minushalf occupation <span class="m">1</span> <span class="m">100</span>
+</pre></div>
+</div>
+<p>Where the first argument represents the azimuthal quantum number for the <span class="math notranslate nohighlight">\(p\)</span> orbital and the second argument represents the fraction of half an electron
+that will be used in the occupation.</p>
+<p>Initially, only the INP input file, which is shown below, needs to be provided.</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span>      ae      Ga
+ n=Ga c=pb
+       0.0       0.0       0.0       0.0       0.0       0.0
+    5    4
+    4    0     2.000     0.000
+    4    1     1.000     0.000
+    3    2    10.000     0.000
+    4    3     0.000     0.000
+100 maxit
+</pre></div>
+</div>
+<p>After running the command, the following files are created</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">.</span>
+<span class="go">├── AECHARGE</span>
+<span class="go">├── AEWFNR0</span>
+<span class="go">├── AEWFNR1</span>
+<span class="go">├── AEWFNR2</span>
+<span class="go">├── AEWFNR3</span>
+<span class="go">├── CHARGE</span>
+<span class="go">├── fort.5</span>
+<span class="go">├── INP.ae</span>
+<span class="go">├── INP_OCC</span>
+<span class="go">├── OUT</span>
+<span class="go">├── psfun.guima</span>
+<span class="go">├── RHO</span>
+<span class="go">├── VTOTAL0</span>
+<span class="go">├── VTOTAL2</span>
+<span class="go">├── VTOTAL3</span>
+<span class="go">└── VTOTAL_OCC</span>
+</pre></div>
+</div>
+<p>Where VTOTAL_OCC represents the pseudopotential for the occupation carried out and the INP_OCC file represents the
+input file with the occupation of half an electron in the <span class="math notranslate nohighlight">\(p\)</span> orbital, as shown below.</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span>    ae      Ga
+ n=Ga c=pb
+       0.0       0.0       0.0       0.0       0.0       0.0
+    5    4
+    4    0     2.000     0.000
+    4    1     0.500     0.000
+    3    2    10.000     0.000
+    4    3     0.000     0.000
+100 maxit
+</pre></div>
+</div>
+</div>
+<div class="section" id="example-of-occupation-in-multiple-orbitals">
+<h2>Example of occupation in multiple orbitals<a class="headerlink" href="#example-of-occupation-in-multiple-orbitals" title="Permalink to this headline">¶</a></h2>
+<p>Now, figure out a scenario where one need to generate a pseudopotential for the Ga atom with the electron medium equally divided between the orbitals <span class="math notranslate nohighlight">\(p\)</span> and <span class="math notranslate nohighlight">\(d\)</span>. The following command
+can be used for this purpose:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> minushalf occupation <span class="s1">&#39;1,2&#39;</span> <span class="s1">&#39;50,50&#39;</span>
+</pre></div>
+</div>
+<p>Where the first argument represents the azimuthal quantum numbers for the orbitals <span class="math notranslate nohighlight">\(p\)</span> and <span class="math notranslate nohighlight">\(d\)</span>, while the second argument represents the fraction of half an electron
+that will be used for each orbital. As the half an electron will be shared equally between the two orbitals, the fractions chosen will be <span class="math notranslate nohighlight">\(50\%\)</span> for both, which corresponds
+to an occupancy of a quarter of an electron for the orbitals.</p>
+<p>Initially, only the INP input file, which is shown below, needs to be provided.</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span>      ae      Ga
+ n=Ga c=pb
+       0.0       0.0       0.0       0.0       0.0       0.0
+    5    4
+    4    0     2.000     0.000
+    4    1     1.000     0.000
+    3    2    10.000     0.000
+    4    3     0.000     0.000
+100 maxit
+</pre></div>
+</div>
+<p>After executing the command, the following files are created</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">.</span>
+<span class="go">├── AECHARGE</span>
+<span class="go">├── AEWFNR0</span>
+<span class="go">├── AEWFNR1</span>
+<span class="go">├── AEWFNR2</span>
+<span class="go">├── AEWFNR3</span>
+<span class="go">├── CHARGE</span>
+<span class="go">├── fort.5</span>
+<span class="go">├── INP.ae</span>
+<span class="go">├── INP_OCC</span>
+<span class="go">├── OUT</span>
+<span class="go">├── psfun.guima</span>
+<span class="go">├── RHO</span>
+<span class="go">├── VTOTAL0</span>
+<span class="go">├── VTOTAL2</span>
+<span class="go">├── VTOTAL3</span>
+<span class="go">└── VTOTAL_OCC</span>
+</pre></div>
+</div>
+<p>Where VTOTAL_OCC represents the pseudopotential for the occupation carried out and the INP_OCC file represents the
+input file with the occupation in the <span class="math notranslate nohighlight">\(p\)</span> and <span class="math notranslate nohighlight">\(d\)</span> orbitals, as shown below.</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span>   ae      Ga
+ n=Ga c=pb
+       0.0       0.0       0.0       0.0       0.0       0.0
+    5    4
+    4    0     2.000     0.000
+    4    1     0.750     0.000
+    3    2     9.750     0.000
+    4    3     0.000     0.000
+100 maxit
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="create-input.html" class="btn btn-neutral float-right" title="minushalf create-input" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="run-atomic.html" class="btn btn-neutral float-left" title="minushalf run-atomic" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Henrique Fernandes Feitosa.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+  
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

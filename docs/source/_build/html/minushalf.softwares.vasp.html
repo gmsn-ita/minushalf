@@ -1,0 +1,398 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>minushalf.softwares.vasp package &mdash; minushalf 1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="minushalf.utils package" href="minushalf.utils.html" />
+    <link rel="prev" title="minushalf.softwares package" href="minushalf.softwares.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> minushalf
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands.html">Commands</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="api.html">API Documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="api.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="minushalf.commands.html">minushalf.commands package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="minushalf.corrections.html">minushalf.corrections package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="minushalf.data.html">minushalf.data package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="minushalf.interfaces.html">minushalf.interfaces package</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="minushalf.softwares.html">minushalf.softwares package</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="minushalf.softwares.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="minushalf.softwares.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="minushalf.softwares.html#module-minushalf.softwares.vasp_factory">minushalf.softwares.vasp_factory module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="minushalf.softwares.html#module-minushalf.softwares">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="minushalf.utils.html">minushalf.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-minushalf.minushalf">minushalf.minushalf module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-minushalf">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="support.html">Support and financing</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">minushalf</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="api.html">API Documentation</a> &raquo;</li>
+        
+          <li><a href="minushalf.softwares.html">minushalf.softwares package</a> &raquo;</li>
+        
+      <li>minushalf.softwares.vasp package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/minushalf.softwares.vasp.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="minushalf-softwares-vasp-package">
+<h1>minushalf.softwares.vasp package<a class="headerlink" href="#minushalf-softwares-vasp-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-minushalf.softwares.vasp.eigenval">
+<span id="minushalf-softwares-vasp-eigenval-module"></span><h2>minushalf.softwares.vasp.eigenval module<a class="headerlink" href="#module-minushalf.softwares.vasp.eigenval" title="Permalink to this headline">¶</a></h2>
+<p>Reads Eigenval file, an output of
+VASP software</p>
+<dl class="py class">
+<dt id="minushalf.softwares.vasp.eigenval.Eigenvalues">
+<em class="property">class </em><code class="sig-prename descclassname">minushalf.softwares.vasp.eigenval.</code><code class="sig-name descname">Eigenvalues</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#minushalf.softwares.vasp.eigenval.Eigenvalues" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Reads eigenvalues and store
+useful informations</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-minushalf.softwares.vasp.potcar">
+<span id="minushalf-softwares-vasp-potcar-module"></span><h2>minushalf.softwares.vasp.potcar module<a class="headerlink" href="#module-minushalf.softwares.vasp.potcar" title="Permalink to this headline">¶</a></h2>
+<p>Reads and analyze POTCAR file</p>
+<dl class="py class">
+<dt id="minushalf.softwares.vasp.potcar.Potcar">
+<em class="property">class </em><code class="sig-prename descclassname">minushalf.softwares.vasp.potcar.</code><code class="sig-name descname">Potcar</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'POTCAR'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#minushalf.softwares.vasp.potcar.Potcar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="minushalf.interfaces.html#minushalf.interfaces.potential_file.PotentialFile" title="minushalf.interfaces.potential_file.PotentialFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">minushalf.interfaces.potential_file.PotentialFile</span></code></a></p>
+<p>Parse the POTCAR file, a vasp input file. It store
+the fourier coefficients and the restant lines of the file</p>
+<dl class="py method">
+<dt id="minushalf.softwares.vasp.potcar.Potcar.get_maximum_module_wave_vector">
+<code class="sig-name descname">get_maximum_module_wave_vector</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; float<a class="headerlink" href="#minushalf.softwares.vasp.potcar.Potcar.get_maximum_module_wave_vector" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>maximum modulus of the wave vector in reciprocal space</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>k_max (float)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="minushalf.softwares.vasp.potcar.Potcar.get_name">
+<code class="sig-name descname">get_name</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; str<a class="headerlink" href="#minushalf.softwares.vasp.potcar.Potcar.get_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns potential file name</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="minushalf.softwares.vasp.potcar.Potcar.get_potential_fourier_transform">
+<code class="sig-name descname">get_potential_fourier_transform</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; list<a class="headerlink" href="#minushalf.softwares.vasp.potcar.Potcar.get_potential_fourier_transform" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>List of fourier transform
+of the potential</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>potential(list)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="minushalf.softwares.vasp.potcar.Potcar.to_file">
+<code class="sig-name descname">to_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#minushalf.softwares.vasp.potcar.Potcar.to_file" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Write POTCAR file</dt><dd><dl class="simple">
+<dt>Args:</dt><dd><p>filename (str): Name of the file</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="minushalf.softwares.vasp.potcar.Potcar.to_stringlist">
+<code class="sig-name descname">to_stringlist</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; list<a class="headerlink" href="#minushalf.softwares.vasp.potcar.Potcar.to_stringlist" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>List of the POTCAR lines</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>potcar_lines (list)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-minushalf.softwares.vasp.procar">
+<span id="minushalf-softwares-vasp-procar-module"></span><h2>minushalf.softwares.vasp.procar module<a class="headerlink" href="#module-minushalf.softwares.vasp.procar" title="Permalink to this headline">¶</a></h2>
+<p>Reads procar file, an output of
+VASP software</p>
+<dl class="py class">
+<dt id="minushalf.softwares.vasp.procar.Procar">
+<em class="property">class </em><code class="sig-prename descclassname">minushalf.softwares.vasp.procar.</code><code class="sig-name descname">Procar</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#minushalf.softwares.vasp.procar.Procar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="minushalf.interfaces.html#minushalf.interfaces.band_projection_file.BandProjectionFile" title="minushalf.interfaces.band_projection_file.BandProjectionFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">minushalf.interfaces.band_projection_file.BandProjectionFile</span></code></a></p>
+<p>Reads procar and store
+useful informations</p>
+<dl class="py method">
+<dt id="minushalf.softwares.vasp.procar.Procar.get_band_projection">
+<code class="sig-name descname">get_band_projection</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">kpoint</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">band_number</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span><a class="headerlink" href="#minushalf.softwares.vasp.procar.Procar.get_band_projection" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Get the band projection for an specific kpoint and number of band</dt><dd><dl class="simple">
+<dt>Args:</dt><dd><p>kpoint (int): Number of kpoints
+band_number (int): Number of the band</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-minushalf.softwares.vasp.runner">
+<span id="minushalf-softwares-vasp-runner-module"></span><h2>minushalf.softwares.vasp.runner module<a class="headerlink" href="#module-minushalf.softwares.vasp.runner" title="Permalink to this headline">¶</a></h2>
+<p>Implementation for vasp runner</p>
+<dl class="py class">
+<dt id="minushalf.softwares.vasp.runner.VaspRunner">
+<em class="property">class </em><code class="sig-prename descclassname">minushalf.softwares.vasp.runner.</code><code class="sig-name descname">VaspRunner</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path_to_vasp</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'vasp'</span></em>, <em class="sig-param"><span class="n">number_of_cores</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>int<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#minushalf.softwares.vasp.runner.VaspRunner" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="minushalf.interfaces.html#minushalf.interfaces.runner.Runner" title="minushalf.interfaces.runner.Runner"><code class="xref py py-class docutils literal notranslate"><span class="pre">minushalf.interfaces.runner.Runner</span></code></a></p>
+<p>Output terminal command that
+aims to run vasp</p>
+<dl class="py method">
+<dt id="minushalf.softwares.vasp.runner.VaspRunner.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cwd</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'.'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#minushalf.softwares.vasp.runner.VaspRunner.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a subproccess to run
+vasp</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-minushalf.softwares.vasp.vasprun">
+<span id="minushalf-softwares-vasp-vasprun-module"></span><h2>minushalf.softwares.vasp.vasprun module<a class="headerlink" href="#module-minushalf.softwares.vasp.vasprun" title="Permalink to this headline">¶</a></h2>
+<p>Reads vasprun.xml file, an output of
+VASP software</p>
+<dl class="py class">
+<dt id="minushalf.softwares.vasp.vasprun.Vasprun">
+<em class="property">class </em><code class="sig-prename descclassname">minushalf.softwares.vasp.vasprun.</code><code class="sig-name descname">Vasprun</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#minushalf.softwares.vasp.vasprun.Vasprun" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Reads vasprun.xml and store
+useful informations</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-minushalf.softwares.vasp">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-minushalf.softwares.vasp" title="Permalink to this headline">¶</a></h2>
+<p>Vasp module</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="minushalf.utils.html" class="btn btn-neutral float-right" title="minushalf.utils package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="minushalf.softwares.html" class="btn btn-neutral float-left" title="minushalf.softwares package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Henrique Fernandes Feitosa.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+  
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>
