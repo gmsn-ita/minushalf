@@ -34,7 +34,7 @@ is equivalent to the standard DFT approach and and is three orders of magnitude 
    
 .. figure:: docs/source/images/dft_05_demonstration.png
    :align: center
-   :width: 600
+   :width: 300
    
    Fig 1. Comparison of calculated band gaps with experiment. The red square are the SCF LDA-1/2 (standard
    LDA-1/2). The crosses are standard LDA. The small gap semiconductors are metals (negative gaps), when calculated with
@@ -65,6 +65,21 @@ Currently, the following softwares are supported by the program:
 
 - VASP 
 
+Commands
+-----------
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+
+   /docs/source/vbm-character
+   /docs/source/cbm-character
+   /docs/source/band-character
+   /docs/source/band-gap
+   /docs/source/run-atomic
+   /docs/source/occupation
+   /docs/source/create-input
+   /docs/source/correct-potfile
+   /docs/source/execute  
 
 More information
 ------------------------
