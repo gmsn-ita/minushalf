@@ -1,0 +1,1880 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>minushalf.data package &mdash; minushalf 1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="minushalf.interfaces package" href="minushalf.interfaces.html" />
+    <link rel="prev" title="minushalf.corrections package" href="minushalf.corrections.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> minushalf
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands.html">Commands</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="api.html">API Documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="api.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="minushalf.commands.html">minushalf.commands package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="minushalf.corrections.html">minushalf.corrections package</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">minushalf.data package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-minushalf.data.calculation_code">minushalf.data.calculation_code module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-minushalf.data.constants">minushalf.data.constants module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-minushalf.data.correction_code">minushalf.data.correction_code module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#minushalf-data-electronic-distribution-module">minushalf.data.electronic_distribution module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-minushalf.data.exchange_correlation">minushalf.data.exchange_correlation module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-minushalf.data.minushalf_yaml_default_configuration">minushalf.data.minushalf_yaml_default_configuration module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-minushalf.data.orbital">minushalf.data.orbital module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-minushalf.data.periodic_table">minushalf.data.periodic_table module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-minushalf.data.softwares">minushalf.data.softwares module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-minushalf.data">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="minushalf.interfaces.html">minushalf.interfaces package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="minushalf.softwares.html">minushalf.softwares package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="minushalf.utils.html">minushalf.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-minushalf.minushalf">minushalf.minushalf module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-minushalf">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="support.html">Support and financing</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">minushalf</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="api.html">API Documentation</a> &raquo;</li>
+        
+      <li>minushalf.data package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/minushalf.data.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="minushalf-data-package">
+<h1>minushalf.data package<a class="headerlink" href="#minushalf-data-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-minushalf.data.calculation_code">
+<span id="minushalf-data-calculation-code-module"></span><h2>minushalf.data.calculation_code module<a class="headerlink" href="#module-minushalf.data.calculation_code" title="Permalink to this headline">¶</a></h2>
+<p>List calculation code options for the INP file</p>
+<dl class="py class">
+<dt id="minushalf.data.calculation_code.CalculationCode">
+<em class="property">class </em><code class="sig-prename descclassname">minushalf.data.calculation_code.</code><code class="sig-name descname">CalculationCode</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#minushalf.data.calculation_code.CalculationCode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<p>Enum type for the calculation code</p>
+<dl class="py attribute">
+<dt id="minushalf.data.calculation_code.CalculationCode.ae">
+<code class="sig-name descname">ae</code><em class="property"> = 'ae'</em><a class="headerlink" href="#minushalf.data.calculation_code.CalculationCode.ae" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="minushalf.data.calculation_code.CalculationCode.to_list">
+<em class="property">static </em><code class="sig-name descname">to_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#minushalf.data.calculation_code.CalculationCode.to_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate list of available calculation codes</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-minushalf.data.constants">
+<span id="minushalf-data-constants-module"></span><h2>minushalf.data.constants module<a class="headerlink" href="#module-minushalf.data.constants" title="Permalink to this headline">¶</a></h2>
+<p>Physical constants</p>
+<dl class="py class">
+<dt id="minushalf.data.constants.Constants">
+<em class="property">class </em><code class="sig-prename descclassname">minushalf.data.constants.</code><code class="sig-name descname">Constants</code><a class="headerlink" href="#minushalf.data.constants.Constants" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class for physical constants used in the program. Contains:</p>
+<blockquote>
+<div><p>pi: About 3.1415</p>
+<p>trimming exponent: exponent used in the trimming function</p>
+<dl class="simple">
+<dt>bohr_radius: The Bohr radius is a physical constant, equal to</dt><dd><p>the most probable distance between the nucleus and
+the electron in a hydrogen atom in its ground state.</p>
+</dd>
+<dt>rydberg: In spectroscopy, the Rydberg constant, symbol for heavy</dt><dd><p>atoms or for hydrogen, named after the Swedish physicist
+Johannes Rydberg, is a physical constant relating to the
+electromagnetic spectra of an atom</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="py method">
+<dt id="minushalf.data.constants.Constants.bohr_radius">
+<em class="property">property </em><code class="sig-name descname">bohr_radius</code><a class="headerlink" href="#minushalf.data.constants.Constants.bohr_radius" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bohr radius</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="minushalf.data.constants.Constants.pi_constant">
+<em class="property">property </em><code class="sig-name descname">pi_constant</code><a class="headerlink" href="#minushalf.data.constants.Constants.pi_constant" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constant PI</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="minushalf.data.constants.Constants.rydberg">
+<em class="property">property </em><code class="sig-name descname">rydberg</code><a class="headerlink" href="#minushalf.data.constants.Constants.rydberg" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rydberg constant</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="minushalf.data.constants.Constants.trimming_exponent">
+<em class="property">property </em><code class="sig-name descname">trimming_exponent</code><a class="headerlink" href="#minushalf.data.constants.Constants.trimming_exponent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Expoent for trimming function</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-minushalf.data.correction_code">
+<span id="minushalf-data-correction-code-module"></span><h2>minushalf.data.correction_code module<a class="headerlink" href="#module-minushalf.data.correction_code" title="Permalink to this headline">¶</a></h2>
+<p>Enum type for correction codes used
+in minushalf.yaml</p>
+<dl class="py class">
+<dt id="minushalf.data.correction_code.CorrectionCode">
+<em class="property">class </em><code class="sig-prename descclassname">minushalf.data.correction_code.</code><code class="sig-name descname">CorrectionCode</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#minushalf.data.correction_code.CorrectionCode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<p>Enum type for the correction codes</p>
+<dl class="py method">
+<dt id="minushalf.data.correction_code.CorrectionCode.to_list">
+<em class="property">static </em><code class="sig-name descname">to_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#minushalf.data.correction_code.CorrectionCode.to_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate list of available correction codes</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.correction_code.CorrectionCode.v">
+<code class="sig-name descname">v</code><em class="property"> = 'v'</em><a class="headerlink" href="#minushalf.data.correction_code.CorrectionCode.v" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.correction_code.CorrectionCode.vc">
+<code class="sig-name descname">vc</code><em class="property"> = 'vc'</em><a class="headerlink" href="#minushalf.data.correction_code.CorrectionCode.vc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.correction_code.CorrectionCode.vcf">
+<code class="sig-name descname">vcf</code><em class="property"> = 'vcf'</em><a class="headerlink" href="#minushalf.data.correction_code.CorrectionCode.vcf" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.correction_code.CorrectionCode.vf">
+<code class="sig-name descname">vf</code><em class="property"> = 'vf'</em><a class="headerlink" href="#minushalf.data.correction_code.CorrectionCode.vf" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.correction_code.CorrectionCode.vfc">
+<code class="sig-name descname">vfc</code><em class="property"> = 'vfc'</em><a class="headerlink" href="#minushalf.data.correction_code.CorrectionCode.vfc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.correction_code.CorrectionCode.vfcf">
+<code class="sig-name descname">vfcf</code><em class="property"> = 'vfcf'</em><a class="headerlink" href="#minushalf.data.correction_code.CorrectionCode.vfcf" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="minushalf-data-electronic-distribution-module">
+<h2>minushalf.data.electronic_distribution module<a class="headerlink" href="#minushalf-data-electronic-distribution-module" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="module-minushalf.data.electronic_distribution"><span id="atoms-list"></span></span><p>List eletronic distribution for all
+chemical elements</p>
+<dl class="py class">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution">
+<em class="property">class </em><code class="sig-prename descclassname">minushalf.data.electronic_distribution.</code><code class="sig-name descname">ElectronicDistribution</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<p>Enum type for the electronic distributions of atoms</p>
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Ac">
+<code class="sig-name descname">Ac</code><em class="property"> = ['   15    4\n', '    7    0     2.000     0.000    \n', '    7    1     0.000     0.000    \n', '    6    2     1.000     0.000    \n', '    5    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Ac" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Ag">
+<code class="sig-name descname">Ag</code><em class="property"> = ['    8    4\n', '    5    0     1.000     0.000    \n', '    5    1     0.000     0.000    \n', '    4    2    10.000     0.000    \n', '    4    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Ag" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Al">
+<code class="sig-name descname">Al</code><em class="property"> = ['    3    4\n', '    3    0     2.000     0.000    \n', '    3    1     1.000     0.000    \n', '    3    2     0.000     0.000    \n', '    4    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Al" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Am">
+<code class="sig-name descname">Am</code><em class="property"> = ['   15    4\n', '    7    0     2.000     0.000    \n', '    7    1     0.000     0.000    \n', '    6    2     0.000     0.000    \n', '    5    3     7.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Am" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Ar">
+<code class="sig-name descname">Ar</code><em class="property"> = ['    3    4\n', '    3    0     2.000     0.000    \n', '    3    1     6.000     0.000    \n', '    3    2     0.000     0.000    \n', '    4    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Ar" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.As">
+<code class="sig-name descname">As</code><em class="property"> = ['    5    4\n', '    4    0     2.000     0.000    \n', '    4    1     3.000     0.000    \n', '    3    2    10.000     0.000    \n', '    4    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.As" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.At">
+<code class="sig-name descname">At</code><em class="property"> = ['   11    4\n', '    6    0     2.000     0.000    \n', '    6    1     5.000     0.000    \n', '    5    2    10.000     0.000    \n', '    4    3    14.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.At" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Au">
+<code class="sig-name descname">Au</code><em class="property"> = ['   11    4\n', '    6    0     1.000     0.000    \n', '    6    1     0.000     0.000    \n', '    5    2    10.000     0.000    \n', '    4    3    14.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Au" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.B">
+<code class="sig-name descname">B</code><em class="property"> = ['    1    4\n', '    2    0     2.000     0.000    \n', '    2    1     1.000     0.000    \n', '    3    2     0.000     0.000    \n', '    4    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.B" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Ba">
+<code class="sig-name descname">Ba</code><em class="property"> = ['   11    4\n', '    6    0     2.000     0.000    \n', '    6    1     0.000     0.000    \n', '    5    2     0.000     0.000    \n', '    4    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Ba" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Be">
+<code class="sig-name descname">Be</code><em class="property"> = ['    1    4\n', '    2    0     2.000     0.000    \n', '    2    1     0.000     0.000    \n', '    3    2     0.000     0.000    \n', '    4    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Be" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Bi">
+<code class="sig-name descname">Bi</code><em class="property"> = ['   11    4\n', '    6    0     2.000     0.000    \n', '    6    1     3.000     0.000    \n', '    5    2    10.000     0.000    \n', '    4    3    14.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Bi" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Bk">
+<code class="sig-name descname">Bk</code><em class="property"> = ['   15    4\n', '    7    0     2.000     0.000    \n', '    7    1     0.000     0.000    \n', '    6    2     0.000     0.000    \n', '    5    3     9.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Bk" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Br">
+<code class="sig-name descname">Br</code><em class="property"> = ['    5    4\n', '    4    0     2.000     0.000    \n', '    4    1     5.000     0.000    \n', '    3    2    10.000     0.000    \n', '    4    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Br" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.C">
+<code class="sig-name descname">C</code><em class="property"> = ['    1    4\n', '    2    0     2.000     0.000    \n', '    2    1     2.000     0.000    \n', '    3    2     0.000     0.000    \n', '    4    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.C" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Ca">
+<code class="sig-name descname">Ca</code><em class="property"> = ['    5    4\n', '    4    0     2.000     0.000    \n', '    4    1     0.000     0.000    \n', '    3    2     0.000     0.000    \n', '    4    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Ca" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Cd">
+<code class="sig-name descname">Cd</code><em class="property"> = ['    8    4\n', '    5    0     2.000     0.000    \n', '    5    1     0.000     0.000    \n', '    4    2    10.000     0.000    \n', '    4    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Cd" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Ce">
+<code class="sig-name descname">Ce</code><em class="property"> = ['   11    4\n', '    6    0     2.000     0.000    \n', '    6    1     0.000     0.000    \n', '    5    2     1.000     0.000    \n', '    4    3     1.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Ce" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Cf">
+<code class="sig-name descname">Cf</code><em class="property"> = ['   15    4\n', '    7    0     2.000     0.000    \n', '    7    1     0.000     0.000    \n', '    6    2     0.000     0.000    \n', '    5    3    10.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Cf" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Cl">
+<code class="sig-name descname">Cl</code><em class="property"> = ['    3    4\n', '    3    0     2.000     0.000    \n', '    3    1     5.000     0.000    \n', '    3    2     0.000     0.000    \n', '    4    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Cl" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Cm">
+<code class="sig-name descname">Cm</code><em class="property"> = ['   15    4\n', '    7    0     2.000     0.000    \n', '    7    1     0.000     0.000    \n', '    6    2     1.000     0.000    \n', '    5    3     7.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Cm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Co">
+<code class="sig-name descname">Co</code><em class="property"> = ['    5    4\n', '    4    0     2.000     0.000    \n', '    4    1     0.000     0.000    \n', '    3    2     7.000     0.000    \n', '    4    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Co" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Cr">
+<code class="sig-name descname">Cr</code><em class="property"> = ['    5    4\n', '    4    0     1.000     0.000    \n', '    4    1     0.000     0.000    \n', '    3    2     5.000     0.000    \n', '    4    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Cr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Cs">
+<code class="sig-name descname">Cs</code><em class="property"> = ['   11    4\n', '    6    0     1.000     0.000    \n', '    6    1     0.000     0.000    \n', '    5    2     0.000     0.000    \n', '    4    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Cs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Cu">
+<code class="sig-name descname">Cu</code><em class="property"> = ['    5    4\n', '    4    0     1.000     0.000    \n', '    4    1     0.000     0.000    \n', '    3    2    10.000     0.000    \n', '    4    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Cu" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Dy">
+<code class="sig-name descname">Dy</code><em class="property"> = ['   11    4\n', '    6    0     2.000     0.000    \n', '    6    1     0.000     0.000    \n', '    5    2     0.000     0.000    \n', '    4    3    10.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Dy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Er">
+<code class="sig-name descname">Er</code><em class="property"> = ['   11    4\n', '    6    0     2.000     0.000    \n', '    6    1     0.000     0.000    \n', '    5    2     0.000     0.000    \n', '    4    3    12.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Er" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Es">
+<code class="sig-name descname">Es</code><em class="property"> = ['   15    4\n', '    7    0     2.000     0.000    \n', '    7    1     0.000     0.000    \n', '    6    2     0.000     0.000    \n', '    5    3    11.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Es" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Eu">
+<code class="sig-name descname">Eu</code><em class="property"> = ['   11    4\n', '    6    0     2.000     0.000    \n', '    6    1     0.000     0.000    \n', '    5    2     0.000     0.000    \n', '    4    3     7.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Eu" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.F">
+<code class="sig-name descname">F</code><em class="property"> = ['    1    4\n', '    2    0     2.000     0.000    \n', '    2    1     5.000     0.000    \n', '    3    2     0.000     0.000    \n', '    4    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.F" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Fe">
+<code class="sig-name descname">Fe</code><em class="property"> = ['    5    4\n', '    4    0     2.000     0.000    \n', '    4    1     0.000     0.000    \n', '    3    2     6.000     0.000    \n', '    4    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Fe" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Fm">
+<code class="sig-name descname">Fm</code><em class="property"> = ['   15    4\n', '    7    0     2.000     0.000    \n', '    7    1     0.000     0.000    \n', '    6    2     0.000     0.000    \n', '    5    3    12.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Fm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Fr">
+<code class="sig-name descname">Fr</code><em class="property"> = ['   15    4\n', '    7    0     1.000     0.000    \n', '    7    1     0.000     0.000    \n', '    6    2     0.000     0.000    \n', '    5    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Fr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Ga">
+<code class="sig-name descname">Ga</code><em class="property"> = ['    5    4\n', '    4    0     2.000     0.000    \n', '    4    1     1.000     0.000    \n', '    3    2    10.000     0.000    \n', '    4    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Ga" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Gd">
+<code class="sig-name descname">Gd</code><em class="property"> = ['   11    4\n', '    6    0     2.000     0.000    \n', '    6    1     0.000     0.000    \n', '    5    2     1.000     0.000    \n', '    4    3     7.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Gd" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Ge">
+<code class="sig-name descname">Ge</code><em class="property"> = ['    5    4\n', '    4    0     2.000     0.000    \n', '    4    1     2.000     0.000    \n', '    3    2    10.000     0.000    \n', '    4    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Ge" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.H">
+<code class="sig-name descname">H</code><em class="property"> = ['    0    4\n', '    1    0     1.000     0.000    \n', '    2    1     0.000     0.000    \n', '    3    2     0.000     0.000    \n', '    4    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.H" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.He">
+<code class="sig-name descname">He</code><em class="property"> = ['    0    4\n', '    1    0     2.000     0.000    \n', '    2    1     0.000     0.000    \n', '    3    2     0.000     0.000    \n', '    4    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.He" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Hf">
+<code class="sig-name descname">Hf</code><em class="property"> = ['   11    4\n', '    6    0     2.000     0.000    \n', '    6    1     0.000     0.000    \n', '    5    2     2.000     0.000    \n', '    4    3    14.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Hf" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Hg">
+<code class="sig-name descname">Hg</code><em class="property"> = ['   11    4\n', '    6    0     2.000     0.000    \n', '    6    1     0.000     0.000    \n', '    5    2    10.000     0.000    \n', '    4    3    14.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Hg" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Ho">
+<code class="sig-name descname">Ho</code><em class="property"> = ['   11    4\n', '    6    0     2.000     0.000    \n', '    6    1     0.000     0.000    \n', '    5    2     0.000     0.000    \n', '    4    3    11.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Ho" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.I">
+<code class="sig-name descname">I</code><em class="property"> = ['    8    4\n', '    5    0     2.000     0.000    \n', '    5    1     5.000     0.000    \n', '    4    2    10.000     0.000    \n', '    4    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.I" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.In">
+<code class="sig-name descname">In</code><em class="property"> = ['    8    4\n', '    5    0     2.000     0.000    \n', '    5    1     1.000     0.000    \n', '    4    2    10.000     0.000    \n', '    4    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.In" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Ir">
+<code class="sig-name descname">Ir</code><em class="property"> = ['   11    4\n', '    6    0     2.000     0.000    \n', '    6    1     0.000     0.000    \n', '    5    2     7.000     0.000    \n', '    4    3    14.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Ir" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.K">
+<code class="sig-name descname">K</code><em class="property"> = ['    5    4\n', '    4    0     1.000     0.000    \n', '    4    1     0.000     0.000    \n', '    3    2     0.000     0.000    \n', '    4    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.K" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Kr">
+<code class="sig-name descname">Kr</code><em class="property"> = ['    5    4\n', '    4    0     2.000     0.000    \n', '    4    1     6.000     0.000    \n', '    3    2    10.000     0.000    \n', '    4    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Kr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.La">
+<code class="sig-name descname">La</code><em class="property"> = ['   11    4\n', '    6    0     2.000     0.000    \n', '    6    1     0.000     0.000    \n', '    5    2     1.000     0.000    \n', '    4    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.La" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Li">
+<code class="sig-name descname">Li</code><em class="property"> = ['    1    4\n', '    2    0     1.000     0.000    \n', '    2    1     0.000     0.000    \n', '    3    2     0.000     0.000    \n', '    4    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Li" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Lr">
+<code class="sig-name descname">Lr</code><em class="property"> = ['   15    4\n', '    7    0     2.000     0.000    \n', '    7    1     1.000     0.000    \n', '    6    2     0.000     0.000    \n', '    5    3    14.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Lr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Lu">
+<code class="sig-name descname">Lu</code><em class="property"> = ['   11    4\n', '    6    0     2.000     0.000    \n', '    6    1     0.000     0.000    \n', '    5    2     1.000     0.000    \n', '    4    3    14.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Lu" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Md">
+<code class="sig-name descname">Md</code><em class="property"> = ['   15    4\n', '    7    0     2.000     0.000    \n', '    7    1     0.000     0.000    \n', '    6    2     0.000     0.000    \n', '    5    3    13.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Md" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Mg">
+<code class="sig-name descname">Mg</code><em class="property"> = ['    3    4\n', '    3    0     2.000     0.000    \n', '    3    1     0.000     0.000    \n', '    3    2     0.000     0.000    \n', '    4    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Mg" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Mn">
+<code class="sig-name descname">Mn</code><em class="property"> = ['    5    4\n', '    4    0     2.000     0.000    \n', '    4    1     0.000     0.000    \n', '    3    2     5.000     0.000    \n', '    4    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Mn" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Mo">
+<code class="sig-name descname">Mo</code><em class="property"> = ['    8    4\n', '    5    0     1.000     0.000    \n', '    5    1     0.000     0.000    \n', '    4    2     5.000     0.000    \n', '    4    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Mo" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.N">
+<code class="sig-name descname">N</code><em class="property"> = ['    1    4\n', '    2    0     2.000     0.000    \n', '    2    1     3.000     0.000    \n', '    3    2     0.000     0.000    \n', '    4    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.N" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Na">
+<code class="sig-name descname">Na</code><em class="property"> = ['    3    4\n', '    3    0     1.000     0.000    \n', '    3    1     0.000     0.000    \n', '    3    2     0.000     0.000    \n', '    4    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Na" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Nb">
+<code class="sig-name descname">Nb</code><em class="property"> = ['    8    4\n', '    5    0     1.000     0.000    \n', '    5    1     0.000     0.000    \n', '    4    2     4.000     0.000    \n', '    4    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Nb" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Nd">
+<code class="sig-name descname">Nd</code><em class="property"> = ['   11    4\n', '    6    0     2.000     0.000    \n', '    6    1     0.000     0.000    \n', '    5    2     0.000     0.000    \n', '    4    3     4.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Nd" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Ne">
+<code class="sig-name descname">Ne</code><em class="property"> = ['    1    4\n', '    2    0     2.000     0.000    \n', '    2    1     6.000     0.000    \n', '    3    2     0.000     0.000    \n', '    4    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Ne" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Ni">
+<code class="sig-name descname">Ni</code><em class="property"> = ['    5    4\n', '    4    0     2.000     0.000    \n', '    4    1     0.000     0.000    \n', '    3    2     8.000     0.000    \n', '    4    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Ni" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.No">
+<code class="sig-name descname">No</code><em class="property"> = ['   15    4\n', '    7    0     2.000     0.000    \n', '    7    1     0.000     0.000    \n', '    6    2     0.000     0.000    \n', '    5    3    14.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.No" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Np">
+<code class="sig-name descname">Np</code><em class="property"> = ['   15    4\n', '    7    0     2.000     0.000    \n', '    7    1     0.000     0.000    \n', '    6    2     1.000     0.000    \n', '    5    3     4.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Np" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.O">
+<code class="sig-name descname">O</code><em class="property"> = ['    1    4\n', '    2    0     2.000     0.000    \n', '    2    1     4.000     0.000    \n', '    3    2     0.000     0.000    \n', '    4    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.O" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Os">
+<code class="sig-name descname">Os</code><em class="property"> = ['   11    4\n', '    6    0     2.000     0.000    \n', '    6    1     0.000     0.000    \n', '    5    2     6.000     0.000    \n', '    4    3    14.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Os" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.P">
+<code class="sig-name descname">P</code><em class="property"> = ['    3    4\n', '    3    0     2.000     0.000    \n', '    3    1     3.000     0.000    \n', '    3    2     0.000     0.000    \n', '    4    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.P" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Pa">
+<code class="sig-name descname">Pa</code><em class="property"> = ['   15    4\n', '    7    0     2.000     0.000    \n', '    7    1     0.000     0.000    \n', '    6    2     1.000     0.000    \n', '    5    3     2.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Pa" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Pb">
+<code class="sig-name descname">Pb</code><em class="property"> = ['   11    4\n', '    6    0     2.000     0.000    \n', '    6    1     2.000     0.000    \n', '    5    2    10.000     0.000    \n', '    4    3    14.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Pb" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Pd">
+<code class="sig-name descname">Pd</code><em class="property"> = ['    8    4\n', '    5    0     0.000     0.000    \n', '    5    1     0.000     0.000    \n', '    4    2    10.000     0.000    \n', '    4    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Pd" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Pm">
+<code class="sig-name descname">Pm</code><em class="property"> = ['   11    4\n', '    6    0     2.000     0.000    \n', '    6    1     0.000     0.000    \n', '    5    2     0.000     0.000    \n', '    4    3     5.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Pm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Po">
+<code class="sig-name descname">Po</code><em class="property"> = ['   11    4\n', '    6    0     2.000     0.000    \n', '    6    1     4.000     0.000    \n', '    5    2    10.000     0.000    \n', '    4    3    14.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Po" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Pr">
+<code class="sig-name descname">Pr</code><em class="property"> = ['   11    4\n', '    6    0     2.000     0.000    \n', '    6    1     0.000     0.000    \n', '    5    2     0.000     0.000    \n', '    4    3     3.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Pr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Pt">
+<code class="sig-name descname">Pt</code><em class="property"> = ['   11    4\n', '    6    0     1.000     0.000    \n', '    6    1     0.000     0.000    \n', '    5    2     9.000     0.000    \n', '    4    3    14.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Pt" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Pu">
+<code class="sig-name descname">Pu</code><em class="property"> = ['   15    4\n', '    7    0     2.000     0.000    \n', '    7    1     0.000     0.000    \n', '    6    2     0.000     0.000    \n', '    5    3     6.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Pu" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Ra">
+<code class="sig-name descname">Ra</code><em class="property"> = ['   15    4\n', '    7    0     2.000     0.000    \n', '    7    1     0.000     0.000    \n', '    6    2     0.000     0.000    \n', '    5    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Ra" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Rb">
+<code class="sig-name descname">Rb</code><em class="property"> = ['    8    4\n', '    5    0     1.000     0.000    \n', '    5    1     0.000     0.000    \n', '    4    2     0.000     0.000    \n', '    4    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Rb" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Re">
+<code class="sig-name descname">Re</code><em class="property"> = ['   11    4\n', '    6    0     2.000     0.000    \n', '    6    1     0.000     0.000    \n', '    5    2     5.000     0.000    \n', '    4    3    14.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Re" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Rh">
+<code class="sig-name descname">Rh</code><em class="property"> = ['    8    4\n', '    5    0     1.000     0.000    \n', '    5    1     0.000     0.000    \n', '    4    2     8.000     0.000    \n', '    4    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Rh" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Rn">
+<code class="sig-name descname">Rn</code><em class="property"> = ['   11    4\n', '    6    0     2.000     0.000    \n', '    6    1     6.000     0.000    \n', '    5    2    10.000     0.000    \n', '    4    3    14.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Rn" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Ru">
+<code class="sig-name descname">Ru</code><em class="property"> = ['    8    4\n', '    5    0     1.000     0.000    \n', '    5    1     0.000     0.000    \n', '    4    2     7.000     0.000    \n', '    4    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Ru" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.S">
+<code class="sig-name descname">S</code><em class="property"> = ['    3    4\n', '    3    0     2.000     0.000    \n', '    3    1     4.000     0.000    \n', '    3    2     0.000     0.000    \n', '    4    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.S" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Sb">
+<code class="sig-name descname">Sb</code><em class="property"> = ['    8    4\n', '    5    0     2.000     0.000    \n', '    5    1     3.000     0.000    \n', '    4    2    10.000     0.000    \n', '    4    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Sb" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Sc">
+<code class="sig-name descname">Sc</code><em class="property"> = ['    5    4\n', '    4    0     2.000     0.000    \n', '    4    1     0.000     0.000    \n', '    3    2     1.000     0.000    \n', '    4    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Sc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Se">
+<code class="sig-name descname">Se</code><em class="property"> = ['    5    4\n', '    4    0     2.000     0.000    \n', '    4    1     4.000     0.000    \n', '    3    2    10.000     0.000    \n', '    4    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Se" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Si">
+<code class="sig-name descname">Si</code><em class="property"> = ['    3    4\n', '    3    0     2.000     0.000    \n', '    3    1     2.000     0.000    \n', '    3    2     0.000     0.000    \n', '    4    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Si" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Sm">
+<code class="sig-name descname">Sm</code><em class="property"> = ['   11    4\n', '    6    0     2.000     0.000    \n', '    6    1     0.000     0.000    \n', '    5    2     0.000     0.000    \n', '    4    3     6.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Sm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Sn">
+<code class="sig-name descname">Sn</code><em class="property"> = ['    8    4\n', '    5    0     2.000     0.000    \n', '    5    1     2.000     0.000    \n', '    4    2    10.000     0.000    \n', '    4    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Sn" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Sr">
+<code class="sig-name descname">Sr</code><em class="property"> = ['    8    4\n', '    5    0     2.000     0.000    \n', '    5    1     0.000     0.000    \n', '    4    2     0.000     0.000    \n', '    4    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Sr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Ta">
+<code class="sig-name descname">Ta</code><em class="property"> = ['   11    4\n', '    6    0     2.000     0.000    \n', '    6    1     0.000     0.000    \n', '    5    2     3.000     0.000    \n', '    4    3    14.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Ta" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Tb">
+<code class="sig-name descname">Tb</code><em class="property"> = ['   11    4\n', '    6    0     2.000     0.000    \n', '    6    1     0.000     0.000    \n', '    5    2     0.000     0.000    \n', '    4    3     9.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Tb" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Tc">
+<code class="sig-name descname">Tc</code><em class="property"> = ['    8    4\n', '    5    0     2.000     0.000    \n', '    5    1     0.000     0.000    \n', '    4    2     5.000     0.000    \n', '    4    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Tc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Th">
+<code class="sig-name descname">Th</code><em class="property"> = ['   15    4\n', '    7    0     2.000     0.000    \n', '    7    1     0.000     0.000    \n', '    6    2     2.000     0.000    \n', '    5    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Th" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Ti">
+<code class="sig-name descname">Ti</code><em class="property"> = ['    5    4\n', '    4    0     2.000     0.000    \n', '    4    1     0.000     0.000    \n', '    3    2     2.000     0.000    \n', '    4    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Ti" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Tl">
+<code class="sig-name descname">Tl</code><em class="property"> = ['   11    4\n', '    6    0     2.000     0.000    \n', '    6    1     1.000     0.000    \n', '    5    2    10.000     0.000    \n', '    4    3    14.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Tl" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Tm">
+<code class="sig-name descname">Tm</code><em class="property"> = ['   11    4\n', '    6    0     2.000     0.000    \n', '    6    1     0.000     0.000    \n', '    5    2     0.000     0.000    \n', '    4    3    13.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Tm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.U">
+<code class="sig-name descname">U</code><em class="property"> = ['   15    4\n', '    7    0     2.000     0.000    \n', '    7    1     0.000     0.000    \n', '    6    2     1.000     0.000    \n', '    5    3     3.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.U" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.V">
+<code class="sig-name descname">V</code><em class="property"> = ['    5    4\n', '    4    0     2.000     0.000    \n', '    4    1     0.000     0.000    \n', '    3    2     3.000     0.000    \n', '    4    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.V" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.W">
+<code class="sig-name descname">W</code><em class="property"> = ['   11    4\n', '    6    0     2.000     0.000    \n', '    6    1     0.000     0.000    \n', '    5    2     4.000     0.000    \n', '    4    3    14.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.W" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Xe">
+<code class="sig-name descname">Xe</code><em class="property"> = ['    8    4\n', '    5    0     2.000     0.000    \n', '    5    1     6.000     0.000    \n', '    4    2    10.000     0.000    \n', '    4    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Xe" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Y">
+<code class="sig-name descname">Y</code><em class="property"> = ['    8    4\n', '    5    0     2.000     0.000    \n', '    5    1     0.000     0.000    \n', '    4    2     1.000     0.000    \n', '    4    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Y" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Yb">
+<code class="sig-name descname">Yb</code><em class="property"> = ['   11    4\n', '    6    0     2.000     0.000    \n', '    6    1     0.000     0.000    \n', '    5    2     0.000     0.000    \n', '    4    3    14.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Yb" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Zn">
+<code class="sig-name descname">Zn</code><em class="property"> = ['    5    4\n', '    4    0     2.000     0.000    \n', '    4    1     0.000     0.000    \n', '    3    2    10.000     0.000    \n', '    4    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Zn" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.electronic_distribution.ElectronicDistribution.Zr">
+<code class="sig-name descname">Zr</code><em class="property"> = ['    8    4\n', '    5    0     2.000     0.000    \n', '    5    1     0.000     0.000    \n', '    4    2     2.000     0.000    \n', '    4    3     0.000     0.000    \n']</em><a class="headerlink" href="#minushalf.data.electronic_distribution.ElectronicDistribution.Zr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-minushalf.data.exchange_correlation">
+<span id="minushalf-data-exchange-correlation-module"></span><h2>minushalf.data.exchange_correlation module<a class="headerlink" href="#module-minushalf.data.exchange_correlation" title="Permalink to this headline">¶</a></h2>
+<p>List exchange and correlation codes for the INP file</p>
+<dl class="py class">
+<dt id="minushalf.data.exchange_correlation.ExchangeCorreltion">
+<em class="property">class </em><code class="sig-prename descclassname">minushalf.data.exchange_correlation.</code><code class="sig-name descname">ExchangeCorreltion</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#minushalf.data.exchange_correlation.ExchangeCorreltion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<p>Enum type for exchange and correlation codes</p>
+<dl class="py attribute">
+<dt id="minushalf.data.exchange_correlation.ExchangeCorreltion.bh">
+<code class="sig-name descname">bh</code><em class="property"> = 'bh'</em><a class="headerlink" href="#minushalf.data.exchange_correlation.ExchangeCorreltion.bh" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.exchange_correlation.ExchangeCorreltion.bl">
+<code class="sig-name descname">bl</code><em class="property"> = 'bl'</em><a class="headerlink" href="#minushalf.data.exchange_correlation.ExchangeCorreltion.bl" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.exchange_correlation.ExchangeCorreltion.ca">
+<code class="sig-name descname">ca</code><em class="property"> = 'ca'</em><a class="headerlink" href="#minushalf.data.exchange_correlation.ExchangeCorreltion.ca" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.exchange_correlation.ExchangeCorreltion.gl">
+<code class="sig-name descname">gl</code><em class="property"> = 'gl'</em><a class="headerlink" href="#minushalf.data.exchange_correlation.ExchangeCorreltion.gl" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.exchange_correlation.ExchangeCorreltion.hl">
+<code class="sig-name descname">hl</code><em class="property"> = 'hl'</em><a class="headerlink" href="#minushalf.data.exchange_correlation.ExchangeCorreltion.hl" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.exchange_correlation.ExchangeCorreltion.pb">
+<code class="sig-name descname">pb</code><em class="property"> = 'pb'</em><a class="headerlink" href="#minushalf.data.exchange_correlation.ExchangeCorreltion.pb" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.exchange_correlation.ExchangeCorreltion.rp">
+<code class="sig-name descname">rp</code><em class="property"> = 'rp'</em><a class="headerlink" href="#minushalf.data.exchange_correlation.ExchangeCorreltion.rp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.exchange_correlation.ExchangeCorreltion.rv">
+<code class="sig-name descname">rv</code><em class="property"> = 'rv'</em><a class="headerlink" href="#minushalf.data.exchange_correlation.ExchangeCorreltion.rv" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="minushalf.data.exchange_correlation.ExchangeCorreltion.to_list">
+<em class="property">static </em><code class="sig-name descname">to_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#minushalf.data.exchange_correlation.ExchangeCorreltion.to_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate list of exchange and correlation codes</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.exchange_correlation.ExchangeCorreltion.wi">
+<code class="sig-name descname">wi</code><em class="property"> = 'wi'</em><a class="headerlink" href="#minushalf.data.exchange_correlation.ExchangeCorreltion.wi" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-minushalf.data.minushalf_yaml_default_configuration">
+<span id="minushalf-data-minushalf-yaml-default-configuration-module"></span><h2>minushalf.data.minushalf_yaml_default_configuration module<a class="headerlink" href="#module-minushalf.data.minushalf_yaml_default_configuration" title="Permalink to this headline">¶</a></h2>
+<p>Lists minushalf.yml parameters and their default values</p>
+<dl class="py class">
+<dt id="minushalf.data.minushalf_yaml_default_configuration.AtomicProgramDefaultParams">
+<em class="property">class </em><code class="sig-prename descclassname">minushalf.data.minushalf_yaml_default_configuration.</code><code class="sig-name descname">AtomicProgramDefaultParams</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#minushalf.data.minushalf_yaml_default_configuration.AtomicProgramDefaultParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<p>Default value of parameters in the atomic_program tag.</p>
+<dl class="py attribute">
+<dt id="minushalf.data.minushalf_yaml_default_configuration.AtomicProgramDefaultParams.calculation_code">
+<code class="sig-name descname">calculation_code</code><em class="property"> = 'ae'</em><a class="headerlink" href="#minushalf.data.minushalf_yaml_default_configuration.AtomicProgramDefaultParams.calculation_code" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.minushalf_yaml_default_configuration.AtomicProgramDefaultParams.exchange_correlation_code">
+<code class="sig-name descname">exchange_correlation_code</code><em class="property"> = 'pb'</em><a class="headerlink" href="#minushalf.data.minushalf_yaml_default_configuration.AtomicProgramDefaultParams.exchange_correlation_code" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.minushalf_yaml_default_configuration.AtomicProgramDefaultParams.max_iterations">
+<code class="sig-name descname">max_iterations</code><em class="property"> = 100</em><a class="headerlink" href="#minushalf.data.minushalf_yaml_default_configuration.AtomicProgramDefaultParams.max_iterations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="minushalf.data.minushalf_yaml_default_configuration.AtomicProgramDefaultParams.to_dict">
+<em class="property">static </em><code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#minushalf.data.minushalf_yaml_default_configuration.AtomicProgramDefaultParams.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a dictionary of default parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="minushalf.data.minushalf_yaml_default_configuration.AtomicProgramDefaultParams.to_list">
+<em class="property">static </em><code class="sig-name descname">to_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#minushalf.data.minushalf_yaml_default_configuration.AtomicProgramDefaultParams.to_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of default parameters.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="minushalf.data.minushalf_yaml_default_configuration.CorrectionDefaultParams">
+<em class="property">class </em><code class="sig-prename descclassname">minushalf.data.minushalf_yaml_default_configuration.</code><code class="sig-name descname">CorrectionDefaultParams</code><span class="sig-paren">(</span><em class="sig-param">value=&lt;object object&gt;</em>, <em class="sig-param">names=None</em>, <em class="sig-param">module=None</em>, <em class="sig-param">type=None</em>, <em class="sig-param">start=1</em>, <em class="sig-param">boundary=None</em><span class="sig-paren">)</span><a class="headerlink" href="#minushalf.data.minushalf_yaml_default_configuration.CorrectionDefaultParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">aenum.Enum</span></code></p>
+<p>Default value of parameters in the correction tag.</p>
+<dl class="py attribute">
+<dt id="minushalf.data.minushalf_yaml_default_configuration.CorrectionDefaultParams.amplitude">
+<code class="sig-name descname">amplitude</code><em class="property"> = 1.0</em><a class="headerlink" href="#minushalf.data.minushalf_yaml_default_configuration.CorrectionDefaultParams.amplitude" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.minushalf_yaml_default_configuration.CorrectionDefaultParams.conduction_cut_guess">
+<code class="sig-name descname">conduction_cut_guess</code><em class="property"> = None</em><a class="headerlink" href="#minushalf.data.minushalf_yaml_default_configuration.CorrectionDefaultParams.conduction_cut_guess" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.minushalf_yaml_default_configuration.CorrectionDefaultParams.correction_code">
+<code class="sig-name descname">correction_code</code><em class="property"> = 'v'</em><a class="headerlink" href="#minushalf.data.minushalf_yaml_default_configuration.CorrectionDefaultParams.correction_code" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.minushalf_yaml_default_configuration.CorrectionDefaultParams.fractionary_conduction_treshold">
+<code class="sig-name descname">fractionary_conduction_treshold</code><em class="property"> = 9</em><a class="headerlink" href="#minushalf.data.minushalf_yaml_default_configuration.CorrectionDefaultParams.fractionary_conduction_treshold" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.minushalf_yaml_default_configuration.CorrectionDefaultParams.fractionary_valence_treshold">
+<code class="sig-name descname">fractionary_valence_treshold</code><em class="property"> = 10</em><a class="headerlink" href="#minushalf.data.minushalf_yaml_default_configuration.CorrectionDefaultParams.fractionary_valence_treshold" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.minushalf_yaml_default_configuration.CorrectionDefaultParams.overwrite_cbm">
+<code class="sig-name descname">overwrite_cbm</code><em class="property"> = []</em><a class="headerlink" href="#minushalf.data.minushalf_yaml_default_configuration.CorrectionDefaultParams.overwrite_cbm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.minushalf_yaml_default_configuration.CorrectionDefaultParams.overwrite_vbm">
+<code class="sig-name descname">overwrite_vbm</code><em class="property"> = []</em><a class="headerlink" href="#minushalf.data.minushalf_yaml_default_configuration.CorrectionDefaultParams.overwrite_vbm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.minushalf_yaml_default_configuration.CorrectionDefaultParams.potfiles_folder">
+<code class="sig-name descname">potfiles_folder</code><em class="property"> = 'minushalf_potfiles'</em><a class="headerlink" href="#minushalf.data.minushalf_yaml_default_configuration.CorrectionDefaultParams.potfiles_folder" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="minushalf.data.minushalf_yaml_default_configuration.CorrectionDefaultParams.to_dict">
+<em class="property">static </em><code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#minushalf.data.minushalf_yaml_default_configuration.CorrectionDefaultParams.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a dictionary of default parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="minushalf.data.minushalf_yaml_default_configuration.CorrectionDefaultParams.to_list">
+<em class="property">static </em><code class="sig-name descname">to_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#minushalf.data.minushalf_yaml_default_configuration.CorrectionDefaultParams.to_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of default parameters.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.minushalf_yaml_default_configuration.CorrectionDefaultParams.tolerance">
+<code class="sig-name descname">tolerance</code><em class="property"> = 0.01</em><a class="headerlink" href="#minushalf.data.minushalf_yaml_default_configuration.CorrectionDefaultParams.tolerance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.minushalf_yaml_default_configuration.CorrectionDefaultParams.valence_cut_guess">
+<code class="sig-name descname">valence_cut_guess</code><em class="property"> = None</em><a class="headerlink" href="#minushalf.data.minushalf_yaml_default_configuration.CorrectionDefaultParams.valence_cut_guess" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="minushalf.data.minushalf_yaml_default_configuration.MinushalfParams">
+<em class="property">class </em><code class="sig-prename descclassname">minushalf.data.minushalf_yaml_default_configuration.</code><code class="sig-name descname">MinushalfParams</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#minushalf.data.minushalf_yaml_default_configuration.MinushalfParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<p>minushalf.yaml parameters.</p>
+<dl class="py attribute">
+<dt id="minushalf.data.minushalf_yaml_default_configuration.MinushalfParams.atomic_program">
+<code class="sig-name descname">atomic_program</code><em class="property"> = 'atomic_program'</em><a class="headerlink" href="#minushalf.data.minushalf_yaml_default_configuration.MinushalfParams.atomic_program" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.minushalf_yaml_default_configuration.MinushalfParams.correction">
+<code class="sig-name descname">correction</code><em class="property"> = 'correction'</em><a class="headerlink" href="#minushalf.data.minushalf_yaml_default_configuration.MinushalfParams.correction" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.minushalf_yaml_default_configuration.MinushalfParams.software">
+<code class="sig-name descname">software</code><em class="property"> = 'software'</em><a class="headerlink" href="#minushalf.data.minushalf_yaml_default_configuration.MinushalfParams.software" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="minushalf.data.minushalf_yaml_default_configuration.MinushalfParams.to_dict">
+<em class="property">static </em><code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#minushalf.data.minushalf_yaml_default_configuration.MinushalfParams.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a dictionary with the name of the parameters present in minushalf.yaml.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="minushalf.data.minushalf_yaml_default_configuration.MinushalfParams.to_list">
+<em class="property">static </em><code class="sig-name descname">to_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#minushalf.data.minushalf_yaml_default_configuration.MinushalfParams.to_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list with the name of the parameters present in minushalf.yaml.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="minushalf.data.minushalf_yaml_default_configuration.VaspDefaultParams">
+<em class="property">class </em><code class="sig-prename descclassname">minushalf.data.minushalf_yaml_default_configuration.</code><code class="sig-name descname">VaspDefaultParams</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#minushalf.data.minushalf_yaml_default_configuration.VaspDefaultParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<p>Default value of parameters in the vasp tag.</p>
+<dl class="py attribute">
+<dt id="minushalf.data.minushalf_yaml_default_configuration.VaspDefaultParams.number_of_cores">
+<code class="sig-name descname">number_of_cores</code><em class="property"> = 1</em><a class="headerlink" href="#minushalf.data.minushalf_yaml_default_configuration.VaspDefaultParams.number_of_cores" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.minushalf_yaml_default_configuration.VaspDefaultParams.path">
+<code class="sig-name descname">path</code><em class="property"> = 'vasp'</em><a class="headerlink" href="#minushalf.data.minushalf_yaml_default_configuration.VaspDefaultParams.path" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="minushalf.data.minushalf_yaml_default_configuration.VaspDefaultParams.to_dict">
+<em class="property">static </em><code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#minushalf.data.minushalf_yaml_default_configuration.VaspDefaultParams.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a dictionary of default parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="minushalf.data.minushalf_yaml_default_configuration.VaspDefaultParams.to_list">
+<em class="property">static </em><code class="sig-name descname">to_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#minushalf.data.minushalf_yaml_default_configuration.VaspDefaultParams.to_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of default parameters.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-minushalf.data.orbital">
+<span id="minushalf-data-orbital-module"></span><h2>minushalf.data.orbital module<a class="headerlink" href="#module-minushalf.data.orbital" title="Permalink to this headline">¶</a></h2>
+<p>List atomic orbitals and
+their respective groups</p>
+<dl class="py class">
+<dt id="minushalf.data.orbital.Orbital">
+<em class="property">class </em><code class="sig-prename descclassname">minushalf.data.orbital.</code><code class="sig-name descname">Orbital</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#minushalf.data.orbital.Orbital" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<p>Enum type for orbitals. The indices are basically the order in
+which the orbitals are reported in VASP and has no special meaning.</p>
+<dl class="py attribute">
+<dt id="minushalf.data.orbital.Orbital.dx2">
+<code class="sig-name descname">dx2</code><em class="property"> = 8</em><a class="headerlink" href="#minushalf.data.orbital.Orbital.dx2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.orbital.Orbital.dxy">
+<code class="sig-name descname">dxy</code><em class="property"> = 4</em><a class="headerlink" href="#minushalf.data.orbital.Orbital.dxy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.orbital.Orbital.dxz">
+<code class="sig-name descname">dxz</code><em class="property"> = 7</em><a class="headerlink" href="#minushalf.data.orbital.Orbital.dxz" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.orbital.Orbital.dyz">
+<code class="sig-name descname">dyz</code><em class="property"> = 5</em><a class="headerlink" href="#minushalf.data.orbital.Orbital.dyz" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.orbital.Orbital.dz2">
+<code class="sig-name descname">dz2</code><em class="property"> = 6</em><a class="headerlink" href="#minushalf.data.orbital.Orbital.dz2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.orbital.Orbital.f0">
+<code class="sig-name descname">f0</code><em class="property"> = 12</em><a class="headerlink" href="#minushalf.data.orbital.Orbital.f0" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.orbital.Orbital.f1">
+<code class="sig-name descname">f1</code><em class="property"> = 13</em><a class="headerlink" href="#minushalf.data.orbital.Orbital.f1" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.orbital.Orbital.f2">
+<code class="sig-name descname">f2</code><em class="property"> = 14</em><a class="headerlink" href="#minushalf.data.orbital.Orbital.f2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.orbital.Orbital.f3">
+<code class="sig-name descname">f3</code><em class="property"> = 15</em><a class="headerlink" href="#minushalf.data.orbital.Orbital.f3" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.orbital.Orbital.f_1">
+<code class="sig-name descname">f_1</code><em class="property"> = 11</em><a class="headerlink" href="#minushalf.data.orbital.Orbital.f_1" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.orbital.Orbital.f_2">
+<code class="sig-name descname">f_2</code><em class="property"> = 10</em><a class="headerlink" href="#minushalf.data.orbital.Orbital.f_2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.orbital.Orbital.f_3">
+<code class="sig-name descname">f_3</code><em class="property"> = 9</em><a class="headerlink" href="#minushalf.data.orbital.Orbital.f_3" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.orbital.Orbital.px">
+<code class="sig-name descname">px</code><em class="property"> = 3</em><a class="headerlink" href="#minushalf.data.orbital.Orbital.px" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.orbital.Orbital.py">
+<code class="sig-name descname">py</code><em class="property"> = 1</em><a class="headerlink" href="#minushalf.data.orbital.Orbital.py" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.orbital.Orbital.pz">
+<code class="sig-name descname">pz</code><em class="property"> = 2</em><a class="headerlink" href="#minushalf.data.orbital.Orbital.pz" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.orbital.Orbital.s">
+<code class="sig-name descname">s</code><em class="property"> = 0</em><a class="headerlink" href="#minushalf.data.orbital.Orbital.s" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="minushalf.data.orbital.OrbitalType">
+<em class="property">class </em><code class="sig-prename descclassname">minushalf.data.orbital.</code><code class="sig-name descname">OrbitalType</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#minushalf.data.orbital.OrbitalType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<p>Enum type for orbital type. Indices are basically the azimuthal quantum
+number, l.</p>
+<dl class="py attribute">
+<dt id="minushalf.data.orbital.OrbitalType.d">
+<code class="sig-name descname">d</code><em class="property"> = 2</em><a class="headerlink" href="#minushalf.data.orbital.OrbitalType.d" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.orbital.OrbitalType.f">
+<code class="sig-name descname">f</code><em class="property"> = 3</em><a class="headerlink" href="#minushalf.data.orbital.OrbitalType.f" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.orbital.OrbitalType.p">
+<code class="sig-name descname">p</code><em class="property"> = 1</em><a class="headerlink" href="#minushalf.data.orbital.OrbitalType.p" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.orbital.OrbitalType.s">
+<code class="sig-name descname">s</code><em class="property"> = 0</em><a class="headerlink" href="#minushalf.data.orbital.OrbitalType.s" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-minushalf.data.periodic_table">
+<span id="minushalf-data-periodic-table-module"></span><h2>minushalf.data.periodic_table module<a class="headerlink" href="#module-minushalf.data.periodic_table" title="Permalink to this headline">¶</a></h2>
+<p>Enum class for all elements
+of the periodic table</p>
+<dl class="py class">
+<dt id="minushalf.data.periodic_table.PeriodicTable">
+<em class="property">class </em><code class="sig-prename descclassname">minushalf.data.periodic_table.</code><code class="sig-name descname">PeriodicTable</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<p>Enum type for the elements of the periodic table.</p>
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Ac">
+<code class="sig-name descname">Ac</code><em class="property"> = 'Ac'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Ac" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Ag">
+<code class="sig-name descname">Ag</code><em class="property"> = 'Ag'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Ag" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Al">
+<code class="sig-name descname">Al</code><em class="property"> = 'Al'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Al" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Am">
+<code class="sig-name descname">Am</code><em class="property"> = 'Am'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Am" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Ar">
+<code class="sig-name descname">Ar</code><em class="property"> = 'Ar'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Ar" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.As">
+<code class="sig-name descname">As</code><em class="property"> = 'As'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.As" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.At">
+<code class="sig-name descname">At</code><em class="property"> = 'At'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.At" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Au">
+<code class="sig-name descname">Au</code><em class="property"> = 'Au'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Au" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.B">
+<code class="sig-name descname">B</code><em class="property"> = 'B'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.B" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Ba">
+<code class="sig-name descname">Ba</code><em class="property"> = 'Ba'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Ba" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Be">
+<code class="sig-name descname">Be</code><em class="property"> = 'Be'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Be" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Bh">
+<code class="sig-name descname">Bh</code><em class="property"> = 'Bh'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Bh" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Bi">
+<code class="sig-name descname">Bi</code><em class="property"> = 'Bi'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Bi" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Bk">
+<code class="sig-name descname">Bk</code><em class="property"> = 'Bk'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Bk" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Br">
+<code class="sig-name descname">Br</code><em class="property"> = 'Br'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Br" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.C">
+<code class="sig-name descname">C</code><em class="property"> = 'C'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.C" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Ca">
+<code class="sig-name descname">Ca</code><em class="property"> = 'Ca'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Ca" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Cd">
+<code class="sig-name descname">Cd</code><em class="property"> = 'Cd'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Cd" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Ce">
+<code class="sig-name descname">Ce</code><em class="property"> = 'Ce'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Ce" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Cf">
+<code class="sig-name descname">Cf</code><em class="property"> = 'Cf'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Cf" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Cl">
+<code class="sig-name descname">Cl</code><em class="property"> = 'Cl'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Cl" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Cm">
+<code class="sig-name descname">Cm</code><em class="property"> = 'Cm'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Cm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Cn">
+<code class="sig-name descname">Cn</code><em class="property"> = 'Cn'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Cn" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Co">
+<code class="sig-name descname">Co</code><em class="property"> = 'Co'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Co" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Cr">
+<code class="sig-name descname">Cr</code><em class="property"> = 'Cr'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Cr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Cs">
+<code class="sig-name descname">Cs</code><em class="property"> = 'Cs'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Cs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Cu">
+<code class="sig-name descname">Cu</code><em class="property"> = 'Cu'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Cu" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Db">
+<code class="sig-name descname">Db</code><em class="property"> = 'Db'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Db" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Ds">
+<code class="sig-name descname">Ds</code><em class="property"> = 'Ds'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Ds" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Dy">
+<code class="sig-name descname">Dy</code><em class="property"> = 'Dy'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Dy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Er">
+<code class="sig-name descname">Er</code><em class="property"> = 'Er'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Er" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Es">
+<code class="sig-name descname">Es</code><em class="property"> = 'Es'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Es" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Eu">
+<code class="sig-name descname">Eu</code><em class="property"> = 'Eu'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Eu" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.F">
+<code class="sig-name descname">F</code><em class="property"> = 'F'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.F" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Fe">
+<code class="sig-name descname">Fe</code><em class="property"> = 'Fe'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Fe" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Fl">
+<code class="sig-name descname">Fl</code><em class="property"> = 'Fl'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Fl" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Fm">
+<code class="sig-name descname">Fm</code><em class="property"> = 'Fm'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Fm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Fr">
+<code class="sig-name descname">Fr</code><em class="property"> = 'Fr'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Fr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Ga">
+<code class="sig-name descname">Ga</code><em class="property"> = 'Ga'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Ga" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Gd">
+<code class="sig-name descname">Gd</code><em class="property"> = 'Gd'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Gd" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Ge">
+<code class="sig-name descname">Ge</code><em class="property"> = 'Ge'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Ge" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.H">
+<code class="sig-name descname">H</code><em class="property"> = 'H'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.H" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.He">
+<code class="sig-name descname">He</code><em class="property"> = 'He'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.He" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Hf">
+<code class="sig-name descname">Hf</code><em class="property"> = 'Hf'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Hf" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Hg">
+<code class="sig-name descname">Hg</code><em class="property"> = 'Hg'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Hg" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Ho">
+<code class="sig-name descname">Ho</code><em class="property"> = 'Ho'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Ho" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Hs">
+<code class="sig-name descname">Hs</code><em class="property"> = 'Hs'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Hs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.I">
+<code class="sig-name descname">I</code><em class="property"> = 'I'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.I" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.In">
+<code class="sig-name descname">In</code><em class="property"> = 'In'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.In" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Ir">
+<code class="sig-name descname">Ir</code><em class="property"> = 'Ir'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Ir" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.K">
+<code class="sig-name descname">K</code><em class="property"> = 'K'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.K" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Kr">
+<code class="sig-name descname">Kr</code><em class="property"> = 'Kr'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Kr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.La">
+<code class="sig-name descname">La</code><em class="property"> = 'La'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.La" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Li">
+<code class="sig-name descname">Li</code><em class="property"> = 'Li'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Li" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Lr">
+<code class="sig-name descname">Lr</code><em class="property"> = 'Lr'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Lr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Lu">
+<code class="sig-name descname">Lu</code><em class="property"> = 'Lu'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Lu" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Lv">
+<code class="sig-name descname">Lv</code><em class="property"> = 'Lv'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Lv" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Mc">
+<code class="sig-name descname">Mc</code><em class="property"> = 'Mc'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Mc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Md">
+<code class="sig-name descname">Md</code><em class="property"> = 'Md'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Md" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Mg">
+<code class="sig-name descname">Mg</code><em class="property"> = 'Mg'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Mg" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Mn">
+<code class="sig-name descname">Mn</code><em class="property"> = 'Mn'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Mn" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Mo">
+<code class="sig-name descname">Mo</code><em class="property"> = 'Mo'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Mo" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Mt">
+<code class="sig-name descname">Mt</code><em class="property"> = 'Mt'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Mt" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.N">
+<code class="sig-name descname">N</code><em class="property"> = 'N'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.N" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Na">
+<code class="sig-name descname">Na</code><em class="property"> = 'Na'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Na" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Nb">
+<code class="sig-name descname">Nb</code><em class="property"> = 'Nb'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Nb" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Nd">
+<code class="sig-name descname">Nd</code><em class="property"> = 'Nd'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Nd" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Ne">
+<code class="sig-name descname">Ne</code><em class="property"> = 'Ne'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Ne" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Nh">
+<code class="sig-name descname">Nh</code><em class="property"> = 'Nh'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Nh" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Ni">
+<code class="sig-name descname">Ni</code><em class="property"> = 'Ni'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Ni" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.No">
+<code class="sig-name descname">No</code><em class="property"> = 'No'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.No" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Np">
+<code class="sig-name descname">Np</code><em class="property"> = 'Np'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Np" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.O">
+<code class="sig-name descname">O</code><em class="property"> = 'O'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.O" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Og">
+<code class="sig-name descname">Og</code><em class="property"> = 'Og'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Og" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Os">
+<code class="sig-name descname">Os</code><em class="property"> = 'Os'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Os" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.P">
+<code class="sig-name descname">P</code><em class="property"> = 'P'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.P" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Pa">
+<code class="sig-name descname">Pa</code><em class="property"> = 'Pa'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Pa" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Pb">
+<code class="sig-name descname">Pb</code><em class="property"> = 'Pb'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Pb" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Pd">
+<code class="sig-name descname">Pd</code><em class="property"> = 'Pd'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Pd" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Pm">
+<code class="sig-name descname">Pm</code><em class="property"> = 'Pm'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Pm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Po">
+<code class="sig-name descname">Po</code><em class="property"> = 'Po'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Po" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Pr">
+<code class="sig-name descname">Pr</code><em class="property"> = 'Pr'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Pr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Pt">
+<code class="sig-name descname">Pt</code><em class="property"> = 'Pt'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Pt" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Pu">
+<code class="sig-name descname">Pu</code><em class="property"> = 'Pu'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Pu" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Ra">
+<code class="sig-name descname">Ra</code><em class="property"> = 'Ra'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Ra" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Rb">
+<code class="sig-name descname">Rb</code><em class="property"> = 'Rb'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Rb" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Re">
+<code class="sig-name descname">Re</code><em class="property"> = 'Re'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Re" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Rf">
+<code class="sig-name descname">Rf</code><em class="property"> = 'Rf'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Rf" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Rg">
+<code class="sig-name descname">Rg</code><em class="property"> = 'Rg'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Rg" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Rh">
+<code class="sig-name descname">Rh</code><em class="property"> = 'Rh'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Rh" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Rn">
+<code class="sig-name descname">Rn</code><em class="property"> = 'Rn'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Rn" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Ru">
+<code class="sig-name descname">Ru</code><em class="property"> = 'Ru'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Ru" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.S">
+<code class="sig-name descname">S</code><em class="property"> = 'S'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.S" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Sb">
+<code class="sig-name descname">Sb</code><em class="property"> = 'Sb'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Sb" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Sc">
+<code class="sig-name descname">Sc</code><em class="property"> = 'Sc'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Sc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Se">
+<code class="sig-name descname">Se</code><em class="property"> = 'Se'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Se" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Sg">
+<code class="sig-name descname">Sg</code><em class="property"> = 'Sg'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Sg" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Si">
+<code class="sig-name descname">Si</code><em class="property"> = 'Si'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Si" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Sm">
+<code class="sig-name descname">Sm</code><em class="property"> = 'Sm'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Sm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Sn">
+<code class="sig-name descname">Sn</code><em class="property"> = 'Sn'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Sn" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Sr">
+<code class="sig-name descname">Sr</code><em class="property"> = 'Sr'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Sr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Ta">
+<code class="sig-name descname">Ta</code><em class="property"> = 'Ta'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Ta" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Tb">
+<code class="sig-name descname">Tb</code><em class="property"> = 'Tb'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Tb" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Tc">
+<code class="sig-name descname">Tc</code><em class="property"> = 'Tc'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Tc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Te">
+<code class="sig-name descname">Te</code><em class="property"> = 'Te'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Te" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Th">
+<code class="sig-name descname">Th</code><em class="property"> = 'Th'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Th" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Ti">
+<code class="sig-name descname">Ti</code><em class="property"> = 'Ti'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Ti" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Tl">
+<code class="sig-name descname">Tl</code><em class="property"> = 'Tl'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Tl" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Tm">
+<code class="sig-name descname">Tm</code><em class="property"> = 'Tm'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Tm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Ts">
+<code class="sig-name descname">Ts</code><em class="property"> = 'Ts'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Ts" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.U">
+<code class="sig-name descname">U</code><em class="property"> = 'U'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.U" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.V">
+<code class="sig-name descname">V</code><em class="property"> = 'V'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.V" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.W">
+<code class="sig-name descname">W</code><em class="property"> = 'W'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.W" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Xe">
+<code class="sig-name descname">Xe</code><em class="property"> = 'Xe'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Xe" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Y">
+<code class="sig-name descname">Y</code><em class="property"> = 'Y'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Y" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Yb">
+<code class="sig-name descname">Yb</code><em class="property"> = 'Yb'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Yb" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Zn">
+<code class="sig-name descname">Zn</code><em class="property"> = 'Zn'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Zn" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.periodic_table.PeriodicTable.Zr">
+<code class="sig-name descname">Zr</code><em class="property"> = 'Zr'</em><a class="headerlink" href="#minushalf.data.periodic_table.PeriodicTable.Zr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-minushalf.data.softwares">
+<span id="minushalf-data-softwares-module"></span><h2>minushalf.data.softwares module<a class="headerlink" href="#module-minushalf.data.softwares" title="Permalink to this headline">¶</a></h2>
+<p>List softwares supported
+by the CLI</p>
+<dl class="py class">
+<dt id="minushalf.data.softwares.Softwares">
+<em class="property">class </em><code class="sig-prename descclassname">minushalf.data.softwares.</code><code class="sig-name descname">Softwares</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#minushalf.data.softwares.Softwares" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<p>Enum type for the softwares supported by the program</p>
+<dl class="py method">
+<dt id="minushalf.data.softwares.Softwares.to_list">
+<em class="property">static </em><code class="sig-name descname">to_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#minushalf.data.softwares.Softwares.to_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate list of available softwares</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="minushalf.data.softwares.Softwares.vasp">
+<code class="sig-name descname">vasp</code><em class="property"> = 'VASP'</em><a class="headerlink" href="#minushalf.data.softwares.Softwares.vasp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-minushalf.data">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-minushalf.data" title="Permalink to this headline">¶</a></h2>
+<p>Init file for data module</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="minushalf.interfaces.html" class="btn btn-neutral float-right" title="minushalf.interfaces package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="minushalf.corrections.html" class="btn btn-neutral float-left" title="minushalf.corrections package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Henrique Fernandes Feitosa.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+  
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

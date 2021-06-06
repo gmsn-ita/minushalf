@@ -1,0 +1,281 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>minushalf.corrections package &mdash; minushalf 1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="minushalf.data package" href="minushalf.data.html" />
+    <link rel="prev" title="minushalf.commands package" href="minushalf.commands.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> minushalf
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands.html">Commands</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="api.html">API Documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="api.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="minushalf.commands.html">minushalf.commands package</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">minushalf.corrections package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-minushalf.corrections.vasp_correction">minushalf.corrections.vasp_correction module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-minushalf.corrections">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="minushalf.data.html">minushalf.data package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="minushalf.interfaces.html">minushalf.interfaces package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="minushalf.softwares.html">minushalf.softwares package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="minushalf.utils.html">minushalf.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-minushalf.minushalf">minushalf.minushalf module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-minushalf">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="support.html">Support and financing</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">minushalf</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="api.html">API Documentation</a> &raquo;</li>
+        
+      <li>minushalf.corrections package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/minushalf.corrections.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="minushalf-corrections-package">
+<h1>minushalf.corrections package<a class="headerlink" href="#minushalf-corrections-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-minushalf.corrections.vasp_correction">
+<span id="minushalf-corrections-vasp-correction-module"></span><h2>minushalf.corrections.vasp_correction module<a class="headerlink" href="#module-minushalf.corrections.vasp_correction" title="Permalink to this headline">¶</a></h2>
+<p>Implements the algorithm that automates the process
+of vasp correction and optimizes the necessary parameters.</p>
+<dl class="py class">
+<dt id="minushalf.corrections.vasp_correction.VaspCorrection">
+<em class="property">class </em><code class="sig-prename descclassname">minushalf.corrections.vasp_correction.</code><code class="sig-name descname">VaspCorrection</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">root_folder</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">software_factory</span><span class="p">:</span> <span class="n"><a class="reference internal" href="minushalf.interfaces.html#minushalf.interfaces.software_abstract_factory.SoftwaresAbstractFactory" title="minushalf.interfaces.software_abstract_factory.SoftwaresAbstractFactory">minushalf.interfaces.software_abstract_factory.SoftwaresAbstractFactory</a></span></em>, <em class="sig-param"><span class="n">runner</span><span class="p">:</span> <span class="n"><a class="reference internal" href="minushalf.interfaces.html#minushalf.interfaces.runner.Runner" title="minushalf.interfaces.runner.Runner">minushalf.interfaces.runner.Runner</a></span></em>, <em class="sig-param"><span class="n">minushalf_yaml</span><span class="p">:</span> <span class="n"><a class="reference internal" href="minushalf.utils.html#minushalf.utils.minushalf_yaml.MinushalfYaml" title="minushalf.utils.minushalf_yaml.MinushalfYaml">minushalf.utils.minushalf_yaml.MinushalfYaml</a></span></em>, <em class="sig-param"><span class="n">band_projection</span><span class="p">:</span> <span class="n">pandas.core.frame.DataFrame</span></em>, <em class="sig-param"><span class="n">atoms</span><span class="p">:</span> <span class="n">list</span></em>, <em class="sig-param"><span class="n">is_conduction</span><span class="p">:</span> <span class="n">bool</span></em>, <em class="sig-param"><span class="n">correction_indexes</span><span class="p">:</span> <span class="n">dict</span></em><span class="sig-paren">)</span><a class="headerlink" href="#minushalf.corrections.vasp_correction.VaspCorrection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="minushalf.interfaces.html#minushalf.interfaces.correction.Correction" title="minushalf.interfaces.correction.Correction"><code class="xref py py-class docutils literal notranslate"><span class="pre">minushalf.interfaces.correction.Correction</span></code></a></p>
+<p>An algorithm that realizes corrections for
+VASP software</p>
+<dl class="py method">
+<dt id="minushalf.corrections.vasp_correction.VaspCorrection.execute">
+<code class="sig-name descname">execute</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; tuple<a class="headerlink" href="#minushalf.corrections.vasp_correction.VaspCorrection.execute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute vasp correction algorithm</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="minushalf.corrections.vasp_correction.VaspCorrection.potential_folder">
+<em class="property">property </em><code class="sig-name descname">potential_folder</code><a class="headerlink" href="#minushalf.corrections.vasp_correction.VaspCorrection.potential_folder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns:
+Name of the folder that helds all the potential files
+initially not corrected.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-minushalf.corrections">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-minushalf.corrections" title="Permalink to this headline">¶</a></h2>
+<p>Init for corrections factory</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="minushalf.data.html" class="btn btn-neutral float-right" title="minushalf.data package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="minushalf.commands.html" class="btn btn-neutral float-left" title="minushalf.commands package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Henrique Fernandes Feitosa.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+  
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

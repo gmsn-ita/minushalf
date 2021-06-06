@@ -1,0 +1,464 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>minushalf.interfaces package &mdash; minushalf 1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="minushalf.softwares package" href="minushalf.softwares.html" />
+    <link rel="prev" title="minushalf.data package" href="minushalf.data.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> minushalf
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands.html">Commands</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="api.html">API Documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="api.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="minushalf.commands.html">minushalf.commands package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="minushalf.corrections.html">minushalf.corrections package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="minushalf.data.html">minushalf.data package</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">minushalf.interfaces package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-minushalf.interfaces.band_projection_file">minushalf.interfaces.band_projection_file module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-minushalf.interfaces.correction">minushalf.interfaces.correction module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-minushalf.interfaces.potential_file">minushalf.interfaces.potential_file module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-minushalf.interfaces.runner">minushalf.interfaces.runner module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-minushalf.interfaces.software_abstract_factory">minushalf.interfaces.software_abstract_factory module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-minushalf.interfaces">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="minushalf.softwares.html">minushalf.softwares package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="minushalf.utils.html">minushalf.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-minushalf.minushalf">minushalf.minushalf module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-minushalf">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="support.html">Support and financing</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">minushalf</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="api.html">API Documentation</a> &raquo;</li>
+        
+      <li>minushalf.interfaces package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/minushalf.interfaces.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="minushalf-interfaces-package">
+<h1>minushalf.interfaces package<a class="headerlink" href="#minushalf-interfaces-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-minushalf.interfaces.band_projection_file">
+<span id="minushalf-interfaces-band-projection-file-module"></span><h2>minushalf.interfaces.band_projection_file module<a class="headerlink" href="#module-minushalf.interfaces.band_projection_file" title="Permalink to this headline">¶</a></h2>
+<p>Interfaces for files thar
+contain band projections</p>
+<dl class="py class">
+<dt id="minushalf.interfaces.band_projection_file.BandProjectionFile">
+<em class="property">class </em><code class="sig-prename descclassname">minushalf.interfaces.band_projection_file.</code><code class="sig-name descname">BandProjectionFile</code><a class="headerlink" href="#minushalf.interfaces.band_projection_file.BandProjectionFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<p>Class to handle files
+containing informations
+about projections of
+the atoms in bands.</p>
+<dl class="py method">
+<dt id="minushalf.interfaces.band_projection_file.BandProjectionFile.get_band_projection">
+<em class="property">abstract </em><code class="sig-name descname">get_band_projection</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">kpoint</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">band_number</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; dict<a class="headerlink" href="#minushalf.interfaces.band_projection_file.BandProjectionFile.get_band_projection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract method for return the
+contribution of each atom orbital in a
+specific band of an specific kpoint.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-minushalf.interfaces.correction">
+<span id="minushalf-interfaces-correction-module"></span><h2>minushalf.interfaces.correction module<a class="headerlink" href="#module-minushalf.interfaces.correction" title="Permalink to this headline">¶</a></h2>
+<p>Correction interface</p>
+<dl class="py class">
+<dt id="minushalf.interfaces.correction.Correction">
+<em class="property">class </em><code class="sig-prename descclassname">minushalf.interfaces.correction.</code><code class="sig-name descname">Correction</code><a class="headerlink" href="#minushalf.interfaces.correction.Correction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<p>Interface to correction
+algorithms</p>
+<dl class="py method">
+<dt id="minushalf.interfaces.correction.Correction.execute">
+<em class="property">abstract </em><code class="sig-name descname">execute</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#minushalf.interfaces.correction.Correction.execute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute the correction</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-minushalf.interfaces.potential_file">
+<span id="minushalf-interfaces-potential-file-module"></span><h2>minushalf.interfaces.potential_file module<a class="headerlink" href="#module-minushalf.interfaces.potential_file" title="Permalink to this headline">¶</a></h2>
+<p>Interface for
+classes that handles with fourier
+transforms of the potential</p>
+<dl class="py class">
+<dt id="minushalf.interfaces.potential_file.PotentialFile">
+<em class="property">class </em><code class="sig-prename descclassname">minushalf.interfaces.potential_file.</code><code class="sig-name descname">PotentialFile</code><a class="headerlink" href="#minushalf.interfaces.potential_file.PotentialFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<p>Interface for defining common methods
+between classes that handles with potential
+files of different softwares</p>
+<dl class="py method">
+<dt id="minushalf.interfaces.potential_file.PotentialFile.get_maximum_module_wave_vector">
+<em class="property">abstract </em><code class="sig-name descname">get_maximum_module_wave_vector</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; float<a class="headerlink" href="#minushalf.interfaces.potential_file.PotentialFile.get_maximum_module_wave_vector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract methods returns
+the maximum modulus of
+the wave vector in reciprocal space</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="minushalf.interfaces.potential_file.PotentialFile.get_name">
+<em class="property">abstract </em><code class="sig-name descname">get_name</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; float<a class="headerlink" href="#minushalf.interfaces.potential_file.PotentialFile.get_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract methods returns
+the name of the potential file</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="minushalf.interfaces.potential_file.PotentialFile.get_potential_fourier_transform">
+<em class="property">abstract </em><code class="sig-name descname">get_potential_fourier_transform</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; list<a class="headerlink" href="#minushalf.interfaces.potential_file.PotentialFile.get_potential_fourier_transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract methods returns
+the fourier transform of the
+potential</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="minushalf.interfaces.potential_file.PotentialFile.to_file">
+<em class="property">abstract </em><code class="sig-name descname">to_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#minushalf.interfaces.potential_file.PotentialFile.to_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract methods that output
+a potential file with a specific
+filename</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="minushalf.interfaces.potential_file.PotentialFile.to_stringlist">
+<em class="property">abstract </em><code class="sig-name descname">to_stringlist</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; list<a class="headerlink" href="#minushalf.interfaces.potential_file.PotentialFile.to_stringlist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract methods that returns a list
+containing the lines of the potential file</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-minushalf.interfaces.runner">
+<span id="minushalf-interfaces-runner-module"></span><h2>minushalf.interfaces.runner module<a class="headerlink" href="#module-minushalf.interfaces.runner" title="Permalink to this headline">¶</a></h2>
+<p>Runner abstract class</p>
+<dl class="py class">
+<dt id="minushalf.interfaces.runner.Runner">
+<em class="property">class </em><code class="sig-prename descclassname">minushalf.interfaces.runner.</code><code class="sig-name descname">Runner</code><a class="headerlink" href="#minushalf.interfaces.runner.Runner" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<p>Run softwares that
+realizes ab initio calculations</p>
+<dl class="py method">
+<dt id="minushalf.interfaces.runner.Runner.run">
+<em class="property">abstract </em><code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cwd</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#minushalf.interfaces.runner.Runner.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create command and
+run the subprocess for it</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-minushalf.interfaces.software_abstract_factory">
+<span id="minushalf-interfaces-software-abstract-factory-module"></span><h2>minushalf.interfaces.software_abstract_factory module<a class="headerlink" href="#module-minushalf.interfaces.software_abstract_factory" title="Permalink to this headline">¶</a></h2>
+<p>Software abstract Factory</p>
+<dl class="py class">
+<dt id="minushalf.interfaces.software_abstract_factory.SoftwaresAbstractFactory">
+<em class="property">class </em><code class="sig-prename descclassname">minushalf.interfaces.software_abstract_factory.</code><code class="sig-name descname">SoftwaresAbstractFactory</code><a class="headerlink" href="#minushalf.interfaces.software_abstract_factory.SoftwaresAbstractFactory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<p>Abstract Factory for create instances for
+each supported software.</p>
+<dl class="py method">
+<dt id="minushalf.interfaces.software_abstract_factory.SoftwaresAbstractFactory.get_atoms_map">
+<em class="property">abstract </em><code class="sig-name descname">get_atoms_map</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">base_path</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; dict<a class="headerlink" href="#minushalf.interfaces.software_abstract_factory.SoftwaresAbstractFactory.get_atoms_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract method for returns a map
+of the atomic symbol to its index.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="minushalf.interfaces.software_abstract_factory.SoftwaresAbstractFactory.get_band_projection_class">
+<em class="property">abstract </em><code class="sig-name descname">get_band_projection_class</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">base_path</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#minushalf.interfaces.band_projection_file.BandProjectionFile" title="minushalf.interfaces.band_projection_file.BandProjectionFile">minushalf.interfaces.band_projection_file.BandProjectionFile</a><a class="headerlink" href="#minushalf.interfaces.software_abstract_factory.SoftwaresAbstractFactory.get_band_projection_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract method for returns the class that
+handles with the projections of atoms orbitals
+in the bands.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="minushalf.interfaces.software_abstract_factory.SoftwaresAbstractFactory.get_eigenvalues">
+<em class="property">abstract </em><code class="sig-name descname">get_eigenvalues</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">base_path</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; dict<a class="headerlink" href="#minushalf.interfaces.software_abstract_factory.SoftwaresAbstractFactory.get_eigenvalues" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract method for returns eigenvalues
+for each band and each kpoint</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="minushalf.interfaces.software_abstract_factory.SoftwaresAbstractFactory.get_fermi_energy">
+<em class="property">abstract </em><code class="sig-name descname">get_fermi_energy</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">base_path</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; float<a class="headerlink" href="#minushalf.interfaces.software_abstract_factory.SoftwaresAbstractFactory.get_fermi_energy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract method for returna
+energy of the fermi level.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="minushalf.interfaces.software_abstract_factory.SoftwaresAbstractFactory.get_nearest_neighbor_distance">
+<em class="property">abstract </em><code class="sig-name descname">get_nearest_neighbor_distance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ion_index</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">base_path</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; float<a class="headerlink" href="#minushalf.interfaces.software_abstract_factory.SoftwaresAbstractFactory.get_nearest_neighbor_distance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract method for returns the nearest neighbor distance for
+an ion in the solid.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="minushalf.interfaces.software_abstract_factory.SoftwaresAbstractFactory.get_number_of_bands">
+<em class="property">abstract </em><code class="sig-name descname">get_number_of_bands</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">base_path</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; int<a class="headerlink" href="#minushalf.interfaces.software_abstract_factory.SoftwaresAbstractFactory.get_number_of_bands" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract method for returns the number of bands used in the calculation</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="minushalf.interfaces.software_abstract_factory.SoftwaresAbstractFactory.get_number_of_equal_neighbors">
+<em class="property">abstract </em><code class="sig-name descname">get_number_of_equal_neighbors</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">atoms_map</span><span class="p">:</span> <span class="n">dict</span></em>, <em class="sig-param"><span class="n">symbol</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'OUTCAR'</span></em>, <em class="sig-param"><span class="n">base_path</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; float<a class="headerlink" href="#minushalf.interfaces.software_abstract_factory.SoftwaresAbstractFactory.get_number_of_equal_neighbors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given an map that links atoms symbols with it’s index
+this function returns the number of neighbors of the atom with
+equal symbol but different indexes.</p>
+<blockquote>
+<div><dl class="simple">
+<dt>Args:</dt><dd><p>atoms_map (dict): Map the atoms index to their symbol.
+symbom (str): The symbol of the target atom.</p>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>number_equal_neighbors (int): Returns the number of neighbors with</dt><dd><p>same symbol but different indexes.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt id="minushalf.interfaces.software_abstract_factory.SoftwaresAbstractFactory.get_number_of_kpoints">
+<em class="property">abstract </em><code class="sig-name descname">get_number_of_kpoints</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">base_path</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; int<a class="headerlink" href="#minushalf.interfaces.software_abstract_factory.SoftwaresAbstractFactory.get_number_of_kpoints" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract method for returns the number of kpoints used in the calculation</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="minushalf.interfaces.software_abstract_factory.SoftwaresAbstractFactory.get_potential_class">
+<em class="property">abstract </em><code class="sig-name descname">get_potential_class</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">base_path</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#minushalf.interfaces.potential_file.PotentialFile" title="minushalf.interfaces.potential_file.PotentialFile">minushalf.interfaces.potential_file.PotentialFile</a><a class="headerlink" href="#minushalf.interfaces.software_abstract_factory.SoftwaresAbstractFactory.get_potential_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract method for returns the potential class</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="minushalf.interfaces.software_abstract_factory.SoftwaresAbstractFactory.get_runner">
+<em class="property">abstract </em><code class="sig-name descname">get_runner</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">number_of_cores</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span><a class="headerlink" href="#minushalf.interfaces.software_abstract_factory.SoftwaresAbstractFactory.get_runner" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a class that run
+the software for ab initio calculations</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-minushalf.interfaces">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-minushalf.interfaces" title="Permalink to this headline">¶</a></h2>
+<p>Init file for interfaces</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="minushalf.softwares.html" class="btn btn-neutral float-right" title="minushalf.softwares package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="minushalf.data.html" class="btn btn-neutral float-left" title="minushalf.data package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Henrique Fernandes Feitosa.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+  
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

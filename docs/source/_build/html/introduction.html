@@ -1,0 +1,514 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Introduction &mdash; minushalf 1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Installation" href="installation.html" />
+    <link rel="prev" title="Welcome to minushalf’s documentation!" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> minushalf
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#the-dft-1-2-method">The DFT -1/2 method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#what-is-minushalf">What is minushalf?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#an-intuitive-explanation-of-the-dft-1-2-method">An intuitive explanation of the DFT -1/2 method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-perform-potential-correction-in-crystals">How to perform potential correction in crystals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-cut-parameter">The CUT parameter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#where-to-perform-semi-occupation">Where to perform semi-occupation?</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#simple-correction">Simple correction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fractional-correction">Fractional correction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#is-conduction-band-correction-always-necessary">Is conduction band correction always necessary?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#final-considerations">Final considerations</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands.html">Commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="support.html">Support and financing</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">minushalf</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Introduction</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/introduction.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="the-dft-1-2-method">
+<h2>The DFT -1/2 method<a class="headerlink" href="#the-dft-1-2-method" title="Permalink to this headline">¶</a></h2>
+<p>DFT-1/2, an alternative way of referring to the LDA -1/2 <a class="footnote-reference brackets" href="#id36" id="id1">1</a> <a class="footnote-reference brackets" href="#id37" id="id2">2</a> and GGA -1/2 <a class="footnote-reference brackets" href="#id37" id="id3">2</a> techniques,
+is a method that method for approximate self-energy corrections within the framework of conventional Kohn-Sham DFT
+which can be used not only with the local density approximation (LDA), but also with the generalized gradient approximation (GGA) <a class="footnote-reference brackets" href="#id46" id="id4">11</a> <a class="footnote-reference brackets" href="#id37" id="id5">2</a> <a class="footnote-reference brackets" href="#id47" id="id6">12</a>.</p>
+<p>The method aims to predict energy gaps results with the same precision <a class="footnote-reference brackets" href="#id37" id="id7">2</a> as the quasiparticle correction <a class="footnote-reference brackets" href="#id44" id="id8">9</a> algorithm, considered
+the state of the art for calculating energy gap of semiconductors. In addition, the computational effort of the method
+is equivalent to the standard DFT approach and and is three orders of magnitude lower than the aforementioned GW method <a class="footnote-reference brackets" href="#id51" id="id9">16</a> , which allows the technique to be applied to complex systems.</p>
+<div class="figure align-center" id="id52">
+<a class="reference internal image-reference" href="_images/dft_05_demonstration.png"><img alt="_images/dft_05_demonstration.png" src="_images/dft_05_demonstration.png" style="width: 600px;" /></a>
+<p class="caption"><span class="caption-text">Fig 1. Comparison of calculated band gaps with experiment. The red square are the SCF LDA-1/2 (standard
+LDA-1/2). The crosses are standard LDA. The small gap semiconductors are metals (negative gaps), when calculated with
+LDA. LDA-1/2 corrects the situation. The band structure calculations were made with the codes VASP <a class="footnote-reference brackets" href="#id48" id="id10">13</a> <a class="footnote-reference brackets" href="#id49" id="id11">14</a> and WIEN2k. <a class="footnote-reference brackets" href="#id50" id="id12">15</a> <a class="footnote-reference brackets" href="#id37" id="id13">2</a></span><a class="headerlink" href="#id52" title="Permalink to this image">¶</a></p>
+</div>
+</div>
+<div class="section" id="what-is-minushalf">
+<h2>What is minushalf?<a class="headerlink" href="#what-is-minushalf" title="Permalink to this headline">¶</a></h2>
+<p>Minushalf is a command line interface (CLI) developed by the group of semiconductor materials and nanotechnology (<a class="reference external" href="http://www.gmsn.ita.br/">GMSN</a>) that aims to automate
+the application of the DFT -1/2 method. The commands available in this  CLI automate both the entire process and each of its steps in order to be
+used for several purposes.</p>
+</div>
+<div class="section" id="an-intuitive-explanation-of-the-dft-1-2-method">
+<h2>An intuitive explanation of the DFT -1/2 method<a class="headerlink" href="#an-intuitive-explanation-of-the-dft-1-2-method" title="Permalink to this headline">¶</a></h2>
+<p>This method aim to expand the half-occupation  technique <a class="footnote-reference brackets" href="#id38" id="id14">3</a> <a class="footnote-reference brackets" href="#id39" id="id15">4</a> <a class="footnote-reference brackets" href="#id40" id="id16">5</a>, formalized by Janak’s theorem,
+to crystals using modern exchange-correlation approaches <a class="footnote-reference brackets" href="#id41" id="id17">6</a> <a class="footnote-reference brackets" href="#id42" id="id18">7</a>.</p>
+<p>The Slater half-occupation scheme has already proven to be quite efficient for calculating atomic ionization
+energies values close to the experimental ones <a class="footnote-reference brackets" href="#id40" id="id19">5</a>. However, this technique cannot be applied blindly to
+extended systems like crystals, since the crystal is described by means of Bloch waves and removing the population
+of just one Bloch state would have no consequences <a class="footnote-reference brackets" href="#id36" id="id20">1</a>. Moreover, removing the population of one Bloch State and set periodic
+conditions would result in a infinitely charged system.</p>
+<p>Thus, the proposed solution is to apply the Slater procedure to cystaline energy bands.
+The intuition for this application comes from the fact that the energy bands of a crystal are formed
+by the overlap of atomic orbitals, mainly by those that constitute the outermost layers <a class="footnote-reference brackets" href="#id43" id="id21">8</a>. This relationship can be quantified
+by the projection of the wave function in a given orbital, Figure 2 shows the <span class="math notranslate nohighlight">\(p\)</span> character for each atom in the band structure of the h-BN, the bigger the blue dots, the stronger the character. Thereby, considering
+this existing relationship, self-energy corrections performed in atoms could propagate and shift the energy of the bands, resulting in a band gap correction.</p>
+<div class="figure align-center" id="id53">
+<a class="reference internal image-reference" href="_images/bands.svg"><img alt="_images/bands.svg" src="_images/bands.svg" width="800" /></a>
+<p class="caption"><span class="caption-text">Fig 2. <span class="math notranslate nohighlight">\(p\)</span> character for each atom in the h-BN band structure. The bigger the blue dots, the stronger the character.</span><a class="headerlink" href="#id53" title="Permalink to this image">¶</a></p>
+</div>
+</div>
+<div class="section" id="how-to-perform-potential-correction-in-crystals">
+<h2>How to perform potential correction in crystals<a class="headerlink" href="#how-to-perform-potential-correction-in-crystals" title="Permalink to this headline">¶</a></h2>
+<p>In this section, calculations were developed using some approximations in order to demonstrate
+intuitively how the potential correction in crystals is made. To access the rigorous demonstration, consult the references <a class="footnote-reference brackets" href="#id36" id="id22">1</a> <a class="footnote-reference brackets" href="#id37" id="id23">2</a> .</p>
+<p>Following the Slater half occupation procedure for atoms, a change in charge density is required
+to obtain the potential for semi-occupation and perform the consistent calculations using the Khon-Shan equation.</p>
+<p>Altough in extended systems like crystals a change in charge density in a unit cell would result in an infinitely charged system, which would lead to a
+divergence in the Khon-Shan calculations. Furthermore, it would also be irrelevant to be able to modify only a finite amount of electrons in the crystal since
+the charge would become irrelevant to the infinite amount of electrons present in the system. To bypass this problem, it is necessary to find a new way
+to derive the semi-occupied potential.</p>
+<p>Firstly, one have to define the system that corresponds to the semi-occupied potential for a solid. For an atom containing
+<span class="math notranslate nohighlight">\(N\)</span> electrons in its ground state, the semi-occupied potential is defined as the potential of the atom with <span class="math notranslate nohighlight">\(N-\frac{1}{2}\)</span> electrons. Similarly, we should
+consider that the semi-occupied potential of a solid would be the potential generated by a solid with <span class="math notranslate nohighlight">\(M-\frac{1}{2}\)</span> electrons per primitive cell, where <span class="math notranslate nohighlight">\(M\)</span> is the number of electrons
+of the unit cell in the ground state, as shown in Figure 2.</p>
+<div class="figure align-center" id="id54">
+<a class="reference internal image-reference" href="_images/semi-solid.svg"><img alt="_images/semi-solid.svg" src="_images/semi-solid.svg" width="400" /></a>
+<p class="caption"><span class="caption-text">Fig 3. Scheme representing the unit cells of a solid that would generate the potential semi-occupied.</span><a class="headerlink" href="#id54" title="Permalink to this image">¶</a></p>
+</div>
+<p>So, to outline the solution, suppose one have <span class="math notranslate nohighlight">\(N\)</span> independent charge distributions, where the <span class="math notranslate nohighlight">\(mth\)</span> is given by:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\rho_{m}(\vec{r}) = (1+f_{m})n_{m}(\vec{r}) \\
+n_{m}(\vec{r}) = -q \cdot \eta_{m} \\
+\int \eta_{m}(\vec{r})d\vec{r} = 1 \\\end{split}\]</div>
+<p>Where <span class="math notranslate nohighlight">\(\rho\)</span> represents the density of the distribution <span class="math notranslate nohighlight">\(m\)</span>, <span class="math notranslate nohighlight">\(q\)</span> represents the charge of the electron, <span class="math notranslate nohighlight">\(\eta\)</span> a normalized function in space and <span class="math notranslate nohighlight">\(f\)</span> represents an occupancy factor that varies continuously from
+0(occupied) to -1(unoccupied).</p>
+<p>Considering the charge density represented above, one can find the Coulomb potentials for each distribution
+by the Poison equation:</p>
+<div class="math notranslate nohighlight">
+\[\nabla^{2}V_{m}(\vec{r}) = \frac{q\rho_{m}(\vec{r})}{\epsilon_{0}}\]</div>
+<p>Now, suppose another situation where one only alternate the occupation of the <span class="math notranslate nohighlight">\(\alpha\)</span> level and the same charge distribution remains. In this scenario, the <span class="math notranslate nohighlight">\(mth\)</span>
+potential is given by:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\nabla^{2}V_{m}{'}(\vec{r}) = \frac{q\rho_{m}{'}(\vec{r})}{\epsilon_{0}} \\
+f_{i}=f_{i}{'}, i \neq \alpha \\
+f_{\alpha} \neq f_{\alpha}{'}\end{split}\]</div>
+<p>Thus, one want to calculate the potential for all distributions, which is obtained by adding
+of the potential of all distributions, as shown in the equations below.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\nabla^{2}V(\vec{r}) = \frac{q\sum_{m=1}^{N}\rho_{m}}{\epsilon_{0}} \\
+\nabla^{2}V{'}(\vec{r}) = \frac{q\sum_{m=1}^{N}\rho_{m}{'}}{\epsilon_{0}}\end{split}\]</div>
+<p>Subtracting these two equations:</p>
+<div class="math notranslate nohighlight">
+\[\nabla^{2}(V(\vec{r})-V{'}(\vec{r})) = \frac{q(f_{\alpha}-f_{\alpha}{'})n_{\alpha}(\vec{r})}{\epsilon_{0}}\]</div>
+<p>Using the above equation for the specific case of <span class="math notranslate nohighlight">\(f_{\alpha} = 0\)</span> and <span class="math notranslate nohighlight">\(f_{\alpha}{'} = -1/2\)</span>, the following equation is obtained:</p>
+<div class="math notranslate nohighlight">
+\[\nabla^{2}(V(\vec{r})-V{'}(\vec{r})) = \frac{qn_{\alpha}(\vec{r})}{2\epsilon_{0}}\Rightarrow V{'}(\vec{r}) = V(\vec{r}) - V_{\alpha}^{f_{\alpha}=-1/2}\]</div>
+<p>Hence, using the equation above, one can calculate the potential semi-occupied from other potentials, which discards the need for
+modify the charge density. For a crystal, the equation is written as follows:</p>
+<div class="math notranslate nohighlight">
+\[V_{crystal}^{-1/2} = V_{crystal} - V_{1/2e}\]</div>
+<p>Where <span class="math notranslate nohighlight">\(V_ {crystal}^{- 1/2}\)</span> is the potential of the semi-occupied crystal, <span class="math notranslate nohighlight">\(V_ {crystal}\)</span>
+is the potential of the crystal in the ground state and <span class="math notranslate nohighlight">\(V_ {1 / 2e}\)</span> is the potential of the respective level
+occupied with half an electron.</p>
+<p>There is a problem with adding <span class="math notranslate nohighlight">\(-V_ {1 / 2e}\)</span> to all the atoms of an infinite crystal: the potential will
+diverge. <span class="math notranslate nohighlight">\(-V_ {1 / 2e}\)</span> is a potential of an excess charge of 1/2 proton and has a tail of 0.5/r
+that cannot be summed in an infinite lattice. Therefore the tail has to be trimmed by a step function <a class="footnote-reference brackets" href="#id37" id="id24">2</a>.
+Besides, it is worth mentioning that the values ​​for <span class="math notranslate nohighlight">\(CUT\)</span> and <span class="math notranslate nohighlight">\(A\)</span> must not be chosen arbitrarily, by means of variational
+arguments it can be proved that the optimal values ​​for these parameters are those that maximize the band gap of the crystalline system <a class="footnote-reference brackets" href="#id36" id="id25">1</a> <a class="footnote-reference brackets" href="#id37" id="id26">2</a> ,
+as shown in Figure 3.</p>
+<p>Hence, to obtain <span class="math notranslate nohighlight">\(V_ {1 / 2e}\)</span>, the following equation is used for the atoms that compose the crystal <a class="footnote-reference brackets" href="#id36" id="id27">1</a> <a class="footnote-reference brackets" href="#id37" id="id28">2</a>:</p>
+<div class="math notranslate nohighlight">
+\[V_{1/2e} = (V_{atom} - V_{atom}^{f_{\alpha}=-1/2})\cdot \theta (r)\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}\theta (r) = \left\{\begin{matrix}
+\theta (r) = A \cdot[1-(\frac{r}{CUT})^{8}]^{3}) , r \leq CUT \\
+\theta (r) = 0 , r &gt; CUT
+\end{matrix}\right.\end{split}\]</div>
+<p>Where <span class="math notranslate nohighlight">\(V_{atom}\)</span> is the potential of the atom in the ground state, <span class="math notranslate nohighlight">\(V_{atom}^{f_{\alpha}=-1/2}\)</span>
+is the potential of the atom with the level <span class="math notranslate nohighlight">\(\alpha\)</span> occupied, <span class="math notranslate nohighlight">\(\theta (r)\)</span> is a trimming function,
+CUT is the cut radius  and A is a scale factor named amplitude.</p>
+<div class="figure align-center" id="id55">
+<a class="reference internal image-reference" href="_images/cut_gap.png"><img alt="_images/cut_gap.png" src="_images/cut_gap.png" style="width: 800px;" /></a>
+<p class="caption"><span class="caption-text">Fig 3. The figure depicts the choice of <span class="math notranslate nohighlight">\(CUT\)</span> for <span class="math notranslate nohighlight">\(O\)</span> and <span class="math notranslate nohighlight">\(Zn\)</span> in the case of <span class="math notranslate nohighlight">\(ZnO\)</span>. First we maximize the gap varying <span class="math notranslate nohighlight">\(CUT^{O}\)</span> , then we vary <span class="math notranslate nohighlight">\(CUT^{Zn}\)</span> to reach a band gap value near the correct value <a class="footnote-reference brackets" href="#id37" id="id29">2</a>.</span><a class="headerlink" href="#id55" title="Permalink to this image">¶</a></p>
+</div>
+<p>Finnaly, since the atoms repeats in each unit cell, the potential <span class="math notranslate nohighlight">\(V_{1/2e}\)</span> is periodic, joining this
+information with the fact that <span class="math notranslate nohighlight">\(V_{crystal}\)</span> is periodic, one can conclude that <span class="math notranslate nohighlight">\(V_{crystal}^{-1/2}\)</span>
+is periodic, which implies that the boundary conditions remain periodic and the Khon-Shan calculations can be applied to the system.</p>
+</div>
+<div class="section" id="the-cut-parameter">
+<h2>The CUT parameter<a class="headerlink" href="#the-cut-parameter" title="Permalink to this headline">¶</a></h2>
+<p>As observed for several 3D and 2D materials <a class="footnote-reference brackets" href="#id37" id="id30">2</a> <a class="footnote-reference brackets" href="#id47" id="id31">12</a>, one may observe that a <span class="math notranslate nohighlight">\(CUT\)</span> parameter has
+a strong dependence on the considered element where the half occupation is applied, as shown in Figure 4 for two-dimensional materials, which is consistent with the environment
+neglect and the isolated atom approximation for the self-energy potential.The significant differences between
+CUT parameters for one element in distinct materials is explained by the difference between bond lengths in the studied
+materials. In general, materials with smaller first-neighbor lengths exhibit smaller cutoff parameters. A linear relation
+between the <span class="math notranslate nohighlight">\(CUT\)</span> parameter and the bond lengths (d) is observed for several classes of 2D materials <a class="footnote-reference brackets" href="#id47" id="id32">12</a> and 3D materials <a class="footnote-reference brackets" href="#id36" id="id33">1</a>.</p>
+<div class="figure align-center" id="id56">
+<a class="reference internal image-reference" href="_images/cut_element_2d.png"><img alt="_images/cut_element_2d.png" src="_images/cut_element_2d.png" style="width: 500px;" /></a>
+<p class="caption"><span class="caption-text">Fig 4. Cutoff parameter comparison for a selected set of 2D
+materials. The cutoff parameters of the VBM (CBM) states on the
+anions (cations) are represented on the left (right) <a class="footnote-reference brackets" href="#id47" id="id34">12</a>.</span><a class="headerlink" href="#id56" title="Permalink to this image">¶</a></p>
+</div>
+</div>
+<div class="section" id="where-to-perform-semi-occupation">
+<h2>Where to perform semi-occupation?<a class="headerlink" href="#where-to-perform-semi-occupation" title="Permalink to this headline">¶</a></h2>
+<p>There are two types of correction, simple and fractional, and they must be performed in the last valence band (<span class="math notranslate nohighlight">\(VBM\)</span>) and the first conduction band (<span class="math notranslate nohighlight">\(CBM\)</span>).
+The choice of which correction cannot be made blindly, it requires an analysis of the band’s composition. To explain these two corrections, suppose that we have a matrix where the atoms
+of the unit cell are represented as lines and the types of atomic orbitals <span class="math notranslate nohighlight">\((s, p, d, f ...)\)</span> as columns , each value <span class="math notranslate nohighlight">\(a_{ij}\)</span>
+represents, in percentage, how much that orbital <span class="math notranslate nohighlight">\(j\)</span> of a given atom <span class="math notranslate nohighlight">\(i\)</span> contributes to the total module of the wave function.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}A = \begin{bmatrix}
+a_{11} &amp; a_{12} &amp; \dots \\
+\vdots &amp; \ddots &amp; \\
+a_{N1} &amp;        &amp; a_{NK}
+\end{bmatrix}\end{split}\]</div>
+<p>Where:</p>
+<div class="math notranslate nohighlight">
+\[\sum_{i=1}^{N} \sum_{j=1}^{K} a_{ij} = 100\]</div>
+<div class="section" id="simple-correction">
+<h3>Simple correction<a class="headerlink" href="#simple-correction" title="Permalink to this headline">¶</a></h3>
+<p>The simple correction method is applied when an index <span class="math notranslate nohighlight">\(a_{ij}\)</span> mainly represents the
+composition of the band, so that the influence of the other orbitals is negligible.
+Thus, the correction of half an electron is done only in the orbital <span class="math notranslate nohighlight">\(j\)</span> of the atom <span class="math notranslate nohighlight">\(i\)</span>.</p>
+</div>
+<div class="section" id="fractional-correction">
+<span id="frac-correction"></span><h3>Fractional correction<a class="headerlink" href="#fractional-correction" title="Permalink to this headline">¶</a></h3>
+<p>The fractional correction method is applied when different atomic orbitals have a significant influence
+in the composition of the band, it can be observed in the conduction bands of Figure 5, where the <span class="math notranslate nohighlight">\(p\)</span> and <span class="math notranslate nohighlight">\(d\)</span> orbitals compose the band simultaneously. To distribute half an  electron, a threshold is chosen
+<span class="math notranslate nohighlight">\(\epsilon\)</span>, which represents the minimum value of <span class="math notranslate nohighlight">\(a_{ij}\)</span> considered in the correction. Given these
+values,the half an electron will be divided among the atoms, proportionally to the coefficient <span class="math notranslate nohighlight">\(a_{ij}\)</span>.</p>
+<div class="figure align-center" id="id57">
+<a class="reference internal image-reference" href="_images/cdo_bands.png"><img alt="_images/cdo_bands.png" src="_images/cdo_bands.png" style="width: 500px;" /></a>
+<p class="caption"><span class="caption-text">Fig 5. Orbital character for CdO valence bands. The character <span class="math notranslate nohighlight">\(p\)</span> is represented
+in yellow and the character <span class="math notranslate nohighlight">\(d\)</span> in a magnet <a class="footnote-reference brackets" href="#id45" id="id35">10</a>.</span><a class="headerlink" href="#id57" title="Permalink to this image">¶</a></p>
+</div>
+</div>
+<div class="section" id="is-conduction-band-correction-always-necessary">
+<h3>Is conduction band correction always necessary?<a class="headerlink" href="#is-conduction-band-correction-always-necessary" title="Permalink to this headline">¶</a></h3>
+<p>In many cases, the correction in the valence band already returns satisfactory and close enough results, which rules out the need for an additional correction in the conduction band.</p>
+</div>
+<div class="section" id="final-considerations">
+<h3>Final considerations<a class="headerlink" href="#final-considerations" title="Permalink to this headline">¶</a></h3>
+<p>After applying the correction, the optimum cut must be found for each corrected atom to find the final value for the gap.</p>
+</div>
+</div>
+<div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<dl class="footnote brackets">
+<dt class="label" id="id36"><span class="brackets">1</span><span class="fn-backref">(<a href="#id1">1</a>,<a href="#id20">2</a>,<a href="#id22">3</a>,<a href="#id25">4</a>,<a href="#id27">5</a>,<a href="#id33">6</a>)</span></dt>
+<dd><ol class="upperalpha simple" start="12">
+<li><ol class="upperalpha simple" start="7">
+<li><p>Ferreira, M. Marques, and L. K. Teles, <a class="reference external" href="http://dx.doi.org/10.1103/PhysRevB.78.125116">Phys. Rev. B 78, 125116 (2008)</a>.</p></li>
+</ol>
+</li>
+</ol>
+</dd>
+<dt class="label" id="id37"><span class="brackets">2</span><span class="fn-backref">(<a href="#id2">1</a>,<a href="#id3">2</a>,<a href="#id5">3</a>,<a href="#id7">4</a>,<a href="#id13">5</a>,<a href="#id23">6</a>,<a href="#id24">7</a>,<a href="#id26">8</a>,<a href="#id28">9</a>,<a href="#id29">10</a>,<a href="#id30">11</a>)</span></dt>
+<dd><ol class="upperalpha simple" start="12">
+<li><ol class="upperalpha simple" start="7">
+<li><p>Ferreira, M. Marques, and L. K. Teles, <a class="reference external" href="https://doi.org/10.1063/1.3624562">AIP Adv. 1, 032119 (2011)</a>.</p></li>
+</ol>
+</li>
+</ol>
+</dd>
+<dt class="label" id="id38"><span class="brackets"><a class="fn-backref" href="#id14">3</a></span></dt>
+<dd><p>J.C. Slater and K. H. Johnson, <a class="reference external" href="http://dx.doi.org/10.1103/PhysRevB.5.844">Phys. Rev. B 5, 844 (1972)</a>.</p>
+</dd>
+<dt class="label" id="id39"><span class="brackets"><a class="fn-backref" href="#id15">4</a></span></dt>
+<dd><p>J.C. Slater, <a class="reference external" href="http://dx.doi.org/10.1016/S0065-3276(08)60541-9">Adv. Quantum Chem. 6, 1 (1972)</a>.</p>
+</dd>
+<dt class="label" id="id40"><span class="brackets">5</span><span class="fn-backref">(<a href="#id16">1</a>,<a href="#id19">2</a>)</span></dt>
+<dd><ol class="upperalpha simple" start="10">
+<li><ol class="upperalpha simple" start="3">
+<li><p>Slater and J. H. Wood, Int. J. Quant. Chem. Suppl. 4, 3 (1971).</p></li>
+</ol>
+</li>
+</ol>
+</dd>
+<dt class="label" id="id41"><span class="brackets"><a class="fn-backref" href="#id17">6</a></span></dt>
+<dd><ol class="upperalpha simple" start="10">
+<li><ol class="upperalpha simple" start="16">
+<li><p>Perdew and A. Zunger, <a class="reference external" href="http://dx.doi.org/10.1103/PhysRevB.23.5048">Phys. Rev. B 23, 5048 (1981)</a>.</p></li>
+</ol>
+</li>
+</ol>
+</dd>
+<dt class="label" id="id42"><span class="brackets"><a class="fn-backref" href="#id18">7</a></span></dt>
+<dd><ol class="upperalpha simple" start="10">
+<li><ol class="upperalpha simple" start="16">
+<li><p>Perdew, K. Burke, and M. Ernzerhof, <a class="reference external" href="http://dx.doi.org/10.1103/PhysRevLett.77.3865">Phys. Rev. Lett. 77, 3865 (1996)</a> .</p></li>
+</ol>
+</li>
+</ol>
+</dd>
+<dt class="label" id="id43"><span class="brackets"><a class="fn-backref" href="#id21">8</a></span></dt>
+<dd><p>Holgate, Sharon Ann (2009). Understanding Solid State Physics. CRC Press. pp. 177–178. ISBN 978-1-4200-1232-3.</p>
+</dd>
+<dt class="label" id="id44"><span class="brackets"><a class="fn-backref" href="#id8">9</a></span></dt>
+<dd><ol class="upperalpha simple" start="7">
+<li><p>Onida, L. Reining, and A. Rubio, <a class="reference external" href="http://dx.doi.org/10.1103/RevModPhys.74.601">Rev. Mod. Phys. 74, 601 (2002)</a>.</p></li>
+</ol>
+</dd>
+<dt class="label" id="id45"><span class="brackets"><a class="fn-backref" href="#id35">10</a></span></dt>
+<dd><ol class="upperalpha simple" start="3">
+<li><ol class="upperalpha simple">
+<li><p>Ataide, R. R. Pelá, M. Marques, L. K. Teles, J. Furthmüller, and F. Bechstedt <cite>Phys. Rev. B 95, 045126 – Published 17 January 2017 &lt;https://journals.aps.org/prb/abstract/10.1103/PhysRevB.95.045126&gt;</cite></p></li>
+</ol>
+</li>
+</ol>
+</dd>
+<dt class="label" id="id46"><span class="brackets"><a class="fn-backref" href="#id4">11</a></span></dt>
+<dd><ol class="upperalpha simple" start="18">
+<li><ol class="upperalpha simple" start="18">
+<li><p>Pelá, M. Marques, L. G. Ferreira, J. Furthmüller, and L. K. Teles, <a class="reference external" href="https://doi.org/10.1063/1.3624562">Appl. Phys. Lett. 100, 202408 (2012)</a>.</p></li>
+</ol>
+</li>
+</ol>
+</dd>
+<dt class="label" id="id47"><span class="brackets">12</span><span class="fn-backref">(<a href="#id6">1</a>,<a href="#id31">2</a>,<a href="#id32">3</a>,<a href="#id34">4</a>)</span></dt>
+<dd><ol class="upperroman simple">
+<li><p>Guilhon, D. S. Koda, L. G. Ferreira, M. Marques, and L. K. Teles 1, <cite>Phys. Rev. B 95, 045426 – Published 24 January 2018 &lt;https://journals.aps.org/prb/abstract/10.1103/PhysRevB.97.045426&gt;</cite></p></li>
+</ol>
+</dd>
+<dt class="label" id="id48"><span class="brackets"><a class="fn-backref" href="#id10">13</a></span></dt>
+<dd><ol class="upperalpha simple" start="7">
+<li><p>Kresse and J. Furthmüller, <a class="reference external" href="https://doi.org/10.1103/PhysRevB.54.11169">Phys. Rev. B 54, 11169 (1996)</a>.</p></li>
+</ol>
+</dd>
+<dt class="label" id="id49"><span class="brackets"><a class="fn-backref" href="#id11">14</a></span></dt>
+<dd><ol class="upperalpha simple" start="7">
+<li><p>Kresse and J. Furthmüller, <a class="reference external" href="https://doi.org/10.1016/0927-0256(96)00008-0">Comput. Mater. Sci. 6, 15 (1996)</a>.</p></li>
+</ol>
+</dd>
+<dt class="label" id="id50"><span class="brackets"><a class="fn-backref" href="#id12">15</a></span></dt>
+<dd><ol class="upperalpha simple" start="16">
+<li><p>Blaha, K. Schwarz, P. Sorantin, and S. B. Trickey, <a class="reference external" href="http://dx.doi.org/10.1016/0010-4655(90)90187-6">Comput. Phys. Commun</a>. 59, 399 (1990), see www.wien2k.at.</p></li>
+</ol>
+</dd>
+<dt class="label" id="id51"><span class="brackets"><a class="fn-backref" href="#id9">16</a></span></dt>
+<dd><p>R R Pela et al 2015 <a class="reference external" href="http://dx.doi.org/10.1088/0953-8984/27/50/505502">J. Phys.: Condens. Matter 27 505502</a>.</p>
+</dd>
+</dl>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="installation.html" class="btn btn-neutral float-right" title="Installation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to minushalf’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Henrique Fernandes Feitosa.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+  
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

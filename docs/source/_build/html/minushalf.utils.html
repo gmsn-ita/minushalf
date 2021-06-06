@@ -1,0 +1,971 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>minushalf.utils package &mdash; minushalf 1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Support and financing" href="support.html" />
+    <link rel="prev" title="minushalf.softwares.vasp package" href="minushalf.softwares.vasp.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> minushalf
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands.html">Commands</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="api.html">API Documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="api.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="minushalf.commands.html">minushalf.commands package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="minushalf.corrections.html">minushalf.corrections package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="minushalf.data.html">minushalf.data package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="minushalf.interfaces.html">minushalf.interfaces package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="minushalf.softwares.html">minushalf.softwares package</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">minushalf.utils package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-minushalf.utils.atomic_potential">minushalf.utils.atomic_potential module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-minushalf.utils.band_structure">minushalf.utils.band_structure module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-minushalf.utils.check_file_exists">minushalf.utils.check_file_exists module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-minushalf.utils.cli_messages">minushalf.utils.cli_messages module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-minushalf.utils.correct_potential_fourier_transform">minushalf.utils.correct_potential_fourier_transform module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-minushalf.utils.drop_comments">minushalf.utils.drop_comments module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-minushalf.utils.fractionary_correction_indexes">minushalf.utils.fractionary_correction_indexes module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-minushalf.utils.input_file">minushalf.utils.input_file module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-minushalf.utils.make_minushalf_results">minushalf.utils.make_minushalf_results module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-minushalf.utils.minushalf_yaml">minushalf.utils.minushalf_yaml module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-minushalf.utils.parse_cut">minushalf.utils.parse_cut module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-minushalf.utils.parse_valence_orbital_line">minushalf.utils.parse_valence_orbital_line module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-minushalf.utils.projection_to_df">minushalf.utils.projection_to_df module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-minushalf.utils.reverse_band_gap">minushalf.utils.reverse_band_gap module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-minushalf.utils.simple_correction_indexes">minushalf.utils.simple_correction_indexes module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-minushalf.utils.trimming_function">minushalf.utils.trimming_function module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-minushalf.utils.vtotal">minushalf.utils.vtotal module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-minushalf.utils">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-minushalf.minushalf">minushalf.minushalf module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-minushalf">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="support.html">Support and financing</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">minushalf</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="api.html">API Documentation</a> &raquo;</li>
+        
+      <li>minushalf.utils package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/minushalf.utils.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="minushalf-utils-package">
+<h1>minushalf.utils package<a class="headerlink" href="#minushalf-utils-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-minushalf.utils.atomic_potential">
+<span id="minushalf-utils-atomic-potential-module"></span><h2>minushalf.utils.atomic_potential module<a class="headerlink" href="#module-minushalf.utils.atomic_potential" title="Permalink to this headline">¶</a></h2>
+<p>Correct crystal potential to
+fractional occupations</p>
+<dl class="py class">
+<dt id="minushalf.utils.atomic_potential.AtomicPotential">
+<em class="property">class </em><code class="sig-prename descclassname">minushalf.utils.atomic_potential.</code><code class="sig-name descname">AtomicPotential</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">vtotal</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#minushalf.utils.vtotal.Vtotal" title="minushalf.utils.vtotal.Vtotal">minushalf.utils.vtotal.Vtotal</a></span></em>, <em class="sig-param"><span class="n">vtotal_occupied</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#minushalf.utils.vtotal.Vtotal" title="minushalf.utils.vtotal.Vtotal">minushalf.utils.vtotal.Vtotal</a></span></em>, <em class="sig-param"><span class="n">potential_file</span><span class="p">:</span> <span class="n"><a class="reference internal" href="minushalf.interfaces.html#minushalf.interfaces.potential_file.PotentialFile" title="minushalf.interfaces.potential_file.PotentialFile">minushalf.interfaces.potential_file.PotentialFile</a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#minushalf.utils.atomic_potential.AtomicPotential" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Correct atomic potential fourier tranform
+for fractional occupations in valence
+or conduction bands</p>
+<dl class="py method">
+<dt id="minushalf.utils.atomic_potential.AtomicPotential.correct_file">
+<code class="sig-name descname">correct_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">potential</span><span class="p">:</span> <span class="n">list</span></em>, <em class="sig-param"><span class="n">cut</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">amplitude</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">is_conduction</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#minushalf.utils.atomic_potential.AtomicPotential.correct_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create the potential file corrected</p>
+<blockquote>
+<div><dl>
+<dt>Args:</dt><dd><p>potential (list): List of corrected potentials fourier transform</p>
+<p>cut (float): Cutting parameter to cancel the potential</p>
+<p>amplitude (float): Multiplicative factor of the potential function</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt id="minushalf.utils.atomic_potential.AtomicPotential.correct_potential">
+<code class="sig-name descname">correct_potential</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cut</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">amplitude</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">is_conduction</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; list<a class="headerlink" href="#minushalf.utils.atomic_potential.AtomicPotential.correct_potential" title="Permalink to this definition">¶</a></dt>
+<dd><p>Correct fourier transform of the potential (V(k)) present in POTCAR file.</p>
+<blockquote>
+<div><dl>
+<dt>Args:</dt><dd><p>cut (float): Cutting parameter to cancel the potential</p>
+<p>amplitude (float): Multiplicative factor of the potential function</p>
+<p>is_conduction (bool): Indicates whether the potential correction will be
+made in the valence or in the conduction</p>
+</dd>
+<dt>Returns:</dt><dd><p>List of corrected potentials fourier transform</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt id="minushalf.utils.atomic_potential.AtomicPotential.get_corrected_file_lines">
+<code class="sig-name descname">get_corrected_file_lines</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">potential</span><span class="p">:</span> <span class="n">list</span></em><span class="sig-paren">)</span> &#x2192; list<a class="headerlink" href="#minushalf.utils.atomic_potential.AtomicPotential.get_corrected_file_lines" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create the potential file corrected</p>
+<blockquote>
+<div><dl class="simple">
+<dt>Args:</dt><dd><p>potential (list): List of corrected potentials fourier transform</p>
+</dd>
+<dt>Returns:</dt><dd><p>potential_lines(list): A List of potcar lines</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt id="minushalf.utils.atomic_potential.AtomicPotential.occupy_potential">
+<code class="sig-name descname">occupy_potential</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cut</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">amplitude</span></em><span class="sig-paren">)</span> &#x2192; list<a class="headerlink" href="#minushalf.utils.atomic_potential.AtomicPotential.occupy_potential" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cut</strong> (<em>float</em>) – Cutting parameter to cancel the potential</p></li>
+<li><p><strong>amplitude</strong> (<em>float</em>) – Multiplicative factor of the potential function</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list that contains the potentials of fractional electron
+occupation at the exact level to be corrected.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-minushalf.utils.band_structure">
+<span id="minushalf-utils-band-structure-module"></span><h2>minushalf.utils.band_structure module<a class="headerlink" href="#module-minushalf.utils.band_structure" title="Permalink to this headline">¶</a></h2>
+<p>Band structure informations</p>
+<dl class="py class">
+<dt id="minushalf.utils.band_structure.BandStructure">
+<em class="property">class </em><code class="sig-prename descclassname">minushalf.utils.band_structure.</code><code class="sig-name descname">BandStructure</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">eigenvalues</span><span class="p">:</span> <span class="n">dict</span></em>, <em class="sig-param"><span class="n">fermi_energy</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">atoms_map</span><span class="p">:</span> <span class="n">dict</span></em>, <em class="sig-param"><span class="n">num_bands</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">band_projection</span><span class="p">:</span> <span class="n"><a class="reference internal" href="minushalf.interfaces.html#minushalf.interfaces.band_projection_file.BandProjectionFile" title="minushalf.interfaces.band_projection_file.BandProjectionFile">minushalf.interfaces.band_projection_file.BandProjectionFile</a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#minushalf.utils.band_structure.BandStructure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Extact band structure insights from
+VASP classes</p>
+<dl class="py method">
+<dt id="minushalf.utils.band_structure.BandStructure.band_gap">
+<code class="sig-name descname">band_gap</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; dict<a class="headerlink" href="#minushalf.utils.band_structure.BandStructure.band_gap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find VBM and CBM, then returns band gap
+:returns: VBM index and its eigenvalue, CBM index and its eigenvalue and band gap</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="minushalf.utils.band_structure.BandStructure.band_projection">
+<code class="sig-name descname">band_projection</code><span class="sig-paren">(</span><em class="sig-param">kpoint: int</em>, <em class="sig-param">band: int) -&gt; defaultdict(&lt;class 'list'&gt;</em>, <em class="sig-param">{}</em><span class="sig-paren">)</span><a class="headerlink" href="#minushalf.utils.band_structure.BandStructure.band_projection" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Find the projection of each atom for a specific band.</dt><dd><dl class="simple">
+<dt>Args:</dt><dd><p>kpoint (int): Number of kpoints
+band_number (int): Number of the band</p>
+</dd>
+<dt>Returns:</dt><dd><p>band_projection (defaultdict(list)): Contains the projection
+of each orbital of each atom in the respective band</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="minushalf.utils.band_structure.BandStructure.cbm_index">
+<code class="sig-name descname">cbm_index</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; tuple<a class="headerlink" href="#minushalf.utils.band_structure.BandStructure.cbm_index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the kpoint and the band for cbm</p>
+<blockquote>
+<div><dl class="simple">
+<dt>Returns:</dt><dd><p>vbm_index (tuple): Contains the kpoint
+number and the band number of th vbm</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt id="minushalf.utils.band_structure.BandStructure.cbm_projection">
+<code class="sig-name descname">cbm_projection</code><span class="sig-paren">(</span><em class="sig-param">) -&gt; defaultdict(&lt;class 'list'&gt;</em>, <em class="sig-param">{}</em><span class="sig-paren">)</span><a class="headerlink" href="#minushalf.utils.band_structure.BandStructure.cbm_projection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the projection of each atom for valence
+band minimum.</p>
+<blockquote>
+<div><dl class="simple">
+<dt>Returns:</dt><dd><p>vbm_projection (defaultdict(list)): Contains the projection
+of each orbital of each atom in the respective band</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt id="minushalf.utils.band_structure.BandStructure.is_metal">
+<code class="sig-name descname">is_metal</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">tolerance</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.0001</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#minushalf.utils.band_structure.BandStructure.is_metal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the band structure indicates a metal by looking if the fermi
+level crosses a band.
+:returns: True if a metal, False if not</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="minushalf.utils.band_structure.BandStructure.vbm_index">
+<code class="sig-name descname">vbm_index</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; tuple<a class="headerlink" href="#minushalf.utils.band_structure.BandStructure.vbm_index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the kpoint and the band for vbm</p>
+<blockquote>
+<div><dl class="simple">
+<dt>Returns:</dt><dd><p>vbm_index (tuple): Contains the kpoint
+number and the band number of th vbm</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt id="minushalf.utils.band_structure.BandStructure.vbm_projection">
+<code class="sig-name descname">vbm_projection</code><span class="sig-paren">(</span><em class="sig-param">) -&gt; defaultdict(&lt;class 'list'&gt;</em>, <em class="sig-param">{}</em><span class="sig-paren">)</span><a class="headerlink" href="#minushalf.utils.band_structure.BandStructure.vbm_projection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the projection of each atom for valence
+band maximum.</p>
+<blockquote>
+<div><dl class="simple">
+<dt>Returns:</dt><dd><p>vbm_projection (defaultdict(list)): Contains the projection
+of each orbital of each atom in the respective band</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-minushalf.utils.check_file_exists">
+<span id="minushalf-utils-check-file-exists-module"></span><h2>minushalf.utils.check_file_exists module<a class="headerlink" href="#module-minushalf.utils.check_file_exists" title="Permalink to this headline">¶</a></h2>
+<p>Function to check if a file exists</p>
+<dl class="py function">
+<dt id="minushalf.utils.check_file_exists.check_eigenval_exists">
+<code class="sig-prename descclassname">minushalf.utils.check_file_exists.</code><code class="sig-name descname">check_eigenval_exists</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span></em><span class="sig-paren">)</span><a class="headerlink" href="#minushalf.utils.check_file_exists.check_eigenval_exists" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function decrator to check if a file exists</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="minushalf.utils.check_file_exists.check_outcar_exists">
+<code class="sig-prename descclassname">minushalf.utils.check_file_exists.</code><code class="sig-name descname">check_outcar_exists</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span></em><span class="sig-paren">)</span><a class="headerlink" href="#minushalf.utils.check_file_exists.check_outcar_exists" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function decrator to check if a file exists</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="minushalf.utils.check_file_exists.check_potcar_exists">
+<code class="sig-prename descclassname">minushalf.utils.check_file_exists.</code><code class="sig-name descname">check_potcar_exists</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span></em><span class="sig-paren">)</span><a class="headerlink" href="#minushalf.utils.check_file_exists.check_potcar_exists" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function decrator to check if a file exists</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="minushalf.utils.check_file_exists.check_procar_exists">
+<code class="sig-prename descclassname">minushalf.utils.check_file_exists.</code><code class="sig-name descname">check_procar_exists</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span></em><span class="sig-paren">)</span><a class="headerlink" href="#minushalf.utils.check_file_exists.check_procar_exists" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function decrator to check if a file exists</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="minushalf.utils.check_file_exists.check_vasprun_exists">
+<code class="sig-prename descclassname">minushalf.utils.check_file_exists.</code><code class="sig-name descname">check_vasprun_exists</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span></em><span class="sig-paren">)</span><a class="headerlink" href="#minushalf.utils.check_file_exists.check_vasprun_exists" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function decrator to check if a file exists</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-minushalf.utils.cli_messages">
+<span id="minushalf-utils-cli-messages-module"></span><h2>minushalf.utils.cli_messages module<a class="headerlink" href="#module-minushalf.utils.cli_messages" title="Permalink to this headline">¶</a></h2>
+<p>Default cli messages</p>
+<dl class="py function">
+<dt id="minushalf.utils.cli_messages.end_message">
+<code class="sig-prename descclassname">minushalf.utils.cli_messages.</code><code class="sig-name descname">end_message</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#minushalf.utils.cli_messages.end_message" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print end message</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="minushalf.utils.cli_messages.welcome_message">
+<code class="sig-prename descclassname">minushalf.utils.cli_messages.</code><code class="sig-name descname">welcome_message</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#minushalf.utils.cli_messages.welcome_message" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print welcome message</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-minushalf.utils.correct_potential_fourier_transform">
+<span id="minushalf-utils-correct-potential-fourier-transform-module"></span><h2>minushalf.utils.correct_potential_fourier_transform module<a class="headerlink" href="#module-minushalf.utils.correct_potential_fourier_transform" title="Permalink to this headline">¶</a></h2>
+<p>Fourier Transform</p>
+<dl class="py function">
+<dt id="minushalf.utils.correct_potential_fourier_transform.correct_potential_fourier_transform">
+<code class="sig-prename descclassname">minushalf.utils.correct_potential_fourier_transform.</code><code class="sig-name descname">correct_potential_fourier_transform</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">coefficient</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">k</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">rays</span><span class="p">:</span> <span class="n">numpy.array</span></em>, <em class="sig-param"><span class="n">occupation_potential</span><span class="p">:</span> <span class="n">numpy.array</span></em>, <em class="sig-param"><span class="n">cut</span><span class="p">:</span> <span class="n">float</span></em><span class="sig-paren">)</span> &#x2192; float<a class="headerlink" href="#minushalf.utils.correct_potential_fourier_transform.correct_potential_fourier_transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>The pseudopotential is given in terms of the radial distance, and is only defined for r &gt;= 0,
+as expected. Since it is only evaluated inside an integral from 0 to infinity, it does not
+matter what values it assumes for r &lt; 0. A natural choice is to define the function to be
+zero for negative values, but a more convenient choice is to choose
+v(-r)=-v(r) and n(-r)=-n(r), since purely real and odd functions have purely imaginary Fourier transforms.
+Let v’ and n’ be the odd extensions of the potential and the number density, respectively.</p>
+<div class="math notranslate nohighlight">
+\[E_{v} = \int_{0}^{\infty}v(r)n(r)dr = \int_{0}^{\infty}v'(r)n'(r)dr =
+\frac{1}{2}\cdot\int_{-\infty}^{\infty}v'(r)n'(r)dr = -\frac{1}{2}\cdot\int_{-\infty}^{\infty}V(k)N(k)dk\]</div>
+<p>On the third equalitty, we used the fact that the product of two odd
+functions is even, and in the last step we have applied Parseval’s theorem,
+considering that the Fourier transforms are purely imaginary. Even though
+the function may not pass through the origin, we can still make an odd extension, by making it discontinuous.</p>
+<p>The data stored on POTCAR corresponds to the Fourier transform of the odd extension of v. It can be approximated
+by the summation on the right, where the prefactors were ommited.</p>
+<div class="math notranslate nohighlight">
+\[V(k) = i\cdot \sqrt{\frac{2}{\pi}}\cdot\int_{0}^{\infty}v(r)sin(b\cdot k\cdot r)dr
+\Rightarrow V(k)\sim \sum^{N_{r}}_{i=1}
+\frac{(v[i]\cdot sin(b\cdot k\cdot r[i])+v[i-1]\cdot sin(b\cdot k\cdot r[i-1]))}{2\cdot (r[i]-r[i-1])}\]</div>
+<p>Computes the opposite of the imaginary part of the j-th fourier transform coefficient
+through numerical integrationIndex zero stands for the r=DeltaR, and the function is
+assumed to be zero at the origin. Thus, the first trapezium of the numerical integration is
+degenerated to a triangulum, and its area must be calculated as so.</p>
+<blockquote>
+<div><dl>
+<dt>Args:</dt><dd><p>coefficient (float): Fourier transform of the potential for the atom in its ground state</p>
+<p>k (float): The wave vector in reciprocal space</p>
+<p>rays(list): List of rays on which pseudopotential calculations were made</p>
+<p>occupation_potential (list): Potential of fractional electron occupation at the exact level to be corrected</p>
+<p>cut(float): Cutting parameter to cancel the potential</p>
+</dd>
+<dt>Returns:</dt><dd><p>Fourier transform of the potential for the state with fractional occupation of the crystal</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+</div>
+<div class="section" id="module-minushalf.utils.drop_comments">
+<span id="minushalf-utils-drop-comments-module"></span><h2>minushalf.utils.drop_comments module<a class="headerlink" href="#module-minushalf.utils.drop_comments" title="Permalink to this headline">¶</a></h2>
+<p>Function to check if the line
+a commentarie or not</p>
+<dl class="py function">
+<dt id="minushalf.utils.drop_comments.drop_comments">
+<code class="sig-prename descclassname">minushalf.utils.drop_comments.</code><code class="sig-name descname">drop_comments</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">lines</span><span class="p">:</span> <span class="n">list</span></em><span class="sig-paren">)</span> &#x2192; list<a class="headerlink" href="#minushalf.utils.drop_comments.drop_comments" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to remove comments from lines in a file</p>
+<blockquote>
+<div><dl class="simple">
+<dt>Args:</dt><dd><p>lines(list): list of file lines</p>
+</dd>
+<dt>Returns:</dt><dd><p>lines_without_comments (list): lines of the file without comments</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+</div>
+<div class="section" id="module-minushalf.utils.fractionary_correction_indexes">
+<span id="minushalf-utils-fractionary-correction-indexes-module"></span><h2>minushalf.utils.fractionary_correction_indexes module<a class="headerlink" href="#module-minushalf.utils.fractionary_correction_indexes" title="Permalink to this headline">¶</a></h2>
+<p>Get atoms to be corrected for
+simple valence correction and simple
+condunction correction</p>
+<dl class="py function">
+<dt id="minushalf.utils.fractionary_correction_indexes.get_fractionary_corrections_indexes">
+<code class="sig-prename descclassname">minushalf.utils.fractionary_correction_indexes.</code><code class="sig-name descname">get_fractionary_corrections_indexes</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">band_projection</span><span class="p">:</span> <span class="n">pandas.core.frame.DataFrame</span></em>, <em class="sig-param"><span class="n">treshold</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">5</span></em><span class="sig-paren">)</span> &#x2192; dict<a class="headerlink" href="#minushalf.utils.fractionary_correction_indexes.get_fractionary_corrections_indexes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get dataframe index of the orbitals which contributes more
+than 5 percent to (VBM|CBM)</p>
+<blockquote>
+<div><p>Returns:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>correction_indexes (dict):A dict wherw the keys are the atoms</dt><dd><p>symbols and the value is a list with the orbitals type to be
+corrected.
+Ex:
+{
+‘Ga’: [‘p’,’s’],
+‘N’ : [‘d’,’f’],
+}</p>
+</dd>
+</dl>
+</div></blockquote>
+</div></blockquote>
+</dd></dl>
+
+</div>
+<div class="section" id="module-minushalf.utils.input_file">
+<span id="minushalf-utils-input-file-module"></span><h2>minushalf.utils.input_file module<a class="headerlink" href="#module-minushalf.utils.input_file" title="Permalink to this headline">¶</a></h2>
+<p>Leads with input file (INP.ae)
+read by atomic program.</p>
+<dl class="py class">
+<dt id="minushalf.utils.input_file.InputFile">
+<em class="property">class </em><code class="sig-prename descclassname">minushalf.utils.input_file.</code><code class="sig-name descname">InputFile</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">exchange_correlation_type</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">calculation_code</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">chemical_symbol</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">esoteric_line</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">number_valence_orbitals</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">number_core_orbitals</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">valence_orbitals</span><span class="p">:</span> <span class="n">list</span></em>, <em class="sig-param"><span class="n">description</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">last_lines</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>list<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#minushalf.utils.input_file.InputFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Parses input file.</p>
+<dl class="py method">
+<dt id="minushalf.utils.input_file.InputFile.calculation_code">
+<em class="property">property </em><code class="sig-name descname">calculation_code</code><a class="headerlink" href="#minushalf.utils.input_file.InputFile.calculation_code" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns:
+Calculation code for inp file (ae)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="minushalf.utils.input_file.InputFile.chemical_symbol">
+<em class="property">property </em><code class="sig-name descname">chemical_symbol</code><a class="headerlink" href="#minushalf.utils.input_file.InputFile.chemical_symbol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns:
+Chemical symbol of the element (H, He, Li…)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="minushalf.utils.input_file.InputFile.electron_occupation">
+<code class="sig-name descname">electron_occupation</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">electron_fraction</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">secondary_quantum_number</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#minushalf.utils.input_file.InputFile.electron_occupation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Corrects the input file of the atomic program,
+decreasing a fraction of the electron in a
+layer specified by the secondary quantum number</p>
+<blockquote>
+<div><dl>
+<dt>Args:</dt><dd><p>electron_fraction (float): Fraction of the electron
+that will be decreased in the INP file. Can vary between 0 and 0.5</p>
+<p>secondary_quantum_number (int): Specifies the layer on which
+the occupation is to be made.</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt id="minushalf.utils.input_file.InputFile.exchange_correlation_type">
+<em class="property">property </em><code class="sig-name descname">exchange_correlation_type</code><a class="headerlink" href="#minushalf.utils.input_file.InputFile.exchange_correlation_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns:
+Functional of exchange and correlation
+(ca, wi, hl, gl,bh, pb, rp, rv, bl</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="minushalf.utils.input_file.InputFile.from_file">
+<em class="property">static </em><code class="sig-name descname">from_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'./INP'</span></em><span class="sig-paren">)</span> &#x2192; any<a class="headerlink" href="#minushalf.utils.input_file.InputFile.from_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse INP.ae file.</p>
+<blockquote>
+<div><dl class="simple">
+<dt>Args:</dt><dd><p>filename: name of the INP file.</p>
+</dd>
+<dt>Returns:</dt><dd><p>input_file: instance of InputFile class.</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt id="minushalf.utils.input_file.InputFile.minimum_setup">
+<em class="property">static </em><code class="sig-name descname">minimum_setup</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">chemical_symbol</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">exchange_correlation_type</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">maximum_iterations</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">100</span></em>, <em class="sig-param"><span class="n">calculation_code</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'ae'</span></em><span class="sig-paren">)</span> &#x2192; any<a class="headerlink" href="#minushalf.utils.input_file.InputFile.minimum_setup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create INP file with minimum setup.</p>
+<blockquote>
+<div><p>Args:
+chemical_symbol (str): Symbol of the chemical element (H, He, Li…).</p>
+<p>exchange_correlation_type (str): functional of exchange and correlation
+( ca, wi, hl, gl, bh, pb, rp , rv, bl)</p>
+<p>maximum_iterations (int): Maximum number of iterations for atomic program.
+The default is 100</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>input_file: instance of InputFile class.</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt id="minushalf.utils.input_file.InputFile.to_file">
+<code class="sig-name descname">to_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'./INP'</span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#minushalf.utils.input_file.InputFile.to_file" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Write INP file</dt><dd><dl class="simple">
+<dt>Args:</dt><dd><p>filename (str): name of the output file</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="minushalf.utils.input_file.InputFile.to_stringlist">
+<code class="sig-name descname">to_stringlist</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; list<a class="headerlink" href="#minushalf.utils.input_file.InputFile.to_stringlist" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>List with the lines of the INP file.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-minushalf.utils.make_minushalf_results">
+<span id="minushalf-utils-make-minushalf-results-module"></span><h2>minushalf.utils.make_minushalf_results module<a class="headerlink" href="#module-minushalf.utils.make_minushalf_results" title="Permalink to this headline">¶</a></h2>
+<p>function make minushalf_results.dat</p>
+<dl class="py function">
+<dt id="minushalf.utils.make_minushalf_results.make_minushalf_results">
+<code class="sig-prename descclassname">minushalf.utils.make_minushalf_results.</code><code class="sig-name descname">make_minushalf_results</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">gap</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">valence_cuts</span><span class="p">:</span> <span class="n">dict</span></em>, <em class="sig-param"><span class="n">conduction_cuts</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>dict<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'minushalf_results.dat'</span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#minushalf.utils.make_minushalf_results.make_minushalf_results" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make output file for execute command, minushalf_results.dat.</p>
+<blockquote>
+<div><dl>
+<dt>Args:</dt><dd><p>gap (float): final gap in the correction method</p>
+<dl class="simple">
+<dt>valence_cuts (dict):dictionary inform the atom symbol, orbital</dt><dd><p>and cut for valence correction in the following format:
+{(symbol,orbital):cut}</p>
+</dd>
+<dt>conduction_cuts (dict):dictionary inform the atom symbol, orbital</dt><dd><p>and cut for condsuction correction in the following format.
+{(symbol,orbital):cut}</p>
+</dd>
+</dl>
+<p>name (str): name of the file</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+</div>
+<div class="section" id="module-minushalf.utils.minushalf_yaml">
+<span id="minushalf-utils-minushalf-yaml-module"></span><h2>minushalf.utils.minushalf_yaml module<a class="headerlink" href="#module-minushalf.utils.minushalf_yaml" title="Permalink to this headline">¶</a></h2>
+<p>Parser for minushalf.yaml</p>
+<dl class="py class">
+<dt id="minushalf.utils.minushalf_yaml.MinushalfYaml">
+<em class="property">class </em><code class="sig-prename descclassname">minushalf.utils.minushalf_yaml.</code><code class="sig-name descname">MinushalfYaml</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">software</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">software_configurations</span><span class="p">:</span> <span class="n">dict</span></em>, <em class="sig-param"><span class="n">atomic_program</span><span class="p">:</span> <span class="n">dict</span></em>, <em class="sig-param"><span class="n">correction</span><span class="p">:</span> <span class="n">dict</span></em><span class="sig-paren">)</span><a class="headerlink" href="#minushalf.utils.minushalf_yaml.MinushalfYaml" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class that parses the input
+for the execute command</p>
+<dl class="py method">
+<dt id="minushalf.utils.minushalf_yaml.MinushalfYaml.atomic_program">
+<em class="property">property </em><code class="sig-name descname">atomic_program</code><a class="headerlink" href="#minushalf.utils.minushalf_yaml.MinushalfYaml.atomic_program" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns:
+Some configurations for the atomic program</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="minushalf.utils.minushalf_yaml.MinushalfYaml.correction">
+<em class="property">property </em><code class="sig-name descname">correction</code><a class="headerlink" href="#minushalf.utils.minushalf_yaml.MinushalfYaml.correction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns:
+Some configurations for the correction in the
+potential files</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="minushalf.utils.minushalf_yaml.MinushalfYaml.from_file">
+<em class="property">static </em><code class="sig-name descname">from_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'minushalf.yaml'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#minushalf.utils.minushalf_yaml.MinushalfYaml.from_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Receives a file and catch all the parameters
+presents in the documentation</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="minushalf.utils.minushalf_yaml.MinushalfYaml.software">
+<em class="property">property </em><code class="sig-name descname">software</code><a class="headerlink" href="#minushalf.utils.minushalf_yaml.MinushalfYaml.software" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns:
+Name of the software used for ab initio calculations (VASP,…)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="minushalf.utils.minushalf_yaml.MinushalfYaml.software_configurations">
+<em class="property">property </em><code class="sig-name descname">software_configurations</code><a class="headerlink" href="#minushalf.utils.minushalf_yaml.MinushalfYaml.software_configurations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns:
+Some configurations for the softwares that runs
+ab initio calculations</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-minushalf.utils.parse_cut">
+<span id="minushalf-utils-parse-cut-module"></span><h2>minushalf.utils.parse_cut module<a class="headerlink" href="#module-minushalf.utils.parse_cut" title="Permalink to this headline">¶</a></h2>
+<p>Parse cut string used in correct potential file</p>
+<dl class="py function">
+<dt id="minushalf.utils.parse_cut.parse_cut">
+<code class="sig-prename descclassname">minushalf.utils.parse_cut.</code><code class="sig-name descname">parse_cut</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cut</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; list<a class="headerlink" href="#minushalf.utils.parse_cut.parse_cut" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse cut in a list of numbers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>cut</strong> (<em>str</em>) – <p>Cut energy to be used in the program, it can be
+passed in two ways:</p>
+<blockquote>
+<div><p>unique value : float or integer
+range:  begin(float|integer):pass(float|integer):end(float|integer)</p>
+</div></blockquote>
+</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Permited values of cut.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>cut_numbers (list)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-minushalf.utils.parse_valence_orbital_line">
+<span id="minushalf-utils-parse-valence-orbital-line-module"></span><h2>minushalf.utils.parse_valence_orbital_line module<a class="headerlink" href="#module-minushalf.utils.parse_valence_orbital_line" title="Permalink to this headline">¶</a></h2>
+<p>Parse valence orbital line in INP file.</p>
+<dl class="py function">
+<dt id="minushalf.utils.parse_valence_orbital_line.parse_valence_orbitals">
+<code class="sig-prename descclassname">minushalf.utils.parse_valence_orbital_line.</code><code class="sig-name descname">parse_valence_orbitals</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">line</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; dict<a class="headerlink" href="#minushalf.utils.parse_valence_orbital_line.parse_valence_orbitals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse valence orbital line in principal
+quantum number, angular momentum quantum number
+and eletronic occupation</p>
+<blockquote>
+<div><dl class="simple">
+<dt>Args:</dt><dd><p>line (str): line of imp file that represents
+a valence orbital</p>
+</dd>
+<dt>Returns:</dt><dd><p>A dictionary with fields n, l and eletronic occupation</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+</div>
+<div class="section" id="module-minushalf.utils.projection_to_df">
+<span id="minushalf-utils-projection-to-df-module"></span><h2>minushalf.utils.projection_to_df module<a class="headerlink" href="#module-minushalf.utils.projection_to_df" title="Permalink to this headline">¶</a></h2>
+<p>Transform informations about band_project generated
+by cbm_character, vbm_character or band_character in
+a normalized datafame Grouped by orbital types</p>
+<dl class="py function">
+<dt id="minushalf.utils.projection_to_df.projection_to_df">
+<code class="sig-prename descclassname">minushalf.utils.projection_to_df.</code><code class="sig-name descname">projection_to_df</code><span class="sig-paren">(</span><em class="sig-param">projection: defaultdict(&lt;class 'list'&gt;</em>, <em class="sig-param">{})</em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="headerlink" href="#minushalf.utils.projection_to_df.projection_to_df" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform received dictionaries into information with a higher degree of readability.</p>
+<blockquote>
+<div><dl class="simple">
+<dt>Args:</dt><dd><p>projection (defaultdict(list)): A dictionary containing the projections
+of each atom per orbital</p>
+</dd>
+<dt>Returns:</dt><dd><p>prolection_df (pd.DataFrame): A dataframe containing the projections
+per orbital type and normalized between 0 - 100</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+</div>
+<div class="section" id="module-minushalf.utils.reverse_band_gap">
+<span id="minushalf-utils-reverse-band-gap-module"></span><h2>minushalf.utils.reverse_band_gap module<a class="headerlink" href="#module-minushalf.utils.reverse_band_gap" title="Permalink to this headline">¶</a></h2>
+<p>Returns band-gap with the sinal changed, so
+one can use minimization algorithms to find the
+cut value that results in the maximum band_gap</p>
+<dl class="py function">
+<dt id="minushalf.utils.reverse_band_gap.find_reverse_band_gap">
+<code class="sig-prename descclassname">minushalf.utils.reverse_band_gap.</code><code class="sig-name descname">find_reverse_band_gap</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cuts</span><span class="p">:</span> <span class="n">list</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">tuple</span></em><span class="sig-paren">)</span> &#x2192; float<a class="headerlink" href="#minushalf.utils.reverse_band_gap.find_reverse_band_gap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run vasp and find the eigenvalue for a value of cut</p>
+<blockquote>
+<div><dl>
+<dt>Args:</dt><dd><p>cuts (float): List of cuts</p>
+<dl class="simple">
+<dt>args (tuple): tuple containning a dictionary with the fields</dt><dd><p>base_path (str): Path to mkpotcar{symbol}_{orbital}
+symbol (str): Atom symbol
+default_potential_filename (str): The default potential filename for each software
+potfiles_folder (str): Folder containing unmodified potfiles
+amplitude (float): scale factor to trimming function
+runner (Runner): runner for the software
+software_factory(SoftwaresAbstractFactory): Factory for each software
+atom_potential(AtomicPotential): Holds fourier transforms of the potential
+software_files (list): Aditional files besides potential file to make ab initio calculations</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p>Returns:</p>
+<blockquote>
+<div><p>reverse_gap (float): band gap multiplied for -1</p>
+</div></blockquote>
+</div></blockquote>
+</dd></dl>
+
+</div>
+<div class="section" id="module-minushalf.utils.simple_correction_indexes">
+<span id="minushalf-utils-simple-correction-indexes-module"></span><h2>minushalf.utils.simple_correction_indexes module<a class="headerlink" href="#module-minushalf.utils.simple_correction_indexes" title="Permalink to this headline">¶</a></h2>
+<p>Get atoms to be corrected for
+simple valence correction and simple
+condunction correction</p>
+<dl class="py function">
+<dt id="minushalf.utils.simple_correction_indexes.get_simple_corrections_indexes">
+<code class="sig-prename descclassname">minushalf.utils.simple_correction_indexes.</code><code class="sig-name descname">get_simple_corrections_indexes</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">band_projection</span><span class="p">:</span> <span class="n">pandas.core.frame.DataFrame</span></em><span class="sig-paren">)</span> &#x2192; dict<a class="headerlink" href="#minushalf.utils.simple_correction_indexes.get_simple_corrections_indexes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get dataframe index of the orbital which contributes more
+to (VBM|CBM)</p>
+<blockquote>
+<div><p>Returns:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>correction_indexes (dict):A dict wherw the keys are the atoms</dt><dd><p>symbols and the value is a list with the orbitals type to be
+corrected.
+Ex:
+{
+‘Ga’: [‘p’,’s’],
+‘N’ : [‘d’,’f’],
+}</p>
+</dd>
+</dl>
+</div></blockquote>
+</div></blockquote>
+</dd></dl>
+
+</div>
+<div class="section" id="module-minushalf.utils.trimming_function">
+<span id="minushalf-utils-trimming-function-module"></span><h2>minushalf.utils.trimming_function module<a class="headerlink" href="#module-minushalf.utils.trimming_function" title="Permalink to this headline">¶</a></h2>
+<p>Trimming function</p>
+<dl class="py function">
+<dt id="minushalf.utils.trimming_function.trimming_function">
+<code class="sig-prename descclassname">minushalf.utils.trimming_function.</code><code class="sig-name descname">trimming_function</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">radius</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">ion_potential</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">atom_potential</span></em>, <em class="sig-param"><span class="n">cut</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">amplitude</span><span class="p">:</span> <span class="n">float</span></em><span class="sig-paren">)</span> &#x2192; float<a class="headerlink" href="#minushalf.utils.trimming_function.trimming_function" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function that generate the potential for fractional occupation. The potential
+is cuted by a a function theta(r) to avoid divergence in calculations.
+The function of potential is defined as follows:</p>
+<div class="math notranslate nohighlight">
+\[V_{1/2} = (V_{atom}- V_{ion})\cdot \theta (r)\]</div>
+<p>where theta is:</p>
+<div class="math notranslate nohighlight">
+\[\theta (r)=A\cdot (1-(\frac{r}{CUT})^{n})^{3},r\leq CUT\]</div>
+<div class="math notranslate nohighlight">
+\[\theta (r) = 0,  r &gt; CUT\]</div>
+<p>—</p>
+<blockquote>
+<div><dl>
+<dt>Args:</dt><dd><p>cut (float): cutting parameter to cancel the potential</p>
+<p>amplitude (float): multiplicative factor of the potential function</p>
+<p>radius (float): radius in which the potential was calculated</p>
+<p>ion_potential (float): Atom pseudopotential with fractional occupation</p>
+<p>atom_potential (float): Atom pseudopotential with all electrons</p>
+</dd>
+<dt>Returns:</dt><dd><p>potential of fractional electron occupation at the exact level to be corrected</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+</div>
+<div class="section" id="module-minushalf.utils.vtotal">
+<span id="minushalf-utils-vtotal-module"></span><h2>minushalf.utils.vtotal module<a class="headerlink" href="#module-minushalf.utils.vtotal" title="Permalink to this headline">¶</a></h2>
+<p>Analyze VTOTAL</p>
+<dl class="py class">
+<dt id="minushalf.utils.vtotal.Vtotal">
+<em class="property">class </em><code class="sig-prename descclassname">minushalf.utils.vtotal.</code><code class="sig-name descname">Vtotal</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">radius</span><span class="p">:</span> <span class="n">numpy.array</span></em>, <em class="sig-param"><span class="n">down_potential</span><span class="p">:</span> <span class="n">numpy.array</span></em><span class="sig-paren">)</span><a class="headerlink" href="#minushalf.utils.vtotal.Vtotal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Output for ATOM that contains the
+pseudopotential generated by an atom</p>
+<dl class="py method">
+<dt id="minushalf.utils.vtotal.Vtotal.from_file">
+<em class="property">static </em><code class="sig-name descname">from_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'./VTOTAL.ae'</span></em><span class="sig-paren">)</span> &#x2192; any<a class="headerlink" href="#minushalf.utils.vtotal.Vtotal.from_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse VTOTAL and extract the following informations</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="minushalf.utils.vtotal.Vtotal.read_down_potential">
+<em class="property">static </em><code class="sig-name descname">read_down_potential</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; numpy.array<a class="headerlink" href="#minushalf.utils.vtotal.Vtotal.read_down_potential" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extracts the potentials related to the state
+of spin Down calculated for the main elements</p>
+<blockquote>
+<div><dl class="simple">
+<dt>Args:</dt><dd><p>filename (str): Name of the VTOTAL file</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt id="minushalf.utils.vtotal.Vtotal.read_radius">
+<em class="property">static </em><code class="sig-name descname">read_radius</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; numpy.array<a class="headerlink" href="#minushalf.utils.vtotal.Vtotal.read_radius" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extracts from the file information regarding the rays for
+which the potential calculations will be made made.</p>
+<blockquote>
+<div><dl class="simple">
+<dt>Args:</dt><dd><p>filename (str): Name of the VTOTAL file</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-minushalf.utils">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-minushalf.utils" title="Permalink to this headline">¶</a></h2>
+<p>Init file for utils module</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="support.html" class="btn btn-neutral float-right" title="Support and financing" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="minushalf.softwares.vasp.html" class="btn btn-neutral float-left" title="minushalf.softwares.vasp package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Henrique Fernandes Feitosa.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+  
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,318 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>minushalf correct-potfile &mdash; minushalf 1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="minushalf execute" href="execute.html" />
+    <link rel="prev" title="minushalf create-input" href="create-input.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> minushalf
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="commands.html">Commands</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="vbm-character.html"><code class="docutils literal notranslate"><span class="pre">minushalf</span> <span class="pre">vbm-character</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="cbm-character.html"><code class="docutils literal notranslate"><span class="pre">minushalf</span> <span class="pre">cbm-character</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="band-character.html"><code class="docutils literal notranslate"><span class="pre">minushalf</span> <span class="pre">band-character</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="band-gap.html"><code class="docutils literal notranslate"><span class="pre">minushalf</span> <span class="pre">band-gap</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="run-atomic.html"><code class="docutils literal notranslate"><span class="pre">minushalf</span> <span class="pre">run-atomic</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="occupation.html"><code class="docutils literal notranslate"><span class="pre">minushalf</span> <span class="pre">occupation</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="create-input.html"><code class="docutils literal notranslate"><span class="pre">minushalf</span> <span class="pre">create-input</span></code></a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">minushalf</span> <span class="pre">correct-potfile</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="execute.html"><code class="docutils literal notranslate"><span class="pre">minushalf</span> <span class="pre">execute</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="support.html">Support and financing</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">minushalf</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="commands.html">Commands</a> &raquo;</li>
+        
+      <li><code class="docutils literal notranslate"><span class="pre">minushalf</span> <span class="pre">correct-potfile</span></code></li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/correct-potfile.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="minushalf-correct-potfile">
+<h1><code class="docutils literal notranslate"><span class="pre">minushalf</span> <span class="pre">correct-potfile</span></code><a class="headerlink" href="#minushalf-correct-potfile" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> minushalf correct-potfile --help
+<span class="go">Usage: minushalf correct-potfile [OPTIONS]</span>
+
+<span class="go">Generate the occupied atomic potential file used for ab initio calculations.</span>
+
+<span class="go">Requires:</span>
+
+<span class="go">    VTOTAL.ae: pseudopotential of the atom with all electrons</span>
+
+<span class="go">    VTOTAL_OCC: pseudopotential of the occupied atom</span>
+
+<span class="go">    INP_OCC: Input file for the run-atomic command of the occupied atom</span>
+
+<span class="go">    The command also needs the potential files used by the chosen software:</span>
+
+<span class="go">        VASP: POTCAR (This name can&#39;t be changed)</span>
+
+<span class="go">Generates:</span>
+
+<span class="go">    POTFILEcut${CUT_VALUE} (If amplitude is equal to 1.0)</span>
+
+<span class="go">    POTFILEcut${CUT_VALUE}A${AMPLITUDE_VALUE} (If amplitude is different from 1.0)</span>
+
+<span class="go">Options:</span>
+<span class="go">--quiet</span>
+<span class="go">-b, --base_potfile_path PATH    Path to the folder containing the potential</span>
+<span class="go">                                file</span>
+
+<span class="go">-v, --vtotal_path PATH          Path to the pseudopotential file</span>
+<span class="go">                                generated by the atomic program for the atom</span>
+<span class="go">                                with all electrons.  [default: VTOTAL.ae]</span>
+
+<span class="go">-o, --vtotal_occupied_path PATH</span>
+<span class="go">                                Path to the pseudopotential file</span>
+<span class="go">                                generated by the atomic program for the</span>
+<span class="go">                                occupied atom.  [default: VTOTAL_OCC]</span>
+
+<span class="go">-s, --software [VASP]           Specifies the software used to make ab initio calculations.</span>
+<span class="go">                                [default: VASP]</span>
+
+<span class="go">-c, --correction [VALENCE|CONDUCTION]</span>
+<span class="go">                                Indicates whether the correction should be</span>
+<span class="go">                                made in the valence band or the</span>
+<span class="go">                                conduction band.  [default: VALENCE]</span>
+
+<span class="go">-C, --cut TEXT                  distance value used to cut the potential</span>
+<span class="go">                                generated artificially by fractional atomic</span>
+<span class="go">                                occupation, it can be passed in two ways:</span>
+
+<span class="go">                                unique value : float or integer. Ex: 1.0</span>
+
+<span class="go">                                range:  begin(float|integer):pass(float|integer):end(float|integer). Ex: 1.0:0.1:2.0</span>
+<span class="go">                                [default: 2.0]</span>
+
+<span class="go">-a, --amplitude FLOAT RANGE     Scaling factor to be used to correct the artificially generated potential.</span>
+<span class="go">                                In the vast majority of cases, the amplitude value is 1.0. However, there are some</span>
+<span class="go">                                special cases where this value needs to be adjusted. Therefore, we recommend that</span>
+<span class="go">                                you do not change this value unless you know exactly what you are doing  [default: 1.0]</span>
+
+<span class="go">--help                          Show this message and exit.</span>
+</pre></div>
+</div>
+<p>To consult a case where changing the amplitude value is necessary, check the reference <a class="footnote-reference brackets" href="#id2" id="id1">1</a>.</p>
+<div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<dl class="footnote brackets">
+<dt class="label" id="id2"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><ol class="upperalpha simple" start="3">
+<li><ol class="upperalpha simple">
+<li><p>Ataide, R. R. Pelá, M. Marques, L. K. Teles, J. Furthmüller, and F. Bechstedt <a class="reference external" href="https://journals.aps.org/prb/abstract/10.1103/PhysRevB.95.045126">Phys. Rev. B 95, 045126 – Published 17 January 2017</a>.</p></li>
+</ol>
+</li>
+</ol>
+</dd>
+</dl>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="execute.html" class="btn btn-neutral float-right" title="minushalf execute" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="create-input.html" class="btn btn-neutral float-left" title="minushalf create-input" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Henrique Fernandes Feitosa.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+  
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

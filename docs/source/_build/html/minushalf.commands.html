@@ -1,0 +1,341 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>minushalf.commands package &mdash; minushalf 1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="minushalf.corrections package" href="minushalf.corrections.html" />
+    <link rel="prev" title="API Documentation" href="api.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> minushalf
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands.html">Commands</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="api.html">API Documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="api.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">minushalf.commands package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-minushalf.commands.band_character">minushalf.commands.band_character module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-minushalf.commands.band_gap">minushalf.commands.band_gap module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-minushalf.commands.cbm_character">minushalf.commands.cbm_character module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-minushalf.commands.correct_potfile">minushalf.commands.correct_potfile module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-minushalf.commands.create_input">minushalf.commands.create_input module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-minushalf.commands.execute">minushalf.commands.execute module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-minushalf.commands.fractional_occupation">minushalf.commands.fractional_occupation module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-minushalf.commands.run_atomic_program">minushalf.commands.run_atomic_program module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-minushalf.commands.vbm_character">minushalf.commands.vbm_character module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-minushalf.commands">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="minushalf.corrections.html">minushalf.corrections package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="minushalf.data.html">minushalf.data package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="minushalf.interfaces.html">minushalf.interfaces package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="minushalf.softwares.html">minushalf.softwares package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="minushalf.utils.html">minushalf.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-minushalf.minushalf">minushalf.minushalf module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-minushalf">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="support.html">Support and financing</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">minushalf</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="api.html">API Documentation</a> &raquo;</li>
+        
+      <li>minushalf.commands package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/minushalf.commands.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="minushalf-commands-package">
+<h1>minushalf.commands package<a class="headerlink" href="#minushalf-commands-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-minushalf.commands.band_character">
+<span id="minushalf-commands-band-character-module"></span><h2>minushalf.commands.band_character module<a class="headerlink" href="#module-minushalf.commands.band_character" title="Permalink to this headline">¶</a></h2>
+<p>Aims to show how the band in a specific k-point is
+composed by the orbitals of each atom.</p>
+</div>
+<div class="section" id="module-minushalf.commands.band_gap">
+<span id="minushalf-commands-band-gap-module"></span><h2>minushalf.commands.band_gap module<a class="headerlink" href="#module-minushalf.commands.band_gap" title="Permalink to this headline">¶</a></h2>
+<p>Command to read band gap</p>
+</div>
+<div class="section" id="module-minushalf.commands.cbm_character">
+<span id="minushalf-commands-cbm-character-module"></span><h2>minushalf.commands.cbm_character module<a class="headerlink" href="#module-minushalf.commands.cbm_character" title="Permalink to this headline">¶</a></h2>
+<p>Aims to show how the last conduction band and the
+first valence band are composed by the orbitals of each atom.</p>
+</div>
+<div class="section" id="module-minushalf.commands.correct_potfile">
+<span id="minushalf-commands-correct-potfile-module"></span><h2>minushalf.commands.correct_potfile module<a class="headerlink" href="#module-minushalf.commands.correct_potfile" title="Permalink to this headline">¶</a></h2>
+<p>Atomic Correct potential file</p>
+</div>
+<div class="section" id="module-minushalf.commands.create_input">
+<span id="minushalf-commands-create-input-module"></span><h2>minushalf.commands.create_input module<a class="headerlink" href="#module-minushalf.commands.create_input" title="Permalink to this headline">¶</a></h2>
+<p>Makes fractional occupation on INP file</p>
+</div>
+<div class="section" id="module-minushalf.commands.execute">
+<span id="minushalf-commands-execute-module"></span><h2>minushalf.commands.execute module<a class="headerlink" href="#module-minushalf.commands.execute" title="Permalink to this headline">¶</a></h2>
+<p>Execute command</p>
+<dl class="py function">
+<dt id="minushalf.commands.execute.get_atoms_list">
+<code class="sig-prename descclassname">minushalf.commands.execute.</code><code class="sig-name descname">get_atoms_list</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">factory</span><span class="p">:</span> <span class="n"><a class="reference internal" href="minushalf.interfaces.html#minushalf.interfaces.software_abstract_factory.SoftwaresAbstractFactory" title="minushalf.interfaces.software_abstract_factory.SoftwaresAbstractFactory">minushalf.interfaces.software_abstract_factory.SoftwaresAbstractFactory</a></span></em><span class="sig-paren">)</span> &#x2192; list<a class="headerlink" href="#minushalf.commands.execute.get_atoms_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns atoms_list</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="minushalf.commands.execute.get_cbm_projection">
+<code class="sig-prename descclassname">minushalf.commands.execute.</code><code class="sig-name descname">get_cbm_projection</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">factory</span><span class="p">:</span> <span class="n"><a class="reference internal" href="minushalf.interfaces.html#minushalf.interfaces.software_abstract_factory.SoftwaresAbstractFactory" title="minushalf.interfaces.software_abstract_factory.SoftwaresAbstractFactory">minushalf.interfaces.software_abstract_factory.SoftwaresAbstractFactory</a></span></em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="headerlink" href="#minushalf.commands.execute.get_cbm_projection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns cbm projection</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="minushalf.commands.execute.get_vbm_projection">
+<code class="sig-prename descclassname">minushalf.commands.execute.</code><code class="sig-name descname">get_vbm_projection</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">factory</span><span class="p">:</span> <span class="n"><a class="reference internal" href="minushalf.interfaces.html#minushalf.interfaces.software_abstract_factory.SoftwaresAbstractFactory" title="minushalf.interfaces.software_abstract_factory.SoftwaresAbstractFactory">minushalf.interfaces.software_abstract_factory.SoftwaresAbstractFactory</a></span></em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="headerlink" href="#minushalf.commands.execute.get_vbm_projection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns vbm projection</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="minushalf.commands.execute.overwrite_band_projection">
+<code class="sig-prename descclassname">minushalf.commands.execute.</code><code class="sig-name descname">overwrite_band_projection</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">new_values</span><span class="p">:</span> <span class="n">list</span></em>, <em class="sig-param"><span class="n">band_projection</span><span class="p">:</span> <span class="n">pandas.core.frame.DataFrame</span></em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="headerlink" href="#minushalf.commands.execute.overwrite_band_projection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overwrite values in VBM or CBM band projection</p>
+<blockquote>
+<div><p>Args:</p>
+<blockquote>
+<div><p>new_values (list): Arguments passed in overwrite_vbm or overwrite_cbm.</p>
+<dl class="simple">
+<dt>band_projection (pd.Dataframe): Dataframe with the value of projections</dt><dd><p>of VBM or CBM.</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>Returns:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>modified_band_projection (pd.Dataframe): Band projection data frame</dt><dd><p>with the values overwrited.</p>
+</dd>
+</dl>
+</div></blockquote>
+</div></blockquote>
+</dd></dl>
+
+</div>
+<div class="section" id="module-minushalf.commands.fractional_occupation">
+<span id="minushalf-commands-fractional-occupation-module"></span><h2>minushalf.commands.fractional_occupation module<a class="headerlink" href="#module-minushalf.commands.fractional_occupation" title="Permalink to this headline">¶</a></h2>
+<p>Makes fractional occupation on INP file</p>
+</div>
+<div class="section" id="module-minushalf.commands.run_atomic_program">
+<span id="minushalf-commands-run-atomic-program-module"></span><h2>minushalf.commands.run_atomic_program module<a class="headerlink" href="#module-minushalf.commands.run_atomic_program" title="Permalink to this headline">¶</a></h2>
+<p>Run atomic program</p>
+</div>
+<div class="section" id="module-minushalf.commands.vbm_character">
+<span id="minushalf-commands-vbm-character-module"></span><h2>minushalf.commands.vbm_character module<a class="headerlink" href="#module-minushalf.commands.vbm_character" title="Permalink to this headline">¶</a></h2>
+<p>Aims to show how the last valence band are composed by the orbitals of each atom.</p>
+</div>
+<div class="section" id="module-minushalf.commands">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-minushalf.commands" title="Permalink to this headline">¶</a></h2>
+<p>Commands of the minhushalf cli</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="minushalf.corrections.html" class="btn btn-neutral float-right" title="minushalf.corrections package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="api.html" class="btn btn-neutral float-left" title="API Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Henrique Fernandes Feitosa.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+  
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>
