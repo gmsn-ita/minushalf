@@ -65,22 +65,18 @@ def correct_potential_fourier_transform(coefficient: float, k: float,
         raise ValueError(
             "the cut is smaller than all the rays passed") from cut_error
 
-    partial_fourier_sum = lambda radius, lazy_radius, potential, lazy_potential: (
-        (potential * np.sin(const.bohr_radius * k * radius) + lazy_potential *
-         np.sin(const.bohr_radius * k * lazy_radius)) / 2 *
-        (radius - lazy_radius))
+    radius = filter_rays[1:].astype(float)
+    lazy_radius = filter_rays[:-1].astype(float)
+    potential = occupation_potential[1:len(filter_rays)].astype(float)
+    lazy_potential = occupation_potential[:len(filter_rays) - 1].astype(float)
 
-    get_fourier_components = np.vectorize(partial_fourier_sum)
-
-    fourier_components = get_fourier_components(
-        filter_rays[1:],
-        filter_rays[:-1],
-        occupation_potential[1:len(filter_rays)],
-        occupation_potential[:len(filter_rays) - 1],
-    )
+    partial_fourier_sum = (
+        (radius - lazy_radius) *
+        (potential * np.sin(const.bohr_radius * k * radius) +
+         lazy_potential * np.sin(const.bohr_radius * k * lazy_radius)) / 2)
 
     initial_term = (occupation_potential[0] *
                     np.sin(const.bohr_radius * k * rays[0]) / 2 * rays[0])
 
-    return (coefficient + (initial_term + fourier_components.sum()) /
+    return (coefficient + (initial_term + partial_fourier_sum.sum()) /
             (const.bohr_radius * k))
