@@ -127,7 +127,7 @@ class AtomicPotential():
             amplitude = abs(amplitude) * -1
 
         filename = ""
-        if np.isclose(abs(amplitude), 1.0):
+        if np.isclose(amplitude, 1.0):
             filename = "{}cut{:.2f}".format(self.potential_file.get_name(),
                                             cut)
         else:
