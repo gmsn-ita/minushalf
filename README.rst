@@ -24,7 +24,7 @@ minushalf
 The DFT -1/2 method
 -------------------------------
 
-DFT-1/2, an alternative way of referring to the LDA -1/2 _ and GGA -1/2 techniques , 
+DFT-1/2, an alternative way of referring to the LDA -1/2  and GGA -1/2 techniques , 
 is a method that method for approximate self-energy corrections within the framework of conventional Kohn-Sham DFT 
 which can be used not only with the local density approximation (LDA), but also with the generalized gradient approximation (GGA).
    
