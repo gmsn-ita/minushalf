@@ -58,9 +58,10 @@ def run_atomic(quiet: bool):
     logger.info("Atomic program finished execution.")
 
     if not os.path.exists('./VTOTAL1'):
-        raise FileNotFoundError("VTOTAL0 not found")
-
-    logger.info("Changing VTOTAL1 to VTOTAL.ae")
-    os.rename("VTOTAL1", "VTOTAL.ae")
+        logger.warning(
+            "VTOTAL1 not found, thus VTOTAL.ae will not be generated")
+    else:
+        logger.info("Changing VTOTAL1 to VTOTAL.ae")
+        os.rename("VTOTAL1", "VTOTAL.ae")
 
     end_message()
