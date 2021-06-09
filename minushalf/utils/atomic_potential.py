@@ -85,22 +85,26 @@ class AtomicPotential():
         if is_conduction:
             amplitude = abs(amplitude) * -1
 
-        occupation_potential = self.occupy_potential(cut, amplitude)
-        wave_vectors = np.arange(
-            len(self.potential_file.get_potential_fourier_transform())) * (
-                self.potential_file.get_maximum_module_wave_vector() /
-                len(self.potential_file.get_potential_fourier_transform()))
+        occupied_potential = self.occupy_potential(cut, amplitude)
 
-        potential = correct_potential_fourier_transform(
+        ## generate a sample of the absolute values of the wave vector
+        size_potential_sampling = len(
+            self.potential_file.get_potential_fourier_transform())
+        maximum_absolute_value_wave_vector = self.potential_file.get_maximum_module_wave_vector(
+        )
+        absolute_wave_vectors = np.arange(size_potential_sampling) * (
+            maximum_absolute_value_wave_vector / size_potential_sampling)
+
+        corrected_potential = correct_potential_fourier_transform(
             coefficient=np.array(
                 self.potential_file.get_potential_fourier_transform()),
-            k=wave_vectors,
+            k=absolute_wave_vectors,
             rays=np.array(self.vtotal.radius, dtype=float),
-            occupation_potential=np.array(occupation_potential, dtype=float),
+            occupation_potential=np.array(occupied_potential, dtype=float),
             cut=cut,
         )
 
-        return potential
+        return corrected_potential
 
     def correct_file(
         self,
