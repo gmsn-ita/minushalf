@@ -91,16 +91,12 @@ class AtomicPotential():
                 self.potential_file.get_maximum_module_wave_vector() /
                 len(self.potential_file.get_potential_fourier_transform()))
 
-        correct_potential = np.vectorize(
-            correct_potential_fourier_transform,
-            excluded=['rays', 'occupation_potential'],
-        )
-
-        potential = correct_potential(
-            coefficient=self.potential_file.get_potential_fourier_transform(),
+        potential = correct_potential_fourier_transform(
+            coefficient=np.array(
+                self.potential_file.get_potential_fourier_transform()),
             k=wave_vectors,
-            rays=np.array(self.vtotal.radius, dtype=object),
-            occupation_potential=np.array(occupation_potential, dtype=object),
+            rays=np.array(self.vtotal.radius, dtype=float),
+            occupation_potential=np.array(occupation_potential, dtype=float),
             cut=cut,
         )
 

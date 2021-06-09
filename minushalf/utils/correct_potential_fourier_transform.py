@@ -5,10 +5,13 @@ import numpy as np
 from minushalf.data import Constants
 
 
-def correct_potential_fourier_transform(coefficient: float, k: float,
-                                        rays: np.array,
-                                        occupation_potential: np.array,
-                                        cut: float) -> float:
+def correct_potential_fourier_transform(
+    coefficient: np.array,
+    k: np.array,
+    rays: np.array,
+    occupation_potential: np.array,
+    cut: float,
+) -> np.array:
     r"""
     The pseudopotential is given in terms of the radial distance, and is only defined for r >= 0,
     as expected. Since it is only evaluated inside an integral from 0 to infinity, it does not
@@ -55,9 +58,10 @@ def correct_potential_fourier_transform(coefficient: float, k: float,
             Fourier transform of the potential for the state with fractional occupation of the crystal
     """
     const = Constants()
+    k = np.reshape(k, (len(k), 1))
 
-    if not k:
-        k = 10**(-12)
+    if not k[0][0]:
+        k[0][0] = 10**(-12)
 
     try:
         filter_rays = rays[np.where(rays < cut)]
@@ -75,8 +79,14 @@ def correct_potential_fourier_transform(coefficient: float, k: float,
         (potential * np.sin(const.bohr_radius * k * radius) +
          lazy_potential * np.sin(const.bohr_radius * k * lazy_radius)) / 2)
 
+    ## Sum all rows and transpose
+
     initial_term = (occupation_potential[0] *
                     np.sin(const.bohr_radius * k * rays[0]) / 2 * rays[0])
 
-    return (coefficient + (initial_term + partial_fourier_sum.sum()) /
+    ## Reshape vectors to give the correct output format
+    initial_term = np.reshape(initial_term, (len(initial_term)))
+    k = np.reshape(k, (len(k)))
+
+    return (coefficient + (initial_term + partial_fourier_sum.sum(axis=1)) /
             (const.bohr_radius * k))
