@@ -44,13 +44,13 @@ def correct_potential_fourier_transform(
     degenerated to a triangulum, and its area must be calculated as so.
 
         Args:
-            coefficient (float): Fourier transform of the potential for the atom in its ground state
+            coefficient (np.array): Fourier transform of the potential for the atom in its ground state
 
-            k (float): The wave vector in reciprocal space
+            k (np.array): The wave vector in reciprocal space
 
-            rays(list): List of rays on which pseudopotential calculations were made
+            rays(np.array): List of rays on which pseudopotential calculations were made
 
-            occupation_potential (list): Potential of fractional electron occupation at the exact level to be corrected
+            occupation_potential (np.arraygit): Potential of fractional electron occupation at the exact level to be corrected
 
             cut(float): Cutting parameter to cancel the potential
 
