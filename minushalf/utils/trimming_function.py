@@ -5,8 +5,13 @@ import numpy as np
 from minushalf.data import Constants
 
 
-def trimming_function(radius: float, ion_potential: float, atom_potential,
-                      cut: float, amplitude: float) -> float:
+def trimming_function(
+    radius: np.array,
+    ion_potential: np.array,
+    atom_potential: np.array,
+    cut: float,
+    amplitude: float,
+) -> np.array:
     r"""
         Function that generate the potential for fractional occupation. The potential
         is cuted by a a function theta(r) to avoid divergence in calculations.
@@ -32,11 +37,11 @@ def trimming_function(radius: float, ion_potential: float, atom_potential,
 
                 amplitude (float): multiplicative factor of the potential function
 
-                radius (float): radius in which the potential was calculated
+                radius (np.array): rays in which the potential was calculated
 
-                ion_potential (float): Atom pseudopotential with fractional occupation
+                ion_potential (np.array): Atom pseudopotential with fractional occupation
 
-                atom_potential (float): Atom pseudopotential with all electrons
+                atom_potential (np.array): Atom pseudopotential with all electrons
 
             Returns:
                 potential of fractional electron occupation at the exact level to be corrected
@@ -45,10 +50,12 @@ def trimming_function(radius: float, ion_potential: float, atom_potential,
         """
     const = Constants()
 
-    if radius >= cut:
-        return 0
+    potential = np.array(
+        4 * const.pi_constant * const.rydberg *
+        np.power(const.bohr_radius, 3) *
+        np.power(1 - np.power(radius / cut, const.trimming_exponent), 3) *
+        (ion_potential - atom_potential) * amplitude)
 
-    return (4 * const.pi_constant * const.rydberg *
-            np.power(const.bohr_radius, 3) *
-            np.power(1 - np.power(radius / cut, const.trimming_exponent), 3) *
-            (ion_potential - atom_potential) * amplitude)
+    potential[radius >= cut] = 0
+
+    return potential

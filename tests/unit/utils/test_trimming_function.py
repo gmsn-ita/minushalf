@@ -14,7 +14,8 @@ def test_trimming_first():
         ion_potential: 0.77e-5
         atom_potential: 0.64e-4
     """
-    res = trimming_function(3.0, 0.77e-5, 0.64e-4, 3.0, 1.0)
+    res = trimming_function(np.array(3.0), np.array(0.77e-5),
+                            np.array(0.64e-4), 3.0, 1.0)
     assert np.isclose(res, 0)
 
 
@@ -27,7 +28,8 @@ def test_trimming_second():
         ion_potential: 0.77e-5
         atom_potential: 0.64e-4
     """
-    res = trimming_function(2.9, 0.77e-5, 0.64e-4, 3.0, 1.0)
+    res = trimming_function(np.array(2.9), np.array(0.77e-5),
+                            np.array(0.64e-4), 3.0, 1.0)
     assert np.isclose(res, -1.911990822901309e-05)
 
 
@@ -40,7 +42,8 @@ def test_trimming_third():
         ion_potential: 0.77e-5
         atom_potential: 0.64e-4
     """
-    res = trimming_function(2.9, 0.77e-5, 0.64e-4, 3.0, 2.0)
+    res = trimming_function(np.array(2.9), np.array(0.77e-5),
+                            np.array(0.64e-4), 3.0, 2.0)
     assert np.isclose(res, -3.823981645802618e-05)
 
 
@@ -53,7 +56,8 @@ def test_trimming_fourth():
         ion_potential: 1.2
         atom_potential: 0.34
     """
-    res = trimming_function(0.23e-2, 1.2, 0.34, 1.55, 1.54)
+    res = trimming_function(np.array(0.23e-2), np.array(1.2), np.array(0.34),
+                            1.55, 1.54)
     assert np.isclose(res, 33.55492614903707)
 
 
@@ -66,7 +70,8 @@ def test_trimming_fifth():
         ion_potential: 1.2
         atom_potential: 0.34
     """
-    res = trimming_function(100, 1.2, 0.34, 1.55, 1.54)
+    res = trimming_function(np.array(100.0), np.array(1.2), np.array(0.34),
+                            1.55, 1.54)
     assert np.isclose(res, 0)
 
 
@@ -79,7 +84,8 @@ def test_trimming_sixth():
         ion_potential: 1.2e-23
         atom_potential: 0.34e-34
     """
-    res = trimming_function(1, 1.2e-23, 0.34e-34, 1.55, 1.54)
+    res = trimming_function(np.array(1), np.array(1.2e-23), np.array(0.34e-34),
+                            1.55, 1.54)
     assert np.isclose(res, 4.273004874113689e-22)
 
 
@@ -92,7 +98,8 @@ def test_trimming_seventh():
         ion_potential: 1.643
         atom_potential: 1.643
     """
-    res = trimming_function(2.95, 1.643, 1.643, 3.76, 0.34)
+    res = trimming_function(np.array(2.95), np.array(1.643), np.array(1.643),
+                            3.76, 0.34)
     assert np.isclose(res, 0)
 
 
@@ -105,7 +112,8 @@ def test_trimming_eighth():
         ion_potential: 1.643
         atom_potential: 1.835
     """
-    res = trimming_function(2.95, 1.643, 1.835, 3.76, 1.0)
+    res = trimming_function(np.array(2.95), np.array(1.643), np.array(1.835),
+                            3.76, 1.0)
     assert np.isclose(res, -3.0556886231671694)
 
 
@@ -118,7 +126,8 @@ def test_trimming_nineth():
         ion_potential: 1.643
         atom_potential: 1.835
     """
-    res = trimming_function(0, 1.643, 1.835, 3.76, 1.0)
+    res = trimming_function(np.array(0), np.array(1.643), np.array(1.835),
+                            3.76, 1.0)
     assert np.isclose(res, -4.8645015256834165)
 
 
@@ -131,5 +140,6 @@ def test_trimming_tenth():
         ion_potential: 12e-23
         atom_potential: 15e-34
     """
-    res = trimming_function(4.32, 12e-23, 15e-34, 4.55, 1.0)
+    res = trimming_function(np.array(4.32), np.array(12e-23), np.array(15e-34),
+                            4.55, 1.0)
     assert np.isclose(res, 1.1912043652717141e-22)

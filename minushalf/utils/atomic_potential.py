@@ -52,11 +52,10 @@ class AtomicPotential():
                 A list that contains the potentials of fractional electron
                 occupation at the exact level to be corrected.
         """
-        trimming = np.vectorize(trimming_function)
-        occupation_potential = trimming(
-            self.vtotal.radius,
-            self.vtotal_occupied.down_potential,
-            self.vtotal.down_potential,
+        occupation_potential = trimming_function(
+            np.array(self.vtotal.radius, dtype=float),
+            np.array(self.vtotal_occupied.down_potential, dtype=float),
+            np.array(self.vtotal.down_potential, dtype=float),
             cut,
             amplitude,
         )
