@@ -124,25 +124,11 @@ def test_minushalf_filled_out(file_path):
     assert len(file.correction[str(
         CorrectionDefaultParams.overwrite_vbm)]) == 2
     assert file.correction[str(
-        CorrectionDefaultParams.overwrite_vbm)][0][0] == "C"
-    assert file.correction[str(
-        CorrectionDefaultParams.overwrite_vbm)][0][1] == "p"
-    assert file.correction[str(
-        CorrectionDefaultParams.overwrite_vbm)][0][2] == 23.4
-    assert file.correction[str(
-        CorrectionDefaultParams.overwrite_vbm)][1][0] == "Si"
-    assert file.correction[str(
-        CorrectionDefaultParams.overwrite_vbm)][1][1] == "d"
-    assert file.correction[str(
-        CorrectionDefaultParams.overwrite_vbm)][1][2] == 11
+        CorrectionDefaultParams.overwrite_vbm)] == [1, 3]
     assert len(file.correction[str(
-        CorrectionDefaultParams.overwrite_cbm)]) == 1
+        CorrectionDefaultParams.overwrite_cbm)]) == 2
     assert file.correction[str(
-        CorrectionDefaultParams.overwrite_cbm)][0][0] == "Ag"
-    assert file.correction[str(
-        CorrectionDefaultParams.overwrite_cbm)][0][1] == "f"
-    assert file.correction[str(
-        CorrectionDefaultParams.overwrite_cbm)][0][2] == 9
+        CorrectionDefaultParams.overwrite_cbm)] == [1, 4]
 
 
 @pytest.mark.xfail

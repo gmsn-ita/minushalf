@@ -5,6 +5,7 @@ import os
 import sys
 import shutil
 from collections import OrderedDict
+from typing import List
 import numpy as np
 import pandas as pd
 import click
@@ -68,17 +69,17 @@ def get_atoms_list(factory: SoftwaresAbstractFactory) -> list:
     return list(OrderedDict.fromkeys(atoms))
 
 
-def overwrite_band_projection(new_values: list,
-                              band_projection: pd.DataFrame) -> pd.DataFrame:
+def overwrite_band_projection(
+        band_location: List[int],
+        factory: SoftwaresAbstractFactory) -> pd.DataFrame:
     """
     Overwrite values in VBM or CBM band projection
 
         Args:
 
-            new_values (list): Arguments passed in overwrite_vbm or overwrite_cbm.
+            band_location (List[int]): Kpoint and band number, respectively.
 
-            band_projection (pd.Dataframe): Dataframe with the value of projections
-                                            of VBM or CBM.
+            factory (SoftwaresAbstractFactory): Software factory to create band structure class
 
         Returns:
 
@@ -86,12 +87,17 @@ def overwrite_band_projection(new_values: list,
                                                     with the values overwrited.
 
     """
-    for case in new_values:
-        atom = case[0].capitalize()
-        orbital = case[1].lower()
-        projection = int(case[2])
-        band_projection[orbital][atom] = projection
-    return band_projection
+    eigenvalues = factory.get_eigenvalues()
+    fermi_energy = factory.get_fermi_energy()
+    atoms_map = factory.get_atoms_map()
+    num_bands = factory.get_number_of_bands()
+    band_projection_file = factory.get_band_projection_class()
+
+    band_structure = BandStructure(eigenvalues, fermi_energy, atoms_map,
+                                   num_bands, band_projection_file)
+    vbm_projection = band_structure.band_projection(*band_location)
+    normalized_df = projection_to_df(vbm_projection)
+    return normalized_df
 
 
 @click.command()
@@ -159,28 +165,28 @@ def execute(quiet: bool):
         shutil.rmtree(root_folder)
     os.mkdir(root_folder)
 
-    ## get vbm projection
+    ## get the bands projections (VBM and CBM)
     logger.info("Get VBM and CBM projections")
     vbm_projection = get_vbm_projection(software_factory)
     cbm_projection = get_cbm_projection(software_factory)
 
     ### Overwrite band projections
     if len(minushalf_yaml.correction[
-            CorrectionDefaultParams.overwrite_vbm.name]) > 0:
+            CorrectionDefaultParams.overwrite_vbm.name]) == 2:
         logger.warning(
             "You're changing directly the band character. This is not recommendend unless you know exactly what are you doing."
         )
         vbm_projection = overwrite_band_projection(
             minushalf_yaml.correction[
-                CorrectionDefaultParams.overwrite_vbm.name], vbm_projection)
+                CorrectionDefaultParams.overwrite_vbm.name], software_factory)
     if len(minushalf_yaml.correction[
-            CorrectionDefaultParams.overwrite_cbm.name]) > 0:
+            CorrectionDefaultParams.overwrite_cbm.name]) == 2:
         logger.warning(
             "You're changing directly the band character. This is not recommendend unless you know exactly what are you doing."
         )
         cbm_projection = overwrite_band_projection(
             minushalf_yaml.correction[
-                CorrectionDefaultParams.overwrite_cbm.name], cbm_projection)
+                CorrectionDefaultParams.overwrite_cbm.name], software_factory)
 
     ## get atoms list
     logger.info("Get atoms list")
