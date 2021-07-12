@@ -131,13 +131,12 @@ correction tag
 - correction_code: Code thar specifies the potential correction (Default: v)
 - potfiles_folder: Path to folder that holds the potential files for each atom. The files must be named in the following pattern :code:`${POTENTIAL_FILE_NAME}.${LOWERCASE_CHEMICAL_SYMBOL}` (Default: minushalf_potfiles)
 - amplitude: Scaling factor to be used to correct the artificially generated potential. In the vast majority of cases, the amplitude value is 1.0. However,  there are some special cases where this value needs to be adjusted [5]_.  Therefore, we recommend that you do not change this value unless you know exactly what you are doing (Default: 1.0)
-- valence_cut_guess: Initial Guess for the Nelder-Mead algorithm for cut in valence correction. If not provided, the default value of :math:`0.15 + 0.84d` [6
-- ]_ will be used for each optimization, where :math:`d` is the distance of the nearest neighbor in the unit cell. (Default: :math:`0.15 + 0.84d`)
+- valence_cut_guess: Initial Guess for the Nelder-Mead algorithm for cut in valence correction. If not provided, the default value of :math:`0.15 + 0.84d` [6]_ will be used for each optimization, where :math:`d` is the distance of the nearest neighbor in the unit cell. (Default: :math:`0.15 + 0.84d`)
 - conduction_cut_guess: Initial Guess for the Nelder-Mead algorithm for cut in valence correction. If not provided, the default value of :math:`0.15 + 0.84d`  will be used will be used for each optimization, where :math:`d` is the distance of the nearest neighbor in the unit cell. (Default: :math:`0.15 + 0.84d`)
-- tolerance: Minimum level of precision for the result of the Nelder-Mead algorithm (Default: 0.01)
+- tolerance: Absolute tolerance for the result of the Nelder-Mead algorithm (Default: 0.01)
 - fractionary_valence_treshold: :ref:`Treshold  <frac_correction>` :math:`\epsilon` for fractional valence correction (Default: 10). 
-- overwrite_vbm: In some special cases [6]_, it is necessary to overwrite the value of band projection in a given orbital and ion. This tag is made for these situations. It is necessary to inform the chemical element symbol of the corresponding ion, the orbital and the value to be replaced. The program immediately overwrites the old projection values for the last valence band and use the new values for DFT -1/2 calculations (Default: No overwrite)
-- overwrite_vbm: In some special cases [6]_, it is necessary to overwrite the value of band projection in a given orbital and ion. This tag is made for these situations. It is necessary to inform the chemical element symbol of the corresponding ion, the orbital and the value to be replaced. The program immediately overwrites the old projection values for the first conduction band and use the new values for DFT -1/2 calculations (Default: No overwrite)
+- overwrite_vbm: In some special cases [6]_, it is necessary to consider another band as the VBM. This tag is made for these situations. It is necessary to inform the kpoint and the band number that specifies the band location. The program immediately overwrites the old projection values and uses the new values for DFT -1/2 calculations (Default: No overwrite)
+- overwrite_cbm: In some special cases [6]_, it is necessary to consider another band as the CBM. This tag is made for these situations. It is necessary to inform the kpoint and the band number that specifies the band location. The program immediately overwrites the old projection values and uses the new values for DFT -1/2 calculations (Default: No overwrite)
 
 
 The values that the correction_code tag can assume are listed below:
@@ -168,11 +167,8 @@ The example below shows an use of correction tag in the :code:`minushalf.yaml` f
             tolerance: 0.01
             fractionary_valence_treshold: 15
             fractionary_conduction_treshold: 23
-            overwrite_vbm:
-                - [C, p, 23.4]
-                - [Si, d, 11]
-            overwrite_cbm:
-                - [Ag, f, 9]
+            overwrite_vbm: [4,9] # Kpoint and band number, respectively
+            overwrite_cbm: [1,3] # Kpoint and band number, respectively
 
 
 

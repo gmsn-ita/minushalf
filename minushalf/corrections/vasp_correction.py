@@ -461,7 +461,7 @@ class VaspCorrection(Correction):
                        x0=self.cut_initial_guess,
                        args=(function_args),
                        method="Nelder-Mead",
-                       tol=self.tolerance)
+                       atol=self.tolerance)
         cut = res.x[0]
 
         if not res.success:
