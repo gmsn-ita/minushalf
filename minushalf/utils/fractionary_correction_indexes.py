@@ -8,7 +8,7 @@ import pandas as pd
 from collections import defaultdict
 
 
-def get_fractionary_corrections_indexes(band_projection: pd.DataFrame,
+def get_fractionary_correction_indexes(band_projection: pd.DataFrame,
                                         treshold: int = 5) -> dict:
     """
         Get dataframe index of the orbitals which contributes more

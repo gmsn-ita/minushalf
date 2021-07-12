@@ -16,7 +16,7 @@ from minushalf.utils import (
     welcome_message,
     end_message,
     make_minushalf_results,
-    get_fractionary_corrections_indexes,
+    get_fractionary_correction_indexes,
     get_simple_corrections_indexes,
 )
 from minushalf.softwares import (VaspFactory)
@@ -225,7 +225,7 @@ def execute(quiet: bool):
             "correction_code"] == CorrectionCode.vf.name:
 
         valence_options[
-            "correction_indexes"] = get_fractionary_corrections_indexes(
+            "correction_indexes"] = get_fractionary_correction_indexes(
                 vbm_projection,
                 treshold=minushalf_yaml.
                 correction["fractionary_valence_treshold"])
@@ -253,7 +253,7 @@ def execute(quiet: bool):
             "correction_code"] == CorrectionCode.vfc.name:
 
         valence_options[
-            "correction_indexes"] = get_fractionary_corrections_indexes(
+            "correction_indexes"] = get_fractionary_correction_indexes(
                 vbm_projection,
                 treshold=minushalf_yaml.
                 correction["fractionary_valence_treshold"])
@@ -274,13 +274,13 @@ def execute(quiet: bool):
             "correction_code"] == CorrectionCode.vfcf.name:
 
         valence_options[
-            "correction_indexes"] = get_fractionary_corrections_indexes(
+            "correction_indexes"] = get_fractionary_correction_indexes(
                 vbm_projection,
                 treshold=minushalf_yaml.
                 correction["fractionary_valence_treshold"])
 
         conduction_options[
-            "correction_indexes"] = get_fractionary_corrections_indexes(
+            "correction_indexes"] = get_fractionary_correction_indexes(
                 cbm_projection,
                 treshold=minushalf_yaml.
                 correction["fractionary_conduction_treshold"])
@@ -300,7 +300,7 @@ def execute(quiet: bool):
             vbm_projection)
 
         conduction_options[
-            "correction_indexes"] = get_fractionary_corrections_indexes(
+            "correction_indexes"] = get_fractionary_correction_indexes(
                 cbm_projection,
                 treshold=minushalf_yaml.
                 correction["fractionary_conduction_treshold"])
