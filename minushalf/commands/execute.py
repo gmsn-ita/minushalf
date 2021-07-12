@@ -160,7 +160,7 @@ def execute(quiet: bool):
     os.mkdir(root_folder)
 
     ## get vbm projection
-    logger.info("Get Vbm and CBM projections")
+    logger.info("Get VBM and CBM projections")
     vbm_projection = get_vbm_projection(software_factory)
     cbm_projection = get_cbm_projection(software_factory)
 
