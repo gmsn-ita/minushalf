@@ -32,6 +32,7 @@ class VaspCorrection(Correction):
         atoms: list,
         is_conduction: bool,
         correction_indexes: dict,
+        only_conduction: bool = False,
     ):
         """
         init method for the vasp correction class
@@ -45,7 +46,9 @@ class VaspCorrection(Correction):
 
                 band_projection (pd.DataFrame): Shows the contribution of each atom in the CBM or VBM
 
-                runner: class to execute the program that makes ab initio calculations
+                runner (Runner): class to execute the program that makes ab initio calculations
+
+                only_conduction (bool): Conduction correction without previous valence correction
         """
         self.root_folder = root_folder
 
@@ -74,7 +77,7 @@ class VaspCorrection(Correction):
         self.amplitude = minushalf_yaml.correction[
             CorrectionDefaultParams.amplitude.name]
 
-        if is_conduction:
+        if is_conduction and only_conduction:
             self.cut_initial_guess = minushalf_yaml.correction[
                 CorrectionDefaultParams.conduction_cut_guess.name]
         else:

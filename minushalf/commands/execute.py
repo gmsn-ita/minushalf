@@ -18,7 +18,7 @@ from minushalf.utils import (
     end_message,
     make_minushalf_results,
     get_fractionary_correction_indexes,
-    get_simple_corrections_indexes,
+    get_simple_correction_indexes,
 )
 from minushalf.softwares import (VaspFactory)
 from minushalf.corrections import (VaspCorrection)
@@ -221,7 +221,7 @@ def execute(quiet: bool):
 
     logger.info("Doing corrections")
     if minushalf_yaml.correction["correction_code"] == CorrectionCode.v.name:
-        valence_options["correction_indexes"] = get_simple_corrections_indexes(
+        valence_options["correction_indexes"] = get_simple_correction_indexes(
             vbm_projection)
         valence_correction = correction(**valence_options)
         valence_cuts, valence_gap = valence_correction.execute()
@@ -242,10 +242,10 @@ def execute(quiet: bool):
 
     elif minushalf_yaml.correction[
             "correction_code"] == CorrectionCode.vc.name:
-        valence_options["correction_indexes"] = get_simple_corrections_indexes(
+        valence_options["correction_indexes"] = get_simple_correction_indexes(
             vbm_projection)
         conduction_options[
-            "correction_indexes"] = get_simple_corrections_indexes(
+            "correction_indexes"] = get_simple_correction_indexes(
                 cbm_projection)
         valence_correction = correction(**valence_options)
         valence_cuts, _ = valence_correction.execute()
@@ -265,7 +265,7 @@ def execute(quiet: bool):
                 correction["fractionary_valence_treshold"])
 
         conduction_options[
-            "correction_indexes"] = get_simple_corrections_indexes(
+            "correction_indexes"] = get_simple_correction_indexes(
                 cbm_projection)
 
         valence_fractionary_correction = correction(**valence_options)
@@ -302,7 +302,7 @@ def execute(quiet: bool):
 
     elif minushalf_yaml.correction[
             "correction_code"] == CorrectionCode.vcf.name:
-        valence_options["correction_indexes"] = get_simple_corrections_indexes(
+        valence_options["correction_indexes"] = get_simple_correction_indexes(
             vbm_projection)
 
         conduction_options[
@@ -318,5 +318,30 @@ def execute(quiet: bool):
         )
         make_minushalf_results(valence_cuts=valence_cuts,
                                gap=conduction_gap,
+                               conduction_cuts=conduction_cuts)
+    elif minushalf_yaml.correction["correction_code"] == CorrectionCode.c.name:
+        conduction_options[
+            "correction_indexes"] = get_simple_correction_indexes(
+                cbm_projection)
+        conduction_options["only_conduction"] = True
+
+        conduction_simple_correction = correction(**conduction_options)
+        conduction_cuts, conduction_gap = conduction_simple_correction.execute(
+        )
+        make_minushalf_results(gap=conduction_gap,
+                               conduction_cuts=conduction_cuts)
+    elif minushalf_yaml.correction[
+            "correction_code"] == CorrectionCode.cf.name:
+        conduction_options[
+            "correction_indexes"] = get_fractionary_correction_indexes(
+                cbm_projection,
+                treshold=minushalf_yaml.
+                correction["fractionary_conduction_treshold"])
+        conduction_options["only_conduction"] = True
+
+        conduction_fractionary_correction = correction(**conduction_options)
+        conduction_cuts, conduction_gap = conduction_fractionary_correction.execute(
+        )
+        make_minushalf_results(gap=conduction_gap,
                                conduction_cuts=conduction_cuts)
     end_message()
