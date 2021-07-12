@@ -7,6 +7,9 @@ authors = ["Henrique <hentt30@gmail.com>"]
 [tool.poetry.dependencies]
 python = "^3.6"
 
+
+[tool.poetry.dev-dependencies]
+yapf = "^0.31.0"
 [build-system]
 build-backend = "setuptools.build_meta"
 requires = ["setuptools", "numpy"]

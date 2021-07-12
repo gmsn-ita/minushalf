@@ -230,6 +230,33 @@ def test_bn_2d_vbm(file_path):
     vbm_df = projection_to_df(vbm_projection)
     correction_indexes = get_fractionary_corrections_indexes(vbm_df)
     assert correction_indexes["N"][0] == "p"
+    assert correction_indexes.get("B") == None
+
+
+def test_bn_2d_vbm_without_treshold(file_path):
+    """
+    Test with BN-2d without treshold
+    """
+    procar_filename = file_path("/bn-2d/PROCAR")
+    eigenval_filename = file_path("/bn-2d/EIGENVAL")
+    vasprun_filename = file_path("/bn-2d/vasprun.xml")
+
+    procar = Procar(procar_filename)
+    vasprun = Vasprun(vasprun_filename)
+    eigenval = Eigenvalues(eigenval_filename)
+
+    band_structure = BandStructure(eigenvalues=eigenval.eigenvalues,
+                                   fermi_energy=vasprun.fermi_energy,
+                                   atoms_map=vasprun.atoms_map,
+                                   num_bands=procar.num_bands,
+                                   band_projection=procar)
+
+    vbm_projection = band_structure.vbm_projection()
+    vbm_df = projection_to_df(vbm_projection)
+    correction_indexes = get_fractionary_corrections_indexes(vbm_df,
+                                                             treshold=1)
+    assert correction_indexes["N"][0] == "p"
+    assert correction_indexes["B"][0] == "p"
 
 
 def test_bn_2d_cbm(file_path):
