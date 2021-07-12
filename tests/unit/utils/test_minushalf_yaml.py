@@ -38,9 +38,9 @@ def test_default_parameters():
         CorrectionDefaultParams.conduction_cut_guess)] is None
     assert file.correction[str(CorrectionDefaultParams.tolerance)] == 0.01
     assert file.correction[str(
-        CorrectionDefaultParams.fractionary_conduction_treshold)] == 9
+        CorrectionDefaultParams.fractional_conduction_treshold)] == 9
     assert file.correction[str(
-        CorrectionDefaultParams.fractionary_valence_treshold)] == 10
+        CorrectionDefaultParams.fractional_valence_treshold)] == 10
     assert len(file.correction[str(
         CorrectionDefaultParams.overwrite_vbm)]) == 0
     assert isinstance(
@@ -78,9 +78,9 @@ def test_minushalf_without_filling_correction(file_path):
         CorrectionDefaultParams.conduction_cut_guess)] is None
     assert file.correction[str(CorrectionDefaultParams.tolerance)] == 0.01
     assert file.correction[str(
-        CorrectionDefaultParams.fractionary_conduction_treshold)] == 9
+        CorrectionDefaultParams.fractional_conduction_treshold)] == 9
     assert file.correction[str(
-        CorrectionDefaultParams.fractionary_valence_treshold)] == 10
+        CorrectionDefaultParams.fractional_valence_treshold)] == 10
     assert len(file.correction[str(
         CorrectionDefaultParams.overwrite_vbm)]) == 0
     assert isinstance(
@@ -118,9 +118,9 @@ def test_minushalf_filled_out(file_path):
         CorrectionDefaultParams.conduction_cut_guess)] == 1.0
     assert file.correction[str(CorrectionDefaultParams.tolerance)] == 0.001
     assert file.correction[str(
-        CorrectionDefaultParams.fractionary_conduction_treshold)] == 23
+        CorrectionDefaultParams.fractional_conduction_treshold)] == 23
     assert file.correction[str(
-        CorrectionDefaultParams.fractionary_valence_treshold)] == 15
+        CorrectionDefaultParams.fractional_valence_treshold)] == 15
     assert len(file.correction[str(
         CorrectionDefaultParams.overwrite_vbm)]) == 2
     assert file.correction[str(

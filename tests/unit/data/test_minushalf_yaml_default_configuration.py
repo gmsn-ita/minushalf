@@ -76,8 +76,8 @@ def test_to_dict_correction():
     assert params_list["valence_cut_guess"] is None
     assert params_list["conduction_cut_guess"] is None
     assert np.isclose(params_list["tolerance"], 0.01)
-    assert np.isclose(params_list["fractionary_valence_treshold"], 10)
-    assert np.isclose(params_list["fractionary_conduction_treshold"], 9)
+    assert np.isclose(params_list["fractional_valence_treshold"], 10)
+    assert np.isclose(params_list["fractional_conduction_treshold"], 9)
     assert isinstance(params_list["overwrite_vbm"], list)
     assert isinstance(params_list["overwrite_cbm"], list)
 

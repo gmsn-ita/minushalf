@@ -134,7 +134,8 @@ correction tag
 - valence_cut_guess: Initial Guess for the Nelder-Mead algorithm for cut in valence correction. If not provided, the default value of :math:`0.15 + 0.84d` [6]_ will be used for each optimization, where :math:`d` is the distance of the nearest neighbor in the unit cell. (Default: :math:`0.15 + 0.84d`)
 - conduction_cut_guess: Initial Guess for the Nelder-Mead algorithm for cut in valence correction. If not provided, the default value of :math:`0.15 + 0.84d`  will be used will be used for each optimization, where :math:`d` is the distance of the nearest neighbor in the unit cell. (Default: :math:`0.15 + 0.84d`)
 - tolerance: Absolute tolerance for the result of the Nelder-Mead algorithm (Default: 0.01)
-- fractionary_valence_treshold: :ref:`Treshold  <frac_correction>` :math:`\epsilon` for fractional valence correction (Default: 10). 
+- fractional_valence_treshold: :ref:`Treshold  <frac_correction>` :math:`\epsilon` for fractional valence correction (Default: 10).
+- fractional_conduction_treshold: :ref:`Treshold  <frac_correction>` :math:`\epsilon` for fractional conduction correction (Default: 10). 
 - overwrite_vbm: In some special cases [6]_, it is necessary to consider another band as the VBM. This tag is made for these situations. It is necessary to inform the kpoint and the band number that specifies the band location. The program immediately overwrites the old projection values and uses the new values for DFT -1/2 calculations (Default: No overwrite)
 - overwrite_cbm: In some special cases [6]_, it is necessary to consider another band as the CBM. This tag is made for these situations. It is necessary to inform the kpoint and the band number that specifies the band location. The program immediately overwrites the old projection values and uses the new values for DFT -1/2 calculations (Default: No overwrite)
 
@@ -148,6 +149,8 @@ The values that the correction_code tag can assume are listed below:
 
     - v: Simple valence correction
     - vf: Fractional valence correction
+    - c: Simple conduction correction
+    - cf: Fractional conduction correction
     - vc: Simple valence and simple conduction corrections
     - vfc: Fractional valence and simple conduction corrections
     - vcf: Simple valence and fractional conduction corrections
@@ -165,8 +168,8 @@ The example below shows an use of correction tag in the :code:`minushalf.yaml` f
             valence_cut_guess: 2.0
             conduction_cut_guess: 1.0
             tolerance: 0.01
-            fractionary_valence_treshold: 15
-            fractionary_conduction_treshold: 23
+            fractional_valence_treshold: 15
+            fractional_conduction_treshold: 23
             overwrite_vbm: [4,9] # Kpoint and band number, respectively
             overwrite_cbm: [1,3] # Kpoint and band number, respectively
 

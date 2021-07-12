@@ -47,8 +47,8 @@ class CorrectionDefaultParams(aenum.Enum, settings=aenum.NoAlias):
     valence_cut_guess = None
     conduction_cut_guess = None
     tolerance = 0.01
-    fractionary_valence_treshold = 10
-    fractionary_conduction_treshold = 9
+    fractional_valence_treshold = 10
+    fractional_conduction_treshold = 9
     overwrite_vbm = []
     overwrite_cbm = []
 
