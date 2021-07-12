@@ -68,20 +68,17 @@ Currently, minushalf only supports one software, but one hope to add more soon.
 
 vasp tag
 ################
-The vasp tag is a set of various informations that specifies the settings
-for executing VASP. These informations are:
+The vasp tag specifies the command needed to perform first principles calculations. This tag has the following fields:
 
-- number_of_cores: The number of cores used to run VASP. (Default: 1)
-- path: entry-point for the executable (Default: vasp)
+- command: Command used to perform first principles calculations. (Default: ['mpirun','vasp'])
 
-Thus, the command that runs the software is :code:`mpirun -np $ {number_of_cores} $ {path}`. The example below 
+The :code:`mpirun` command is used for convenience and can be overridden depending on the local settings of the user's machine. The example below 
 shows an use of the vasp tag in the :code:`minushalf.yaml file`:
 
 .. code-block:: yaml
 
     vasp:
-        number_of_cores: 4
-        path: vasp_bin
+        command: ['mpirun','-np','6','vasp']
 
 
 atomic_program tag
@@ -209,7 +206,7 @@ For the input file, the following initial settings were chosen:
 
         software: VASP
         vasp:
-            number_of_cores: 4
+            command: ['mpirun','-np','4','vasp']
   
         correction:
             correction_code: vc
