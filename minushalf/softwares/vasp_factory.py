@@ -5,6 +5,7 @@
     - VASP
 """
 import os
+from typing import List
 from minushalf.interfaces import SoftwaresAbstractFactory
 from minushalf.utils import (
     check_procar_exists,
@@ -151,12 +152,12 @@ class VaspFactory(SoftwaresAbstractFactory):
         eigenval = VaspEigenval(filename)
         return eigenval.eigenvalues
 
-    def get_runner(self, path: str = "vasp", number_of_cores: int = 1):
+    def get_runner(self, command: List[str]):
         """
         Return the class
         that runs VASP
         """
-        return VaspRunner(path, number_of_cores)
+        return VaspRunner(command)
 
     @check_outcar_exists
     def get_nearest_neighbor_distance(self,

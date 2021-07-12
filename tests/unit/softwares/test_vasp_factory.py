@@ -1,6 +1,8 @@
 """
 Test vasp factory module
 """
+from yaml import compose_all
+from minushalf import commands
 import numpy as np
 from minushalf.softwares.vasp import Procar, Potcar, VaspRunner
 from minushalf.softwares import VaspFactory
@@ -80,10 +82,11 @@ def test_get_eigenvalues(file_path):
 
 def test_get_runner():
     """
-    Test get vasp rnner class
+    Test get vasp runner class
     """
+    command = ['mpirun', '-np', '4', 'vasp-FEB2016']
     factory = VaspFactory()
-    runner = factory.get_runner()
+    runner = factory.get_runner(command)
     assert isinstance(runner, VaspRunner)
 
 

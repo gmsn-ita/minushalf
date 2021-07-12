@@ -21,8 +21,7 @@ def test_default_parameters():
     file = MinushalfYaml.from_file()
     assert file.software == Softwares.vasp.value
     assert file.software_configurations[str(
-        VaspDefaultParams.number_of_cores)] == 1
-    assert file.software_configurations[str(VaspDefaultParams.path)] == "vasp"
+        VaspDefaultParams.command)] == ["mpirun", "vasp"]
     assert file.atomic_program[str(
         AtomicProgramDefaultParams.exchange_correlation_code)] == "pb"
     assert file.atomic_program[str(
@@ -62,9 +61,7 @@ def test_minushalf_without_filling_correction(file_path):
     file = MinushalfYaml.from_file(minushalf_path)
     assert file.software == Softwares.vasp.value
     assert file.software_configurations[str(
-        VaspDefaultParams.number_of_cores)] == 6
-    assert file.software_configurations[str(
-        VaspDefaultParams.path)] == "../vasp"
+        VaspDefaultParams.command)] == ['mpirun', '-np', '6', '../vasp']
     assert file.atomic_program[str(
         AtomicProgramDefaultParams.exchange_correlation_code)] == "wi"
     assert file.atomic_program[str(
@@ -103,9 +100,7 @@ def test_minushalf_filled_out(file_path):
     file = MinushalfYaml.from_file(minushalf_path)
     assert file.software == Softwares.vasp.value
     assert file.software_configurations[str(
-        VaspDefaultParams.number_of_cores)] == 6
-    assert file.software_configurations[str(
-        VaspDefaultParams.path)] == "../vasp"
+        VaspDefaultParams.command)] == ['mpirun', '-np', '6', '../vasp']
     assert file.atomic_program[str(
         AtomicProgramDefaultParams.exchange_correlation_code)] == "wi"
     assert file.atomic_program[str(

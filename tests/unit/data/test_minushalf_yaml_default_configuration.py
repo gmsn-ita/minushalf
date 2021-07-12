@@ -35,8 +35,7 @@ def test_to_list_vasp():
     Test to_list method in vasp params
     """
     params_list = VaspDefaultParams.to_list()
-    assert params_list[0] == 1
-    assert params_list[1] == "vasp"
+    assert params_list[0] == ['mpirun', 'vasp']
 
 
 def test_to_dict_vasp():
@@ -44,8 +43,7 @@ def test_to_dict_vasp():
     Test to_dict method in vasp params
     """
     params_list = VaspDefaultParams.to_dict()
-    assert params_list["number_of_cores"] == 1
-    assert params_list["path"] == "vasp"
+    assert params_list["command"] == ['mpirun', 'vasp']
 
 
 def test_to_list_correction():

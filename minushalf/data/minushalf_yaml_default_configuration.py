@@ -2,6 +2,7 @@
 Lists minushalf.yml parameters and their default values
 """
 from enum import Enum, unique
+from minushalf import commands
 import aenum
 
 
@@ -78,8 +79,7 @@ class VaspDefaultParams(Enum):
     Default value of parameters in the vasp tag.
     """
 
-    number_of_cores = 1
-    path = "vasp"
+    command = ['mpirun','vasp']
 
     def __str__(self):
         return str(self.name)

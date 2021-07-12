@@ -1,7 +1,6 @@
 software: vasp
 vasp:
-  number_of_cores: 6
-  path: ../vasp
+  command: ['mpirun','-np','6','../vasp']
 atomic_program:
   exchange_correlation_code: wi
   calculation_code: ae

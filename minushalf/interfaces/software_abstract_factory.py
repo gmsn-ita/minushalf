@@ -2,6 +2,7 @@
 Software abstract Factory
 """
 from abc import ABC, abstractmethod
+from typing import List
 from .potential_file import PotentialFile
 from .band_projection_file import BandProjectionFile
 
@@ -67,7 +68,7 @@ class SoftwaresAbstractFactory(ABC):
         """
 
     @abstractmethod
-    def get_runner(self, path: str, number_of_cores: int):
+    def get_runner(self, command: List[str]):
         """
         Get a class that run
         the software for ab initio calculations
