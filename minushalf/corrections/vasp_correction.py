@@ -59,7 +59,7 @@ class VaspCorrection(Correction):
 
         self.band_projection = band_projection
 
-        if is_conduction:
+        if is_conduction and not only_conduction:
             self.potential_folder = "corrected_valence_potfiles"
         else:
             self.potential_folder = minushalf_yaml.correction[
@@ -77,7 +77,7 @@ class VaspCorrection(Correction):
         self.amplitude = minushalf_yaml.correction[
             CorrectionDefaultParams.amplitude.name]
 
-        if is_conduction and only_conduction:
+        if is_conduction:
             self.cut_initial_guess = minushalf_yaml.correction[
                 CorrectionDefaultParams.conduction_cut_guess.name]
         else:
