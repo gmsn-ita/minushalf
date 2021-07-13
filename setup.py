@@ -18,7 +18,7 @@ atomic_program = Extension(name="minushalf.atomic_program",
 
 setup(
     name="minushalf",
-    version="1.3",
+    version="1.4",
     packages=setuptools.find_packages(),
     include_package_data=True,
     author="Henrique Fernandes",
