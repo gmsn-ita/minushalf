@@ -55,6 +55,7 @@ class MinushalfYaml():
         is_software_avalilable = any(element == name
                                      for element in available_softwares)
         if not is_software_avalilable:
+            logger.error("Parameter software is not filled correctly")
             raise ValueError("Parameter software is not filled correctly")
 
         self._software = name.upper()

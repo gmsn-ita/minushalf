@@ -1,7 +1,6 @@
 software: vasp
 vasp:
-  number_of_cores: 6
-  path: ../vasp
+  command: ['mpirun','-np','6','../vasp']
 atomic_program:
   exchange_correlation_code: wi
   calculation_code: ae
@@ -13,10 +12,8 @@ correction:
   valence_cut_guess: 2.0
   conduction_cut_guess: 1.0
   tolerance: 0.001
-  fractionary_valence_treshold: 15
-  fractionary_conduction_treshold: 23
-  overwrite_vbm:
-    - [C, p, 23.4]
-    - [Si, d, 11]
-  overwrite_cbm:
-    - [Ag, f, 9]
+  fractional_valence_treshold: 15
+  fractional_conduction_treshold: 23
+  overwrite_vbm: [1,3]
+  overwrite_cbm: [1,4]
+  inplace: True

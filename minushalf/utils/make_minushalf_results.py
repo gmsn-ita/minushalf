@@ -6,7 +6,7 @@ from loguru import logger
 
 def make_minushalf_results(
     gap: float,
-    valence_cuts: dict,
+    valence_cuts: dict = None,
     conduction_cuts: dict = None,
     name: str = "minushalf_results.dat",
 ) -> None:
@@ -29,14 +29,15 @@ def make_minushalf_results(
     logger.info("Writing output file")
     with open(name, "w") as file:
         ## Write valence cuts
-        file.write("Valence correction cuts:\n")
-        for key, value in valence_cuts.items():
-            symbol = key
-            cut = value
-            file.write("\t({}):{:.2f} a.u\n".format(symbol, cut))
-        file.write(
-            "----------------------------------------------------------------\n"
-        )
+        if valence_cuts:
+            file.write("Valence correction cuts:\n")
+            for key, value in valence_cuts.items():
+                symbol = key
+                cut = value
+                file.write("\t({}):{:.2f} a.u\n".format(symbol, cut))
+            file.write(
+                "----------------------------------------------------------------\n"
+            )
         ## Write conduction cuts
         if conduction_cuts:
             file.write("Conduction correction cuts:\n")

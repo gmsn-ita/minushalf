@@ -21,8 +21,7 @@ def test_default_parameters():
     file = MinushalfYaml.from_file()
     assert file.software == Softwares.vasp.value
     assert file.software_configurations[str(
-        VaspDefaultParams.number_of_cores)] == 1
-    assert file.software_configurations[str(VaspDefaultParams.path)] == "vasp"
+        VaspDefaultParams.command)] == ["mpirun", "vasp"]
     assert file.atomic_program[str(
         AtomicProgramDefaultParams.exchange_correlation_code)] == "pb"
     assert file.atomic_program[str(
@@ -39,9 +38,9 @@ def test_default_parameters():
         CorrectionDefaultParams.conduction_cut_guess)] is None
     assert file.correction[str(CorrectionDefaultParams.tolerance)] == 0.01
     assert file.correction[str(
-        CorrectionDefaultParams.fractionary_conduction_treshold)] == 9
+        CorrectionDefaultParams.fractional_conduction_treshold)] == 9
     assert file.correction[str(
-        CorrectionDefaultParams.fractionary_valence_treshold)] == 10
+        CorrectionDefaultParams.fractional_valence_treshold)] == 10
     assert len(file.correction[str(
         CorrectionDefaultParams.overwrite_vbm)]) == 0
     assert isinstance(
@@ -50,6 +49,8 @@ def test_default_parameters():
         CorrectionDefaultParams.overwrite_cbm)]) == 0
     assert isinstance(
         file.correction[str(CorrectionDefaultParams.overwrite_cbm)], list)
+    assert file.correction[str(CorrectionDefaultParams.inplace)] == False
+    assert file.correction[str(CorrectionDefaultParams.inplace)] != None
 
 
 def test_minushalf_without_filling_correction(file_path):
@@ -62,9 +63,7 @@ def test_minushalf_without_filling_correction(file_path):
     file = MinushalfYaml.from_file(minushalf_path)
     assert file.software == Softwares.vasp.value
     assert file.software_configurations[str(
-        VaspDefaultParams.number_of_cores)] == 6
-    assert file.software_configurations[str(
-        VaspDefaultParams.path)] == "../vasp"
+        VaspDefaultParams.command)] == ['mpirun', '-np', '6', '../vasp']
     assert file.atomic_program[str(
         AtomicProgramDefaultParams.exchange_correlation_code)] == "wi"
     assert file.atomic_program[str(
@@ -81,9 +80,9 @@ def test_minushalf_without_filling_correction(file_path):
         CorrectionDefaultParams.conduction_cut_guess)] is None
     assert file.correction[str(CorrectionDefaultParams.tolerance)] == 0.01
     assert file.correction[str(
-        CorrectionDefaultParams.fractionary_conduction_treshold)] == 9
+        CorrectionDefaultParams.fractional_conduction_treshold)] == 9
     assert file.correction[str(
-        CorrectionDefaultParams.fractionary_valence_treshold)] == 10
+        CorrectionDefaultParams.fractional_valence_treshold)] == 10
     assert len(file.correction[str(
         CorrectionDefaultParams.overwrite_vbm)]) == 0
     assert isinstance(
@@ -92,6 +91,8 @@ def test_minushalf_without_filling_correction(file_path):
         CorrectionDefaultParams.overwrite_cbm)]) == 0
     assert isinstance(
         file.correction[str(CorrectionDefaultParams.overwrite_cbm)], list)
+    assert file.correction[str(CorrectionDefaultParams.inplace)] == False
+    assert file.correction[str(CorrectionDefaultParams.inplace)] != None
 
 
 def test_minushalf_filled_out(file_path):
@@ -103,9 +104,7 @@ def test_minushalf_filled_out(file_path):
     file = MinushalfYaml.from_file(minushalf_path)
     assert file.software == Softwares.vasp.value
     assert file.software_configurations[str(
-        VaspDefaultParams.number_of_cores)] == 6
-    assert file.software_configurations[str(
-        VaspDefaultParams.path)] == "../vasp"
+        VaspDefaultParams.command)] == ['mpirun', '-np', '6', '../vasp']
     assert file.atomic_program[str(
         AtomicProgramDefaultParams.exchange_correlation_code)] == "wi"
     assert file.atomic_program[str(
@@ -123,31 +122,19 @@ def test_minushalf_filled_out(file_path):
         CorrectionDefaultParams.conduction_cut_guess)] == 1.0
     assert file.correction[str(CorrectionDefaultParams.tolerance)] == 0.001
     assert file.correction[str(
-        CorrectionDefaultParams.fractionary_conduction_treshold)] == 23
+        CorrectionDefaultParams.fractional_conduction_treshold)] == 23
     assert file.correction[str(
-        CorrectionDefaultParams.fractionary_valence_treshold)] == 15
+        CorrectionDefaultParams.fractional_valence_treshold)] == 15
     assert len(file.correction[str(
         CorrectionDefaultParams.overwrite_vbm)]) == 2
     assert file.correction[str(
-        CorrectionDefaultParams.overwrite_vbm)][0][0] == "C"
-    assert file.correction[str(
-        CorrectionDefaultParams.overwrite_vbm)][0][1] == "p"
-    assert file.correction[str(
-        CorrectionDefaultParams.overwrite_vbm)][0][2] == 23.4
-    assert file.correction[str(
-        CorrectionDefaultParams.overwrite_vbm)][1][0] == "Si"
-    assert file.correction[str(
-        CorrectionDefaultParams.overwrite_vbm)][1][1] == "d"
-    assert file.correction[str(
-        CorrectionDefaultParams.overwrite_vbm)][1][2] == 11
+        CorrectionDefaultParams.overwrite_vbm)] == [1, 3]
     assert len(file.correction[str(
-        CorrectionDefaultParams.overwrite_cbm)]) == 1
+        CorrectionDefaultParams.overwrite_cbm)]) == 2
     assert file.correction[str(
-        CorrectionDefaultParams.overwrite_cbm)][0][0] == "Ag"
-    assert file.correction[str(
-        CorrectionDefaultParams.overwrite_cbm)][0][1] == "f"
-    assert file.correction[str(
-        CorrectionDefaultParams.overwrite_cbm)][0][2] == 9
+        CorrectionDefaultParams.overwrite_cbm)] == [1, 4]
+    assert file.correction[str(CorrectionDefaultParams.inplace)] == True
+    assert file.correction[str(CorrectionDefaultParams.inplace)] != None
 
 
 @pytest.mark.xfail

@@ -5,6 +5,7 @@ import os
 import sys
 import shutil
 from collections import OrderedDict
+from typing import List
 import numpy as np
 import pandas as pd
 import click
@@ -16,8 +17,8 @@ from minushalf.utils import (
     welcome_message,
     end_message,
     make_minushalf_results,
-    get_fractionary_corrections_indexes,
-    get_simple_corrections_indexes,
+    get_fractionary_correction_indexes,
+    get_simple_correction_indexes,
 )
 from minushalf.softwares import (VaspFactory)
 from minushalf.corrections import (VaspCorrection)
@@ -68,17 +69,17 @@ def get_atoms_list(factory: SoftwaresAbstractFactory) -> list:
     return list(OrderedDict.fromkeys(atoms))
 
 
-def overwrite_band_projection(new_values: list,
-                              band_projection: pd.DataFrame) -> pd.DataFrame:
+def overwrite_band_projection(
+        band_location: List[int],
+        factory: SoftwaresAbstractFactory) -> pd.DataFrame:
     """
     Overwrite values in VBM or CBM band projection
 
         Args:
 
-            new_values (list): Arguments passed in overwrite_vbm or overwrite_cbm.
+            band_location (List[int]): Kpoint and band number, respectively.
 
-            band_projection (pd.Dataframe): Dataframe with the value of projections
-                                            of VBM or CBM.
+            factory (SoftwaresAbstractFactory): Software factory to create band structure class
 
         Returns:
 
@@ -86,12 +87,17 @@ def overwrite_band_projection(new_values: list,
                                                     with the values overwrited.
 
     """
-    for case in new_values:
-        atom = case[0].capitalize()
-        orbital = case[1].lower()
-        projection = int(case[2])
-        band_projection[orbital][atom] = projection
-    return band_projection
+    eigenvalues = factory.get_eigenvalues()
+    fermi_energy = factory.get_fermi_energy()
+    atoms_map = factory.get_atoms_map()
+    num_bands = factory.get_number_of_bands()
+    band_projection_file = factory.get_band_projection_class()
+
+    band_structure = BandStructure(eigenvalues, fermi_energy, atoms_map,
+                                   num_bands, band_projection_file)
+    vbm_projection = band_structure.band_projection(*band_location)
+    normalized_df = projection_to_df(vbm_projection)
+    return normalized_df
 
 
 @click.command()
@@ -159,28 +165,28 @@ def execute(quiet: bool):
         shutil.rmtree(root_folder)
     os.mkdir(root_folder)
 
-    ## get vbm projection
-    logger.info("Get Vbm and CBM projections")
+    ## get the bands projections (VBM and CBM)
+    logger.info("Get VBM and CBM projections")
     vbm_projection = get_vbm_projection(software_factory)
     cbm_projection = get_cbm_projection(software_factory)
 
     ### Overwrite band projections
     if len(minushalf_yaml.correction[
-            CorrectionDefaultParams.overwrite_vbm.name]) > 0:
+            CorrectionDefaultParams.overwrite_vbm.name]) == 2:
         logger.warning(
             "You're changing directly the band character. This is not recommendend unless you know exactly what are you doing."
         )
         vbm_projection = overwrite_band_projection(
             minushalf_yaml.correction[
-                CorrectionDefaultParams.overwrite_vbm.name], vbm_projection)
+                CorrectionDefaultParams.overwrite_vbm.name], software_factory)
     if len(minushalf_yaml.correction[
-            CorrectionDefaultParams.overwrite_cbm.name]) > 0:
+            CorrectionDefaultParams.overwrite_cbm.name]) == 2:
         logger.warning(
             "You're changing directly the band character. This is not recommendend unless you know exactly what are you doing."
         )
         cbm_projection = overwrite_band_projection(
             minushalf_yaml.correction[
-                CorrectionDefaultParams.overwrite_cbm.name], cbm_projection)
+                CorrectionDefaultParams.overwrite_cbm.name], software_factory)
 
     ## get atoms list
     logger.info("Get atoms list")
@@ -201,7 +207,7 @@ def execute(quiet: bool):
         "minushalf_yaml": minushalf_yaml,
         "band_projection": vbm_projection,
         "atoms": atoms,
-        "is_conduction": False
+        "is_conduction": False,
     }
     conduction_options = {
         "root_folder": root_folder,
@@ -215,7 +221,7 @@ def execute(quiet: bool):
 
     logger.info("Doing corrections")
     if minushalf_yaml.correction["correction_code"] == CorrectionCode.v.name:
-        valence_options["correction_indexes"] = get_simple_corrections_indexes(
+        valence_options["correction_indexes"] = get_simple_correction_indexes(
             vbm_projection)
         valence_correction = correction(**valence_options)
         valence_cuts, valence_gap = valence_correction.execute()
@@ -225,10 +231,10 @@ def execute(quiet: bool):
             "correction_code"] == CorrectionCode.vf.name:
 
         valence_options[
-            "correction_indexes"] = get_fractionary_corrections_indexes(
+            "correction_indexes"] = get_fractionary_correction_indexes(
                 vbm_projection,
                 treshold=minushalf_yaml.
-                correction["fractionary_valence_treshold"])
+                correction["fractional_valence_treshold"])
 
         valence_fractionary_correction = correction(**valence_options)
         valence_cuts, valence_gap = valence_fractionary_correction.execute()
@@ -236,10 +242,10 @@ def execute(quiet: bool):
 
     elif minushalf_yaml.correction[
             "correction_code"] == CorrectionCode.vc.name:
-        valence_options["correction_indexes"] = get_simple_corrections_indexes(
+        valence_options["correction_indexes"] = get_simple_correction_indexes(
             vbm_projection)
         conduction_options[
-            "correction_indexes"] = get_simple_corrections_indexes(
+            "correction_indexes"] = get_simple_correction_indexes(
                 cbm_projection)
         valence_correction = correction(**valence_options)
         valence_cuts, _ = valence_correction.execute()
@@ -253,13 +259,13 @@ def execute(quiet: bool):
             "correction_code"] == CorrectionCode.vfc.name:
 
         valence_options[
-            "correction_indexes"] = get_fractionary_corrections_indexes(
+            "correction_indexes"] = get_fractionary_correction_indexes(
                 vbm_projection,
                 treshold=minushalf_yaml.
-                correction["fractionary_valence_treshold"])
+                correction["fractional_valence_treshold"])
 
         conduction_options[
-            "correction_indexes"] = get_simple_corrections_indexes(
+            "correction_indexes"] = get_simple_correction_indexes(
                 cbm_projection)
 
         valence_fractionary_correction = correction(**valence_options)
@@ -274,16 +280,16 @@ def execute(quiet: bool):
             "correction_code"] == CorrectionCode.vfcf.name:
 
         valence_options[
-            "correction_indexes"] = get_fractionary_corrections_indexes(
+            "correction_indexes"] = get_fractionary_correction_indexes(
                 vbm_projection,
                 treshold=minushalf_yaml.
-                correction["fractionary_valence_treshold"])
+                correction["fractional_valence_treshold"])
 
         conduction_options[
-            "correction_indexes"] = get_fractionary_corrections_indexes(
+            "correction_indexes"] = get_fractionary_correction_indexes(
                 cbm_projection,
                 treshold=minushalf_yaml.
-                correction["fractionary_conduction_treshold"])
+                correction["    "])
 
         valence_fractionary_correction = correction(**valence_options)
         valence_cuts, _ = valence_fractionary_correction.execute()
@@ -296,14 +302,14 @@ def execute(quiet: bool):
 
     elif minushalf_yaml.correction[
             "correction_code"] == CorrectionCode.vcf.name:
-        valence_options["correction_indexes"] = get_simple_corrections_indexes(
+        valence_options["correction_indexes"] = get_simple_correction_indexes(
             vbm_projection)
 
         conduction_options[
-            "correction_indexes"] = get_fractionary_corrections_indexes(
+            "correction_indexes"] = get_fractionary_correction_indexes(
                 cbm_projection,
                 treshold=minushalf_yaml.
-                correction["fractionary_conduction_treshold"])
+                correction["fractional_conduction_treshold"])
 
         valence_correction = correction(**valence_options)
         valence_cuts, _ = valence_correction.execute()
@@ -312,5 +318,30 @@ def execute(quiet: bool):
         )
         make_minushalf_results(valence_cuts=valence_cuts,
                                gap=conduction_gap,
+                               conduction_cuts=conduction_cuts)
+    elif minushalf_yaml.correction["correction_code"] == CorrectionCode.c.name:
+        conduction_options[
+            "correction_indexes"] = get_simple_correction_indexes(
+                cbm_projection)
+        conduction_options["only_conduction"] = True
+
+        conduction_simple_correction = correction(**conduction_options)
+        conduction_cuts, conduction_gap = conduction_simple_correction.execute(
+        )
+        make_minushalf_results(gap=conduction_gap,
+                               conduction_cuts=conduction_cuts)
+    elif minushalf_yaml.correction[
+            "correction_code"] == CorrectionCode.cf.name:
+        conduction_options[
+            "correction_indexes"] = get_fractionary_correction_indexes(
+                cbm_projection,
+                treshold=minushalf_yaml.
+                correction["fractional_conduction_treshold"])
+        conduction_options["only_conduction"] = True
+
+        conduction_fractionary_correction = correction(**conduction_options)
+        conduction_cuts, conduction_gap = conduction_fractionary_correction.execute(
+        )
+        make_minushalf_results(gap=conduction_gap,
                                conduction_cuts=conduction_cuts)
     end_message()

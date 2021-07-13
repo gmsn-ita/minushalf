@@ -9,7 +9,7 @@ import pandas as pd
 import numpy as np
 
 
-def get_simple_corrections_indexes(band_projection: pd.DataFrame) -> dict:
+def get_simple_correction_indexes(band_projection: pd.DataFrame) -> dict:
     """
         Get dataframe index of the orbital which contributes more
         to (VBM|CBM)

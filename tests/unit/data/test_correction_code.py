@@ -10,6 +10,6 @@ def test_correction_code():
     Verify if all codes available are
     in the class
     """
-    codes = ["v", "vf", "vc", "vfc", "vcf", "vfcf"]
+    codes = ["v", "vf", "c", "cf", "vc", "vfc", "vcf", "vfcf"]
     for element in codes:
         assert CorrectionCode[element.lower()].value == element

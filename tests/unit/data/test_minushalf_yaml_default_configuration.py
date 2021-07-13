@@ -35,8 +35,7 @@ def test_to_list_vasp():
     Test to_list method in vasp params
     """
     params_list = VaspDefaultParams.to_list()
-    assert params_list[0] == 1
-    assert params_list[1] == "vasp"
+    assert params_list[0] == ['mpirun', 'vasp']
 
 
 def test_to_dict_vasp():
@@ -44,8 +43,7 @@ def test_to_dict_vasp():
     Test to_dict method in vasp params
     """
     params_list = VaspDefaultParams.to_dict()
-    assert params_list["number_of_cores"] == 1
-    assert params_list["path"] == "vasp"
+    assert params_list["command"] == ['mpirun', 'vasp']
 
 
 def test_to_list_correction():
@@ -53,6 +51,7 @@ def test_to_list_correction():
     test to_list method in correction params
     """
     params_list = CorrectionDefaultParams.to_list()
+    assert len(params_list) == 11
     assert params_list[0] == "v"
     assert params_list[1] == "minushalf_potfiles"
     assert np.isclose(params_list[2], 1.0)
@@ -65,6 +64,8 @@ def test_to_list_correction():
     assert isinstance(params_list[8], list)
     assert len(params_list[9]) == 0
     assert isinstance(params_list[9], list)
+    assert params_list[10] == False
+    assert params_list[10] != None
 
 
 def test_to_dict_correction():
@@ -72,14 +73,15 @@ def test_to_dict_correction():
     test to_dict method in correction params
     """
     params_list = CorrectionDefaultParams.to_dict()
+    assert params_list["inplace"] == False
     assert params_list["correction_code"] == "v"
     assert params_list["potfiles_folder"] == "minushalf_potfiles"
     assert np.isclose(params_list["amplitude"], 1.0)
     assert params_list["valence_cut_guess"] is None
     assert params_list["conduction_cut_guess"] is None
     assert np.isclose(params_list["tolerance"], 0.01)
-    assert np.isclose(params_list["fractionary_valence_treshold"], 10)
-    assert np.isclose(params_list["fractionary_conduction_treshold"], 9)
+    assert np.isclose(params_list["fractional_valence_treshold"], 10)
+    assert np.isclose(params_list["fractional_conduction_treshold"], 9)
     assert isinstance(params_list["overwrite_vbm"], list)
     assert isinstance(params_list["overwrite_cbm"], list)
 

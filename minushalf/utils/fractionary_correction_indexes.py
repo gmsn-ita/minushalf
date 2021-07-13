@@ -5,9 +5,10 @@ condunction correction
 """
 import itertools
 import pandas as pd
+from collections import defaultdict
 
 
-def get_fractionary_corrections_indexes(band_projection: pd.DataFrame,
+def get_fractionary_correction_indexes(band_projection: pd.DataFrame,
                                         treshold: int = 5) -> dict:
     """
         Get dataframe index of the orbitals which contributes more
@@ -28,7 +29,7 @@ def get_fractionary_corrections_indexes(band_projection: pd.DataFrame,
     columns_name = band_projection.columns.tolist()
     rows_name = band_projection.index.tolist()
 
-    correction_indexes = {row: [] for row in rows_name}
+    correction_indexes = defaultdict(list)
     for row, column in itertools.product(rows_name, columns_name):
         if band_projection[column][row] >= treshold:
             correction_indexes[row].append(column)

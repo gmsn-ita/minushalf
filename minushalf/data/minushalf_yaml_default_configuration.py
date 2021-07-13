@@ -2,6 +2,7 @@
 Lists minushalf.yml parameters and their default values
 """
 from enum import Enum, unique
+from minushalf import commands
 import aenum
 
 
@@ -46,10 +47,11 @@ class CorrectionDefaultParams(aenum.Enum, settings=aenum.NoAlias):
     valence_cut_guess = None
     conduction_cut_guess = None
     tolerance = 0.01
-    fractionary_valence_treshold = 10
-    fractionary_conduction_treshold = 9
+    fractional_valence_treshold = 10
+    fractional_conduction_treshold = 9
     overwrite_vbm = []
     overwrite_cbm = []
+    inplace = False
 
     def __str__(self):
         return str(self.name)
@@ -78,8 +80,7 @@ class VaspDefaultParams(Enum):
     Default value of parameters in the vasp tag.
     """
 
-    number_of_cores = 1
-    path = "vasp"
+    command = ['mpirun','vasp']
 
     def __str__(self):
         return str(self.name)
