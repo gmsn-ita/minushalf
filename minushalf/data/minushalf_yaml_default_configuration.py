@@ -2,7 +2,6 @@
 Lists minushalf.yml parameters and their default values
 """
 from enum import Enum, unique
-from minushalf import commands
 import aenum
 
 

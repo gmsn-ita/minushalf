@@ -5,7 +5,6 @@ of vasp correction and optimizes the necessary parameters.
 import os
 import shutil
 from subprocess import Popen, PIPE
-from pandas.core import base
 from scipy.optimize import minimize
 from loguru import logger
 import pandas as pd
