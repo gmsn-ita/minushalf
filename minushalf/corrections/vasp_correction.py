@@ -5,6 +5,7 @@ of vasp correction and optimizes the necessary parameters.
 import os
 import shutil
 from subprocess import Popen, PIPE
+from pandas.core import base
 from scipy.optimize import minimize
 from loguru import logger
 import pandas as pd
@@ -12,7 +13,7 @@ from minushalf.data import (CorrectionDefaultParams,
                             AtomicProgramDefaultParams, OrbitalType,
                             CutInitialGuessMethods)
 from minushalf.utils import (InputFile, Vtotal, MinushalfYaml, AtomicPotential,
-                             BandStructure, find_reverse_band_gap,
+                             BandStructure, find_negative_band_gap,
                              CutInitialGuess)
 from minushalf.interfaces import (Correction, Runner, SoftwaresAbstractFactory)
 
@@ -33,6 +34,7 @@ class VaspCorrection(Correction):
         is_conduction: bool,
         correction_indexes: dict,
         only_conduction: bool = False,
+        inplace: bool = True,
     ):
         """
         init method for the vasp correction class
@@ -49,6 +51,8 @@ class VaspCorrection(Correction):
                 runner (Runner): class to execute the program that makes ab initio calculations
 
                 only_conduction (bool): Conduction correction without previous valence correction
+
+                inplace (bool): Realize calculations inplace, do not create find_cut folders
         """
         self.root_folder = root_folder
 
@@ -115,7 +119,9 @@ class VaspCorrection(Correction):
 
         self.correction_indexes = correction_indexes
 
-        self.software_files = ["INCAR", "POSCAR", "KPOINTS"]
+        self.input_files = ["INCAR", "POSCAR", "KPOINTS"]
+
+        self.inplace = inplace
 
     @property
     def potential_folder(self) -> str:
@@ -177,7 +183,7 @@ class VaspCorrection(Correction):
             shutil.rmtree(calculation_folder)
         os.mkdir(calculation_folder)
 
-        for file in self.software_files:
+        for file in self.input_files:
             shutil.copyfile(file, os.path.join(calculation_folder, file))
 
         potfile_path = os.path.join(calculation_folder,
@@ -276,7 +282,7 @@ class VaspCorrection(Correction):
         if os.path.exists(path):
             shutil.rmtree(path)
         os.mkdir(path)
-        self._generate_atom_pseudopotential(path, symbol)
+        self._generate_atom_potential(path, symbol)
 
         percentuals = {}
         ## Check for bonds with equal atoms
@@ -290,7 +296,7 @@ class VaspCorrection(Correction):
             percentuals[orbital] = round(value)
         self._generate_occupation_potential(path, percentuals)
 
-        self.atom_potential = self._get_atom_potential(path, symbol)
+        self.atom_potential = self._get_atom_potential_class(path, symbol)
 
         cut = self._find_cut(symbol, path)
         self._write_result_in_potfile(symbol, cut, self.amplitude)
@@ -326,7 +332,7 @@ class VaspCorrection(Correction):
         with open(new_potential_path, "w") as file:
             file.writelines(lines)
 
-    def _generate_atom_pseudopotential(
+    def _generate_atom_potential(
         self,
         base_path: str,
         symbol: str,
@@ -367,7 +373,7 @@ class VaspCorrection(Correction):
         percentuals: dict,
     ) -> None:
         """
-        Generate the pseudo potential for the occupation
+        Generate the potential for the occupation
         of a fraction of half electron.
 
             Args:
@@ -398,8 +404,8 @@ class VaspCorrection(Correction):
         if stderr:
             raise Exception("Call to occupation command failed")
 
-    def _get_atom_potential(self, base_path: str,
-                            symbol: str) -> AtomicPotential:
+    def _get_atom_potential_class(self, base_path: str,
+                                  symbol: str) -> AtomicPotential:
         """
         Creates atom_potential class
 
@@ -429,10 +435,14 @@ class VaspCorrection(Correction):
                 symbol (str): Atom symbol
                 base_path (str): Path to mkpotcar{symbol}
         """
-        folder = os.path.join(base_path, "find_cut")
-        if os.path.exists(folder):
-            shutil.rmtree(folder)
-        os.mkdir(folder)
+        if not self.inplace:
+            folder = os.path.join(base_path, "find_cut")
+            if os.path.exists(folder):
+                shutil.rmtree(folder)
+            os.mkdir(folder)
+        else:
+            base_path = '.'  # Local Path
+
         function_args = {
             "base_path": base_path,
             "software_factory": self.software_factory,
@@ -443,8 +453,9 @@ class VaspCorrection(Correction):
             "potfiles_folder": self.potential_folder,
             "amplitude": self.amplitude,
             "atoms": self.atoms,
-            "software_files": self.software_files,
+            "software_files": self.input_files,
             "is_conduction": self.is_conduction,
+            "inplace": self.inplace
         }
         if self.automatic_cut_guess:
             atoms_map = self.software_factory.get_atoms_map()
@@ -460,15 +471,15 @@ class VaspCorrection(Correction):
                 nearest_distance,
                 CutInitialGuessMethods.three_dimensions.value)
 
-        res = minimize(find_reverse_band_gap,
-                       x0=self.cut_initial_guess,
-                       args=(function_args),
-                       method="Nelder-Mead",
-                       options={'xatol': self.tolerance})
-        cut = res.x[0]
+        result = minimize(find_negative_band_gap,
+                          x0=self.cut_initial_guess,
+                          args=(function_args),
+                          method="Nelder-Mead",
+                          options={'xatol': self.tolerance})
 
-        if not res.success:
+        if not result.success:
             logger.error("Optimization failed")
             raise Exception("Optimization failed.")
 
+        cut = result.x[0]
         return cut

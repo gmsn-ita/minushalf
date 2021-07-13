@@ -289,7 +289,7 @@ def execute(quiet: bool):
             "correction_indexes"] = get_fractionary_correction_indexes(
                 cbm_projection,
                 treshold=minushalf_yaml.
-                correction["fractional_conduction_treshold"])
+                correction["    "])
 
         valence_fractionary_correction = correction(**valence_options)
         valence_cuts, _ = valence_fractionary_correction.execute()
