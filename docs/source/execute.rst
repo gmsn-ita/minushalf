@@ -138,7 +138,7 @@ correction tag
 - fractional_conduction_treshold: :ref:`Treshold  <frac_correction>` :math:`\epsilon` for fractional conduction correction (Default: 10). 
 - overwrite_vbm: In some special cases [6]_, it is necessary to consider another band as the VBM. This tag is made for these situations. It is necessary to inform the kpoint and the band number that specifies the band location. The program immediately overwrites the old projection values and uses the new values for DFT -1/2 calculations (Default: No overwrite)
 - overwrite_cbm: In some special cases [6]_, it is necessary to consider another band as the CBM. This tag is made for these situations. It is necessary to inform the kpoint and the band number that specifies the band location. The program immediately overwrites the old projection values and uses the new values for DFT -1/2 calculations (Default: No overwrite)
-
+- inplace: This tag allows you to decide whether all calculations will be done in the root folder or not. It is recommended to pass it as :code:`True` if non-self-consistent calculations are being performed for the Gap calculation, since the program only copies the input files, the output files needed for the non-self-consistent calculation will not be considered (Default: False)
 
 The values that the correction_code tag can assume are listed below:
 
@@ -172,6 +172,7 @@ The example below shows an use of correction tag in the :code:`minushalf.yaml` f
             fractional_conduction_treshold: 23
             overwrite_vbm: [4,9] # Kpoint and band number, respectively
             overwrite_cbm: [1,3] # Kpoint and band number, respectively
+            inplace: False
 
 
 
