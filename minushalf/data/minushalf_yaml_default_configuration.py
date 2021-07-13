@@ -51,6 +51,7 @@ class CorrectionDefaultParams(aenum.Enum, settings=aenum.NoAlias):
     fractional_conduction_treshold = 9
     overwrite_vbm = []
     overwrite_cbm = []
+    inplace = False
 
     def __str__(self):
         return str(self.name)

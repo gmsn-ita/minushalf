@@ -49,6 +49,8 @@ def test_default_parameters():
         CorrectionDefaultParams.overwrite_cbm)]) == 0
     assert isinstance(
         file.correction[str(CorrectionDefaultParams.overwrite_cbm)], list)
+    assert file.correction[str(CorrectionDefaultParams.inplace)] == False
+    assert file.correction[str(CorrectionDefaultParams.inplace)] != None
 
 
 def test_minushalf_without_filling_correction(file_path):
@@ -89,6 +91,8 @@ def test_minushalf_without_filling_correction(file_path):
         CorrectionDefaultParams.overwrite_cbm)]) == 0
     assert isinstance(
         file.correction[str(CorrectionDefaultParams.overwrite_cbm)], list)
+    assert file.correction[str(CorrectionDefaultParams.inplace)] == False
+    assert file.correction[str(CorrectionDefaultParams.inplace)] != None
 
 
 def test_minushalf_filled_out(file_path):
@@ -129,6 +133,8 @@ def test_minushalf_filled_out(file_path):
         CorrectionDefaultParams.overwrite_cbm)]) == 2
     assert file.correction[str(
         CorrectionDefaultParams.overwrite_cbm)] == [1, 4]
+    assert file.correction[str(CorrectionDefaultParams.inplace)] == True
+    assert file.correction[str(CorrectionDefaultParams.inplace)] != None
 
 
 @pytest.mark.xfail

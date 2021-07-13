@@ -16,3 +16,4 @@ correction:
   fractional_conduction_treshold: 23
   overwrite_vbm: [1,3]
   overwrite_cbm: [1,4]
+  inplace: True

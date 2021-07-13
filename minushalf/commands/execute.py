@@ -207,7 +207,7 @@ def execute(quiet: bool):
         "minushalf_yaml": minushalf_yaml,
         "band_projection": vbm_projection,
         "atoms": atoms,
-        "is_conduction": False
+        "is_conduction": False,
     }
     conduction_options = {
         "root_folder": root_folder,

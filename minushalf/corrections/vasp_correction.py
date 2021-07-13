@@ -34,7 +34,6 @@ class VaspCorrection(Correction):
         is_conduction: bool,
         correction_indexes: dict,
         only_conduction: bool = False,
-        inplace: bool = True,
     ):
         """
         init method for the vasp correction class
@@ -121,7 +120,8 @@ class VaspCorrection(Correction):
 
         self.input_files = ["INCAR", "POSCAR", "KPOINTS"]
 
-        self.inplace = inplace
+        self.inplace = minushalf_yaml.correction[
+            CorrectionDefaultParams.inplace.name]
 
     @property
     def potential_folder(self) -> str:
