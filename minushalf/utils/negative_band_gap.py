@@ -217,18 +217,20 @@ def find_negative_band_gap(cuts: list, *args: tuple) -> float:
     ## Logger
     if is_conduction:
         logger.info(
-            "CONDUCTION CORRECTION: Current CUT value is {:.2f}A".format(cut))
+            "CONDUCTION CORRECTION: Current CUT value is {:.2f} a.u".format(
+                cut))
         logger.info(
-            "CONDUCTION CORRECTION: Current Gap value is {:.2f}eV".format(gap))
+            "CONDUCTION CORRECTION: Current Gap value is {:.2f} eV".format(
+                gap))
     else:
         logger.info(
-            "VALENCE CORRECTION: Current CUT value is {:.2f}A".format(cut))
+            "VALENCE CORRECTION: Current CUT value is {:.2f} a.u".format(cut))
         logger.info(
-            "VALENCE CORRECTION: Current Gap value is {:.2f}eV".format(gap))
+            "VALENCE CORRECTION: Current Gap value is {:.2f} eV".format(gap))
 
     if cut < 0.5:
         logger.warning(
-            "Pay attention, CUT values less than 0.5 might have no physical meaning."
+            "Pay attention, CUT values less than 0.5 a.u might have no physical meaning."
         )
 
     return (-1) * gap
