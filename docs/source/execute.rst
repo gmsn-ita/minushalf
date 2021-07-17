@@ -220,10 +220,10 @@ on the values obtained in the optimization of the CUT and the resulting band ene
     .. code-block:: xml
 
             Valence correction cuts:
-                    (C):3.13 a.u
+                    (C,p):3.13 a.u
             ----------------------------------------------------------------
             Conduction correction cuts:
-                    (Si):2.77 a.u
+                    (Si,p):2.77 a.u
             ----------------------------------------------------------------
             GAP: 4.37eV
 

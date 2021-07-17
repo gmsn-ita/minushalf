@@ -32,9 +32,10 @@ def make_minushalf_results(
         if valence_cuts:
             file.write("Valence correction cuts:\n")
             for key, value in valence_cuts.items():
-                symbol = key
+                symbol, orbital = key
                 cut = value
-                file.write("\t({}):{:.2f} a.u\n".format(symbol, cut))
+                file.write("\t({},{}):{:.2f} a.u\n".format(
+                    symbol, orbital, cut))
             file.write(
                 "----------------------------------------------------------------\n"
             )
@@ -42,9 +43,10 @@ def make_minushalf_results(
         if conduction_cuts:
             file.write("Conduction correction cuts:\n")
             for key, value in conduction_cuts.items():
-                symbol = key
+                symbol, orbital = key
                 cut = value
-                file.write("\t({}):{:.2f} a.u\n".format(symbol, cut))
+                file.write("\t({},{}):{:.2f} a.u\n".format(
+                    symbol, orbital, cut))
             file.write(
                 "----------------------------------------------------------------\n"
             )
