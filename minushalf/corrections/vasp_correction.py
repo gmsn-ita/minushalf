@@ -167,8 +167,9 @@ class VaspCorrection(Correction):
         self.sum_correction_percentual = self._get_sum_correction_percentual()
 
         for symbol, orbitals in self.correction_indexes.items():
-            cut = self._find_best_correction(symbol, orbitals)
-            cuts_per_atom_orbital[symbol] = cut
+            for orbital in orbitals:
+                cut = self._find_best_correction(symbol, orbital)
+                cuts_per_atom_orbital[(symbol, orbital)] = cut
 
         gap = self._get_result_gap()
         return (cuts_per_atom_orbital, gap)
@@ -262,12 +263,11 @@ class VaspCorrection(Correction):
 
         return total_sum
 
-    def _find_best_correction(self, symbol: str, orbitals: list) -> float:
+    def _find_best_correction(self, symbol: str, orbital: str) -> tuple:
         """
         Correct the potcar of the atom symbol in the
         orbital given. Then, find the best cut to the
         the correciton.
-
             Args:
                 symbol (str): Atom symbol
                 orbital (str): Orbital type (s,p,d,f)
@@ -276,7 +276,7 @@ class VaspCorrection(Correction):
                 the optimum cut and the gap generated
                 by the correction.
         """
-        folder_name = "mkpotcar_{}".format(symbol.lower())
+        folder_name = f"mkpotcar_{symbol.lower()}_{orbital.lower()}"
         path = os.path.join(self.root_folder, folder_name)
         if os.path.exists(path):
             shutil.rmtree(path)
@@ -288,11 +288,12 @@ class VaspCorrection(Correction):
         atoms_map = self.software_factory.get_atoms_map()
         number_equal_neighbors = self.software_factory.get_number_of_equal_neighbors(
             atoms_map=atoms_map, symbol=symbol)
-        for orbital in orbitals:
-            value = (100 / (1 + number_equal_neighbors)) * (
-                self.band_projection[orbital][symbol] /
-                self.sum_correction_percentual)
-            percentuals[orbital] = round(value)
+
+        value = (100 / (1 + number_equal_neighbors)) * (
+            self.band_projection[orbital][symbol] /
+            self.sum_correction_percentual)
+        percentuals[orbital] = round(value)
+
         self._generate_occupation_potential(path, percentuals)
 
         self.atom_potential = self._get_atom_potential_class(path, symbol)

@@ -31,6 +31,6 @@ def get_fractionary_correction_indexes(band_projection: pd.DataFrame,
 
     correction_indexes = defaultdict(list)
     for row, column in itertools.product(rows_name, columns_name):
-        if band_projection[column][row] >= treshold:
+        if band_projection[column][row] > treshold:
             correction_indexes[row].append(column)
     return correction_indexes
