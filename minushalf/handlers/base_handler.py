@@ -6,7 +6,7 @@ from minushalf.interfaces import Handler
 
 class BaseHandler(Handler):
     """
-    The default chaining behavior can be implemented inside a base handler
+    The default chaining behavior is defined inside a base handler
     class.
     """
 
