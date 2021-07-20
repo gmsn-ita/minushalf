@@ -40,10 +40,9 @@ def test_handle_when_next_handler_is_defined(mocker: MockerFixture):
     mocker.patch.object(next_handler,
                         'handle',
                         return_value='Test',
-                        autospec=True)
-    spy = mocker.spy(next_handler, 'handle')
+                        autospec=True,
+                        wraps=next_handler.handle)
 
     base_handler.set_next(next_handler)
 
     assert base_handler.handle({}) == 'Test'
-    assert spy.assert_called_once_with({})
