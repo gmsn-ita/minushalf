@@ -5,7 +5,7 @@ Introduction
 The DFT -1/2 method
 *********************
 DFT-1/2, an alternative way of referring to the LDA -1/2 [1]_ [2]_ and GGA -1/2 [2]_ techniques, 
-is a method that method for approximate self-energy corrections within the framework of conventional Kohn-Sham DFT 
+is a method for approximate self-energy corrections within the framework of conventional Kohn-Sham DFT 
 which can be used not only with the local density approximation (LDA), but also with the generalized gradient approximation (GGA) [11]_ [2]_ [12]_.
 
 The method aims to predict energy gaps results with the same precision [2]_ as the quasiparticle correction [9]_ algorithm, considered 
@@ -41,7 +41,7 @@ extended systems like crystals, since the crystal is described by means of Bloch
 of just one Bloch state would have no consequences [1]_. Moreover, removing the population of one Bloch State and set periodic
 conditions would result in a infinitely charged system.
 
-Thus, the proposed solution is to apply the Slater procedure to cystaline energy bands. 
+Thus, the proposed solution is to apply the Slater procedure to crystalline energy bands. 
 The intuition for this application comes from the fact that the energy bands of a crystal are formed
 by the overlap of atomic orbitals, mainly by those that constitute the outermost layers [8]_. This relationship can be quantified
 by the projection of the wave function in a given orbital, Figure 2 shows the :math:`p` character for each atom in the band structure of the h-BN, the bigger the blue dots, the stronger the character. Thereby, considering
@@ -269,6 +269,6 @@ References
 
 .. [14] G. Kresse and J. Furthmüller, `Comput. Mater. Sci. 6, 15 (1996) <https://doi.org/10.1016/0927-0256(96)00008-0>`_.
 
-.. [15] P. Blaha, K. Schwarz, P. Sorantin, and S. B. Trickey, `Comput. Phys. Commun <http://dx.doi.org/10.1016/0010-4655(90)90187-6>`_. 59, 399 (1990), see www.wien2k.at.
+.. [15] P. Blaha, K. Schwarz, P. Sorantin, and S. B. Trickey, `Comput. Phys. Communications <http://dx.doi.org/10.1016/0010-4655(90)90187-6>`_. 59, 399 (1990), see www.wien2k.at.
 
-.. [16] R R Pela et al 2015 `J. Phys.: Condens. Matter 27 505502 <http://dx.doi.org/10.1088/0953-8984/27/50/505502>`_.
+.. [16] R. R. Pelá, M. Marques, and L. K. Teles, `J. Phys.: Condens. Matter 27 505502 <http://dx.doi.org/10.1088/0953-8984/27/50/505502>`_.
