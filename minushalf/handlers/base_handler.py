@@ -18,7 +18,12 @@ class BaseHandler(Handler):
         return handler
 
     def handle(self, request: any) -> str:
+        request = self.action(request)
         if self._next_handler:
             return self._next_handler.handle(request)
 
-        return ''
+        return request
+    
+    def action(self, request: any) -> any:
+        return request
+    

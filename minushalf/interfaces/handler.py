@@ -12,8 +12,21 @@ class Handler(ABC):
     """
     @abstractmethod
     def set_next(self, handler: any) -> any:
+        """
+        Set next handler
+        """
         pass
 
     @abstractmethod
-    def handle(self, request) -> Optional[str]:
+    def handle(self, request) -> Optional[any]:
+        """
+        Call action and pass to the next handler
+        """
+        pass
+    
+    @abstractmethod
+    def action(self,request:any) -> any:
+        """
+        Performs the check or the process
+        """
         pass
