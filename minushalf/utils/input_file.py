@@ -5,7 +5,7 @@ read by atomic program.
 import numpy as np
 import fortranformat as ff
 from minushalf.data import (ElectronicDistribution, PeriodicTable,
-                            ExchangeCorreltion, CalculationCode)
+                            ExchangeCorrelation, CalculationCode)
 from .drop_comments import drop_comments
 from .parse_valence_orbital_line import parse_valence_orbitals
 
@@ -107,7 +107,7 @@ class InputFile:
             (ca, wi, hl, gl ,bh, pb, rp, rv, bl()
         """
         try:
-            value = ExchangeCorreltion[exchange_correlation_type].value
+            value = ExchangeCorrelation[exchange_correlation_type].value
         except KeyError as code_not_found:
             raise KeyError(
                 "Your value of exchange and correlation functional is not valid"

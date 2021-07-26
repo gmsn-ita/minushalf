@@ -1,7 +1,7 @@
 """
 Test base handler class
 """
-from minushalf.handlers import BaseHandler
+from minushalf.handlers import BaseHandler, base_handler
 from pytest_mock import MockerFixture
 
 
@@ -25,7 +25,15 @@ def test_handle_when_next_handler_not_defined():
     """
     base_handler = BaseHandler()
 
-    assert base_handler.handle({}) == ''
+    assert base_handler.handle({}) == {}
+
+def test_action():
+    """
+    Test action function in base handler class
+    """
+    base_handler = BaseHandler()
+
+    assert base_handler.action({}) == {}
 
 
 def test_handle_when_next_handler_is_defined(mocker: MockerFixture):

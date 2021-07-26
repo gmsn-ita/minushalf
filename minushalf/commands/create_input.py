@@ -4,7 +4,7 @@ Makes fractional occupation on INP file
 import sys
 import click
 from loguru import logger
-from minushalf.data import (CalculationCode, ExchangeCorreltion)
+from minushalf.data import (CalculationCode, ExchangeCorrelation)
 from minushalf.utils import (welcome_message, end_message, InputFile)
 
 
@@ -12,10 +12,10 @@ from minushalf.utils import (welcome_message, end_message, InputFile)
 @click.argument('chemical_symbol', type=str, nargs=1)
 @click.option('-e',
               '--exchange_correlation_code',
-              type=click.Choice(ExchangeCorreltion.to_list(),
+              type=click.Choice(ExchangeCorrelation.to_list(),
                                 case_sensitive=False),
               nargs=1,
-              default=ExchangeCorreltion.pb.value,
+              default=ExchangeCorrelation.pb.value,
               show_default=True,
               help="""
             Represents the functional of exchange and correlation,it can assume the following values:
