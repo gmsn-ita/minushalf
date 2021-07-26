@@ -24,6 +24,13 @@ class CorrectionCode(Enum):
         return str(self.name)
 
     @staticmethod
+    def get_default():
+        """
+        Returns the default value for this parameter
+        """
+        return CorrectionCode.v.value
+
+    @staticmethod
     def to_list():
         """
         Generate list of available correction codes

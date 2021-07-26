@@ -17,6 +17,13 @@ class Softwares(Enum):
         return str(self.name)
 
     @staticmethod
+    def get_default():
+        """
+        Returns the default value for this parameter
+        """
+        return Softwares.vasp.value
+
+    @staticmethod
     def to_list():
         """
         Generate list of available softwares

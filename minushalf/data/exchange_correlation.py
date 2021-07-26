@@ -5,7 +5,7 @@ from enum import Enum, unique
 
 
 @unique
-class ExchangeCorreltion(Enum):
+class ExchangeCorrelation(Enum):
     """
     Enum type for exchange and correlation codes
     """
@@ -24,8 +24,15 @@ class ExchangeCorreltion(Enum):
         return str(self.name)
 
     @staticmethod
+    def get_default():
+        """
+        Returns the default value for this parameter
+        """
+        return ExchangeCorrelation.pb.value
+
+    @staticmethod
     def to_list():
         """
         Generate list of exchange and correlation codes
         """
-        return list(map(lambda element: element.value, ExchangeCorreltion))
+        return list(map(lambda element: element.value, ExchangeCorrelation))

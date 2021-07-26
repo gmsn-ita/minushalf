@@ -2,7 +2,7 @@
 Test exchange correlation module
 in data folder
 """
-from minushalf.data import ExchangeCorreltion
+from minushalf.data import ExchangeCorrelation
 
 
 def test_exchange_correlation():
@@ -12,4 +12,11 @@ def test_exchange_correlation():
     """
     exchange_code = ["ca", "wi", "hl", "gl", "bh", "pb", "rp", "rv", "bl"]
     for element in exchange_code:
-        assert ExchangeCorreltion[element.lower()].value == element
+        assert ExchangeCorrelation[element.lower()].value == element
+
+
+def test_exchange_correlation_get_default():
+    """
+    Method that returns the default value for this propertie
+    """
+    assert ExchangeCorrelation.get_default() == "pb"
