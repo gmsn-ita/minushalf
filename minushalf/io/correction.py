@@ -4,7 +4,7 @@ Class for correction input parameters in minushalf.yaml
 from minushalf.interfaces.minushalf_yaml_tags import MinushalfYamlTags
 import loguru
 from minushalf.data import CorrectionCode
-from minushalf.interfaces import MinushalfYamlTagss
+from minushalf.interfaces import MinushalfYamlTags
 
 
 class Correction(MinushalfYamlTags):
@@ -70,7 +70,7 @@ class Correction(MinushalfYamlTags):
                 "Invalid value for correction code in minushalf.yaml")
             raise ValueError("Invalid value for correction code")
 
-        self.correction_code = code
+        self._correction_code = code
 
     @property
     def overwrite_cbm(self) -> dict:
