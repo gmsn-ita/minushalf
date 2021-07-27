@@ -19,9 +19,9 @@ def test_override_parameters():
     Test the class with other parameters
     """
     software_configurations = SoftwareConfigurations(
-        software_name="QUANT", command=["mpirun", "-np", "4"])
+        software_name="VASP", command=["mpirun", "-np", "4"])
 
-    assert software_configurations.software_name == "QUANT"
+    assert software_configurations.software_name == "VASP"
     assert software_configurations.command == ["mpirun", "-np", "4"]
 
 
