@@ -13,7 +13,7 @@ class ReadMinushalf(BaseHandler):
 
     def action(self, request: any) -> any:
         """
-        Reads minushalf yaml and return it
+        Reads minushalf.yaml and return it
         """
         logger.info("Reading minushalf.yaml file")
         
