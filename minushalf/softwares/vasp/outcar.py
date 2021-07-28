@@ -37,11 +37,33 @@ class Outcar():
             Returns:
                 nearest_neighbor_distance (float): The distance of the nearest neighbor.
         """
-        distances = self.relative_distances[ion_index]
-        nearest_distance = math.inf
-        for distance in distances:
-            nearest_distance = min(distance[1], nearest_distance)
-        return nearest_distance
+        distances = [dist for _, dist in self.relative_distances[ion_index]]
+        return min(distances)
+
+    def _get_ion_index(self, atoms_map: dict, target_symbol: str) -> int:
+        """
+        Given the symbol, returns the ion index
+        """
+        for index, symbol in atoms_map.items():
+            if target_symbol == symbol:
+                return index
+
+    def _is_neighbor_equal(
+        self,
+        target_index: int,
+        source_index: int,
+        visited_neighbors: dict,
+        atoms_map: dict,
+        symbol: str,
+    ) -> bool:
+        """
+        checks if elements have the same symbol and different indexes
+        """
+        different_index = target_index != source_index
+        same_symbol = atoms_map[target_index] == symbol
+        not_visited = not visited_neighbors[target_index]
+
+        return different_index and same_symbol and not_visited
 
     def number_of_equal_neighbors(self, atoms_map: dict, symbol: str) -> int:
         """
@@ -57,20 +79,15 @@ class Outcar():
                 number_equal_neighbors (int): Returns the number of neighbors with
                                         same symbol but different indexes.
         """
-        ion_index = None
-        for key, value in atoms_map.items():
-            if value == symbol:
-                ion_index = key
-                break
-
+        ion_index = self._get_ion_index(atoms_map, symbol)
         number_equal_neighbors = 0
-        ## Already listed neighbors
-        visited_neighbors = {key: False for key in atoms_map.keys()}
-        for element in self.relative_distances[ion_index]:
-            if element[0] != ion_index and atoms_map[str(
-                    element[0])] == symbol and not visited_neighbors[str(
-                        element[0])]:
-                visited_neighbors[str(element[0])] = True
+        visited_neighbors = defaultdict(bool)  ## Already listed neighbors
+
+        for index, _ in self.relative_distances[ion_index]:
+            index = str(index)
+            if self._is_neighbor_equal(index, ion_index,
+                                       visited_neighbors, atoms_map, symbol):
+                visited_neighbors[index] = True
                 number_equal_neighbors += 1
 
         return number_equal_neighbors
@@ -88,27 +105,29 @@ class Outcar():
             r"\s*ion\s+position\s+nearest\s+neighbor\s+table")
         distances_line_regex = re.compile(
             r"\s+([0-9]).*(?=-)-\s+([0-9]\s+[0-9]*\.[0-9]+\s*)+")
+
         with open(self.filename) as outcar:
-            start_capture = False
+
+            ## Skip initial lines
+            for line in outcar:
+                if start_capture_regex.match(line):
+                    break
+            ## Read informations
             for line in outcar:
 
-                if start_capture and distances_line_regex.match(line):
+                if distances_line_regex.match(line):
                     ion_index = distances_line_regex.match(line).group(1)
 
-                    ion_relative_distances_line = line.split("-")[1]
                     ion_relative_distances_and_index = re.findall(
                         r"[0-9]\s+[0-9]*\.[0-9]+\s*",
-                        ion_relative_distances_line)
+                        line.split("-")[1])
 
                     for element in ion_relative_distances_and_index:
-                        element_cleaned = element.rstrip()
-                        index = int(element_cleaned.split()[0])
-                        distance = float(element_cleaned.split()[1])
+                        element = element.rstrip()
+                        index, distance = int(element.split()[0]), float(
+                            element.split()[1])
                         relative_distances[ion_index].append((index, distance))
-                elif start_capture:
+                else:
                     break
-
-                if start_capture_regex.match(line):
-                    start_capture = True
 
         return relative_distances
