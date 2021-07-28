@@ -6,3 +6,4 @@ from .software_configurations import SoftwareConfigurations
 from .correction import Correction
 from .minushalf_yaml import MinushalfYaml
 from .input_file import InputFile
+from .vtotal import Vtotal

@@ -2,7 +2,8 @@
 Analyze VTOTAL
 """
 import re
-from itertools import islice, chain
+import loguru
+from itertools import islice
 import numpy as np
 
 
@@ -42,27 +43,28 @@ class Vtotal():
             Args:
                 filename (str): Name of the VTOTAL file
         """
+        initial_regex = re.compile(r"^.*Down\s+potential\s+follows")
+        stop_regex = re.compile(r"^.*Up\s+potential\s+follows")
+        down_potential = []
+        vtotal_header_size = 1  # Skip the line containing the spin value
 
         with open(filename, "r") as vtotal:
-            initial_regex = re.compile(r"^.*Down\s+potential\s+follows")
+
+            ## Skip initial lines
             for line in vtotal:
                 if initial_regex.match(line):
                     break
             else:
+                loguru.logger("Potential informations do not found in vtotal")
                 raise ValueError(
                     "Potential informations do not found in vtotal")
 
-            stop_regex = re.compile(r"^.*Up\s+potential\s+follows")
-            down_potential = []
-            vtotal_header_size = 1  # Skip the line containing the spin value
-
+            ## Read the info
             for line in islice(vtotal, vtotal_header_size, None):
-
                 if stop_regex.match(line):
-                    down_potential = list(chain.from_iterable(down_potential))
-                    return np.array(down_potential, dtype=np.float64)
-
-                down_potential.append(line.split())
+                    break
+                down_potential.extend(line.split())
+        return np.array(down_potential, dtype=np.float64)
 
     @staticmethod
     def read_radius(filename: str) -> np.array:
@@ -73,16 +75,15 @@ class Vtotal():
             Args:
                 filename (str): Name of the VTOTAL file
         """
+        radius = []
+        vtotal_header_size = 1  # Skip the header Raios
+        stop_regex = re.compile(r"^.*Down\s+potential\s+follows")
 
         with open(filename, "r") as vtotal:
-            radius = []
-            vtotal_header_size = 1  # Skip the header Raios
-            stop_regex = re.compile(r"^.*Down\s+potential\s+follows")
+
             for line in islice(vtotal, vtotal_header_size, None):
-
                 if stop_regex.match(line):
-                    radius = list(chain.from_iterable(radius))
                     break
+                radius.extend(line.split())
 
-                radius.append(line.split())
         return np.array(radius, dtype=np.float64)

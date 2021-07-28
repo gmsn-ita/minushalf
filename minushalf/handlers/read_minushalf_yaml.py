@@ -1,7 +1,7 @@
 """
 Handler to read minushalf.yaml
 """
-from minushalf.utils import MinushalfYaml
+from minushalf.io import MinushalfYaml
 from .base_handler import BaseHandler
 from loguru import logger
 
@@ -16,8 +16,8 @@ class ReadMinushalf(BaseHandler):
         Reads minushalf.yaml and return it
         """
         logger.info("Reading minushalf.yaml file")
-        
+
         minushalf_yaml = MinushalfYaml.from_file()
         request['minushalf_yaml'] = minushalf_yaml
-        
+
         return request
