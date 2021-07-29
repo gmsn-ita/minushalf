@@ -24,7 +24,7 @@ from minushalf.softwares.vasp import (
 )
 
 
-class VaspFactory(SoftwaresAbstractFactory):
+class Vasp(SoftwaresAbstractFactory):
     """
     Concrete Factory for create instances
     for each supported software.

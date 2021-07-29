@@ -47,6 +47,18 @@ class MinushalfYaml(MinushalfYaml):
         """
         return self.software_configurations.to_dict()
 
+    def get_software_name(self) -> str:
+        """
+        Returns the name of the software that runs first principles calculations
+        """
+        return self.software_configurations.software_name
+
+    def get_command(self) -> list:
+        """
+        Returns the command that runs first principles calculations
+        """
+        return self.software_configurations.command
+
     @staticmethod
     def _read_yaml(filename: str) -> collections.defaultdict:
         """

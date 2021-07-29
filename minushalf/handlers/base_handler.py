@@ -23,7 +23,6 @@ class BaseHandler(Handler):
             return self._next_handler.handle(request)
 
         return request
-    
+
     def action(self, request: any) -> any:
         return request
-    
