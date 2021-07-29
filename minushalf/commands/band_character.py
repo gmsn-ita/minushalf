@@ -4,7 +4,7 @@ composed by the orbitals of each atom.
 """
 import click
 from minushalf.data import Softwares
-from minushalf.softwares import VaspFactory
+from minushalf.softwares import Vasp
 from minushalf.utils import (welcome_message, end_message, projection_to_df,
                              BandStructure)
 
@@ -37,7 +37,7 @@ def band_character(kpoint: int, band: int, software: str,
 
     welcome_message("minushalf")
 
-    softwares = {"VASP": VaspFactory()}
+    softwares = {"VASP": Vasp()}
 
     factory = softwares[software.upper()]
 

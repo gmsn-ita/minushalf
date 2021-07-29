@@ -2,7 +2,7 @@
 Aims to show how the last valence band are composed by the orbitals of each atom.
 """
 import click
-from minushalf.softwares import VaspFactory
+from minushalf.softwares import Vasp
 from minushalf.data import Softwares
 from minushalf.utils import (welcome_message, end_message, projection_to_df,
                              BandStructure)
@@ -32,7 +32,7 @@ def vbm_character(software: str, base_path: str) -> None:
 
     welcome_message("minushalf")
 
-    softwares = {"VASP": VaspFactory()}
+    softwares = {"VASP": Vasp()}
 
     factory = softwares[software.upper()]
 

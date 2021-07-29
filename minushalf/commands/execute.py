@@ -20,7 +20,7 @@ from minushalf.utils import (
     get_fractionary_correction_indexes,
     get_simple_correction_indexes,
 )
-from minushalf.softwares import (VaspFactory)
+from minushalf.softwares import (Vasp)
 from minushalf.corrections import (VaspCorrection)
 from minushalf.data import (Softwares, CorrectionCode, CorrectionDefaultParams)
 from minushalf.interfaces import (SoftwaresAbstractFactory)
@@ -147,7 +147,7 @@ def execute(quiet: bool):
     logger.info("Reading minushalf.yaml file")
     minushalf_yaml = MinushalfYaml.from_file()
     correction_factory_chooser = {Softwares.vasp.value: VaspCorrection}
-    software_factory_chooser = {Softwares.vasp.value: VaspFactory()}
+    software_factory_chooser = {Softwares.vasp.value: Vasp()}
 
     correction = correction_factory_chooser[minushalf_yaml.software]
     software_factory = software_factory_chooser[minushalf_yaml.software]

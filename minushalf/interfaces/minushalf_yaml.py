@@ -25,3 +25,9 @@ class MinushalfYaml(ABC):
         """
         Get dictionary of software configurations parameters
         """
+
+    @abstractmethod
+    def get_software_name(self) -> str:
+        """
+        Returns the name of the software that runs first principles calculations
+        """

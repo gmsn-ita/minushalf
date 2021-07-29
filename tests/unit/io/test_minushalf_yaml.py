@@ -4,12 +4,7 @@ the input file for the execute command
 """
 import pytest
 from minushalf.io import MinushalfYaml
-from minushalf.data import (
-    Softwares,
-    VaspDefaultParams,
-    AtomicProgramDefaultParams,
-    CorrectionDefaultParams,
-)
+from minushalf.data import (Softwares)
 
 
 def test_default_parameters():
@@ -41,6 +36,7 @@ def test_default_parameters():
         'overwrite_cbm': [],
         'command': ['mpirun', 'vasp']
     }
+    assert file.get_command() == ['mpirun', 'vasp']
     assert params == default_params
 
 
@@ -74,6 +70,8 @@ def test_minushalf_without_filling_correction(file_path):
         'overwrite_cbm': [],
         'command': ['mpirun', '-np', '6', '../vasp']
     }
+    assert file.get_command() == ['mpirun', '-np', '6', '../vasp']
+    assert file.get_software_name() == Softwares.vasp.value
     assert params == expected_params
 
 
@@ -106,6 +104,8 @@ def test_minushalf_filled_out(file_path):
         'overwrite_cbm': [1, 4],
         'command': ['mpirun', '-np', '6', '../vasp']
     }
+    assert file.get_command() == ['mpirun', '-np', '6', '../vasp']
+    assert file.get_software_name() == Softwares.vasp.value
     assert params == expected_params
 
 
