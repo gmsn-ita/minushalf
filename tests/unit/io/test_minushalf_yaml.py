@@ -20,23 +20,26 @@ def test_default_parameters():
         **file.get_software_configurations_params()
     }
     default_params = {
-        'exchange_correlation_code': 'pb',
-        'calculation_code': 'ae',
-        'max_iterations': 100,
-        'potfiles_folder': 'minushalf_potfiles',
-        'amplitude': 1.0,
-        'valence_cut_guess': None,
-        'conduction_cut_guess': None,
-        'tolerance': 0.01,
-        'fractional_valence_treshold': 10,
-        'fractional_conduction_treshold': 9,
-        'inplace': False,
-        'correction_code': 'v',
-        'overwrite_vbm': [],
-        'overwrite_cbm': [],
-        'command': ['mpirun', 'vasp']
+        "exchange_correlation_code": "pb",
+        "calculation_code": "ae",
+        "max_iterations": 100,
+        "potfiles_folder": "minushalf_potfiles",
+        "amplitude": 1.0,
+        "valence_cut_guess": None,
+        "conduction_cut_guess": None,
+        "tolerance": 0.01,
+        "fractional_valence_treshold": 10,
+        "fractional_conduction_treshold": 9,
+        "inplace": False,
+        "correction_code": "v",
+        "overwrite_vbm": [],
+        "overwrite_cbm": [],
+        "command": ["mpirun", "vasp"]
     }
-    assert file.get_command() == ['mpirun', 'vasp']
+    assert file.get_command() == ["mpirun", "vasp"]
+    assert file.get_correction_code() == "v"
+    assert file.get_overwrite_cbm() == []
+    assert file.get_overwrite_vbm() == []
     assert params == default_params
 
 
@@ -54,24 +57,27 @@ def test_minushalf_without_filling_correction(file_path):
         **file.get_software_configurations_params()
     }
     expected_params = {
-        'exchange_correlation_code': 'wi',
-        'calculation_code': 'ae',
-        'max_iterations': 200,
-        'potfiles_folder': 'minushalf_potfiles',
-        'amplitude': 1.0,
-        'valence_cut_guess': None,
-        'conduction_cut_guess': None,
-        'tolerance': 0.01,
-        'fractional_valence_treshold': 10,
-        'fractional_conduction_treshold': 9,
-        'inplace': False,
-        'correction_code': 'v',
-        'overwrite_vbm': [],
-        'overwrite_cbm': [],
-        'command': ['mpirun', '-np', '6', '../vasp']
+        "exchange_correlation_code": "wi",
+        "calculation_code": "ae",
+        "max_iterations": 200,
+        "potfiles_folder": "minushalf_potfiles",
+        "amplitude": 1.0,
+        "valence_cut_guess": None,
+        "conduction_cut_guess": None,
+        "tolerance": 0.01,
+        "fractional_valence_treshold": 10,
+        "fractional_conduction_treshold": 9,
+        "inplace": False,
+        "correction_code": "v",
+        "overwrite_vbm": [],
+        "overwrite_cbm": [],
+        "command": ["mpirun", "-np", "6", "../vasp"]
     }
-    assert file.get_command() == ['mpirun', '-np', '6', '../vasp']
+    assert file.get_command() == ["mpirun", "-np", "6", "../vasp"]
     assert file.get_software_name() == Softwares.vasp.value
+    assert file.get_correction_code() == "v"
+    assert file.get_overwrite_cbm() == []
+    assert file.get_overwrite_vbm() == []
     assert params == expected_params
 
 
@@ -88,24 +94,27 @@ def test_minushalf_filled_out(file_path):
         **file.get_software_configurations_params()
     }
     expected_params = {
-        'exchange_correlation_code': 'wi',
-        'calculation_code': 'ae',
-        'max_iterations': 200,
-        'potfiles_folder': '../potcar',
-        'amplitude': 3.0,
-        'valence_cut_guess': 2.0,
-        'conduction_cut_guess': 1.0,
-        'tolerance': 0.001,
-        'fractional_valence_treshold': 15,
-        'fractional_conduction_treshold': 23,
-        'inplace': True,
-        'correction_code': 'vf',
-        'overwrite_vbm': [1, 3],
-        'overwrite_cbm': [1, 4],
-        'command': ['mpirun', '-np', '6', '../vasp']
+        "exchange_correlation_code": "wi",
+        "calculation_code": "ae",
+        "max_iterations": 200,
+        "potfiles_folder": "../potcar",
+        "amplitude": 3.0,
+        "valence_cut_guess": 2.0,
+        "conduction_cut_guess": 1.0,
+        "tolerance": 0.001,
+        "fractional_valence_treshold": 15,
+        "fractional_conduction_treshold": 23,
+        "inplace": True,
+        "correction_code": "vf",
+        "overwrite_vbm": [1, 3],
+        "overwrite_cbm": [1, 4],
+        "command": ["mpirun", "-np", "6", "../vasp"]
     }
-    assert file.get_command() == ['mpirun', '-np', '6', '../vasp']
+    assert file.get_command() == ["mpirun", "-np", "6", "../vasp"]
     assert file.get_software_name() == Softwares.vasp.value
+    assert file.get_correction_code() == "vf"
+    assert file.get_overwrite_cbm() == [1,4]
+    assert file.get_overwrite_vbm() == [1,3]
     assert params == expected_params
 
 
