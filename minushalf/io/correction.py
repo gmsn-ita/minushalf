@@ -1,6 +1,7 @@
 """
 Class for correction input parameters in minushalf.yaml
 """
+from shutil import Error
 from minushalf.interfaces.minushalf_yaml_tags import MinushalfYamlTags
 import loguru
 from minushalf.data import CorrectionCode
@@ -116,7 +117,7 @@ class Correction(MinushalfYamlTags):
         """
         Return dictionary with the class variables
         """
-        parameters_dict = self.__dict__
+        parameters_dict = self.__dict__.copy()
 
         ## removing private variables
         parameters_dict["correction_code"] = parameters_dict.pop(
@@ -126,4 +127,4 @@ class Correction(MinushalfYamlTags):
         parameters_dict["overwrite_cbm"] = parameters_dict.pop(
             "_overwrite_cbm", None)
 
-        return self.__dict__
+        return parameters_dict

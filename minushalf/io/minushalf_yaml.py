@@ -59,6 +59,24 @@ class MinushalfYaml(MinushalfYaml):
         """
         return self.software_configurations.command
 
+    def get_correction_code(self) -> list:
+        """
+        Returns the code used to identify the correction
+        """
+        return self.correction.correction_code
+
+    def get_overwrite_vbm(self) -> list:
+        """
+        Returns the parameter that overwrites vbm
+        """
+        return self.correction.overwrite_vbm
+
+    def get_overwrite_cbm(self) -> list:
+        """
+        Returns the parameter that overwrites cbm
+        """
+        return self.correction.overwrite_cbm
+
     @staticmethod
     def _read_yaml(filename: str) -> collections.defaultdict:
         """

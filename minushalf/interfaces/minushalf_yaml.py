@@ -31,3 +31,19 @@ class MinushalfYaml(ABC):
         """
         Returns the name of the software that runs first principles calculations
         """
+    @abstractmethod
+    def get_correction_code(self) -> str:
+        """
+        Returns the code used to identify the correction
+        """
+    @abstractmethod
+    def get_overwrite_vbm(self) -> str:
+        """
+        Returns the parameter that overwrites vbm
+        """
+
+    @abstractmethod
+    def get_overwrite_cbm(self) -> str:
+        """
+        Returns the parameter that overwrites cbm
+        """
