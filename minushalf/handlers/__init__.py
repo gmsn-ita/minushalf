@@ -5,3 +5,4 @@ from .base_handler import BaseHandler
 from .read_minushalf_yaml import ReadMinushalf
 from .create_software_module import CreateSoftwareModule
 from .run_calculations import RunCalculations
+from .get_band_projections import GetBandProjections

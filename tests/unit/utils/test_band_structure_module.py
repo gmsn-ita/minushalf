@@ -6,6 +6,7 @@ test_(what the function is meant to do)_(chemical compound)
 import numpy as np
 from minushalf.utils import BandStructure
 from minushalf.softwares.vasp import Procar, Vasprun, Eigenvalues
+from minushalf.softwares import Vasp
 
 
 def test_is_metal_gan_3d(file_path):
@@ -28,6 +29,19 @@ def test_is_metal_gan_3d(file_path):
     assert band_structure.is_metal() is False
 
 
+def test_create_bandstrutcture_gan_3d(file_path):
+    """
+    Tests create method for GaN 3d
+    """
+    software_module = Vasp()
+
+    band_structure = BandStructure.create(software_module,
+                                          file_path("/gan-3d/"))
+
+    assert isinstance(band_structure, BandStructure)
+    assert band_structure.is_metal() is False
+
+
 def test_band_gap_gan_3d(file_path):
     """
     Tests GaN 3d band gap .
@@ -47,6 +61,7 @@ def test_band_gap_gan_3d(file_path):
                                    band_projection=procar)
 
     assert np.isclose(band_structure.band_gap()["gap"], 1.5380389999999995)
+
 
 
 def test_vbm_index_gan_3d(file_path):
@@ -252,6 +267,22 @@ def test_vbm_index_bn_2d(file_path):
                                    band_projection=procar)
 
     vbm_index = band_structure.vbm_index()
+    assert vbm_index[0] == kpoint_vbm
+    assert vbm_index[1] == band_vbm
+
+def test_create_bandstrutcture_bn_2d(file_path):
+    """
+    Tests create method for BN 2d
+    """
+    softare_module = Vasp()
+    kpoint_vbm = 24
+    band_vbm = 4
+
+    band_structure = BandStructure.create(softare_module,
+                                          file_path("/bn-2d/"))
+
+    vbm_index = band_structure.vbm_index()
+    assert isinstance(band_structure, BandStructure)
     assert vbm_index[0] == kpoint_vbm
     assert vbm_index[1] == band_vbm
 

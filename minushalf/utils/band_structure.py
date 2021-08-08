@@ -4,7 +4,7 @@ Band structure informations
 from math import inf
 from collections import defaultdict
 import numpy as np
-from minushalf.interfaces import BandProjectionFile
+from minushalf.interfaces import BandProjectionFile, SoftwaresAbstractFactory
 
 
 class BandStructure():
@@ -186,3 +186,26 @@ class BandStructure():
             cbm_eigenval - vbm_eigenval
         }
         return gap_report
+
+    @staticmethod
+    def create(software_module: SoftwaresAbstractFactory,
+               base_path: str = '.'):
+        """
+        Create band structure class from ab inition results
+
+            Args:
+                software_module (SoftwaresAbstractFactory): Holds the results of first principles
+                                                            output calculations
+                base_path (str): Path to first principles output files
+            Returns:
+                band_strucure (BandStructure): Class with band structure informations
+        """
+        eigenvalues = software_module.get_eigenvalues(base_path=base_path)
+        fermi_energy = software_module.get_fermi_energy(base_path=base_path)
+        atoms_map = software_module.get_atoms_map(base_path=base_path)
+        num_bands = software_module.get_number_of_bands(base_path=base_path)
+        band_projection_file = software_module.get_band_projection_class(
+            base_path=base_path)
+
+        return BandStructure(eigenvalues, fermi_energy, atoms_map, num_bands,
+                             band_projection_file)
