@@ -4,33 +4,17 @@ Get band projections
 import collections
 import loguru
 import pandas as pd
-from minushalf.softwares import Vasp
-from minushalf.data import Softwares
 from minushalf.handlers import BaseHandler
-from minushalf.interfaces import SoftwaresAbstractFactory, BandProjectionFile, MinushalfYaml
-from minushalf.utils import (BandProjectionFile, band_structure, projection_to_df)
+from minushalf.interfaces import BandProjectionFile, MinushalfYaml
+from minushalf.utils import (BandStructure, projection_to_df)
 
 
 class GetBandProjections(BaseHandler):
     """
     Uses the software module to extract the character of the bands (VBM and CBM)
     """
-    def _get_band_structure(
-            self, software_module: SoftwaresAbstractFactory) -> BandProjectionFile:
-        """
-        Return band structure class
-        """
-        eigenvalues = software_module.get_eigenvalues()
-        fermi_energy = software_module.get_fermi_energy()
-        atoms_map = software_module.get_atoms_map()
-        num_bands = software_module.get_number_of_bands()
-        band_projection_file = software_module.get_band_projection_class()
-
-        return BandProjectionFile(eigenvalues, fermi_energy, atoms_map, num_bands,
-                             band_projection_file)
-
-    def _get_vbm_projection(self,
-                            band_structure: BandProjectionFile) -> pd.DataFrame:
+    def _get_vbm_projection(
+            self, band_structure: BandProjectionFile) -> pd.DataFrame:
         """
         Returns vbm projection
         """
@@ -38,8 +22,8 @@ class GetBandProjections(BaseHandler):
         normalized_df = projection_to_df(vbm_projection)
         return normalized_df
 
-    def _get_cbm_projection(self,
-                            band_structure: BandProjectionFile) -> pd.DataFrame:
+    def _get_cbm_projection(
+            self, band_structure: BandProjectionFile) -> pd.DataFrame:
         """
         Returns cbm projection
         """
@@ -47,8 +31,8 @@ class GetBandProjections(BaseHandler):
         normalized_df = projection_to_df(cbm_projection)
         return normalized_df
 
-    def _get_band_projection(self, band_structure: BandProjectionFile, kpoint: int,
-                             band: int) -> pd.DataFrame:
+    def _get_band_projection(self, band_structure: BandProjectionFile,
+                             kpoint: int, band: int) -> pd.DataFrame:
         """
         Returns band projection
         """
@@ -66,7 +50,7 @@ class GetBandProjections(BaseHandler):
         if overwrite_vbm:
             return self._get_band_projection(band_structure, *overwrite_vbm)
 
-        return self._get_vbm_projection()
+        return self._get_vbm_projection(band_structure)
 
     def _select_cbm(self, minushalf_yaml: MinushalfYaml,
                     band_structure: BandProjectionFile) -> pd.DataFrame:
@@ -78,7 +62,7 @@ class GetBandProjections(BaseHandler):
         if overwrite_cbm:
             return self._get_band_projection(band_structure, *overwrite_cbm)
 
-        return self._get_cbm_projection()
+        return self._get_cbm_projection(band_structure)
 
     def _is_valence_correction(self, correction_code: str) -> bool:
         """
@@ -118,8 +102,7 @@ class GetBandProjections(BaseHandler):
         loguru.logger.info("Extracting band projections")
         software_module, minushalf_yaml = request["software_module"], request[
             "minushalf_yaml"]
-        band_structure = self._get_band_structure(software_module)
-
+        band_structure = BandStructure.create(software_module)
         ## Add projections to object
         request["projections"] = self._get_projections(minushalf_yaml,
                                                        band_structure)
