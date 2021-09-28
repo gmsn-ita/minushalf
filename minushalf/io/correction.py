@@ -16,14 +16,17 @@ class Correction(MinushalfYamlTags):
                  correction_code: str = CorrectionCode.get_default(),
                  potfiles_folder: str = "minushalf_potfiles",
                  amplitude: float = 1.0,
-                 valence_cut_guess: float = None,
-                 conduction_cut_guess: float = None,
+                 valence_cut_guess: list = None,
+                 conduction_cut_guess: list = None,
                  tolerance: float = 0.01,
                  fractional_valence_treshold: float = 10,
                  fractional_conduction_treshold: float = 9,
+                 replace_cbm: list = None,
+                 replace_vbm: list = None,
                  overwrite_vbm: list = None,
                  overwrite_cbm: list = None,
-                 inplace: bool = False) -> None:
+                 inplace: bool = False,
+                 divide_character: int = None) -> None:
         """
             Args:
                 correction_code (str): Code for DFT -1/2 correction
@@ -48,7 +51,10 @@ class Correction(MinushalfYamlTags):
         self.fractional_conduction_treshold = fractional_conduction_treshold
         self.overwrite_cbm = overwrite_cbm
         self.overwrite_vbm = overwrite_vbm
+        self.replace_cbm = replace_cbm
+        self.replace_vbm = replace_vbm
         self.inplace = inplace
+        self.divide_character = divide_character
 
     @property
     def correction_code(self) -> dict:
