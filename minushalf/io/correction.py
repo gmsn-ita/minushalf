@@ -57,6 +57,72 @@ class Correction(MinushalfYamlTags):
         self.divide_character = divide_character
 
     @property
+    def divide_character(self) -> int:
+        """
+        Returns:
+            Factor that divides the correction between atoms
+        """
+        return self._divide_character
+
+    @divide_character.setter
+    def divide_character(self, factor: int) -> None:
+        """
+        Set factor that divides the correction between atoms
+        """
+        self._divide_character = factor if factor == None else int(factor)
+
+    @property
+    def replace_vbm(self) -> list:
+        """
+        Returns:
+            Artificial character in vbm
+        """
+        return self._replace_vbm
+
+    @replace_vbm.setter
+    def replace_vbm(self, characters: list) -> None:
+        """
+        Set replace_vbm 
+        """
+        try:
+            if characters != None:
+                for element in characters:
+                    element[0] = element[0].capitalize()
+                    element[1] = element[1].lower()
+                    element[2] = float(element[2])
+        except:
+            loguru.logger.error("repalce_vbm incorrectly specified")
+            raise Error("repalce_vbm incorrectly specified")
+
+        self._replace_vbm = characters
+
+    @property
+    def replace_cbm(self) -> list:
+        """
+        Returns:
+            Artificial character in cbm
+        """
+        return self._replace_cbm
+
+    @replace_cbm.setter
+    def replace_cbm(self, characters: list) -> None:
+        """
+        Set replace_cbm 
+        """
+
+        try:
+            if characters != None:
+                for element in characters:
+                    element[0] = element[0].capitalize()
+                    element[1] = element[1].lower()
+                    element[2] = float(element[2])
+        except:
+            loguru.logger.error("repalce_cbm incorrectly specified")
+            raise Error("repalce_cbm incorrectly specified")
+
+        self._replace_cbm = characters
+
+    @property
     def correction_code(self) -> dict:
         """
         Returns:
@@ -132,5 +198,11 @@ class Correction(MinushalfYamlTags):
             "_overwrite_vbm", None)
         parameters_dict["overwrite_cbm"] = parameters_dict.pop(
             "_overwrite_cbm", None)
+        parameters_dict["replace_vbm"] = parameters_dict.pop(
+            "_replace_vbm", None)
+        parameters_dict["replace_cbm"] = parameters_dict.pop(
+            "_replace_cbm", None)
+        parameters_dict["divide_character"] = parameters_dict.pop(
+            "_divide_character", None)
 
         return parameters_dict
