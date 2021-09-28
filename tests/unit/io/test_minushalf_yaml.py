@@ -34,7 +34,10 @@ def test_default_parameters():
         "correction_code": "v",
         "overwrite_vbm": [],
         "overwrite_cbm": [],
-        "command": ["mpirun", "vasp"]
+        "command": ["mpirun", "vasp"],
+        "replace_vbm": None,
+        "replace_cbm": None,
+        "divide_character": None
     }
     assert file.get_command() == ["mpirun", "vasp"]
     assert file.get_correction_code() == "v"
@@ -71,7 +74,10 @@ def test_minushalf_without_filling_correction(file_path):
         "correction_code": "v",
         "overwrite_vbm": [],
         "overwrite_cbm": [],
-        "command": ["mpirun", "-np", "6", "../vasp"]
+        "command": ["mpirun", "-np", "6", "../vasp"],
+        "replace_vbm": None,
+        "replace_cbm": None,
+        "divide_character": None
     }
     assert file.get_command() == ["mpirun", "-np", "6", "../vasp"]
     assert file.get_software_name() == Softwares.vasp.value
@@ -99,8 +105,8 @@ def test_minushalf_filled_out(file_path):
         "max_iterations": 200,
         "potfiles_folder": "../potcar",
         "amplitude": 3.0,
-        "valence_cut_guess": 2.0,
-        "conduction_cut_guess": 1.0,
+        "valence_cut_guess": [['c', 'p', 3.45]],
+        "conduction_cut_guess": [['c', 'p', 1.0]],
         "tolerance": 0.001,
         "fractional_valence_treshold": 15,
         "fractional_conduction_treshold": 23,
@@ -108,7 +114,10 @@ def test_minushalf_filled_out(file_path):
         "correction_code": "vf",
         "overwrite_vbm": [1, 3],
         "overwrite_cbm": [1, 4],
-        "command": ["mpirun", "-np", "6", "../vasp"]
+        "replace_vbm": None,
+        "replace_cbm": None,
+        "command": ["mpirun", "-np", "6", "../vasp"],
+        "divide_character": None
     }
     assert file.get_command() == ["mpirun", "-np", "6", "../vasp"]
     assert file.get_software_name() == Softwares.vasp.value
