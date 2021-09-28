@@ -6,7 +6,7 @@ from click.testing import CliRunner
 from minushalf import atomic_program
 from minushalf.commands import create_input
 from minushalf.data import ElectronicDistribution
-from minushalf.utils import InputFile
+from minushalf.io import InputFile
 
 
 def test_create_input_with_all_elements():

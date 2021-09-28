@@ -2,7 +2,7 @@
 Test Vtotal class
 """
 import numpy as np
-from minushalf.utils import Vtotal
+from minushalf.io import Vtotal
 
 
 def test_vtotal_cl(file_path):

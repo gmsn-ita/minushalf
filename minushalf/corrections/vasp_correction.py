@@ -11,9 +11,9 @@ import pandas as pd
 from minushalf.data import (CorrectionDefaultParams,
                             AtomicProgramDefaultParams, OrbitalType,
                             CutInitialGuessMethods)
-from minushalf.utils import (InputFile, Vtotal, MinushalfYaml, AtomicPotential,
-                             BandStructure, find_negative_band_gap,
-                             CutInitialGuess)
+from minushalf.io import (InputFile, Vtotal, MinushalfYaml)
+from minushalf.utils import (AtomicPotential, BandStructure,
+                             find_negative_band_gap, CutInitialGuess)
 from minushalf.interfaces import (Correction, Runner, SoftwaresAbstractFactory)
 
 

@@ -5,7 +5,8 @@ import sys
 import click
 from loguru import logger
 from minushalf.data import (CalculationCode, ExchangeCorrelation)
-from minushalf.utils import (welcome_message, end_message, InputFile)
+from minushalf.io import (InputFile)
+from minushalf.utils import (welcome_message, end_message)
 
 
 @click.command()
