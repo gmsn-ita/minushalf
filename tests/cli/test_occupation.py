@@ -5,7 +5,7 @@ import numpy as np
 import pytest
 from click.testing import CliRunner
 from minushalf import atomic_program
-from minushalf.utils import InputFile
+from minushalf.io import InputFile
 from minushalf.commands import occupation
 
 

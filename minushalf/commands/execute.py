@@ -10,13 +10,12 @@ import numpy as np
 import pandas as pd
 import click
 from loguru import logger
+from minushalf.io import (MinushalfYaml, make_minushalf_results)
 from minushalf.utils import (
-    MinushalfYaml,
     BandStructure,
     projection_to_df,
     welcome_message,
     end_message,
-    make_minushalf_results,
     get_fractionary_correction_indexes,
     get_simple_correction_indexes,
 )

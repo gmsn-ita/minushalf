@@ -123,6 +123,58 @@ class Correction(MinushalfYamlTags):
         self._replace_cbm = characters
 
     @property
+    def valence_cut_guess(self) -> list:
+        """
+        Returns:
+            CUT guess for nelder mead algorithm
+        """
+        return self._valence_cut_guess
+
+    @valence_cut_guess.setter
+    def valence_cut_guess(self, cut_guess: list) -> None:
+        """
+        Set valence_cut_guess
+        """
+
+        try:
+            if cut_guess != None:
+                for element in cut_guess:
+                    element[0] = element[0].capitalize()
+                    element[1] = element[1].lower()
+                    element[2] = float(element[2])
+        except:
+            loguru.logger.error("valence_cut_guess incorrectly specified")
+            raise Error("valence_cut_guess incorrectly specified")
+
+        self._valence_cut_guess = cut_guess
+
+    @property
+    def conduction_cut_guess(self) -> list:
+        """
+        Returns:
+            CUT guess for nelder mead algorithm
+        """
+        return self._conduction_cut_guess
+
+    @conduction_cut_guess.setter
+    def conduction_cut_guess(self, cut_guess: list) -> None:
+        """
+        Set conduction_cut_guess
+        """
+
+        try:
+            if cut_guess != None:
+                for element in cut_guess:
+                    element[0] = element[0].capitalize()
+                    element[1] = element[1].lower()
+                    element[2] = float(element[2])
+        except:
+            loguru.logger.error("conduction_cut_guess incorrectly specified")
+            raise Error("conduction_cut_guess incorrectly specified")
+
+        self._conduction_cut_guess = cut_guess
+
+    @property
     def correction_code(self) -> dict:
         """
         Returns:
@@ -204,5 +256,9 @@ class Correction(MinushalfYamlTags):
             "_replace_cbm", None)
         parameters_dict["divide_character"] = parameters_dict.pop(
             "_divide_character", None)
+        parameters_dict["valence_cut_guess"] = parameters_dict.pop(
+            "_valence_cut_guess", None)
+        parameters_dict["conduction_cut_guess"] = parameters_dict.pop(
+            "_conduction_cut_guess", None)
 
         return parameters_dict

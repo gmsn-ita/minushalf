@@ -6,8 +6,9 @@ import click
 from loguru import logger
 from minushalf.softwares import Vasp
 from minushalf.data import Softwares
-from minushalf.utils import (welcome_message, end_message, Vtotal,
-                             AtomicPotential, parse_cut)
+from minushalf.io import (Vtotal)
+from minushalf.utils import (welcome_message, end_message, AtomicPotential,
+                             parse_cut)
 
 
 @click.command()

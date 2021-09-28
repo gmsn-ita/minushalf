@@ -7,7 +7,7 @@ from click.testing import CliRunner
 from minushalf import atomic_program
 from minushalf.commands import run_atomic
 from minushalf.data import ElectronicDistribution
-from minushalf.utils import InputFile
+from minushalf.io import InputFile
 
 
 def test_atomic_run_workflow():

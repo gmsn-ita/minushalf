@@ -32,8 +32,8 @@ def test_override_parameters():
         "correction_code": "vf",
         "potfiles_folder": "potfiles",
         "amplitude": 2.0,
-        "valence_cut_guess": [['c', 'p', 3.34]],
-        "conduction_cut_guess": [['c', 'p', 3.34]],
+        "valence_cut_guess": [['C', 'p', 3.34]],
+        "conduction_cut_guess": [['C', 'p', 3.34]],
         "tolerance": 0.1,
         "fractional_valence_treshold": 12,
         "fractional_conduction_treshold": 14,
@@ -45,8 +45,8 @@ def test_override_parameters():
     assert correction.correction_code == "vf"
     assert correction.potfiles_folder == "potfiles"
     assert np.isclose(correction.amplitude, 2.0)
-    assert correction.valence_cut_guess == [['c', 'p', 3.34]]
-    assert correction.conduction_cut_guess == [['c', 'p', 3.34]]
+    assert correction.valence_cut_guess == [['C', 'p', 3.34]]
+    assert correction.conduction_cut_guess == [['C', 'p', 3.34]]
     assert np.isclose(correction.tolerance, 0.1)
     assert correction.fractional_valence_treshold == 12
     assert correction.fractional_conduction_treshold == 14
@@ -76,8 +76,8 @@ def test_to_dict():
         "correction_code": "vf",
         "potfiles_folder": "potfiles",
         "amplitude": 2.0,
-        "valence_cut_guess": [['c', 'p', 3.34]],
-        "conduction_cut_guess": [['c', 'p', 3.34]],
+        "valence_cut_guess": [['C', 'p', 3.34]],
+        "conduction_cut_guess": [['C', 'p', 3.34]],
         "tolerance": 0.1,
         "fractional_valence_treshold": 12,
         "fractional_conduction_treshold": 14,
@@ -85,7 +85,7 @@ def test_to_dict():
         "overwrite_cbm": [1, 3],
         "inplace": True,
         "replace_vbm": None,
-        "replace_cbm": None,
+        "replace_cbm": [["Ga", "d", "100"]],
         "divide_character": None,
     }
     correction = Correction(**params)

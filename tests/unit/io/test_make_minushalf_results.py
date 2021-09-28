@@ -3,7 +3,7 @@ Test make_minushalf_results function
 in utils
 """
 import os
-from minushalf.utils import make_minushalf_results
+from minushalf.io import make_minushalf_results
 
 
 def test_only_valence_cuts(file_path):
