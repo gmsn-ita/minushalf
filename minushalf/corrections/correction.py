@@ -82,6 +82,7 @@ class ConcreteCorrection(Correction):
         self.amplitude = amplitude
 
         self.cut_initial_guess = cut_initial_guess
+
         self.automatic_cut_guess = automatic_cut_guess
 
         self.cut_guesser = CutInitialGuess()

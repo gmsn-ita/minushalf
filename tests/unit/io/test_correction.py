@@ -84,8 +84,8 @@ def test_to_dict():
         "overwrite_vbm": [1, 2],
         "overwrite_cbm": [1, 3],
         "inplace": True,
-        "replace_vbm": None,
-        "replace_cbm": [["Ga", "d", "100"]],
+        "vbm_characters": None,
+        "cbm_characters": [["Ga", "d", "100"]],
         "divide_character": [["Ga", "p", 2]],
     }
     correction = Correction(**params)

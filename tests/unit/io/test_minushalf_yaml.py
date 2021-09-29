@@ -35,8 +35,8 @@ def test_default_parameters():
         "overwrite_vbm": [],
         "overwrite_cbm": [],
         "command": ["mpirun", "vasp"],
-        "replace_vbm": None,
-        "replace_cbm": None,
+        "vbm_characters": None,
+        "cbm_characters": None,
         "divide_character": None
     }
     assert file.get_command() == ["mpirun", "vasp"]
@@ -75,8 +75,8 @@ def test_minushalf_without_filling_correction(file_path):
         "overwrite_vbm": [],
         "overwrite_cbm": [],
         "command": ["mpirun", "-np", "6", "../vasp"],
-        "replace_vbm": None,
-        "replace_cbm": None,
+        "vbm_characters": None,
+        "cbm_characters": None,
         "divide_character": None
     }
     assert file.get_command() == ["mpirun", "-np", "6", "../vasp"]
@@ -105,8 +105,8 @@ def test_minushalf_filled_out(file_path):
         "max_iterations": 200,
         "potfiles_folder": "../potcar",
         "amplitude": 3.0,
-        "valence_cut_guess": [['C', 'p', 3.45]],
-        "conduction_cut_guess": [['C', 'p', 1.0]],
+        "valence_cut_guess": [["C", "p", 3.45]],
+        "conduction_cut_guess": [["C", "p", 1.0]],
         "tolerance": 0.001,
         "fractional_valence_treshold": 15,
         "fractional_conduction_treshold": 23,
@@ -114,8 +114,8 @@ def test_minushalf_filled_out(file_path):
         "correction_code": "vf",
         "overwrite_vbm": [1, 3],
         "overwrite_cbm": [1, 4],
-        "replace_vbm": None,
-        "replace_cbm": None,
+        "vbm_characters": None,
+        "cbm_characters": None,
         "command": ["mpirun", "-np", "6", "../vasp"],
         "divide_character": None
     }
@@ -124,6 +124,60 @@ def test_minushalf_filled_out(file_path):
     assert file.get_correction_code() == "vf"
     assert file.get_overwrite_cbm() == [1,4]
     assert file.get_overwrite_vbm() == [1,3]
+    assert file.get_vbm_characters() == None
+    assert file.get_cbm_characters() == None
+    assert params == expected_params
+
+
+def test_minushalf_characters(file_path):
+    """
+    Test minushalf.yaml class with all
+    parameters modified
+    """
+    minushalf_path = file_path("/minushalf_yaml/minushalf_characters.yaml")
+    file = MinushalfYaml.from_file(minushalf_path)
+    params = {
+        **file.get_atomic_program_params(),
+        **file.get_correction_params(),
+        **file.get_software_configurations_params()
+    }
+    expected_params = {
+        "exchange_correlation_code": "wi",
+        "calculation_code": "ae",
+        "max_iterations": 200,
+        "potfiles_folder": "../potcar",
+        "amplitude": 3.0,
+        "valence_cut_guess": [["C", "p", 3.45]],
+        "conduction_cut_guess": [["C", "p", 1.0]],
+        "tolerance": 0.001,
+        "fractional_valence_treshold": 15,
+        "fractional_conduction_treshold": 23,
+        "inplace": True,
+        "correction_code": "vf",
+        "overwrite_vbm": [1, 3],
+        "overwrite_cbm": [1, 4],
+        "vbm_characters": [["C", "p", 23.0]],
+        "cbm_characters": [["Ga", "d", 23.0]],
+        "command": ["mpirun", "-np", "6", "../vasp"],
+        "divide_character": None
+    }
+    assert file.get_command() == ["mpirun", "-np", "6", "../vasp"]
+    assert file.get_software_name() == Softwares.vasp.value
+    assert file.get_correction_code() == "vf"
+    assert file.get_overwrite_cbm() == [1, 4]
+    assert file.get_overwrite_vbm() == [1, 3]
+    assert file.get_vbm_characters() == [["C", "p", 23.0]]
+    assert file.get_cbm_characters() == [["Ga", "d", 23.0]]
+    assert file.get_potential_folder() == "../potcar"
+    assert file.get_amplitude() == 3.0
+    assert file.get_max_iterations() == 200
+    assert file.get_exchange_corr_code() == "wi"
+    assert file.get_calculation_code() == "ae"
+    assert file.get_valence_cut_initial_guess() == [["C", "p", 3.45]]
+    assert file.get_conduction_cut_initial_guess() == [["C", "p", 1.0]]
+    assert file.get_tolerance() == 0.001
+    assert file.get_inplace() == True
+    assert file.get_divide_character() == None
     assert params == expected_params
 
 

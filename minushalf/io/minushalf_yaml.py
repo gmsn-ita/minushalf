@@ -77,6 +77,78 @@ class MinushalfYaml(MinushalfYaml):
         """
         return self.correction.overwrite_cbm
 
+    def get_vbm_characters(self) -> list:
+        """
+        Returns the parameter that cbm_characters
+        """
+        return self.correction.vbm_characters
+
+    def get_cbm_characters(self) -> list:
+        """
+        Returns the parameter vbm_characters
+        """
+        return self.correction.cbm_characters
+
+    def get_potential_folder(self) -> str:
+        """
+        Returns the potential folder name
+        """
+        return self.correction.potfiles_folder
+
+    def get_amplitude(self) -> float:
+        """
+        Returns the amplitude
+        """
+        return self.correction.amplitude
+
+    def get_max_iterations(self) -> int:
+        """
+        Returns max iterations
+        """
+        return self.atomic_program.max_iterations
+
+    def get_exchange_corr_code(self) -> str:
+        """
+        Returns exchange correlation code
+        """
+        return self.atomic_program.exchange_correlation_code
+
+    def get_calculation_code(self) -> str:
+        """
+        Returns the calculation code
+        """
+        return self.atomic_program.calculation_code
+
+    def get_valence_cut_initial_guess(self) -> str:
+        """
+        Returns the valence cut initial guess
+        """
+        return self.correction.valence_cut_guess
+
+    def get_conduction_cut_initial_guess(self) -> str:
+        """
+        Returns the conduction cut initial guess
+        """
+        return self.correction.conduction_cut_guess
+
+    def get_tolerance(self) -> float:
+        """
+        Returns the tolerance
+        """
+        return self.correction.tolerance
+
+    def get_inplace(self) -> bool:
+        """
+        Returns the inplace
+        """
+        return self.correction.inplace
+
+    def get_divide_character(self) -> list:
+        """
+        Returns the divide characters
+        """
+        return self.correction.divide_character
+
     @staticmethod
     def _read_yaml(filename: str) -> collections.defaultdict:
         """

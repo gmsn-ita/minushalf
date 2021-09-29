@@ -21,8 +21,8 @@ class Correction(MinushalfYamlTags):
                  tolerance: float = 0.01,
                  fractional_valence_treshold: float = 10,
                  fractional_conduction_treshold: float = 9,
-                 replace_cbm: list = None,
-                 replace_vbm: list = None,
+                 cbm_characters: list = None,
+                 vbm_characters: list = None,
                  overwrite_vbm: list = None,
                  overwrite_cbm: list = None,
                  inplace: bool = False,
@@ -51,8 +51,8 @@ class Correction(MinushalfYamlTags):
         self.fractional_conduction_treshold = fractional_conduction_treshold
         self.overwrite_cbm = overwrite_cbm
         self.overwrite_vbm = overwrite_vbm
-        self.replace_cbm = replace_cbm
-        self.replace_vbm = replace_vbm
+        self.cbm_characters = cbm_characters
+        self.vbm_characters = vbm_characters
         self.inplace = inplace
         self.divide_character = divide_character
 
@@ -82,17 +82,17 @@ class Correction(MinushalfYamlTags):
         self._divide_character = factors
 
     @property
-    def replace_vbm(self) -> list:
+    def vbm_characters(self) -> list:
         """
         Returns:
             Artificial character in vbm
         """
-        return self._replace_vbm
+        return self._vbm_characters
 
-    @replace_vbm.setter
-    def replace_vbm(self, characters: list) -> None:
+    @vbm_characters.setter
+    def vbm_characters(self, characters: list) -> None:
         """
-        Set replace_vbm 
+        Set vbm_characters 
         """
         try:
             if characters != None:
@@ -104,20 +104,20 @@ class Correction(MinushalfYamlTags):
             loguru.logger.error("repalce_vbm incorrectly specified")
             raise Error("repalce_vbm incorrectly specified")
 
-        self._replace_vbm = characters
+        self._vbm_characters = characters
 
     @property
-    def replace_cbm(self) -> list:
+    def cbm_characters(self) -> list:
         """
         Returns:
             Artificial character in cbm
         """
-        return self._replace_cbm
+        return self._cbm_characters
 
-    @replace_cbm.setter
-    def replace_cbm(self, characters: list) -> None:
+    @cbm_characters.setter
+    def cbm_characters(self, characters: list) -> None:
         """
-        Set replace_cbm 
+        Set cbm_characters 
         """
 
         try:
@@ -130,7 +130,7 @@ class Correction(MinushalfYamlTags):
             loguru.logger.error("repalce_cbm incorrectly specified")
             raise Error("repalce_cbm incorrectly specified")
 
-        self._replace_cbm = characters
+        self._cbm_characters = characters
 
     @property
     def valence_cut_guess(self) -> list:
@@ -260,10 +260,10 @@ class Correction(MinushalfYamlTags):
             "_overwrite_vbm", None)
         parameters_dict["overwrite_cbm"] = parameters_dict.pop(
             "_overwrite_cbm", None)
-        parameters_dict["replace_vbm"] = parameters_dict.pop(
-            "_replace_vbm", None)
-        parameters_dict["replace_cbm"] = parameters_dict.pop(
-            "_replace_cbm", None)
+        parameters_dict["vbm_characters"] = parameters_dict.pop(
+            "_vbm_characters", None)
+        parameters_dict["cbm_characters"] = parameters_dict.pop(
+            "_cbm_characters", None)
         parameters_dict["divide_character"] = parameters_dict.pop(
             "_divide_character", None)
         parameters_dict["valence_cut_guess"] = parameters_dict.pop(

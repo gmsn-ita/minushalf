@@ -17,3 +17,4 @@ from .negative_band_gap import find_negative_band_gap
 from .fractionary_correction_indexes import get_fractionary_correction_indexes
 from .simple_correction_indexes import get_simple_correction_indexes
 from .cut_initial_guess import CutInitialGuess
+from .get_correction_params import get_valence_correction_params, get_conduction_correction_params
