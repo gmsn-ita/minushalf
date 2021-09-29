@@ -43,7 +43,7 @@ class ConcreteCorrection(Correction):
         atoms: list,
         is_conduction: bool,
         correction_indexes: dict,
-        divide_character: int,
+        divide_character: list,
     ):
         """
         init method for the vasp correction class

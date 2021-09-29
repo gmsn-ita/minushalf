@@ -86,7 +86,7 @@ def test_to_dict():
         "inplace": True,
         "replace_vbm": None,
         "replace_cbm": [["Ga", "d", "100"]],
-        "divide_character": None,
+        "divide_character": [["Ga", "p", 2]],
     }
     correction = Correction(**params)
 

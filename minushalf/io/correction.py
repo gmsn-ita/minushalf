@@ -26,7 +26,7 @@ class Correction(MinushalfYamlTags):
                  overwrite_vbm: list = None,
                  overwrite_cbm: list = None,
                  inplace: bool = False,
-                 divide_character: int = None) -> None:
+                 divide_character: list = None) -> None:
         """
             Args:
                 correction_code (str): Code for DFT -1/2 correction
@@ -57,7 +57,7 @@ class Correction(MinushalfYamlTags):
         self.divide_character = divide_character
 
     @property
-    def divide_character(self) -> int:
+    def divide_character(self) -> list:
         """
         Returns:
             Factor that divides the correction between atoms
@@ -65,11 +65,21 @@ class Correction(MinushalfYamlTags):
         return self._divide_character
 
     @divide_character.setter
-    def divide_character(self, factor: int) -> None:
+    def divide_character(self, factors: int) -> None:
         """
         Set factor that divides the correction between atoms
         """
-        self._divide_character = factor if factor == None else int(factor)
+        try:
+            if factors != None:
+                for element in factors:
+                    element[0] = element[0].capitalize()
+                    element[1] = element[1].lower()
+                    element[2] = int(element[2])
+        except:
+            loguru.logger.error("divide_character incorrectly specified")
+            raise Error("divide_character incorrectly specified")
+
+        self._divide_character = factors
 
     @property
     def replace_vbm(self) -> list:
