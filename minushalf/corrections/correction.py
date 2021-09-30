@@ -16,7 +16,7 @@ from minushalf.interfaces import (Correction, Runner, SoftwaresAbstractFactory,
                                   potential_file)
 
 
-class ConcreteCorrection(Correction):
+class DFTCorrection(Correction):
     """
     An algorithm that realizes corrections for
     VASP software
@@ -33,7 +33,6 @@ class ConcreteCorrection(Correction):
         calculation_code: str,
         amplitude: float,
         cut_initial_guess: dict,
-        automatic_cut_guess: bool,
         tolerance: float,
         input_files: list,
         inplace: bool,
@@ -83,10 +82,6 @@ class ConcreteCorrection(Correction):
 
         self.cut_initial_guess = cut_initial_guess
 
-        self.automatic_cut_guess = automatic_cut_guess
-
-        self.cut_guesser = CutInitialGuess()
-
         self.tolerance = tolerance
 
         self.runner = runner
@@ -109,7 +104,7 @@ class ConcreteCorrection(Correction):
 
         self.inplace = inplace
 
-        self.number_equal_neighbors = divide_character
+        self.divide_character = divide_character
 
     @property
     def potential_folder(self) -> str:
@@ -274,11 +269,10 @@ class ConcreteCorrection(Correction):
 
         percentuals = {}
         ## Check for bonds with equal atoms
-        atoms_map = self.software_factory.get_atoms_map()
-        self.number_equal_neighbors = self.software_factory.get_number_of_equal_neighbors(
-            atoms_map=atoms_map, symbol=symbol)
+        number_equal_neighbors = self.divide_character[(symbol.capitalize(),
+                                                        orbital.lower())]
 
-        value = (100 / (1 + self.number_equal_neighbors)) * (
+        value = (100 / (1 + number_equal_neighbors)) * (
             self.band_projection[orbital][symbol] /
             self.sum_correction_percentual)
         percentuals[orbital] = round(value)
@@ -287,7 +281,7 @@ class ConcreteCorrection(Correction):
 
         self.atom_potential = self._get_atom_potential_class(path, symbol)
 
-        cut = self._find_cut(symbol, path)
+        cut = self._find_cut(symbol, path, orbital)
         self._write_result_in_potfile(symbol, cut, self.amplitude)
         return cut
 
@@ -416,7 +410,7 @@ class ConcreteCorrection(Correction):
 
         return AtomicPotential(vtotal, vtotal_occ, potential_class)
 
-    def _find_cut(self, symbol: str, base_path: str) -> tuple:
+    def _find_cut(self, symbol: str, base_path: str, orbital: str) -> tuple:
         """
         Find the cut which gives the maximum gap
 
@@ -444,24 +438,14 @@ class ConcreteCorrection(Correction):
             "atoms": self.atoms,
             "software_files": self.input_files,
             "is_conduction": self.is_conduction,
-            "inplace": self.inplace
+            "inplace": self.inplace,
+            "orbital": orbital
         }
-        if self.automatic_cut_guess:
-            atoms_map = self.software_factory.get_atoms_map()
-            ion_index = None
-            for key, value in atoms_map.items():
-                if value == symbol:
-                    ion_index = key
-                    break
-
-            nearest_distance = self.software_factory.get_nearest_neighbor_distance(
-                ion_index)
-            self.cut_initial_guess = self.cut_guesser.guess(
-                nearest_distance,
-                CutInitialGuessMethods.three_dimensions.value)
+        cut_initial_guess = self.cut_initial_guess[(symbol.capitalize(),
+                                                    orbital.lower())]
 
         result = minimize(find_negative_band_gap,
-                          x0=self.cut_initial_guess,
+                          x0=cut_initial_guess,
                           args=(function_args),
                           method="Nelder-Mead",
                           options={'xatol': self.tolerance})
