@@ -204,10 +204,13 @@ def get_valence_correction_params(
     """
     Returns the parameters for the valence correction
     """
+    correction_code = minushalf_yaml.get_correction_code()
     params = kwargs
+    params["software_factory"] = software_factory
     params["potential_filename"] = software_factory.get_potential_class(
     ).get_name()
-    params["band_projection"] = _get_valence_band_projection(minushalf_yaml)
+    params["band_projection"] = _get_valence_band_projection(
+        minushalf_yaml, software_factory)
     params["potential_folder"] = minushalf_yaml.get_potential_folder()
     params[
         "exchange_correlation_type"] = minushalf_yaml.get_exchange_corr_code()
@@ -222,9 +225,9 @@ def get_valence_correction_params(
     params["input_files"] = [
         "INCAR", "POSCAR", "KPOINTS", "CHGCAR"
     ] if params["inplace"] else ["INCAR", "POSCAR", "KPOINTS"]
-    params["correction_code"] = minushalf_yaml.get_correction_code()
+
     params["correction_indexes"] = _get_valence_correction_indexes(
-        params["correction_code"], params["band_projection"])
+        correction_code, params["band_projection"])
     params["cut_initial_guess"] = _get_cut_initial_guess(
         minushalf_yaml.get_valence_cut_initial_guess(),
         params["correction_indexes"], software_factory)
@@ -244,10 +247,13 @@ def get_conduction_correction_params(
     """
     Returns the parameters for the conduction correction
     """
+    correction_code = minushalf_yaml.get_correction_code()
     params = kwargs
+    params["software_factory"] = software_factory
     params["potential_filename"] = software_factory.get_potential_class(
     ).get_name()
-    params["band_projection"] = _get_conduction_band_projection(minushalf_yaml)
+    params["band_projection"] = _get_conduction_band_projection(
+        minushalf_yaml, software_factory)
     params["potential_folder"] = "corrected_valence_potfiles"
     params[
         "exchange_correlation_type"] = minushalf_yaml.get_exchange_corr_code()
@@ -262,9 +268,8 @@ def get_conduction_correction_params(
     params["input_files"] = [
         "INCAR", "POSCAR", "KPOINTS", "CHGCAR"
     ] if params["inplace"] else ["INCAR", "POSCAR", "KPOINTS"]
-    params["correction_code"] = minushalf_yaml.get_correction_code()
     params["correction_indexes"] = _get_conduction_correction_indexes(
-        params["correction_code"], params["band_projection"])
+        correction_code, params["band_projection"])
     params["cut_initial_guess"] = _get_cut_initial_guess(
         minushalf_yaml.get_valence_cut_initial_guess(),
         params["correction_indexes"], software_factory)
