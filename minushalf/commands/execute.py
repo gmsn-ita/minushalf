@@ -104,9 +104,8 @@ def execute(quiet: bool):
     atoms = get_atoms_list(software_factory)
 
     ## amplitude logger
-    if not np.isclose(
-            minushalf_yaml.correction[CorrectionDefaultParams.amplitude.name],
-            CorrectionDefaultParams.amplitude.value):
+    if not np.isclose(minushalf_yaml.get_amplitude(),
+                      CorrectionDefaultParams.amplitude.value):
         logger.warning(
             "Amplitude value is different from 1.0. This is not recommended unless you know exactly what you are doing."
         )
