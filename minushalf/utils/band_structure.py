@@ -16,8 +16,12 @@ class BandStructure():
                  num_bands: int, band_projection: BandProjectionFile):
         """
             Args:
-                filename (str): name of the EIGENVAL file in VASP
-            Members:
+                eigenvalues (dict): Egenvalues of dft calculation 
+                fermi_energy (float): Value of the fermi level
+                atoms_map (dict): List of the atoms of the crystal
+                num_bands (int): Number of bands used in the calculation
+                band_projection(BandProjectionFile): Class with band projection informations
+
         """
         self.eigenvalues = eigenvalues
         self.fermi_energy = fermi_energy
@@ -29,8 +33,9 @@ class BandStructure():
         """
         Check if the band structure indicates a metal by looking if the fermi
         level crosses a band.
-        Returns:
-            True if a metal, False if not
+            
+            Returns:
+                True if a metal, False if not
         """
         eigevalues = [*self.eigenvalues.values()]
         for index in range(self.num_bands):
@@ -194,11 +199,14 @@ class BandStructure():
         Create band structure class from ab inition results
 
             Args:
-                software_module (SoftwaresAbstractFactory): Holds the results of first principles
-                                                            output calculations
+                
+                software_module (SoftwaresAbstractFactory): Holds the results of first principles output calculations
                 base_path (str): Path to first principles output files
+            
             Returns:
+                
                 band_strucure (BandStructure): Class with band structure informations
+        
         """
         eigenvalues = software_module.get_eigenvalues(base_path=base_path)
         fermi_energy = software_module.get_fermi_energy(base_path=base_path)
