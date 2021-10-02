@@ -31,14 +31,16 @@ which can be used not only with the local density approximation (LDA), but also 
 The method aims to predict energy gaps results with the same precision  as the quasiparticle correction  algorithm, considered 
 the state of the art for calculating energy gap of semiconductors. In addition, the computational effort of the method 
 is equivalent to the standard DFT approach and and is three orders of magnitude lower than the aforementioned GW method, which allows the technique to be applied to complex systems.
-   
-.. figure:: docs/source/images/dft_05_demonstration.png
+
+.. image:: https://raw.githubusercontent.com/hentt30/minushalf/main/docs/source/images/dft_05_demonstration.png
+   :target: https://raw.githubusercontent.com/hentt30/minushalf/main/docs/source/images/dft_05_demonstration.png
    :align: center
-   :width: 700
-   
-   Fig 1. Comparison of calculated band gaps with experiment. The red square are the SCF LDA-1/2 (standard
-   LDA-1/2). The crosses are standard LDA. The small gap semiconductors are metals (negative gaps), when calculated with
-   LDA. LDA-1/2 corrects the situation. The band structure calculations were made with the codes VASP  and WIEN2k. 
+   :alt: sysfs line plot
+   :width: 600px
+
+Fig 1. Comparison of calculated band gaps with experiment. The red square are the SCF LDA-1/2 (standard LDA-1/2).
+The crosses are standard LDA. The small gap semiconductors are metals (negative gaps), when calculated with LDA. 
+LDA-1/2 corrects the situation. The band structure calculations were made with the codes VASP and WIEN2k.
    
    
 What is minushalf?
