@@ -139,6 +139,9 @@ correction tag
 - overwrite_vbm: In some special cases [6]_, it is necessary to consider another band as the VBM. This tag is made for these situations. It is necessary to inform the kpoint and the band number that specifies the band location. The program immediately overwrites the old projection values and uses the new values for DFT -1/2 calculations (Default: No overwrite)
 - overwrite_cbm: In some special cases [6]_, it is necessary to consider another band as the CBM. This tag is made for these situations. It is necessary to inform the kpoint and the band number that specifies the band location. The program immediately overwrites the old projection values and uses the new values for DFT -1/2 calculations (Default: No overwrite)
 - inplace: This tag allows you to decide whether all calculations will be done in the root folder or not. It is recommended to pass it as :code:`True` if non-self-consistent calculations are being performed for the Gap calculation, since the program only copies the input files, the output files needed for the non-self-consistent calculation will not be considered (Default: False)
+- divide_character: Factor that divides the character of each atom. It is used in cases where all the bonds of an atom are with atoms of the same chemical element, as in crystals of germanium and silicon. This factor is automatically calculated by the program, however this tag will overwrite these values. So use with caution. 
+- vbm_characters: This tag allows the character values of the last valence band to be provided manually. It is recommended that this tag be used with caution as it can severely impact your results.
+- cbm_characters: This tag allows the character values of the first conduction band to be provided manually. It is recommended that this tag be used with caution as it can severely impact your results.
 
 The values that the correction_code tag can assume are listed below:
 
@@ -165,14 +168,18 @@ The example below shows an use of correction tag in the :code:`minushalf.yaml` f
             correction_code: vf
             potfiles_folder: ../potcar
             amplitude: 3.0
-            valence_cut_guess: 2.0
-            conduction_cut_guess: 1.0
+            valence_cut_guess:  [["C","p",2.0],["C","s",1.5]]  # initial guesses for each orbital that contributes to the valence band
+            conduction_cut_guess:  [["Si","s",1.0],["Si","p",3.5]]
             tolerance: 0.01
             fractional_valence_treshold: 15
             fractional_conduction_treshold: 23
             overwrite_vbm: [4,9] # Kpoint and band number, respectively
             overwrite_cbm: [1,3] # Kpoint and band number, respectively
             inplace: False
+	    divide_character: [["C",p,1]] # divide the p character of C with one more atom
+            vbm_characters: [["C","s",34],["C","s",50]] # Overwrite the characters mannualy
+            cbm_characters: [["C","s",34],["C","s",50]]
+            
 
 
 
@@ -211,8 +218,8 @@ For the input file, the following initial settings were chosen:
         correction:
             correction_code: vc
             potfiles_folder: ./potcars
-            valence_cut_guess: 3.20
-            conduction_cut_guess: 3.0
+            valence_cut_guess: [["C","p" 3.20]]
+            conduction_cut_guess: [["Si","p", 3.0]]
 
 After executing the command, one can view the result in the file :code:`minushalf_results.dat`. he file contains information
 on the values obtained in the optimization of the CUT and the resulting band energy Gap (in eV). 

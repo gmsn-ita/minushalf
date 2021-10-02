@@ -44,6 +44,14 @@ minushalf.utils.correct\_potential\_fourier\_transform module
    :undoc-members:
    :show-inheritance:
 
+minushalf.utils.cut\_initial\_guess module
+------------------------------------------
+
+.. automodule:: minushalf.utils.cut_initial_guess
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 minushalf.utils.drop\_comments module
 -------------------------------------
 
@@ -60,26 +68,18 @@ minushalf.utils.fractionary\_correction\_indexes module
    :undoc-members:
    :show-inheritance:
 
-minushalf.utils.input\_file module
-----------------------------------
+minushalf.utils.get\_correction\_params module
+----------------------------------------------
 
-.. automodule:: minushalf.utils.input_file
+.. automodule:: minushalf.utils.get_correction_params
    :members:
    :undoc-members:
    :show-inheritance:
 
-minushalf.utils.make\_minushalf\_results module
------------------------------------------------
+minushalf.utils.negative\_band\_gap module
+------------------------------------------
 
-.. automodule:: minushalf.utils.make_minushalf_results
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-minushalf.utils.minushalf\_yaml module
---------------------------------------
-
-.. automodule:: minushalf.utils.minushalf_yaml
+.. automodule:: minushalf.utils.negative_band_gap
    :members:
    :undoc-members:
    :show-inheritance:
@@ -108,14 +108,6 @@ minushalf.utils.projection\_to\_df module
    :undoc-members:
    :show-inheritance:
 
-minushalf.utils.reverse\_band\_gap module
------------------------------------------
-
-.. automodule:: minushalf.utils.reverse_band_gap
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 minushalf.utils.simple\_correction\_indexes module
 --------------------------------------------------
 
@@ -131,15 +123,6 @@ minushalf.utils.trimming\_function module
    :members:
    :undoc-members:
    :show-inheritance:
-
-minushalf.utils.vtotal module
------------------------------
-
-.. automodule:: minushalf.utils.vtotal
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 
 Module contents
 ---------------

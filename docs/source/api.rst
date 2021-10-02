@@ -13,6 +13,7 @@ Subpackages
    minushalf.interfaces
    minushalf.softwares
    minushalf.utils
+   minushalf.io
 
 Submodules
 ----------
