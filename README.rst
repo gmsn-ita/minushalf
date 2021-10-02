@@ -32,9 +32,7 @@ The method aims to predict energy gaps results with the same precision  as the q
 the state of the art for calculating energy gap of semiconductors. In addition, the computational effort of the method 
 is equivalent to the standard DFT approach and and is three orders of magnitude lower than the aforementioned GW method, which allows the technique to be applied to complex systems.
    
-.. picture:: https://raw.githubusercontent.com/hentt30/minushalf/main/docs/source/images/dft_05_demonstration.png
-   :align: center
-   :width: 700
+.. image:: https://raw.githubusercontent.com/hentt30/minushalf/main/docs/source/images/dft_05_demonstration.png
    
    Fig 1. Comparison of calculated band gaps with experiment. The red square are the SCF LDA-1/2 (standard
    LDA-1/2). The crosses are standard LDA. The small gap semiconductors are metals (negative gaps), when calculated with
