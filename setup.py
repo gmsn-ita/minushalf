@@ -22,7 +22,7 @@ setup(
     packages=setuptools.find_packages(),
     include_package_data=True,
     author="Henrique Fernandes",
-    author_email="hentt30@gmail.com",
+    author_email="dftminushalf@gmail.com",
     description=
     "CLI to provides Pre processing tools for DFT -1/2 calculations",
     long_description=long_description,
