@@ -7,7 +7,6 @@ import shutil
 from collections import OrderedDict
 from typing import List
 import numpy as np
-import pandas as pd
 import click
 from loguru import logger
 from minushalf.io import (MinushalfYaml, make_minushalf_results)
@@ -18,7 +17,7 @@ from minushalf.utils import (
     get_conduction_correction_params,
 )
 from minushalf.softwares import (Vasp)
-from minushalf.corrections import (VaspCorrection, DFTCorrection)
+from minushalf.corrections import (DFTCorrection)
 from minushalf.data import (Softwares, CorrectionDefaultParams)
 from minushalf.interfaces import (SoftwaresAbstractFactory)
 
