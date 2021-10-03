@@ -3,7 +3,6 @@ Reads Outcar file, an output of
 VASP software
 """
 import re
-import math
 from collections import defaultdict
 
 

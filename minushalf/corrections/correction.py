@@ -8,10 +8,10 @@ from subprocess import Popen, PIPE
 from scipy.optimize import minimize
 from loguru import logger
 import pandas as pd
-from minushalf.data import (OrbitalType, CutInitialGuessMethods)
-from minushalf.io import (InputFile, Vtotal, MinushalfYaml)
+from minushalf.data import (OrbitalType)
+from minushalf.io import (InputFile, Vtotal)
 from minushalf.utils import (AtomicPotential, BandStructure,
-                             find_negative_band_gap, CutInitialGuess)
+                             find_negative_band_gap)
 from minushalf.interfaces import (Correction, Runner, SoftwaresAbstractFactory,
                                   potential_file)
 

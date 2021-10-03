@@ -55,7 +55,8 @@ class Vtotal():
                 if initial_regex.match(line):
                     break
             else:
-                loguru.logger("Potential informations do not found in vtotal")
+                loguru.logger.error(
+                    "Potential informations do not found in vtotal")
                 raise ValueError(
                     "Potential informations do not found in vtotal")
 
