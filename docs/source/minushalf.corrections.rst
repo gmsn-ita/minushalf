@@ -4,14 +4,13 @@ minushalf.corrections package
 Submodules
 ----------
 
-minushalf.corrections.vasp\_correction module
----------------------------------------------
+minushalf.corrections.correction module
+---------------------------------------
 
-.. automodule:: minushalf.corrections.vasp_correction
+.. automodule:: minushalf.corrections.correction
    :members:
    :undoc-members:
    :show-inheritance:
-
 
 Module contents
 ---------------
