@@ -61,11 +61,11 @@ In this section, calculations were developed using some approximations in order 
 intuitively how the potential correction in crystals is made. To access the rigorous demonstration, consult the references [1]_ [2]_ . 
 
 Following the Slater half occupation procedure for atoms, a change in charge density is required
-to obtain the potential for semi-occupation and perform the consistent calculations using the Khon-Shan equation.
+to obtain the potential for semi-occupation and perform the consistent calculations using the Kohn-Sham equation.
 
 
 Altough in extended systems like crystals a change in charge density in a unit cell would result in an infinitely charged system, which would lead to a 
-divergence in the Khon-Shan calculations. Furthermore, it would also be irrelevant to be able to modify only a finite amount of electrons in the crystal since
+divergence in the Kohn-Sham calculations. Furthermore, it would also be irrelevant to be able to modify only a finite amount of electrons in the crystal since
 the charge would become irrelevant to the infinite amount of electrons present in the system. To bypass this problem, it is necessary to find a new way
 to derive the semi-occupied potential.
 
@@ -164,7 +164,7 @@ CUT is the cut radius  and A is a scale factor named amplitude.
 
 Finnaly, since the atoms repeats in each unit cell, the potential :math:`V_{1/2e}` is periodic, joining this
 information with the fact that :math:`V_{crystal}` is periodic, one can conclude that :math:`V_{crystal}^{-1/2}`
-is periodic, which implies that the boundary conditions remain periodic and the Khon-Shan calculations can be applied to the system. 
+is periodic, which implies that the boundary conditions remain periodic and the Kohn-Sham calculations can be applied to the system. 
 
 
 The CUT parameter 
