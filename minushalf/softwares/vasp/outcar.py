@@ -104,6 +104,7 @@ class Outcar():
             r"\s*ion\s+position\s+nearest\s+neighbor\s+table")
         distances_line_regex = re.compile(
             r"\s+([0-9]).*(?=-)-\s+([0-9]\s+[0-9]*\.[0-9]+\s*)+")
+        detect_break_line = re.compile(r"\s*[0-9]\s+[0-9]*\.[0-9]+\s*")
 
         with open(self.filename) as outcar:
 
@@ -112,14 +113,22 @@ class Outcar():
                 if start_capture_regex.match(line):
                     break
             ## Read informations
+            ion_index = ""
             for line in outcar:
 
-                if distances_line_regex.match(line):
-                    ion_index = distances_line_regex.match(line).group(1)
+                if distances_line_regex.match(line) or detect_break_line.match(line):
+                    if distances_line_regex.match(line):
+                        ion_index = distances_line_regex.match(line).group(1)
+                     
+                    distance_line = ""
+                    if '-' in line:
+                        distance_line = line.split("-")[1]
+                    else:
+                        distance_line = line
 
                     ion_relative_distances_and_index = re.findall(
-                        r"[0-9]\s+[0-9]*\.[0-9]+\s*",
-                        line.split("-")[1])
+                            r"\s*[0-9]\s+[0-9]*\.[0-9]+\s*",
+                        distance_line)
 
                     for element in ion_relative_distances_and_index:
                         element = element.rstrip()
