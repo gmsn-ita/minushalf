@@ -28,7 +28,7 @@ setup(
     long_description=long_description,
     license="GPL",
     install_requires=[
-        "numpy>=1.19.4",
+        "numpy==1.19.4",
         "pandas>=1.1.5",
         "fortranformat>=0.2.5",
         "Click>=7.1.2",
