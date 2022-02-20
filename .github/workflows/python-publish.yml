@@ -1,8 +1,8 @@
 name: Build and upload to PyPI
 
 env:
-  CIBW_BUILD: cp36-* cp38-* cp39-*
-  CIBW_BEFORE_BUILD: pip install --upgrade pip && pip install numpy==1.19.4
+  CIBW_BUILD: cp36-* cp37-* cp38-* cp39-*
+  CIBW_BEFORE_BUILD: pip install --upgrade pip 
   CIBW_BEFORE_TEST: pip install --upgrade pip && pip install pytest && pip install -r requirements.txt
   CIBW_TEST_COMMAND: pytest {package}/tests
   NPY_DISABLE_CPU_FEATURES: AVX512F AVX512_SKX
@@ -24,10 +24,10 @@ jobs:
     runs-on: ${{ matrix.os }}
     env:
       CIBW_MANYLINUX_X86_64_IMAGE: ${{ matrix.many_linux_tag }}
-      CIBW_MANYLINUX_I686_IMAGE: ${{ matrix.many_linux_tag }}
-      CIBW_MANYLINUX_AARCH64_IMAGE: ${{ matrix.many_linux_tag }}
-      CIBW_MANYLINUX_PPC64LE_IMAGE: ${{ matrix.many_linux_tag }}
-      CIBW_MANYLINUX_S390X_IMAGE: ${{ matrix.many_linux_tag }}
+      #CIBW_MANYLINUX_I686_IMAGE: ${{ matrix.many_linux_tag }}
+      #CIBW_MANYLINUX_AARCH64_IMAGE: ${{ matrix.many_linux_tag }}
+      #CIBW_MANYLINUX_PPC64LE_IMAGE: ${{ matrix.many_linux_tag }}
+      #CIBW_MANYLINUX_S390X_IMAGE: ${{ matrix.many_linux_tag }}
 
     strategy:
       matrix:
