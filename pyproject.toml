@@ -12,7 +12,7 @@ python = "^3.6"
 yapf = "^0.31.0"
 [build-system]
 build-backend = "setuptools.build_meta"
-requires = ["setuptools"]
+requires = ["setuptools","numpy==1.19.4"]
 
 [tool.tox]
 legacy_tox_ini = """
