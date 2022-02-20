@@ -24,10 +24,10 @@ jobs:
     runs-on: ${{ matrix.os }}
     env:
       CIBW_MANYLINUX_X86_64_IMAGE: ${{ matrix.many_linux_tag }}
-      #CIBW_MANYLINUX_I686_IMAGE: ${{ matrix.many_linux_tag }}
-      #CIBW_MANYLINUX_AARCH64_IMAGE: ${{ matrix.many_linux_tag }}
-      #CIBW_MANYLINUX_PPC64LE_IMAGE: ${{ matrix.many_linux_tag }}
-      #CIBW_MANYLINUX_S390X_IMAGE: ${{ matrix.many_linux_tag }}
+      CIBW_MANYLINUX_I686_IMAGE: ${{ matrix.many_linux_tag }}
+      CIBW_MANYLINUX_AARCH64_IMAGE: ${{ matrix.many_linux_tag }}
+      CIBW_MANYLINUX_PPC64LE_IMAGE: ${{ matrix.many_linux_tag }}
+      CIBW_MANYLINUX_S390X_IMAGE: ${{ matrix.many_linux_tag }}
 
     strategy:
       matrix:
