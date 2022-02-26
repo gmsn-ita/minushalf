@@ -3,6 +3,7 @@ Test Outcar module
 The functions in this file obey the following rules:
 test_(what the function is meant to do)_(chemical compound)
 """
+import pytest   
 import numpy as np
 from minushalf.softwares.vasp import Outcar
 
@@ -84,3 +85,29 @@ def test_nearest_neighbor_aln_3d(file_path):
     filename = file_path("/aln-3d/OUTCAR")
     outcar = Outcar(filename)
     assert np.isclose(outcar.nearest_neighbor_distance("4"), 1.90)
+
+def test_nearest_neighbor_rus2(file_path):
+    """
+    Test the nearest neighbor funcion
+    """
+    filename = file_path("/rus2/OUTCAR")
+    outcar = Outcar(filename)
+    assert np.isclose(outcar.nearest_neighbor_distance("10"), 2.21)
+
+@pytest.mark.xfail
+def test_nearest_neighbor_rus2_fail(file_path):
+    """
+    Test the nearest neighbor funcion
+    """
+    filename = file_path("/rus2/OUTCAR")
+    outcar = Outcar(filename)
+    assert np.isclose(outcar.nearest_neighbor_distance("0"), 2.21)
+
+def test_nearest_neighbor_pbte(file_path):
+    """
+    Test the nearest neighbor funcion
+    """
+    filename = file_path("/pbte/OUTCAR")
+    outcar = Outcar(filename)
+    assert np.isclose(outcar.nearest_neighbor_distance("2"), 3.28)
+

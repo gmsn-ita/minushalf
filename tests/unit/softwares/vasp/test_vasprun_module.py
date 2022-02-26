@@ -58,6 +58,22 @@ def test_vasprun_parser_for_fermi_energy_and_atoms_sic_2d(file_path):
         assert symbol == atoms[index]
 
 
+def test_vasprun_parser_for_fermi_energy_and_atoms_pbte(file_path):
+    """
+    Check if the parser for the vasprun.xml file
+    is catching the right values for atom informations
+    and fermi energy.
+    """
+    filename = file_path("/pbte/vasprun.xml")
+    vasprun = Vasprun(filename)
+
+    fermi_energy = 5.20551128
+    atoms = {"1": "Te", "2": "Pb"}
+
+    assert np.isclose(fermi_energy, vasprun.fermi_energy)
+    for index, symbol in vasprun.atoms_map.items():
+        assert symbol == atoms[index]
+
 def test_vasprun_parser_for_fermi_energy_and_atoms_gec_2d(file_path):
     """
     Check if the parser for the vasprun.xml file
