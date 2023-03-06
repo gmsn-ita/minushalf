@@ -19,6 +19,7 @@ legacy_tox_ini = """
 [tox]
 envlist =  py{36,37,38}
 skipsdist=True
+install_command = python -m pip install .
 
 [testenv]
 deps=
@@ -36,5 +37,5 @@ deps=
     numpy==1.19.5
 usedevelop=False
 commands=
-    pip install . && pytest
+    python -m pytest
 """
