@@ -23,7 +23,7 @@ skipsdist=True
 [testenv]
 deps=
     pytest==6.2.1
-    pytest-mock==3.7.0
+    pytest-mock==3.0.0
 usedevelop=True
 commands=
     pytest
