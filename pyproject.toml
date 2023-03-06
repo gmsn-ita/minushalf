@@ -12,7 +12,7 @@ python = "^3.6"
 yapf = "^0.31.0"
 [build-system]
 build-backend = "setuptools.build_meta"
-requires = ["setuptools","numpy<=1.21.0"]
+requires = ["setuptools","numpy==1.21.0"]
 
 [tool.tox]
 legacy_tox_ini = """
@@ -22,8 +22,8 @@ skipsdist=True
 
 [testenv]
 deps=
-    pytest>=6.2.1
-    pytest-mock
+    pytest==6.2.1
+    pytest-mock==3.7.0
 usedevelop=True
 commands=
     pytest
