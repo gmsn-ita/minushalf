@@ -24,7 +24,7 @@ skipsdist=True
 deps=
     pytest==6.2.1
     pytest-mock==3.0.0
-usedevelop=True
+usedevelop=False
 commands=
     pytest
 """

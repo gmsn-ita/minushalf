@@ -22,4 +22,4 @@ jobs:
 
       - name: Run Tox
         # Run tox using the version of Python in `PATH`
-        run: tox py
+        run: tox -e py
