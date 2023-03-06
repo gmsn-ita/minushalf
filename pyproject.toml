@@ -36,5 +36,5 @@ deps=
     numpy==1.19.5
 usedevelop=False
 commands=
-    pytest
+    python -m pytest
 """
