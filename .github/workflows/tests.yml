@@ -18,7 +18,7 @@ jobs:
       - name: Setup GNU Fortran
         uses: modflowpy/install-gfortran-action@v1
       - name: Install Tox and any other packages
-        run: pip install tox==3.24.5
+        run: pip install tox==3.24.5 && pip install .
 
       - name: Run Tox
         # Run tox using the version of Python in `PATH`
