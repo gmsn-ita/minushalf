@@ -5,9 +5,9 @@ import yaml
 import collections
 import loguru
 from minushalf.data import Softwares
-from .software_configurations import SoftwareConfigurations
-from .atomic_program import AtomicProgram
-from .correction import Correction
+from minushalf.io.software_configurations import SoftwareConfigurations
+from minushalf.io.atomic_program import AtomicProgram
+from minushalf.io.correction import Correction
 from minushalf.interfaces import MinushalfYamlTags,MinushalfYaml
 
 
