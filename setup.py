@@ -18,7 +18,7 @@ atomic_program = Extension(name="minushalf.atomic_program",
 
 setup(
     name="minushalf",
-    version="1.7",
+    version="1.8",
     packages=setuptools.find_packages(),
     include_package_data=True,
     author="Henrique Fernandes",
@@ -34,7 +34,7 @@ setup(
         "pyfiglet==0.8.post1",
         "loguru==0.5.3",
         "tabulate==0.8.7",
-        "numpy==1.19.5",
+        "numpy==1.21.0",
         "pyyaml",
         "scipy==1.5.4",
         "aenum==3.0.0",

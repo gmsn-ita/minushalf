@@ -12,7 +12,7 @@ python = "^3.6"
 yapf = "^0.31.0"
 [build-system]
 build-backend = "setuptools.build_meta"
-requires = ["setuptools","numpy==1.19.5"]
+requires = ["setuptools","numpy==1.21.0"]
 
 [tool.tox]
 legacy_tox_ini = """
@@ -34,7 +34,7 @@ deps=
     pyyaml
     scipy==1.5.4
     aenum==3.0.0
-    numpy==1.19.5
+    numpy==1.21.0
 usedevelop=False
 commands=
     python -m pytest
