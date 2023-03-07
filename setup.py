@@ -28,7 +28,7 @@ setup(
     long_description=long_description,
     license="GPL",
     install_requires=[
-        "pandas==1.3.",
+        "pandas==1.3.4",
         "fortranformat==0.2.5",
         "Click==7.1.2",
         "pyfiglet==0.8.post1",
