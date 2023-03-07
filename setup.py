@@ -28,7 +28,7 @@ setup(
     long_description=long_description,
     license="GPL",
     install_requires=[
-        "pandas==1.1.5",
+        "pandas==1.3.",
         "fortranformat==0.2.5",
         "Click==7.1.2",
         "pyfiglet==0.8.post1",
@@ -36,7 +36,7 @@ setup(
         "tabulate==0.8.7",
         "numpy==1.21.0",
         "pyyaml",
-        "scipy==1.5.4",
+        "scipy==1.7.3",
         "aenum==3.0.0",
     ],
     entry_points="""
