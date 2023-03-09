@@ -6,8 +6,8 @@ import sys
 import click
 import numpy as np
 from loguru import logger
-from minushalf.io import (InputFile)
-from minushalf.utils import (welcome_message, end_message)
+from minushalf.io.input_file import (InputFile)
+from minushalf.utils.cli_messages import (welcome_message, end_message)
 from minushalf import atomic_program
 
 

@@ -4,10 +4,10 @@ fractional occupations
 """
 import copy
 import numpy as np
-from minushalf.interfaces import PotentialFile
-from minushalf.io import Vtotal
-from .trimming_function import trimming_function
-from .correct_potential_fourier_transform import correct_potential_fourier_transform
+from minushalf.interfaces.potential_file import PotentialFile
+from minushalf.io.vtotal import Vtotal
+from minushalf.utils.trimming_function import trimming_function
+from minushalf.utils.correct_potential_fourier_transform import correct_potential_fourier_transform
 
 
 class AtomicPotential():

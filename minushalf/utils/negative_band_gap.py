@@ -7,9 +7,9 @@ import os
 import shutil
 import math
 from loguru import logger
-from minushalf.interfaces import SoftwaresAbstractFactory
-from .atomic_potential import AtomicPotential
-from .band_structure import BandStructure
+from minushalf.interfaces.software_abstract_factory import SoftwaresAbstractFactory
+from minushalf.utils.atomic_potential import AtomicPotential
+from minushalf.utils.band_structure import BandStructure
 
 
 def _get_corrected_potfile_lines(

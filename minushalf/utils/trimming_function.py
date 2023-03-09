@@ -2,7 +2,7 @@
 Trimming function
 """
 import numpy as np
-from minushalf.data import Constants
+from minushalf.data.constants import Constants
 
 
 def trimming_function(

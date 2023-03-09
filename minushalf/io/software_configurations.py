@@ -2,8 +2,8 @@
 Class for atomic program software parameters in minushalf.yaml
 """
 import loguru
-from minushalf.data import Softwares
-from minushalf.interfaces import MinushalfYamlTags
+from minushalf.data.softwares import Softwares
+from minushalf.interfaces.minushalf_yaml_tags import MinushalfYamlTags
 
 
 class SoftwareConfigurations(MinushalfYamlTags):

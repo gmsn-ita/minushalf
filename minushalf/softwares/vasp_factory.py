@@ -6,22 +6,15 @@
 """
 import os
 from typing import List
-from minushalf.interfaces import SoftwaresAbstractFactory
-from minushalf.utils import (
-    check_procar_exists,
-    check_vasprun_exists,
-    check_eigenval_exists,
-    check_potcar_exists,
-    check_outcar_exists,
-)
-from minushalf.softwares.vasp import (
-    Procar,
-    Vasprun,
-    Eigenvalues as VaspEigenval,
-    Potcar,
-    VaspRunner,
-    Outcar,
-)
+from minushalf.interfaces.software_abstract_factory import SoftwaresAbstractFactory
+from minushalf.utils.check_file_exists import (check_procar_exists,check_vasprun_exists,check_eigenval_exists,check_potcar_exists,check_outcar_exists)
+
+from minushalf.softwares.vasp.procar import Procar
+from minushalf.softwares.vasp.vasprun import Vasprun
+from minushalf.softwares.vasp.eigenval import Eigenvalues as VaspEigenval
+from minushalf.softwares.vasp.potcar import Potcar
+from minushalf.softwares.vasp.outcar import Outcar
+from minushalf.softwares.vasp.runner import VaspRunner
 
 
 class Vasp(SoftwaresAbstractFactory):

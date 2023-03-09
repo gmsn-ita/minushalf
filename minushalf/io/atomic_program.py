@@ -1,8 +1,9 @@
 """
 Class for atomic program input parameters in minushalf.yaml
 """
-from minushalf.data import CalculationCode, ExchangeCorrelation
-from minushalf.interfaces import MinushalfYamlTags
+from minushalf.data.calculation_code import CalculationCode
+from minushalf.data.exchange_correlation import ExchangeCorrelation
+from minushalf.interfaces.minushalf_yaml_tags import MinushalfYamlTags
 
 
 class AtomicProgram(MinushalfYamlTags):

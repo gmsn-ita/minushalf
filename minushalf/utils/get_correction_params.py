@@ -2,15 +2,13 @@
 Extract the parameters for the correction
 """
 import pandas as pd
-from minushalf.interfaces import MinushalfYaml, SoftwaresAbstractFactory
-from minushalf.utils import (
-    get_simple_correction_indexes,
-    get_fractionary_correction_indexes,
-    CutInitialGuess,
-)
-from minushalf.data import (CutInitialGuessMethods)
-from .band_structure import BandStructure
-from .projection_to_df import projection_to_df
+from minushalf.interfaces.minushalf_yaml import MinushalfYaml
+from minushalf.interfaces.software_abstract_factory import SoftwaresAbstractFactory
+from minushalf.utils.cut_initial_guess import CutInitialGuess
+from minushalf.utils.get_correction_params import get_fractionary_correction_indexes,get_simple_correction_indexes
+from minushalf.data.cut_initial_guess_methods import (CutInitialGuessMethods)
+from minushalf.utils.band_structure import BandStructure
+from minushalf.utils.projection_to_df import projection_to_df
 
 
 def _get_vbm_projection(factory: SoftwaresAbstractFactory) -> pd.DataFrame:

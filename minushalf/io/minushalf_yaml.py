@@ -4,11 +4,12 @@ Parser for minushalf.yaml
 import yaml
 import collections
 import loguru
-from minushalf.data import Softwares
+from minushalf.data.softwares import Softwares
 from minushalf.io.software_configurations import SoftwareConfigurations
 from minushalf.io.atomic_program import AtomicProgram
 from minushalf.io.correction import Correction
-from minushalf.interfaces import MinushalfYamlTags,MinushalfYaml
+from minushalf.interfaces.minushalf_yaml import MinushalfYaml
+from minushalf.interfaces.minushalf_yaml_tags import MinushalfYamlTags
 
 
 class MinushalfYaml(MinushalfYaml):

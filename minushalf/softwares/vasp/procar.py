@@ -5,7 +5,7 @@ VASP software
 import re
 from itertools import islice
 from loguru import logger
-from minushalf.interfaces import BandProjectionFile
+from minushalf.interfaces.band_projection_file import BandProjectionFile
 
 
 class Procar(BandProjectionFile):

@@ -1,7 +1,7 @@
 """
 Gives cut initial guess
 """
-from minushalf.data import CutInitialGuessMethods
+from minushalf.data.cut_initial_guess_methods import CutInitialGuessMethods
 
 
 def _3d_crystals(distance: float) -> float:

@@ -3,10 +3,11 @@ Aims to show how the band in a specific k-point is
 composed by the orbitals of each atom.
 """
 import click
-from minushalf.data import Softwares
-from minushalf.softwares import Vasp
-from minushalf.utils import (welcome_message, end_message, projection_to_df,
-                             BandStructure)
+from minushalf.data.softwares import Softwares
+from minushalf.softwares.vasp import Vasp
+from minushalf.utils.cli_messages import welcome_message,end_message
+from minushalf.utils.projection_to_df import projection_to_df
+from minushalf.utils.band_structure import  BandStructure
 
 
 @click.command()

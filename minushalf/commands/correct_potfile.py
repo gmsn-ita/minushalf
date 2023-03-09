@@ -4,11 +4,12 @@ Atomic Correct potential file
 import sys
 import click
 from loguru import logger
-from minushalf.softwares import Vasp
-from minushalf.data import Softwares
-from minushalf.io import (Vtotal)
-from minushalf.utils import (welcome_message, end_message, AtomicPotential,
-                             parse_cut)
+from minushalf.softwares.vasp import Vasp
+from minushalf.data.softwares import Softwares
+from minushalf.io.vtotal import (Vtotal)
+from minushalf.utils.cli_messages import welcome_message,end_message
+from minushalf.utils.parse_cut import parse_cut
+from minushalf.utils.atomic_potential import AtomicPotential
 
 
 @click.command()

@@ -4,9 +4,10 @@ Makes fractional occupation on INP file
 import sys
 import click
 from loguru import logger
-from minushalf.data import (CalculationCode, ExchangeCorrelation)
-from minushalf.io import (InputFile)
-from minushalf.utils import (welcome_message, end_message)
+from minushalf.data.calculation_code import CalculationCode
+from minushalf.data.exchange_correlation import ExchangeCorrelation
+from minushalf.io.input_file import (InputFile)
+from minushalf.utils.cli_messages import (welcome_message, end_message)
 
 
 @click.command()

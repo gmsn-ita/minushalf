@@ -4,8 +4,8 @@ Class for correction input parameters in minushalf.yaml
 from shutil import Error
 from minushalf.interfaces.minushalf_yaml_tags import MinushalfYamlTags
 import loguru
-from minushalf.data import CorrectionCode
-from minushalf.interfaces import MinushalfYamlTags
+from minushalf.data.correction_code import CorrectionCode
+from minushalf.interfaces.minushalf_yaml_tags import MinushalfYamlTags
 
 
 class Correction(MinushalfYamlTags):

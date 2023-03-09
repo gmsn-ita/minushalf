@@ -5,7 +5,7 @@ import os
 import sys
 import click
 from loguru import logger
-from minushalf.utils import welcome_message, end_message
+from minushalf.utils.cli_messages import welcome_message, end_message
 from minushalf import atomic_program
 
 

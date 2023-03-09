@@ -3,9 +3,10 @@ Command to read band gap
 """
 
 import click
-from minushalf.softwares import Vasp
-from minushalf.data import Softwares
-from minushalf.utils import (welcome_message, end_message, BandStructure)
+from minushalf.softwares.vasp import Vasp
+from minushalf.data.softwares import Softwares
+from minushalf.utils.cli_messages import welcome_message,end_message
+from minushalf.utils.band_structure import  BandStructure
 
 
 @click.command()

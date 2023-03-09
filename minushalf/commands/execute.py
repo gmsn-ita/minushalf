@@ -9,17 +9,17 @@ from typing import List
 import numpy as np
 import click
 from loguru import logger
-from minushalf.io import (MinushalfYaml, make_minushalf_results)
-from minushalf.utils import (
-    welcome_message,
-    end_message,
-    get_valence_correction_params,
-    get_conduction_correction_params,
-)
-from minushalf.softwares import (Vasp)
-from minushalf.corrections import (DFTCorrection)
-from minushalf.data import (Softwares, CorrectionDefaultParams)
-from minushalf.interfaces import (SoftwaresAbstractFactory)
+from minushalf.io.minushalf_yaml import MinushalfYaml
+from minushalf.io.make_minushalf_results import make_minushalf_results
+from minushalf.utils.cli_messages import welcome_message,end_message
+from minushalf.utils.get_correction_params import get_valence_correction_params, get_conduction_correction_params
+
+from minushalf.softwares.vasp import (Vasp)
+from minushalf.corrections.correction import (DFTCorrection)
+from minushalf.data.minushalf_yaml_default_configuration import CorrectionDefaultParams
+from minushalf.data.softwares import (Softwares)
+
+from minushalf.interfaces.software_abstract_factory import (SoftwaresAbstractFactory)
 
 
 def get_atoms_list(factory: SoftwaresAbstractFactory) -> list:
