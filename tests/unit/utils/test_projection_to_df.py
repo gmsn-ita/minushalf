@@ -3,7 +3,7 @@ Test projection to df method
 """
 import pytest
 import numpy as np
-from minushalf.utils import projection_to_df
+from minushalf.utils.projection_to_df import projection_to_df
 
 
 def test_projection_to_df_first():

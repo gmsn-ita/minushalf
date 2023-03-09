@@ -2,7 +2,7 @@
 Test correction code module
 in data folder
 """
-from minushalf.data import CorrectionCode
+from minushalf.data.correction_code import CorrectionCode
 
 
 def test_correction_code():

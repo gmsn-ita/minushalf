@@ -3,8 +3,8 @@ Test the class that leads with the minushalf.yaml file,
 the input file for the execute command
 """
 import pytest
-from minushalf.io import MinushalfYaml
-from minushalf.data import (Softwares)
+from minushalf.io.minushalf_yaml import MinushalfYaml
+from minushalf.data.softwares import (Softwares)
 
 
 def test_default_parameters():

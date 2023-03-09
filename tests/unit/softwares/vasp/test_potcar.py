@@ -2,7 +2,7 @@
 Test Potcar class
 """
 import numpy as np
-from minushalf.softwares.vasp import Potcar
+from minushalf.softwares.vasp.potcar import Potcar
 
 
 def test_potcar_ag(file_path):

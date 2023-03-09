@@ -4,8 +4,10 @@ Test vasp factory module
 from yaml import compose_all
 from minushalf import commands
 import numpy as np
-from minushalf.softwares.vasp import Procar, Potcar, VaspRunner
-from minushalf.softwares import Vasp
+from minushalf.softwares.vasp.procar import Procar
+from minushalf.softwares.vasp.potcar import Potcar
+from minushalf.softwares.vasp.runner import VaspRunner
+from minushalf.softwares.vasp_factory import Vasp
 
 
 def test_get_atoms_map(file_path):

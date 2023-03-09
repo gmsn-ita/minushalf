@@ -4,7 +4,7 @@ The functions in this file obey the following rules:
 test_(what the function is meant to do)_(chemical compound)
 """
 import numpy as np
-from minushalf.softwares.vasp import Vasprun
+from minushalf.softwares.vasp.vasprun import Vasprun
 
 
 def test_vasprun_parser_for_fermi_energy_and_atoms_gan_3d(file_path):

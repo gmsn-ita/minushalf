@@ -3,7 +3,7 @@ Test Eigenval module
 The functions in this file obey the following rules:
 test_(what the function is meant to do)_(chemical compound)
 """
-from minushalf.softwares.vasp import Eigenvalues
+from minushalf.softwares.vasp.eigenval import Eigenvalues
 
 
 def test_parse_eigenvalues_gan_3d(file_path):

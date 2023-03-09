@@ -5,7 +5,7 @@ test_(what the function is meant to do)_(chemical compound)
 """
 import pytest   
 import numpy as np
-from minushalf.softwares.vasp import Outcar
+from minushalf.softwares.vasp.outcar import Outcar
 
 
 def test_parse_distances_gan_3d(file_path):

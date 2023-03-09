@@ -2,7 +2,7 @@
 Test parse cut function
 """
 import numpy as np
-from minushalf.utils import parse_cut
+from minushalf.utils.parse_cut import parse_cut
 
 
 def test_cut_range():

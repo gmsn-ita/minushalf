@@ -1,9 +1,14 @@
 """
 Test get simple correction function
 """
-from minushalf.softwares.vasp import (Procar, Vasprun, Eigenvalues)
-from minushalf.utils import (get_fractionary_correction_indexes,
-                             projection_to_df, BandStructure)
+
+from minushalf.softwares.vasp.procar import Procar
+from minushalf.softwares.vasp.vasprun import Vasprun
+from minushalf.softwares.vasp.eigenval import Eigenvalues
+from minushalf.utils.projection_to_df import projection_to_df
+from minushalf.utils.band_structure import BandStructure
+from minushalf.utils.fractionary_correction_indexes import get_fractionary_correction_indexes
+
 
 
 def test_aln_2d_vbm(file_path):

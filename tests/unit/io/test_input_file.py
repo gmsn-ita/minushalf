@@ -3,8 +3,9 @@ Test input file class
 """
 import pytest
 import numpy as np
-from minushalf.data import ElectronicDistribution, PeriodicTable
-from minushalf.io import InputFile
+from minushalf.data.electronic_distribution import ElectronicDistribution
+from minushalf.data.periodic_table import PeriodicTable
+from minushalf.io.input_file import InputFile
 
 
 def test_minimum_setup(file_path):

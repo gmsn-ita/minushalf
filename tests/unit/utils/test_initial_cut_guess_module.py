@@ -2,7 +2,7 @@
 Test initial cut guess module
 """
 import numpy as np
-from minushalf.utils import CutInitialGuess
+from minushalf.utils.cut_initial_guess import CutInitialGuess
 
 
 def test_3d_method():

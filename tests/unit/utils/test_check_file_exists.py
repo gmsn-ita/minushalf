@@ -2,7 +2,7 @@
 Test to check if file exists
 """
 import pytest
-from minushalf.utils import (
+from minushalf.utils.check_file_exists import (
     check_potcar_exists,
     check_eigenval_exists,
     check_vasprun_exists,

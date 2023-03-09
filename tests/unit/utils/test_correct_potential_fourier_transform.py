@@ -3,7 +3,7 @@ Test correct potential fourier transform
 """
 import pytest
 import numpy as np
-from minushalf.utils import correct_potential_fourier_transform
+from minushalf.utils.correct_potential_fourier_transform import correct_potential_fourier_transform
 
 
 def test_correct_potential_fourier_transform_first():

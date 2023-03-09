@@ -5,7 +5,7 @@ test_(what the function is meant to do)_(chemical compound)
 """
 import pytest
 import numpy as np
-from minushalf.softwares.vasp import Procar
+from minushalf.softwares.vasp.procar import Procar
 
 
 def test_parse_procar_header_gan_3d(file_path):

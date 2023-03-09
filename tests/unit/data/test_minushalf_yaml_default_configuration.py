@@ -2,7 +2,7 @@
 test minushalf_yaml_default_configuration module
 """
 import numpy as np
-from minushalf.data import (
+from minushalf.data.minushalf_yaml_default_configuration import (
     VaspDefaultParams,
     CorrectionDefaultParams,
     AtomicProgramDefaultParams,

@@ -4,9 +4,11 @@ The functions in this file obey the following rules:
 test_(what the function is meant to do)_(chemical compound)
 """
 import numpy as np
-from minushalf.utils import BandStructure
-from minushalf.softwares.vasp import Procar, Vasprun, Eigenvalues
-from minushalf.softwares import Vasp
+from minushalf.utils.band_structure import BandStructure
+from minushalf.softwares.vasp.procar import Procar
+from minushalf.softwares.vasp.eigenval import Eigenvalues
+from minushalf.softwares.vasp_factory import Vasp
+from minushalf.softwares.vasp.vasprun import Vasprun
 
 
 def test_is_metal_gan_3d(file_path):

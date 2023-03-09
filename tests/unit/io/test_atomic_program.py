@@ -1,7 +1,7 @@
 """
 Test atomic program input class
 """
-from minushalf.io import AtomicProgram
+from minushalf.io.atomic_program import AtomicProgram
 
 
 def test_default_parameters():

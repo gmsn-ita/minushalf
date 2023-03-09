@@ -2,7 +2,7 @@
 Test calculation code module
 in data folder
 """
-from minushalf.data import CalculationCode
+from minushalf.data.calculation_code import CalculationCode
 
 
 def test_calculation_code():

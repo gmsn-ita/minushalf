@@ -1,7 +1,7 @@
 """
 Test software configurations input class
 """
-from minushalf.io import SoftwareConfigurations
+from minushalf.io.software_configurations import SoftwareConfigurations
 
 
 def test_default_parameters():

@@ -2,7 +2,7 @@
 Test trimming function
 """
 import numpy as np
-from minushalf.utils import trimming_function
+from minushalf.utils.trimming_function import trimming_function
 
 
 def test_trimming_first():

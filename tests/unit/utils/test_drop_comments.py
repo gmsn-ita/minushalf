@@ -1,7 +1,7 @@
 """
 Test drop comments function
 """
-from minushalf.utils import drop_comments
+from minushalf.utils.drop_comments import drop_comments
 
 
 def test_drop_comments_first():

@@ -3,7 +3,7 @@ Test vasp runner class
 """
 import subprocess
 from unittest import mock
-from minushalf.softwares.vasp import VaspRunner
+from minushalf.softwares.vasp.runner import VaspRunner
 
 
 def test_with_number_of_cores_1():

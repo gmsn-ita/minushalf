@@ -2,7 +2,7 @@
 Test correction input class
 """
 import numpy as np
-from minushalf.io import Correction, correction
+from minushalf.io.correction import Correction
 
 
 def test_default_parameters():

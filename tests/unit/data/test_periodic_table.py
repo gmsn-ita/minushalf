@@ -1,7 +1,7 @@
 """
 Test periodic table
 """
-from minushalf.data import PeriodicTable
+from minushalf.data.periodic_table import PeriodicTable
 
 
 def test_periodic_table():
