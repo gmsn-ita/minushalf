@@ -4,7 +4,7 @@ Test correct potfile command..
 import os
 import numpy as np
 from click.testing import CliRunner
-from minushalf.commands import correct_potfile
+from minushalf.commands.correct_potfile import correct_potfile
 
 
 def test_correct_potfile_ga_first(file_path):

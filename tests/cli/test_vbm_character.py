@@ -2,7 +2,7 @@
 Test vbm character command
 """
 from click.testing import CliRunner
-from minushalf.commands import vbm_character
+from minushalf.commands.vbm_character import vbm_character
 
 
 def test_vbm_character_gan_3d(file_path):

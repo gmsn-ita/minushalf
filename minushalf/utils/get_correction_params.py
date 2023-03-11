@@ -5,7 +5,8 @@ import pandas as pd
 from minushalf.interfaces.minushalf_yaml import MinushalfYaml
 from minushalf.interfaces.software_abstract_factory import SoftwaresAbstractFactory
 from minushalf.utils.cut_initial_guess import CutInitialGuess
-from minushalf.utils.get_correction_params import get_fractionary_correction_indexes,get_simple_correction_indexes
+from minushalf.utils.fractionary_correction_indexes import get_fractionary_correction_indexes
+from minushalf.utils.simple_correction_indexes import get_simple_correction_indexes
 from minushalf.data.cut_initial_guess_methods import (CutInitialGuessMethods)
 from minushalf.utils.band_structure import BandStructure
 from minushalf.utils.projection_to_df import projection_to_df

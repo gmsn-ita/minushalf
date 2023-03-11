@@ -14,7 +14,7 @@ from minushalf.io.make_minushalf_results import make_minushalf_results
 from minushalf.utils.cli_messages import welcome_message,end_message
 from minushalf.utils.get_correction_params import get_valence_correction_params, get_conduction_correction_params
 
-from minushalf.softwares.vasp import (Vasp)
+from minushalf.softwares.vasp_factory import (Vasp)
 from minushalf.corrections.correction import (DFTCorrection)
 from minushalf.data.minushalf_yaml_default_configuration import CorrectionDefaultParams
 from minushalf.data.softwares import (Softwares)

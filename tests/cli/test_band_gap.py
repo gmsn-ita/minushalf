@@ -2,7 +2,7 @@
 Test band gap command
 """
 from click.testing import CliRunner
-from minushalf.commands import band_gap
+from minushalf.commands.band_gap import band_gap
 
 
 def test_band_gap_gan_3d(file_path):

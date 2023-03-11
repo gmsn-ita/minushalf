@@ -20,30 +20,8 @@ class Constants:
                  Johannes Rydberg, is a physical constant relating to the
                  electromagnetic spectra of an atom
     """
-    @property
-    def pi_constant(self):
-        """
-        Constant PI
-        """
-        return 3.1415926548
-
-    @property
-    def trimming_exponent(self):
-        """
-        Expoent for trimming function
-        """
-        return 8
-
-    @property
-    def bohr_radius(self):
-        """
-        Bohr radius
-        """
-        return 0.529177068
-
-    @property
-    def rydberg(self):
-        """
-        Rydberg constant
-        """
-        return 13.6058038
+    def __init__(self) -> None:
+        self.pi_constant = 3.1415926548
+        self.trimming_exponent = 8
+        self.bohr_radius = 0.529177068
+        self.rydberg = 13.6058038

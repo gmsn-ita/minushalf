@@ -2,7 +2,7 @@
 Test cbm character command
 """
 from click.testing import CliRunner
-from minushalf.commands import cbm_character
+from minushalf.commands.cbm_character import cbm_character
 
 
 def test_cbm_character_gan_3d(file_path):
@@ -14,7 +14,9 @@ def test_cbm_character_gan_3d(file_path):
     result_path = file_path("/gan-3d/result_cbm_character.txt")
     runner = CliRunner()
     result = runner.invoke(cbm_character, ['-b', base_path])
-
+    print(result.output)
+    import os
+    os.system(f"echo {result.output} > a.txt")
     with open(result_path) as file:
         assert file.read() == result.output
 

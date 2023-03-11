@@ -5,8 +5,8 @@ import numpy as np
 import pytest
 from click.testing import CliRunner
 from minushalf import atomic_program
-from minushalf.io import InputFile
-from minushalf.commands import occupation
+from minushalf.io.input_file import InputFile
+from minushalf.commands.fractional_occupation import occupation
 
 
 def test_occupation_with_default_params_O():

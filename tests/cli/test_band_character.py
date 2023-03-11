@@ -2,7 +2,7 @@
 Test band character command
 """
 from click.testing import CliRunner
-from minushalf.commands import band_character
+from minushalf.commands.band_character import band_character
 
 
 def test_band_character_gan_3d(file_path):

@@ -4,7 +4,7 @@ Atomic Correct potential file
 import sys
 import click
 from loguru import logger
-from minushalf.softwares.vasp import Vasp
+from minushalf.softwares.vasp_factory import Vasp
 from minushalf.data.softwares import Softwares
 from minushalf.io.vtotal import (Vtotal)
 from minushalf.utils.cli_messages import welcome_message,end_message
