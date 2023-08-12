@@ -14,7 +14,7 @@ def test_atomic_run_workflow():
     """
     Test the workflow of the command run-atomic
     """
-    with mock.patch("minushalf.atomic_program"):
+    with mock.patch("minushalf.atomic_program.run"):
         runner = CliRunner()
         runner.invoke(run_atomic, [])
         atomic_program.run.assert_called_once()
