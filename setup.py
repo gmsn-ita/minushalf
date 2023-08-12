@@ -12,7 +12,7 @@ with open(path.join(this_directory, 'README.rst'), encoding='utf-8') as f:
 atomic_program = Extension(name="minushalf.atomic_program",
                            sources=[
                                "minushalf/atomic_program/atm_cGuima3.f",
-                               "minushalf/atomic_program/atm_cGuima3.pyf",
+                               "minushalf/atomic_program/atm_cGuima3.pyf"
                            ],
                            extra_compile_args=['-static'])
 
@@ -28,15 +28,15 @@ setup(
     long_description=long_description,
     license="GPL",
     install_requires=[
-        "pandas==1.4.0",
+        "pandas==1.1.5",
         "fortranformat==0.2.5",
         "Click==7.1.2",
         "pyfiglet==0.8.post1",
         "loguru==0.5.3",
-        "tabulate==0.9.0",
-        "numpy==1.22.0",
+        "tabulate==0.8.10",
+        "numpy==1.19.5",
         "pyyaml",
-        "scipy==1.7.3",
+        "scipy==1.5.4",
         "aenum==3.0.0",
     ],
     entry_points="""
