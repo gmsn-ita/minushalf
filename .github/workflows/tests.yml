@@ -1,10 +1,16 @@
 name: Python package
 
-on: [push]
+on:
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.head_ref }}
+  cancel-in-progress: true
 
 jobs:
   test-ubuntu:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     strategy:
       matrix:
         python: ["3.6"]
@@ -16,8 +22,8 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
       - name: Install Tox and any other packages
-        run: pip install tox==3.24.5 && pip install .
+        run: pip install tox==3.20.0
 
       - name: Run Tox
         # Run tox using the version of Python in `PATH`
-        run: pip install . && tox py
+        run: tox py
