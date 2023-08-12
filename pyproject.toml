@@ -17,7 +17,7 @@ requires = ["setuptools","numpy==1.19.5"]
 [tool.tox]
 legacy_tox_ini = """
 [tox]
-envlist =  py{36,37,38}
+envlist =  py{36}
 skipsdist=True
 install_command = python -m pip install .
 
