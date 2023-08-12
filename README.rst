@@ -1,5 +1,5 @@
 ##############
-minushalf
+Minushalf
 ##############
 .. image:: https://readthedocs.org/projects/minushalf/badge/
    :target: https://minushalf.readthedocs.org
