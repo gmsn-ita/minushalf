@@ -16,7 +16,7 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
       - name: Install Tox and any other packages
-        run: pip install tox==3.24.5 && pip install .
+        run: pip install tox==3.20.0
 
       - name: Run Tox
         # Run tox using the version of Python in `PATH`
