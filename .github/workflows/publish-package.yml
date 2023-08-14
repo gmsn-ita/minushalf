@@ -8,9 +8,6 @@ env:
   NPY_DISABLE_CPU_FEATURES: AVX512F AVX512_SKX
 
 on:
-  push:
-    branches:
-      - main
   release:
     types:
       - published
@@ -51,7 +48,7 @@ jobs:
 
   build_sdist:
     name: Build source distribution
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
 
