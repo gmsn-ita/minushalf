@@ -5,17 +5,30 @@ description = "Preprocessing tools for help in dft minus one half calculations"
 authors = ["Henrique <hentt30@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.6"
+python = "3.6.15"
+pandas = "1.1.5"
+fortranformat = "0.2.5"
+Click = "7.1.2"
+pyfiglet = "0.8.post1" 
+loguru = "0.5.3"
+tabulate = "0.8.10"
+pyyaml = "6.0.1"
+scipy = "1.5.4"
+aenum = "3.0.0"
+numpy = "1.19.5"
 
 
 [tool.poetry.dev-dependencies]
-yapf = "^0.31.0"
+pytest = "6.2.1"
+pytest-mock = "3.0.0"
+
 [build-system]
 build-backend = "setuptools.build_meta"
 requires = ["setuptools","numpy==1.19.5"]
 
 [tool.tox]
 legacy_tox_ini = """
+
 [tox]
 envlist =  py{36}
 skipsdist=True

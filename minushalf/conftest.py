@@ -6,7 +6,7 @@ import sys
 import pytest
 
 path_to_file = os.path.realpath(__file__)
-path_to_package = os.path.join(path_to_file, "../minushalf")
+path_to_package = os.path.dirname(path_to_file)
 sys.path.append(path_to_package)
 
 
