@@ -5,7 +5,10 @@ of vasp correction and optimizes the necessary parameters.
 import os
 import shutil
 from subprocess import Popen, PIPE
-from scipy.optimize import minimize
+import pickle
+from pymoo.optimize import minimize
+from pymoo.util.termination.default import SingleObjectiveDefaultTermination
+from pymoo.algorithms.soo.nonconvex.nelder_mead import NelderMead
 from loguru import logger
 import pandas as pd
 from minushalf.utils.orbital import (OrbitalType)
@@ -447,12 +450,22 @@ class DFTCorrection(Correction):
         }
         cut_initial_guess = self.cut_initial_guess[(symbol.capitalize(),
                                                     orbital.lower())]
+        algorithm = NelderMead(X=cut_initial_guess)
+        
+        if os.path.exists("checkpoint"):
+            with open("checkpoint", 'rb') as f:
+                algorithm = pickle.load(f)
+                algorithm.termination = SingleObjectiveDefaultTermination(x_tol=self.tolerance,n_last=self.max_iterations + algorithm.default_termination.n_max_iter )
 
         result = minimize(find_negative_band_gap,
-                          x0=cut_initial_guess,
+                          algorithm= algorithm,
                           args=(function_args),
-                          method="Nelder-Mead",
-                          options={'xatol': self.tolerance})
+                          termination= SingleObjectiveDefaultTermination(x_tol=self.tolerance,n_last=self.max_iterations),
+                          copy_algorithm=False,
+                          seed = 42,
+                          )
+        with open("checkpoint", "wb") as f:
+            pickle.dump(algorithm, f)
 
         if not result.success:
             logger.error("Optimization failed")

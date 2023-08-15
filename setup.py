@@ -36,7 +36,7 @@ setup(
         "tabulate==0.8.10",
         "numpy==1.19.5",
         "pyyaml",
-        "scipy==1.5.4",
+        "pymoo==0.5.0",
         "aenum==3.0.0",
     ],
     entry_points="""

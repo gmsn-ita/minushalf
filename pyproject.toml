@@ -13,7 +13,7 @@ pyfiglet = "0.8.post1"
 loguru = "0.5.3"
 tabulate = "0.8.10"
 pyyaml = "6.0.1"
-scipy = "1.5.4"
+pymoo = "0.5.0"
 aenum = "3.0.0"
 numpy = "1.19.5"
 
@@ -45,7 +45,7 @@ deps=
     loguru==0.5.3
     tabulate==0.8.10
     pyyaml
-    scipy==1.5.4
+    pymoo==0.5.0
     aenum==3.0.0
     numpy==1.19.5
 usedevelop=True
