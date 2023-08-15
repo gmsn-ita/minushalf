@@ -3,8 +3,8 @@ Software abstract Factory
 """
 from abc import ABC, abstractmethod
 from typing import List
-from minushalf.interfaces.potential_file import PotentialFile
-from minushalf.interfaces.band_projection_file import BandProjectionFile
+from minushalf.softwares.potential_file import PotentialFile
+from minushalf.softwares.band_projection_file import BandProjectionFile
 
 
 class SoftwaresAbstractFactory(ABC):

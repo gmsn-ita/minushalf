@@ -4,7 +4,7 @@ fractional occupations
 """
 import copy
 import numpy as np
-from minushalf.interfaces.potential_file import PotentialFile
+from minushalf.softwares.potential_file import PotentialFile
 from minushalf.io.vtotal import Vtotal
 from minushalf.utils.trimming_function import trimming_function
 from minushalf.utils.correct_potential_fourier_transform import correct_potential_fourier_transform

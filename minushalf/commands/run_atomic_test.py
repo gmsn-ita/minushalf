@@ -6,7 +6,7 @@ from unittest import mock
 from click.testing import CliRunner
 from minushalf import atomic_program
 from minushalf.commands.run_atomic_program import run_atomic
-from minushalf.data.electronic_distribution import ElectronicDistribution
+from minushalf.utils.electronic_distribution import ElectronicDistribution
 from minushalf.io.input_file import InputFile
 
 

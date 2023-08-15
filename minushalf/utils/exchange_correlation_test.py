@@ -2,7 +2,7 @@
 Test exchange correlation module
 in data folder
 """
-from minushalf.data.exchange_correlation import ExchangeCorrelation
+from minushalf.utils.exchange_correlation import ExchangeCorrelation
 
 
 def test_exchange_correlation():

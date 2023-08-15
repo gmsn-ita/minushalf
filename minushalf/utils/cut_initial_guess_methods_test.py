@@ -1,7 +1,7 @@
 """
 Test the methods available to give cut initial gesses
 """
-from minushalf.data.cut_initial_guess_methods import CutInitialGuessMethods
+from minushalf.utils.cut_initial_guess_methods import CutInitialGuessMethods
 
 
 def test_cut_initial_guess():

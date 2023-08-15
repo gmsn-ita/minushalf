@@ -3,7 +3,7 @@ Implementation for vasp runner
 """
 import subprocess
 from typing import List
-from minushalf.interfaces.runner import Runner
+from minushalf.softwares.runner import Runner
 
 
 class VaspRunner(Runner):

@@ -5,7 +5,7 @@ import os
 from click.testing import CliRunner
 from minushalf import atomic_program
 from minushalf.commands.create_input import create_input
-from minushalf.data.electronic_distribution import ElectronicDistribution
+from minushalf.utils.electronic_distribution import ElectronicDistribution
 from minushalf.io.input_file import InputFile
 
 

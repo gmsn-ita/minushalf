@@ -2,10 +2,10 @@
 Class for correction input parameters in minushalf.yaml
 """
 from shutil import Error
-from minushalf.interfaces.minushalf_yaml_tags import MinushalfYamlTags
+from minushalf.io.minushalf_yaml_tags_interface import MinushalfYamlTags
 import loguru
-from minushalf.data.correction_code import CorrectionCode
-from minushalf.interfaces.minushalf_yaml_tags import MinushalfYamlTags
+from minushalf.io.correction_code import CorrectionCode
+from minushalf.io.minushalf_yaml_tags_interface import MinushalfYamlTags
 
 
 class Correction(MinushalfYamlTags):

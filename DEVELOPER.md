@@ -85,7 +85,7 @@ Poetry is a powerful dependency management and packaging tool for Python. Follow
 5. **Activate Virtual Environments**: While Poetry creates a virtual environment automatically, you can manually activate it for your current session:
 
    ```bash
-   poetry shell
+   make virtual_env
    ```
 
    This ensures you're working within the isolated environment created by Poetry.

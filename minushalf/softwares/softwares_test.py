@@ -2,7 +2,7 @@
 Test software module
 in data folder
 """
-from minushalf.data.softwares import Softwares
+from minushalf.softwares.softwares import Softwares
 
 
 def test_softwares():

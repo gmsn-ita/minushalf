@@ -4,7 +4,7 @@ the input file for the execute command
 """
 import pytest
 from minushalf.io.minushalf_yaml import MinushalfYaml
-from minushalf.data.softwares import (Softwares)
+from minushalf.softwares.softwares import (Softwares)
 
 
 def test_default_parameters():

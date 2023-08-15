@@ -1,7 +1,7 @@
 """
 Test Obital and OrbitalType classes
 """
-from minushalf.data.orbital import Orbital, OrbitalType
+from minushalf.utils.orbital import Orbital, OrbitalType
 
 
 def test_orbital():

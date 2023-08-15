@@ -4,8 +4,8 @@ Band structure informations
 from math import inf
 from collections import defaultdict
 import numpy as np
-from minushalf.interfaces.band_projection_file import BandProjectionFile
-from minushalf.interfaces.software_abstract_factory import SoftwaresAbstractFactory
+from minushalf.softwares.band_projection_file import BandProjectionFile
+from minushalf.softwares.software_abstract_factory import SoftwaresAbstractFactory
 
 
 

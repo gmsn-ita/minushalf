@@ -3,8 +3,8 @@ Test input file class
 """
 import pytest
 import numpy as np
-from minushalf.data.electronic_distribution import ElectronicDistribution
-from minushalf.data.periodic_table import PeriodicTable
+from minushalf.utils.electronic_distribution import ElectronicDistribution
+from minushalf.utils.periodic_table import PeriodicTable
 from minushalf.io.input_file import InputFile
 
 
