@@ -3,8 +3,7 @@ Aims to show how the band in a specific k-point is
 composed by the orbitals of each atom.
 """
 import click
-from minushalf.softwares.softwares import Softwares
-from minushalf.softwares.vasp_factory import Vasp
+from minushalf.softwares.softwares import Softwares, get_software_factory
 from minushalf.utils.cli_messages import welcome_message,end_message
 from minushalf.utils.projection_to_df import projection_to_df
 from minushalf.utils.band_structure import  BandStructure
@@ -38,9 +37,7 @@ def band_character(kpoint: int, band: int, software: str,
 
     welcome_message("minushalf")
 
-    softwares = {"VASP": Vasp()}
-
-    factory = softwares[software.upper()]
+    factory = get_software_factory(software.upper())
 
     eigenvalues = factory.get_eigenvalues(base_path=base_path)
     fermi_energy = factory.get_fermi_energy(base_path=base_path)

@@ -4,8 +4,7 @@ Atomic Correct potential file
 import sys
 import click
 from loguru import logger
-from minushalf.softwares.vasp_factory import Vasp
-from minushalf.softwares.softwares import Softwares
+from minushalf.softwares.softwares import Softwares, get_software_factory
 from minushalf.io.vtotal import (Vtotal)
 from minushalf.utils.cli_messages import welcome_message,end_message
 from minushalf.utils.parse_cut import parse_cut
@@ -116,8 +115,7 @@ def correct_potfile(
         logger.remove()
         logger.add(sys.stdout, level="ERROR")
 
-    softwares = {"VASP": Vasp()}
-    factory = softwares[software.upper()]
+    factory = get_software_factory(software.upper())
 
     vtotal = Vtotal.from_file(vtotal_path)
     vtotal_occ = Vtotal.from_file(vtotal_occupied_path)

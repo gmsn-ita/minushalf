@@ -3,8 +3,7 @@ Command to read band gap
 """
 
 import click
-from minushalf.softwares.vasp_factory import Vasp
-from minushalf.softwares.softwares import Softwares
+from minushalf.softwares.softwares import Softwares, get_software_factory
 from minushalf.utils.cli_messages import welcome_message,end_message
 from minushalf.utils.band_structure import  BandStructure
 
@@ -33,9 +32,7 @@ def band_gap(software: str, base_path: str) -> None:
 
     welcome_message("minushalf")
 
-    softwares = {"VASP": Vasp()}
-
-    factory = softwares[software.upper()]
+    factory = get_software_factory(software.upper())
 
     eigenvalues = factory.get_eigenvalues(base_path=base_path)
     fermi_energy = factory.get_fermi_energy(base_path=base_path)
