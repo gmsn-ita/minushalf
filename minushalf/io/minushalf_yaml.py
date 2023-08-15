@@ -8,8 +8,8 @@ from minushalf.softwares.softwares import Softwares
 from minushalf.io.software_configurations import SoftwareConfigurations
 from minushalf.io.atomic_program import AtomicProgram
 from minushalf.io.correction import Correction
-from minushalf.interfaces.minushalf_yaml import MinushalfYaml
-from minushalf.interfaces.minushalf_yaml_tags import MinushalfYamlTags
+from minushalf.io.minushalf_yaml_interface import MinushalfYaml
+from minushalf.io.minushalf_yaml_tags_interface import MinushalfYamlTags
 
 
 class MinushalfYaml(MinushalfYaml):

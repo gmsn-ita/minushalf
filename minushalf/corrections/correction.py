@@ -14,8 +14,8 @@ from minushalf.io.input_file import InputFile
 from minushalf.utils.atomic_potential import AtomicPotential
 from minushalf.utils.band_structure import BandStructure
 from minushalf.utils.negative_band_gap import find_negative_band_gap
-from minushalf.interfaces.correction import Correction
-from minushalf.interfaces.runner import Runner
+from minushalf.io.correction_interface import Correction
+from minushalf.softwares.runner import Runner
 from minushalf.softwares.software_abstract_factory import SoftwaresAbstractFactory
 
 

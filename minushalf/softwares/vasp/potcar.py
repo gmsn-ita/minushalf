@@ -5,7 +5,7 @@ import re
 from itertools import chain
 import fortranformat as ff
 import numpy as np
-from minushalf.interfaces.potential_file import PotentialFile
+from minushalf.softwares.potential_file import PotentialFile
 
 
 class Potcar(PotentialFile):
