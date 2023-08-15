@@ -3,7 +3,7 @@ List softwares supported
 by the CLI
 """
 from enum import Enum, unique
-from minushalf.softwares.vasp_factory import Vasp
+from minushalf.softwares.vasp.vasp_factory import Vasp
 
 
 @unique
