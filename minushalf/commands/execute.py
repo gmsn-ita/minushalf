@@ -14,10 +14,10 @@ from minushalf.io.make_minushalf_results import make_minushalf_results
 from minushalf.utils.cli_messages import welcome_message,end_message
 from minushalf.utils.get_correction_params import get_valence_correction_params, get_conduction_correction_params
 
-from minushalf.softwares.vasp_factory import (Vasp)
+from minushalf.softwares.softwares import Softwares, get_software_factory
 from minushalf.corrections.correction import (DFTCorrection)
 from minushalf.io.minushalf_yaml_default_configuration import CorrectionDefaultParams
-from minushalf.softwares.softwares import (Softwares)
+
 
 from minushalf.softwares.software_abstract_factory import (SoftwaresAbstractFactory)
 
@@ -78,11 +78,10 @@ def execute(quiet: bool):
     logger.info("Reading minushalf.yaml file")
     minushalf_yaml = MinushalfYaml.from_file()
     correction_factory_chooser = {Softwares.vasp.value: DFTCorrection}
-    software_factory_chooser = {Softwares.vasp.value: Vasp()}
-
+ 
     software_name = minushalf_yaml.get_software_name()
     correction = correction_factory_chooser[software_name]
-    software_factory = software_factory_chooser[software_name]
+    software_factory = get_software_factory(software_name.upper())
 
     ## Makes abinition calculation
     logger.info("Running ab initio calculations")

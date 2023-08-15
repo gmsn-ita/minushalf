@@ -3,6 +3,7 @@ List softwares supported
 by the CLI
 """
 from enum import Enum, unique
+from minushalf.softwares.vasp.vasp_factory import Vasp
 
 
 @unique
@@ -29,3 +30,10 @@ class Softwares(Enum):
         Generate list of available softwares
         """
         return list(map(lambda element: element.value, Softwares))
+
+
+def get_software_factory(software: str):
+    software_to_factory = {
+        Softwares.vasp.value: Vasp()
+    }
+    return software_to_factory[software]
