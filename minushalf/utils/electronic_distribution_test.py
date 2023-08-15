@@ -2,7 +2,7 @@
 Test eletronic distribution database
 """
 from collections import Counter
-from minushalf.data.electronic_distribution import ElectronicDistribution
+from minushalf.utils.electronic_distribution import ElectronicDistribution
 
 
 def test_electronic_distribution_h(file_path):

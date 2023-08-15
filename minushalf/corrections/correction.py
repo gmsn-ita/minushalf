@@ -8,7 +8,7 @@ from subprocess import Popen, PIPE
 from scipy.optimize import minimize
 from loguru import logger
 import pandas as pd
-from minushalf.data.orbital import (OrbitalType)
+from minushalf.utils.orbital import (OrbitalType)
 from minushalf.io.vtotal import Vtotal
 from minushalf.io.input_file import InputFile
 from minushalf.utils.atomic_potential import AtomicPotential
@@ -16,7 +16,7 @@ from minushalf.utils.band_structure import BandStructure
 from minushalf.utils.negative_band_gap import find_negative_band_gap
 from minushalf.interfaces.correction import Correction
 from minushalf.interfaces.runner import Runner
-from minushalf.interfaces.software_abstract_factory import SoftwaresAbstractFactory
+from minushalf.softwares.software_abstract_factory import SoftwaresAbstractFactory
 
 
 

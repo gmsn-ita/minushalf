@@ -4,7 +4,7 @@ Parser for minushalf.yaml
 import yaml
 import collections
 import loguru
-from minushalf.data.softwares import Softwares
+from minushalf.softwares.softwares import Softwares
 from minushalf.io.software_configurations import SoftwareConfigurations
 from minushalf.io.atomic_program import AtomicProgram
 from minushalf.io.correction import Correction

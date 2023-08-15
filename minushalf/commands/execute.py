@@ -16,10 +16,10 @@ from minushalf.utils.get_correction_params import get_valence_correction_params,
 
 from minushalf.softwares.vasp_factory import (Vasp)
 from minushalf.corrections.correction import (DFTCorrection)
-from minushalf.data.minushalf_yaml_default_configuration import CorrectionDefaultParams
-from minushalf.data.softwares import (Softwares)
+from minushalf.io.minushalf_yaml_default_configuration import CorrectionDefaultParams
+from minushalf.softwares.softwares import (Softwares)
 
-from minushalf.interfaces.software_abstract_factory import (SoftwaresAbstractFactory)
+from minushalf.softwares.software_abstract_factory import (SoftwaresAbstractFactory)
 
 
 def get_atoms_list(factory: SoftwaresAbstractFactory) -> list:

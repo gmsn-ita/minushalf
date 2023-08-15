@@ -6,7 +6,7 @@
 """
 import os
 from typing import List
-from minushalf.interfaces.software_abstract_factory import SoftwaresAbstractFactory
+from minushalf.softwares.software_abstract_factory import SoftwaresAbstractFactory
 from minushalf.utils.check_file_exists import (check_procar_exists,check_vasprun_exists,check_eigenval_exists,check_potcar_exists,check_outcar_exists)
 
 from minushalf.softwares.vasp.procar import Procar

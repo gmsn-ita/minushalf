@@ -5,10 +5,10 @@ read by atomic program.
 import numpy as np
 import fortranformat as ff
 import loguru
-from minushalf.data.electronic_distribution import ElectronicDistribution
-from minushalf.data.periodic_table import PeriodicTable
-from minushalf.data.exchange_correlation import ExchangeCorrelation
-from minushalf.data.calculation_code import CalculationCode
+from minushalf.utils.electronic_distribution import ElectronicDistribution
+from minushalf.utils.periodic_table import PeriodicTable
+from minushalf.utils.exchange_correlation import ExchangeCorrelation
+from minushalf.utils.calculation_code import CalculationCode
 from minushalf.utils.drop_comments import drop_comments
 from minushalf.utils.parse_valence_orbital_line import parse_valence_orbitals
 

@@ -2,7 +2,7 @@
 Fourier Transform
 """
 import numpy as np
-from minushalf.data.constants import Constants
+from minushalf.utils.constants import Constants
 
 
 def correct_potential_fourier_transform(

@@ -7,7 +7,7 @@ import os
 import shutil
 import math
 from loguru import logger
-from minushalf.interfaces.software_abstract_factory import SoftwaresAbstractFactory
+from minushalf.softwares.software_abstract_factory import SoftwaresAbstractFactory
 from minushalf.utils.atomic_potential import AtomicPotential
 from minushalf.utils.band_structure import BandStructure
 

@@ -3,7 +3,7 @@ Aims to show how the band in a specific k-point is
 composed by the orbitals of each atom.
 """
 import click
-from minushalf.data.softwares import Softwares
+from minushalf.softwares.softwares import Softwares
 from minushalf.softwares.vasp_factory import Vasp
 from minushalf.utils.cli_messages import welcome_message,end_message
 from minushalf.utils.projection_to_df import projection_to_df

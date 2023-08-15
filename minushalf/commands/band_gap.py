@@ -4,7 +4,7 @@ Command to read band gap
 
 import click
 from minushalf.softwares.vasp_factory import Vasp
-from minushalf.data.softwares import Softwares
+from minushalf.softwares.softwares import Softwares
 from minushalf.utils.cli_messages import welcome_message,end_message
 from minushalf.utils.band_structure import  BandStructure
 
