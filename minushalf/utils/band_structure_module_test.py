@@ -7,7 +7,7 @@ import numpy as np
 from minushalf.utils.band_structure import BandStructure
 from minushalf.softwares.vasp.procar import Procar
 from minushalf.softwares.vasp.eigenval import Eigenvalues
-from minushalf.softwares.vasp_factory import Vasp
+from minushalf.softwares.vasp.vasp_factory import Vasp
 from minushalf.softwares.vasp.vasprun import Vasprun
 
 
