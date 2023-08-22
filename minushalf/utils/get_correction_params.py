@@ -220,10 +220,10 @@ def get_valence_correction_params(
     params["corrected_potfiles_folder"] = "corrected_valence_potfiles"
     params["correction_type"] = "valence"
     params["is_conduction"] = False
-    params["inplace"] = minushalf_yaml.get_inplace()
+    params["indirect"] = minushalf_yaml.get_indirect()
     params["input_files"] = [
         "INCAR", "POSCAR", "KPOINTS", "CHGCAR"
-    ] if params["inplace"] else ["INCAR", "POSCAR", "KPOINTS"]
+    ] if params["indirect"] else ["INCAR", "POSCAR", "KPOINTS"]
 
     params["correction_indexes"] = _get_valence_correction_indexes(
         correction_code, params["band_projection"])
@@ -263,10 +263,10 @@ def get_conduction_correction_params(
     params["corrected_potfiles_folder"] = "corrected_conduction_potfiles"
     params["correction_type"] = "conduction"
     params["is_conduction"] = True
-    params["inplace"] = minushalf_yaml.get_inplace()
+    params["indirect"] = minushalf_yaml.get_indirect()
     params["input_files"] = [
         "INCAR", "POSCAR", "KPOINTS", "CHGCAR"
-    ] if params["inplace"] else ["INCAR", "POSCAR", "KPOINTS"]
+    ] if params["indirect"] else ["INCAR", "POSCAR", "KPOINTS"]
     params["correction_indexes"] = _get_conduction_correction_indexes(
         correction_code, params["band_projection"])
     params["cut_initial_guess"] = _get_cut_initial_guess(

@@ -30,7 +30,7 @@ def test_default_parameters():
         "tolerance": 0.01,
         "fractional_valence_treshold": 10,
         "fractional_conduction_treshold": 9,
-        "inplace": False,
+        "indirect": False,
         "correction_code": "v",
         "overwrite_vbm": [],
         "overwrite_cbm": [],
@@ -70,7 +70,7 @@ def test_minushalf_without_filling_correction(file_path):
         "tolerance": 0.01,
         "fractional_valence_treshold": 10,
         "fractional_conduction_treshold": 9,
-        "inplace": False,
+        "indirect": False,
         "correction_code": "v",
         "overwrite_vbm": [],
         "overwrite_cbm": [],
@@ -110,7 +110,7 @@ def test_minushalf_filled_out(file_path):
         "tolerance": 0.001,
         "fractional_valence_treshold": 15,
         "fractional_conduction_treshold": 23,
-        "inplace": True,
+        "indirect": True,
         "correction_code": "vf",
         "overwrite_vbm": [1, 3],
         "overwrite_cbm": [1, 4],
@@ -122,8 +122,8 @@ def test_minushalf_filled_out(file_path):
     assert file.get_command() == ["mpirun", "-np", "6", "../vasp"]
     assert file.get_software_name() == Softwares.vasp.value
     assert file.get_correction_code() == "vf"
-    assert file.get_overwrite_cbm() == [1,4]
-    assert file.get_overwrite_vbm() == [1,3]
+    assert file.get_overwrite_cbm() == [1, 4]
+    assert file.get_overwrite_vbm() == [1, 3]
     assert file.get_vbm_characters() == None
     assert file.get_cbm_characters() == None
     assert params == expected_params
@@ -152,7 +152,7 @@ def test_minushalf_characters(file_path):
         "tolerance": 0.001,
         "fractional_valence_treshold": 15,
         "fractional_conduction_treshold": 23,
-        "inplace": True,
+        "indirect": True,
         "correction_code": "vf",
         "overwrite_vbm": [1, 3],
         "overwrite_cbm": [1, 4],
@@ -176,7 +176,7 @@ def test_minushalf_characters(file_path):
     assert file.get_valence_cut_initial_guess() == [["C", "p", 3.45]]
     assert file.get_conduction_cut_initial_guess() == [["C", "p", 1.0]]
     assert file.get_tolerance() == 0.001
-    assert file.get_inplace() == True
+    assert file.get_indirect() == True
     assert file.get_divide_character() == None
     assert params == expected_params
 

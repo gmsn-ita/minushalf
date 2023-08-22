@@ -17,6 +17,7 @@ class MinushalfYaml(MinushalfYaml):
     Class that parses the input
     for the execute command
     """
+
     def __init__(
         self,
         software_configurations: MinushalfYamlTags,
@@ -138,11 +139,11 @@ class MinushalfYaml(MinushalfYaml):
         """
         return self.correction.tolerance
 
-    def get_inplace(self) -> bool:
+    def get_indirect(self) -> bool:
         """
-        Returns the inplace
+        Returns the indirect
         """
-        return self.correction.inplace
+        return self.correction.indirect
 
     def get_divide_character(self) -> list:
         """
@@ -184,7 +185,7 @@ class MinushalfYaml(MinushalfYaml):
         """
         yaml_file = MinushalfYaml._read_yaml(filename)
 
-        ## Get constructor parameters
+        # Get constructor parameters
         try:
             software_name = MinushalfYaml._get_default_software_name(yaml_file)
 

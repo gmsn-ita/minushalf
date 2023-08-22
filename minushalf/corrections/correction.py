@@ -19,12 +19,12 @@ from minushalf.softwares.runner import Runner
 from minushalf.softwares.software_abstract_factory import SoftwaresAbstractFactory
 
 
-
 class DFTCorrection(Correction):
     """
     An algorithm that realizes corrections for
     VASP software
     """
+
     def __init__(
         self,
         root_folder: str,
@@ -39,7 +39,7 @@ class DFTCorrection(Correction):
         cut_initial_guess: dict,
         tolerance: float,
         input_files: list,
-        inplace: bool,
+        indirect: bool,
         corrected_potfiles_folder: str,
         correction_type: str,
         band_projection: pd.DataFrame,
@@ -64,7 +64,7 @@ class DFTCorrection(Correction):
 
                 only_conduction (bool): Conduction correction without previous valence correction
 
-                inplace (bool): Realize calculations inplace, do not create find_cut folders
+                indirect (bool): Realize calculations considering indirect gaps
         """
         self.root_folder = root_folder
 
@@ -106,7 +106,7 @@ class DFTCorrection(Correction):
 
         self.input_files = input_files
 
-        self.inplace = inplace
+        self.indirect = indirect
 
         self.divide_character = divide_character
 
@@ -143,7 +143,7 @@ class DFTCorrection(Correction):
         """
         Execute vasp correction algorithm
         """
-        ## make (valence|conduction) folder in mkpotfiles
+        # make (valence|conduction) folder in mkpotfiles
         self.root_folder = os.path.join(self.root_folder, self.correction_type)
         if os.path.exists(self.root_folder):
             shutil.rmtree(self.root_folder)
@@ -187,7 +187,7 @@ class DFTCorrection(Correction):
                     potential_file.write(file.read())
         finally:
             potential_file.close()
-        ## Run ab initio calculations
+        # Run ab initio calculations
         self.runner.run(calculation_folder)
 
         eigenvalues = self.software_factory.get_eigenvalues(
@@ -272,7 +272,7 @@ class DFTCorrection(Correction):
         self._generate_atom_potential(path, symbol)
 
         percentuals = {}
-        ## Check for bonds with equal atoms
+        # Check for bonds with equal atoms
         number_equal_neighbors = self.divide_character[(symbol.capitalize(),
                                                         orbital.lower())]
 
@@ -383,9 +383,9 @@ class DFTCorrection(Correction):
             "minushalf", "occupation", "{}".format(secondary_quantum_numbers),
             "{}".format(joined_percentual), "--quiet"
         ],
-                        stdout=PIPE,
-                        stderr=PIPE,
-                        cwd=folder_path)
+            stdout=PIPE,
+            stderr=PIPE,
+            cwd=folder_path)
 
         _, stderr = process.communicate()
         if stderr:
@@ -422,7 +422,7 @@ class DFTCorrection(Correction):
                 symbol (str): Atom symbol
                 base_path (str): Path to mkpotcar{symbol}
         """
-        if not self.inplace:
+        if not self.indirect:
             folder = os.path.join(base_path, "find_cut")
             if os.path.exists(folder):
                 shutil.rmtree(folder)
@@ -442,7 +442,7 @@ class DFTCorrection(Correction):
             "atoms": self.atoms,
             "software_files": self.input_files,
             "is_conduction": self.is_conduction,
-            "inplace": self.inplace,
+            "indirect": self.indirect,
             "orbital": orbital
         }
         cut_initial_guess = self.cut_initial_guess[(symbol.capitalize(),

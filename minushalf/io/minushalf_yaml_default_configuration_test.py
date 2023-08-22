@@ -73,7 +73,7 @@ def test_to_dict_correction():
     test to_dict method in correction params
     """
     params_list = CorrectionDefaultParams.to_dict()
-    assert params_list["inplace"] == False
+    assert params_list["indirect"] == False
     assert params_list["correction_code"] == "v"
     assert params_list["potfiles_folder"] == "minushalf_potfiles"
     assert np.isclose(params_list["amplitude"], 1.0)
