@@ -22,6 +22,9 @@ numpy = "1.19.5"
 pytest = "6.2.1"
 pytest-mock = "3.0.0"
 
+[tool.poetry.group.dev.dependencies]
+autopep8 = "^2.0.2"
+
 [build-system]
 build-backend = "setuptools.build_meta"
 requires = ["setuptools","numpy==1.19.5"]

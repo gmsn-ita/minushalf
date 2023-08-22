@@ -245,7 +245,7 @@ def test_band_gap_bn_2d(file_path):
                                    num_bands=procar.num_bands,
                                    band_projection=procar)
 
-    assert np.isclose(band_structure.band_gap()["gap"], 4.756284)
+    assert np.isclose(band_structure.band_gap()["gap"], 4.77771)
 
 
 def test_vbm_index_bn_2d(file_path):
@@ -296,7 +296,7 @@ def test_cbm_index_bn_2d(file_path):
     procar_filename = file_path("/bn-2d/PROCAR")
     eigenval_filename = file_path("/bn-2d/EIGENVAL")
     vasprun_filename = file_path("/bn-2d/vasprun.xml")
-    kpoint_cbm = 1
+    kpoint_cbm = 24
     band_cbm = 5
 
     procar = Procar(procar_filename)
@@ -351,8 +351,8 @@ def test_cbm_projection_bn_2d(file_path):
     eigenval_filename = file_path("/bn-2d/EIGENVAL")
     vasprun_filename = file_path("/bn-2d/vasprun.xml")
     projection = {
-        "B": [0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000],
-        "N": [0.041, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000]
+        "B": [0.0, 0.0, 0.529, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+        "N": [0.0, 0.0, 0.01, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
     }
 
     procar = Procar(procar_filename)
@@ -366,7 +366,7 @@ def test_cbm_projection_bn_2d(file_path):
                                    band_projection=procar)
 
     cbm_projection = band_structure.cbm_projection()
-
+    print(cbm_projection)
     for atom_index, projections in cbm_projection.items():
         for index, element in enumerate(projections):
             assert np.isclose(element, projection[atom_index][index])
@@ -443,7 +443,7 @@ def test_band_gap_sic_2d(file_path):
                                    num_bands=procar.num_bands,
                                    band_projection=procar)
 
-    assert np.isclose(band_structure.band_gap()["gap"], 2.61388)
+    assert np.isclose(band_structure.band_gap()["gap"], 2.639611)
 
 
 def test_vbm_index_sic_2d(file_path):
@@ -478,7 +478,7 @@ def test_cbm_index_sic_2d(file_path):
     procar_filename = file_path("/sic-2d/PROCAR")
     eigenval_filename = file_path("/sic-2d/EIGENVAL")
     vasprun_filename = file_path("/sic-2d/vasprun.xml")
-    kpoint_cbm = 15
+    kpoint_cbm = 27
     band_cbm = 5
 
     procar = Procar(procar_filename)
@@ -533,8 +533,8 @@ def test_cbm_projection_sic_2d(file_path):
     eigenval_filename = file_path("/sic-2d/EIGENVAL")
     vasprun_filename = file_path("/sic-2d/vasprun.xml")
     projection = {
-        "Si": [0.000, 0.000, 0.254, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000],
-        "C": [0.000, 0.000, 0.040, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000]
+        "Si": [0.0, 0.0, 0.369, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+        "C": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
     }
 
     procar = Procar(procar_filename)
@@ -548,7 +548,7 @@ def test_cbm_projection_sic_2d(file_path):
                                    band_projection=procar)
 
     cbm_projection = band_structure.cbm_projection()
-
+   
     for atom_index, projections in cbm_projection.items():
         for index, element in enumerate(projections):
             assert np.isclose(element, projection[atom_index][index])
@@ -807,7 +807,7 @@ def test_band_gap_aln_2d(file_path):
                                    num_bands=procar.num_bands,
                                    band_projection=procar)
 
-    assert np.isclose(band_structure.band_gap()["gap"], 2.924163)
+    assert np.isclose(band_structure.band_gap()["gap"],3.61138)
 
 
 def test_vbm_index_aln_2d(file_path):
@@ -817,7 +817,7 @@ def test_vbm_index_aln_2d(file_path):
     procar_filename = file_path("/aln-2d/PROCAR")
     eigenval_filename = file_path("/aln-2d/EIGENVAL")
     vasprun_filename = file_path("/aln-2d/vasprun.xml")
-    kpoint_vbm = 16
+    kpoint_vbm = 1
     band_vbm = 4
 
     procar = Procar(procar_filename)
@@ -868,8 +868,8 @@ def test_vbm_projection_aln_2d(file_path):
     eigenval_filename = file_path("/aln-2d/EIGENVAL")
     vasprun_filename = file_path("/aln-2d/vasprun.xml")
     projection = {
-        "Al": [0.000, 0.000, 0.002, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000],
-        "N": [0.000, 0.000, 0.510, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000]
+        "Al": [0.0, 0.046, 0.0, 0.015, 0.0, 0.0, 0.0, 0.0, 0.0],
+        "N": [0.0, 0.449, 0.0, 0.142, 0.0, 0.0, 0.0, 0.0, 0.0]
     }
 
     procar = Procar(procar_filename)
@@ -883,7 +883,6 @@ def test_vbm_projection_aln_2d(file_path):
                                    band_projection=procar)
 
     vbm_projection = band_structure.vbm_projection()
-
     for atom_index, projections in vbm_projection.items():
         for index, element in enumerate(projections):
             assert np.isclose(element, projection[atom_index][index])

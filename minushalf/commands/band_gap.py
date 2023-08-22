@@ -21,7 +21,13 @@ from minushalf.utils.band_structure import  BandStructure
               type=click.Path(),
               nargs=1,
               help="""Path to folder where the relevant files are located.""")
-def band_gap(software: str, base_path: str) -> None:
+@click.option('-i',
+              '--indirect',
+              type=bool,
+              nargs=1,
+              is_flag = True,
+              help="""Calculate indirect band gap.""")
+def band_gap(software: str, base_path: str, indirect:bool) -> None:
     """Uses output files from softwares that perform ab initio calculations to
       provide the locations of VBM, CBM and the Gap value in electronvolts.The
       names of the files required for each software are listed below, it is
@@ -44,7 +50,7 @@ def band_gap(software: str, base_path: str) -> None:
     band_structure = BandStructure(eigenvalues, fermi_energy, atoms_map,
                                    num_bands, band_projection_file)
 
-    gap_report = band_structure.band_gap()
+    gap_report = band_structure.band_gap(is_indirect=indirect)
     click.echo(gap_report["vbm"])
     click.echo(gap_report["cbm"])
     click.echo("Gap: {:.3f}eV".format(gap_report["gap"]))

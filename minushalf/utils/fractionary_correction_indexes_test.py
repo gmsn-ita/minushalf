@@ -10,7 +10,6 @@ from minushalf.utils.band_structure import BandStructure
 from minushalf.utils.fractionary_correction_indexes import get_fractionary_correction_indexes
 
 
-
 def test_aln_2d_vbm(file_path):
     """
     Test with AlN-2d
@@ -263,29 +262,6 @@ def test_bn_2d_vbm_without_treshold(file_path):
     assert correction_indexes["B"][0] == "p"
 
 
-def test_bn_2d_cbm(file_path):
-    """
-    Test with BN-2d
-    """
-    procar_filename = file_path("/bn-2d/PROCAR")
-    eigenval_filename = file_path("/bn-2d/EIGENVAL")
-    vasprun_filename = file_path("/bn-2d/vasprun.xml")
-
-    procar = Procar(procar_filename)
-    vasprun = Vasprun(vasprun_filename)
-    eigenval = Eigenvalues(eigenval_filename)
-
-    band_structure = BandStructure(eigenvalues=eigenval.eigenvalues,
-                                   fermi_energy=vasprun.fermi_energy,
-                                   atoms_map=vasprun.atoms_map,
-                                   num_bands=procar.num_bands,
-                                   band_projection=procar)
-
-    cbm_projection = band_structure.cbm_projection()
-    cbm_df = projection_to_df(cbm_projection)
-    correction_indexes = get_fractionary_correction_indexes(cbm_df)
-    assert correction_indexes["N"][0] == "s"
-
 def test_aln_2d_vbm(file_path):
     """
     Test with AlN-2d
@@ -427,4 +403,4 @@ def test_bn_2d_cbm(file_path):
     cbm_projection = band_structure.cbm_projection()
     cbm_df = projection_to_df(cbm_projection)
     correction_indexes = get_fractionary_correction_indexes(cbm_df)
-    assert correction_indexes["N"][0] == "s"
+    assert correction_indexes["B"][0] == "p"
