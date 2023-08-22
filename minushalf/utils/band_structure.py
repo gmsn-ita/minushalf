@@ -8,12 +8,12 @@ from minushalf.softwares.band_projection_file import BandProjectionFile
 from minushalf.softwares.software_abstract_factory import SoftwaresAbstractFactory
 
 
-
 class BandStructure():
     """
     Extact band structure insights from
     VASP classes
     """
+
     def __init__(self, eigenvalues: dict, fermi_energy: float, atoms_map: dict,
                  num_bands: int, band_projection: BandProjectionFile):
         """
@@ -35,7 +35,7 @@ class BandStructure():
         """
         Check if the band structure indicates a metal by looking if the fermi
         level crosses a band.
-            
+
             Returns:
                 True if a metal, False if not
         """
@@ -49,13 +49,16 @@ class BandStructure():
                 return True
         return False
 
-    def vbm_index(self) -> tuple:
+    def vbm_index(self, is_indirect: bool = False) -> tuple:
         """
-        Find the kpoint and the band for vbm
+        Find the kpoint and the band for the Valence Band Maximum (VBM).
 
-            Returns:
-                vbm_index (tuple): Contains the kpoint
-                number and the band number of th vbm
+        Args:
+            is_indirect (bool): If True, considers an indirect band gap for VBM.
+                           If False, considers a direct band gap for VBM.
+
+        Returns:
+            vbm_index (tuple): A tuple containing the kpoint number and the band number of the VBM.
         """
         if self.is_metal():
             raise Exception("Conduction band is not defined for metals")
@@ -63,16 +66,28 @@ class BandStructure():
         kpoint_vbm = None
         band_vbm = None
         max_energy_reached = -inf
-        for kpoint, values in self.eigenvalues.items():
-            for band_index, energy in enumerate(values):
-                if max_energy_reached < energy < self.fermi_energy:
-                    max_energy_reached = energy
+        if is_indirect:
+            for kpoint, values in self.eigenvalues.items():
+                for band_index, energy in enumerate(values):
+                    if max_energy_reached < energy < self.fermi_energy:
+                        max_energy_reached = energy
+                        kpoint_vbm = kpoint
+                        band_vbm = band_index + 1
+        else:
+            minimum_bang_gap = inf
+            for kpoint, values in self.eigenvalues.items():
+                valence_band_idx, valence_band_eigenval = max(
+                    (x for x in enumerate(values) if x[1] < self.fermi_energy), key=lambda x: x[1])
+                _, conduction_band_eigenval = min((x for x in enumerate(
+                    values) if x[1] > self.fermi_energy), key=lambda x: x[1])
+                if conduction_band_eigenval - valence_band_eigenval < minimum_bang_gap:
                     kpoint_vbm = kpoint
-                    band_vbm = band_index + 1
+                    band_vbm = valence_band_idx + 1
+                    minimum_bang_gap = conduction_band_eigenval - valence_band_eigenval
 
         return (kpoint_vbm, band_vbm)
 
-    def cbm_index(self) -> tuple:
+    def cbm_index(self, is_indirect: bool = False) -> tuple:
         """
         Find the kpoint and the band for cbm
 
@@ -86,15 +101,28 @@ class BandStructure():
         kpoint_cbm = None
         band_cbm = None
         min_energy_reached = inf
-        for kpoint, values in self.eigenvalues.items():
-            for band_index, energy in enumerate(values):
-                if self.fermi_energy <= energy < min_energy_reached:
-                    min_energy_reached = energy
+        if is_indirect:
+            for kpoint, values in self.eigenvalues.items():
+                for band_index, energy in enumerate(values):
+                    if self.fermi_energy <= energy < min_energy_reached:
+                        min_energy_reached = energy
+                        kpoint_cbm = kpoint
+                        band_cbm = band_index + 1
+        else:
+            minimum_bang_gap = inf
+            for kpoint, values in self.eigenvalues.items():
+                _, valence_band_eigenval = max((x for x in enumerate(
+                    values) if x[1] < self.fermi_energy), key=lambda x: x[1])
+                conduction_band_idx, conduction_band_eigenval = min(
+                    (x for x in enumerate(values) if x[1] > self.fermi_energy), key=lambda x: x[1])
+                if (conduction_band_eigenval - valence_band_eigenval) < minimum_bang_gap:
                     kpoint_cbm = kpoint
-                    band_cbm = band_index + 1
+                    band_cbm = conduction_band_idx + 1
+                    minimum_bang_gap = conduction_band_eigenval - valence_band_eigenval
+
         return (kpoint_cbm, band_cbm)
 
-    def vbm_projection(self) -> defaultdict(list):
+    def vbm_projection(self, is_indirect: bool = False) -> defaultdict(list):
         """
         Find the projection of each atom for valence
         band maximum.
@@ -103,7 +131,7 @@ class BandStructure():
                 vbm_projection (defaultdict(list)): Contains the projection
                 of each orbital of each atom in the respective band
         """
-        vbm_index = self.vbm_index()
+        vbm_index = self.vbm_index(is_indirect=is_indirect)
         procar_projection = self.band_projection_file.get_band_projection(
             *vbm_index)
 
@@ -117,7 +145,7 @@ class BandStructure():
                 vbm_projection[symbol] = procar_projection[index]
         return vbm_projection
 
-    def cbm_projection(self) -> defaultdict(list):
+    def cbm_projection(self, is_indirect: bool = False) -> defaultdict(list):
         """
         Find the projection of each atom for valence
         band minimum.
@@ -170,16 +198,16 @@ class BandStructure():
 
         return band_projection
 
-    def band_gap(self) -> dict:
+    def band_gap(self, is_indirect: bool = False) -> dict:
         """
         Find VBM and CBM, then returns band gap
         Returns:
             VBM index and its eigenvalue, CBM index and its eigenvalue and band gap
         """
-        vbm = self.vbm_index()
-        vbm_eigenval = self.eigenvalues[vbm[0]][vbm[1] - 1]
 
-        cbm = self.cbm_index()
+        vbm = self.vbm_index(is_indirect=is_indirect)
+        vbm_eigenval = self.eigenvalues[vbm[0]][vbm[1] - 1]
+        cbm = self.cbm_index(is_indirect=is_indirect)
         cbm_eigenval = self.eigenvalues[cbm[0]][cbm[1] - 1]
 
         gap_report = {
@@ -201,14 +229,14 @@ class BandStructure():
         Create band structure class from ab inition results
 
             Args:
-                
+
                 software_module (SoftwaresAbstractFactory): Holds the results of first principles output calculations
                 base_path (str): Path to first principles output files
-            
+
             Returns:
-                
+
                 band_strucure (BandStructure): Class with band structure informations
-        
+
         """
         eigenvalues = software_module.get_eigenvalues(base_path=base_path)
         fermi_energy = software_module.get_fermi_energy(base_path=base_path)

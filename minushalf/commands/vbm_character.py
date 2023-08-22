@@ -3,9 +3,10 @@ Aims to show how the last valence band are composed by the orbitals of each atom
 """
 import click
 from minushalf.softwares.softwares import Softwares, get_software_factory
-from minushalf.utils.cli_messages import welcome_message,end_message
+from minushalf.utils.cli_messages import welcome_message, end_message
 from minushalf.utils.projection_to_df import projection_to_df
 from minushalf.utils.band_structure import BandStructure
+
 
 @click.command()
 @click.option(
@@ -20,7 +21,13 @@ from minushalf.utils.band_structure import BandStructure
               type=click.Path(),
               nargs=1,
               help="""Path to folder where the relevant files are located.""")
-def vbm_character(software: str, base_path: str) -> None:
+@click.option('-i',
+              '--indirect',
+              type=bool,
+              nargs=1,
+              is_flag=True,
+              help="""Calculate indirect band gap.""")
+def vbm_character(software: str, base_path: str, indirect: bool) -> None:
     """Uses output files from softwares that perform ab initio calculations to discover the
        last valence band (VBM) and extract, in percentage, its character corresponding to each
        orbital type (s, p, d, ... ). The names of the files required for each
@@ -42,7 +49,9 @@ def vbm_character(software: str, base_path: str) -> None:
 
     band_structure = BandStructure(eigenvalues, fermi_energy, atoms_map,
                                    num_bands, band_projection_file)
-    vbm_projection = band_structure.vbm_projection()
+    vbm_index = band_structure.vbm_index(is_indirect=indirect)
+    click.echo(f"VBM: Kpoint {vbm_index[0]}, band {vbm_index[1]}")
+    vbm_projection = band_structure.vbm_projection(is_indirect=indirect)
     normalized_df = projection_to_df(vbm_projection)
 
     click.echo(normalized_df.to_markdown())

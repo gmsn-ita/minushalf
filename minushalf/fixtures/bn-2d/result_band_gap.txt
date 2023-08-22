@@ -6,8 +6,8 @@
                                                
 
 VBM: Kpoint 24, band 4 and eigenval -4.538585
-CBM: Kpoint 1, band 5 and eigenval 0.217699
-Gap: 4.756eV
+CBM: Kpoint 24, band 5 and eigenval 0.239131
+Gap: 4.778eV
  _____ _   _ ____  
 | ____| \ | |  _ \ 
 |  _| |  \| | | | |

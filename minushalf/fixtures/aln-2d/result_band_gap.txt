@@ -5,9 +5,9 @@
 |_| |_| |_|_|_| |_|\__,_|___/_| |_|\__,_|_|_|  
                                                
 
-VBM: Kpoint 16, band 4 and eigenval -3.942532
+VBM: Kpoint 1, band 4 and eigenval -4.62975
 CBM: Kpoint 1, band 5 and eigenval -1.018369
-Gap: 2.924eV
+Gap: 3.611eV
  _____ _   _ ____  
 | ____| \ | |  _ \ 
 |  _| |  \| | | | |
