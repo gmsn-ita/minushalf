@@ -86,7 +86,7 @@ def _set_up_cut_folder(base_path: str, input_files: list, cut: float) -> str:
             base_path (str): Path where the folder will be created
             cut (float): Distance to trimm the potential
             input_files (List[str]): List of input files
-        
+
         Returns:
             cut_folder (str): Path to folder where the first principles calculations will be done
     """
@@ -100,10 +100,10 @@ def _create_cut_folder(base_path: str, cut: float) -> str:
         Creates the folder where the first principles calculations will be done
 
         Args:
-            
+
             base_path (str): Path where the folder will be created
             cut (float): Distance to trimm the potential
-        
+
         Returns:
             cut_folder (str): Path to folder where the first principles calculations will be done
     """
@@ -131,14 +131,15 @@ def _copy_input_files(input_files: list, destination_folder: str) -> None:
 
 
 def _get_gap(software_factory: SoftwaresAbstractFactory,
-             cut_folder: str) -> float:
+             cut_folder: str, is_indirect: bool) -> float:
     """
         Returns the gap value
 
         Args:
             software_factory (SoftwaresAbstractFactory) : Get informations for output files of the first principle calculations
             cut_folder (str): Folder where first principles calculations were made
-        
+            is_indirect (bool): This parameter determines whether a band gap calculation should be performed across various k-points.
+
         Returns:
             gap (float): Gap of the semiconductor material
     """
@@ -152,7 +153,7 @@ def _get_gap(software_factory: SoftwaresAbstractFactory,
     band_structure = BandStructure(eigenvalues, fermi_energy, atoms_map,
                                    num_bands, band_projection_file)
 
-    gap_report = band_structure.band_gap()
+    gap_report = band_structure.band_gap(is_indirect=is_indirect)
     return gap_report["gap"]
 
 
@@ -182,14 +183,14 @@ def find_negative_band_gap(cuts: list, *args: tuple) -> float:
     cut = cuts[0]
     runner = extra_args["runner"]
     software_factory = extra_args["software_factory"]
-    inplace = extra_args["inplace"]
+    indirect = extra_args["indirect"]
     is_conduction = extra_args["is_conduction"]
 
     if cut <= extra_args["atom_potential"].vtotal.radius[1]:
         return math.inf
 
-    ## Add condition to include inplace calculations
-    if not inplace:
+    # Add condition to include indirect calculations
+    if not indirect:
         cut_folder = _set_up_cut_folder(extra_args["base_path"],
                                         extra_args["software_files"], cut)
     else:
@@ -212,9 +213,10 @@ def find_negative_band_gap(cuts: list, *args: tuple) -> float:
 
     runner.run(cut_folder)
 
-    gap = _get_gap(software_factory, cut_folder)
+    is_indirect = extra_args["indirect"]
+    gap = _get_gap(software_factory, cut_folder, is_indirect)
 
-    ## Logger
+    # Logger
     if is_conduction:
         logger.info("CONDUCTION CORRECTION: Element {} - Orbital {}".format(
             extra_args["symbol"], extra_args["orbital"]))

@@ -1,6 +1,6 @@
 software: vasp
 vasp:
-  command: ['mpirun','-np','6','../vasp']
+  command: ["mpirun", "-np", "6", "../vasp"]
 atomic_program:
   exchange_correlation_code: wi
   calculation_code: ae
@@ -9,11 +9,11 @@ correction:
   correction_code: vf
   potfiles_folder: ../potcar
   amplitude: 3.0
-  valence_cut_guess: [['C','p',3.45]]
-  conduction_cut_guess: [['C','p',1.0]]
+  valence_cut_guess: [["C", "p", 3.45]]
+  conduction_cut_guess: [["C", "p", 1.0]]
   tolerance: 0.001
   fractional_valence_treshold: 15
   fractional_conduction_treshold: 23
-  overwrite_vbm: [1,3]
-  overwrite_cbm: [1,4]
-  inplace: True
+  overwrite_vbm: [1, 3]
+  overwrite_cbm: [1, 4]
+  indirect: True

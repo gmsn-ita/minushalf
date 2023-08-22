@@ -109,9 +109,9 @@ class MinushalfYaml(ABC):
         """
 
     @abstractmethod
-    def get_inplace(self) -> bool:
+    def get_indirect(self) -> bool:
         """
-        Returns the inplace
+        Returns the indirect
         """
 
     @abstractmethod

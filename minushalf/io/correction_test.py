@@ -21,7 +21,7 @@ def test_default_parameters():
     assert correction.fractional_conduction_treshold == 9
     assert correction.overwrite_cbm == []
     assert correction.overwrite_vbm == []
-    assert correction.inplace == False
+    assert correction.indirect == False
 
 
 def test_override_parameters():
@@ -39,7 +39,7 @@ def test_override_parameters():
         "fractional_conduction_treshold": 14,
         "overwrite_vbm": [1, 2],
         "overwrite_cbm": [1, 3],
-        "inplace": True
+        "indirect": True
     }
     correction = Correction(**params)
     assert correction.correction_code == "vf"
@@ -52,7 +52,7 @@ def test_override_parameters():
     assert correction.fractional_conduction_treshold == 14
     assert correction.overwrite_cbm == [1, 3]
     assert correction.overwrite_vbm == [1, 2]
-    assert correction.inplace == True
+    assert correction.indirect == True
 
 
 def test_to_list():
@@ -83,7 +83,7 @@ def test_to_dict():
         "fractional_conduction_treshold": 14,
         "overwrite_vbm": [1, 2],
         "overwrite_cbm": [1, 3],
-        "inplace": True,
+        "indirect": True,
         "vbm_characters": None,
         "cbm_characters": [["Ga", "d", "100"]],
         "divide_character": [["Ga", "p", 2]],

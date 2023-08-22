@@ -12,6 +12,7 @@ class Correction(MinushalfYamlTags):
     """
     Set parameters and their default values
     """
+
     def __init__(self,
                  correction_code: str = CorrectionCode.get_default(),
                  potfiles_folder: str = "minushalf_potfiles",
@@ -25,7 +26,7 @@ class Correction(MinushalfYamlTags):
                  vbm_characters: list = None,
                  overwrite_vbm: list = None,
                  overwrite_cbm: list = None,
-                 inplace: bool = False,
+                 indirect: bool = False,
                  divide_character: list = None) -> None:
         """
             Args:
@@ -39,7 +40,7 @@ class Correction(MinushalfYamlTags):
                 fractional_conduction_treshold (float): Treshold for fractional conduction correction
                 overwrite_vbm: Tag to overwrite vbm character
                 overwrite_cbm: Tag to overwrite cbm character
-                inplace: Realize calcualtions inplace
+                indirect: Realize calcualtions indirect
         """
         self.correction_code = correction_code
         self.potfiles_folder = potfiles_folder
@@ -53,7 +54,7 @@ class Correction(MinushalfYamlTags):
         self.overwrite_vbm = overwrite_vbm
         self.cbm_characters = cbm_characters
         self.vbm_characters = vbm_characters
-        self.inplace = inplace
+        self.indirect = indirect
         self.divide_character = divide_character
 
     @property
@@ -253,7 +254,7 @@ class Correction(MinushalfYamlTags):
         """
         parameters_dict = self.__dict__.copy()
 
-        ## removing private variables
+        # removing private variables
         parameters_dict["correction_code"] = parameters_dict.pop(
             "_correction_code", None)
         parameters_dict["overwrite_vbm"] = parameters_dict.pop(
