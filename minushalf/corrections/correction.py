@@ -159,10 +159,10 @@ class DFTCorrection(Correction):
                 cut = self._find_best_correction(symbol, orbital)
                 cuts_per_atom_orbital[(symbol, orbital)] = cut
 
-        gap = self._get_result_gap()
+        gap = self._get_result_gap(is_indirect=self.indirect)
         return (cuts_per_atom_orbital, gap)
 
-    def _get_result_gap(self) -> float:
+    def _get_result_gap(self, is_indirect: bool) -> float:
         """
         Return the gap after the optimization of all potfiles
         """
@@ -204,7 +204,7 @@ class DFTCorrection(Correction):
         band_structure = BandStructure(eigenvalues, fermi_energy, atoms_map,
                                        num_bands, band_projection_file)
 
-        gap_report = band_structure.band_gap()
+        gap_report = band_structure.band_gap(is_indirect)
         return gap_report["gap"]
 
     def _make_corrected_potential_folder(self):
@@ -279,6 +279,7 @@ class DFTCorrection(Correction):
         value = (100 / (1 + number_equal_neighbors)) * (
             self.band_projection[orbital][symbol] /
             self.sum_correction_percentual)
+        logger.info(f"percentual of half eletron is {round(value)}")
         percentuals[orbital] = round(value)
 
         self._generate_occupation_potential(path, percentuals)

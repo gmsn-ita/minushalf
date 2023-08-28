@@ -16,8 +16,6 @@ def correct_potential_fourier_transform(
     
     k = np.reshape(k, (len(k), 1))
     
-    if not k[0][0]:
-        k[0][0] = 10**(-12)
     try:
         filter_rays = rays[np.where(rays < cut)]
     except ValueError as cut_error:

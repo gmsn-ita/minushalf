@@ -2,6 +2,7 @@
 Extract the parameters for the correction
 """
 import pandas as pd
+from loguru import logger
 from minushalf.io.minushalf_yaml_interface import MinushalfYaml
 from minushalf.softwares.software_abstract_factory import SoftwaresAbstractFactory
 from minushalf.utils.cut_initial_guess import CutInitialGuess
@@ -12,22 +13,22 @@ from minushalf.utils.band_structure import BandStructure
 from minushalf.utils.projection_to_df import projection_to_df
 
 
-def _get_vbm_projection(factory: SoftwaresAbstractFactory) -> pd.DataFrame:
+def _get_vbm_projection(factory: SoftwaresAbstractFactory, is_indirect: bool) -> pd.DataFrame:
     """
     Returns vbm projection
     """
     band_structure = BandStructure.create(factory)
-    vbm_projection = band_structure.vbm_projection()
+    vbm_projection = band_structure.vbm_projection(is_indirect=is_indirect)
     normalized_df = projection_to_df(vbm_projection)
     return normalized_df
 
 
-def _get_cbm_projection(factory: SoftwaresAbstractFactory) -> pd.DataFrame:
+def _get_cbm_projection(factory: SoftwaresAbstractFactory, is_indirect: bool) -> pd.DataFrame:
     """
     Returns cbm projection
     """
     band_structure = BandStructure.create(factory)
-    cbm_projection = band_structure.cbm_projection()
+    cbm_projection = band_structure.cbm_projection(is_indirect=is_indirect)
     normalized_df = projection_to_df(cbm_projection)
     return normalized_df
 
@@ -81,6 +82,7 @@ def _get_valence_band_projection(minushalf_yaml: MinushalfYaml,
     """
     Implements logic to return valence band projection
     """
+    # Specify that the VBM should be another band
     has_overwrite = bool(minushalf_yaml.get_overwrite_vbm())
 
     projection_df = None
@@ -88,8 +90,8 @@ def _get_valence_band_projection(minushalf_yaml: MinushalfYaml,
         band_location = minushalf_yaml.get_overwrite_vbm()
         projection_df = _get_band_characters(band_location, software_factory)
     else:
-        projection_df = _get_vbm_projection(software_factory)
-
+        projection_df = _get_vbm_projection(software_factory, is_indirect=minushalf_yaml.get_indirect())
+    # If the vbm characters are overwritten manually
     has_replace = bool(minushalf_yaml.get_vbm_characters())
     if has_replace:
         projection_df = _overwrite_band_projection(
@@ -111,7 +113,7 @@ def _get_conduction_band_projection(
         band_location = minushalf_yaml.get_overwrite_cbm()
         projection_df = _get_band_characters(band_location, software_factory)
     else:
-        projection_df = _get_cbm_projection(software_factory)
+        projection_df = _get_cbm_projection(software_factory, is_indirect=minushalf_yaml.get_indirect())
 
     has_replace = bool(minushalf_yaml.get_cbm_characters())
     if has_replace:
