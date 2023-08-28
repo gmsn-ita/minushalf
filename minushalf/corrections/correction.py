@@ -166,7 +166,8 @@ class DFTCorrection(Correction):
         """
         Return the gap after the optimization of all potfiles
         """
-        calculation_folder = "calculate_{}_gap".format(self.correction_type)
+        calculation_folder = "./.minushalf/calculate_{}_gap".format(
+            self.correction_type)
         if os.path.exists(calculation_folder):
             shutil.rmtree(calculation_folder)
         os.mkdir(calculation_folder)
