@@ -69,21 +69,22 @@ class BandStructure():
         if is_indirect:
             for kpoint, values in self.eigenvalues.items():
                 for band_index, energy in enumerate(values):
-                    if max_energy_reached < energy < self.fermi_energy:
+                    if max_energy_reached - energy <= 1e-8 and energy < self.fermi_energy:
                         max_energy_reached = energy
                         kpoint_vbm = kpoint
                         band_vbm = band_index + 1
         else:
-            minimum_bang_gap = inf
+            minimum_band_gap = inf
             for kpoint, values in self.eigenvalues.items():
-                valence_band_idx, valence_band_eigenval = max(
-                    (x for x in enumerate(values) if x[1] < self.fermi_energy), key=lambda x: x[1])
+                valence_band_eigenval,valence_band_idx = max(
+                    ((x,i) for i,x in enumerate(values) if x < self.fermi_energy))
                 _, conduction_band_eigenval = min((x for x in enumerate(
                     values) if x[1] > self.fermi_energy), key=lambda x: x[1])
-                if conduction_band_eigenval - valence_band_eigenval < minimum_bang_gap:
+             
+                if conduction_band_eigenval - valence_band_eigenval-minimum_band_gap <= 1e-8:
                     kpoint_vbm = kpoint
                     band_vbm = valence_band_idx + 1
-                    minimum_bang_gap = conduction_band_eigenval - valence_band_eigenval
+                    minimum_band_gap = conduction_band_eigenval - valence_band_eigenval
 
         return (kpoint_vbm, band_vbm)
 
@@ -104,21 +105,21 @@ class BandStructure():
         if is_indirect:
             for kpoint, values in self.eigenvalues.items():
                 for band_index, energy in enumerate(values):
-                    if self.fermi_energy <= energy < min_energy_reached:
+                    if self.fermi_energy-energy <=1e-8 and  energy < min_energy_reached:
                         min_energy_reached = energy
                         kpoint_cbm = kpoint
                         band_cbm = band_index + 1
         else:
-            minimum_bang_gap = inf
+            minimum_band_gap = inf
             for kpoint, values in self.eigenvalues.items():
-                _, valence_band_eigenval = max((x for x in enumerate(
-                    values) if x[1] < self.fermi_energy), key=lambda x: x[1])
+                valence_band_eigenval,_ = max(((x,i) for i,x in enumerate(
+                    values) if x < self.fermi_energy))
                 conduction_band_idx, conduction_band_eigenval = min(
                     (x for x in enumerate(values) if x[1] > self.fermi_energy), key=lambda x: x[1])
-                if (conduction_band_eigenval - valence_band_eigenval) < minimum_bang_gap:
+                if (conduction_band_eigenval - valence_band_eigenval-minimum_band_gap) <= 1e-8:
                     kpoint_cbm = kpoint
                     band_cbm = conduction_band_idx + 1
-                    minimum_bang_gap = conduction_band_eigenval - valence_band_eigenval
+                    minimum_band_gap = conduction_band_eigenval - valence_band_eigenval
 
         return (kpoint_cbm, band_cbm)
 

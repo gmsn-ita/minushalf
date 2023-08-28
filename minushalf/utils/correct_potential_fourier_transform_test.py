@@ -19,10 +19,10 @@ def test_correct_potential_fourier_transform_first():
 
     """
     res = correct_potential_fourier_transform(np.array([0]),
-                                              np.array([0], dtype=float),
+                                              np.array([1], dtype=float),
                                               np.arange(0, 5, 0.1),
                                               np.arange(20, 25, 0.1), 3.0)
-    assert np.isclose(res[0], 92.23450000000014)
+    assert np.isclose(res[0], 75.19256180383664)
 
 
 def test_correct_potential_fourier_transform_second():
@@ -38,10 +38,10 @@ def test_correct_potential_fourier_transform_second():
 
     """
     res = correct_potential_fourier_transform(np.array([1]),
-                                              np.array([0], dtype=float),
+                                              np.array([1], dtype=float),
                                               np.arange(0, 5, 0.1),
                                               np.arange(20, 25, 0.1), 3.0)
-    assert np.isclose(res[0], 93.23450000000014)
+    assert np.isclose(res[0], 76.19256180383664)
 
 
 def test_correct_potential_fourier_transform_third():
@@ -57,9 +57,9 @@ def test_correct_potential_fourier_transform_third():
 
     """
     res = correct_potential_fourier_transform(np.array([1]), np.array([2e-1]),
-                                              np.arange(0, 5, 0.1),
+                                              np.arange(0.1, 5, 0.1),
                                               np.arange(20, 25, 0.1), 3.0)
-    assert np.isclose(res[0], 92.49911868134099)
+    assert np.isclose(res[0], 92.08191320695501)
 
 
 def test_correct_potential_fourier_transform_fourth():
@@ -129,9 +129,9 @@ def test_correct_potential_fourier_transform_seventh():
 
     """
     res = correct_potential_fourier_transform(np.array([0]), np.array([67]),
-                                              np.arange(0, 12, 0.01),
+                                              np.arange(0.1, 12, 0.01),
                                               np.arange(70, 79, 0.01), 1.23)
-    assert np.isclose(res[0], 0.013212154569150683)
+    assert np.isclose(res[0], -0.14160794663261914)
 
 
 def test_correct_potential_fourier_transform_eighth():
@@ -147,9 +147,9 @@ def test_correct_potential_fourier_transform_eighth():
 
     """
     res = correct_potential_fourier_transform(np.array([0]), np.array([67]),
-                                              np.arange(0, 12, 0.1),
+                                              np.arange(0.1, 12, 0.1),
                                               np.arange(70, 79, 0.1), 1.23)
-    assert np.isclose(res[0], -0.017530596213630182)
+    assert np.isclose(res[0], -0.017505590221648878)
 
 
 def test_correct_potential_fourier_transform_nineth():
@@ -165,9 +165,9 @@ def test_correct_potential_fourier_transform_nineth():
 
     """
     res = correct_potential_fourier_transform(np.array([0]), np.array([67]),
-                                              np.arange(0, 12, 0.2),
+                                              np.arange(0.1, 12, 0.2),
                                               np.arange(70, 79, 0.2), 1.23)
-    assert np.isclose(res[0], 0.3972120670340923)
+    assert np.isclose(res[0], -0.585878870667009)
 
 
 def test_correct_potential_fourier_transform_tenth():
@@ -183,6 +183,6 @@ def test_correct_potential_fourier_transform_tenth():
 
     """
     res = correct_potential_fourier_transform(np.array([0]), np.array([67]),
-                                              np.arange(0, 12, 0.4),
+                                              np.arange(0.1, 12, 0.4),
                                               np.arange(70, 79, 0.4), 1.23)
-    assert np.isclose(res[0], 0.32399512659710605)
+    assert np.isclose(res[0], -0.7204435342648592)

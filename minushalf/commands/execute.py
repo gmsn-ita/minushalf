@@ -11,7 +11,7 @@ import click
 from loguru import logger
 from minushalf.io.minushalf_yaml import MinushalfYaml
 from minushalf.io.make_minushalf_results import make_minushalf_results
-from minushalf.utils.cli_messages import welcome_message,end_message
+from minushalf.utils.cli_messages import welcome_message, end_message
 from minushalf.utils.get_correction_params import get_valence_correction_params, get_conduction_correction_params
 
 from minushalf.softwares.softwares import Softwares, get_software_factory
@@ -19,7 +19,8 @@ from minushalf.corrections.correction import (DFTCorrection)
 from minushalf.io.minushalf_yaml_default_configuration import CorrectionDefaultParams
 
 
-from minushalf.softwares.software_abstract_factory import (SoftwaresAbstractFactory)
+from minushalf.softwares.software_abstract_factory import (
+    SoftwaresAbstractFactory)
 
 
 def get_atoms_list(factory: SoftwaresAbstractFactory) -> list:
@@ -74,34 +75,34 @@ def execute(quiet: bool):
     if quiet:
         logger.remove()
         logger.add(sys.stdout, level="ERROR")
-    ## Read yaml file
+    # Read yaml file
     logger.info("Reading minushalf.yaml file")
     minushalf_yaml = MinushalfYaml.from_file()
     correction_factory_chooser = {Softwares.vasp.value: DFTCorrection}
- 
+
     software_name = minushalf_yaml.get_software_name()
     correction = correction_factory_chooser[software_name]
     software_factory = get_software_factory(software_name.upper())
 
-    ## Makes abinition calculation
+    # Makes abinition calculation
     logger.info("Running ab initio calculations")
     software_configurations = minushalf_yaml.get_software_configurations_params(
     )
     runner = software_factory.get_runner(**software_configurations)
     runner.run()
 
-    ## Makes root folder
+    # Makes root folder
     logger.info("Make potfiles folder")
-    root_folder = "mkpotfiles"
+    root_folder = "./.minushalf/mkpotfiles"
     if os.path.exists(root_folder):
         shutil.rmtree(root_folder)
     os.mkdir(root_folder)
 
-    ## get atoms list
+    # get atoms list
     logger.info("Get atoms list")
     atoms = get_atoms_list(software_factory)
 
-    ## amplitude logger
+    # amplitude logger
     if not np.isclose(minushalf_yaml.get_amplitude(),
                       CorrectionDefaultParams.amplitude.value):
         logger.warning(
