@@ -112,7 +112,7 @@ def _create_cut_folder(base_path: str, cut: float) -> str:
 
     if os.path.exists(cut_folder):
         shutil.rmtree(cut_folder)
-    os.mkdir(cut_folder, exist_ok=True)
+    os.mkdir(cut_folder)
 
     return cut_folder
 

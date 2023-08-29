@@ -147,7 +147,7 @@ class DFTCorrection(Correction):
         self.root_folder = os.path.join(self.root_folder, self.correction_type)
         if os.path.exists(self.root_folder):
             shutil.rmtree(self.root_folder)
-        os.mkdir(self.root_folder, exist_ok=True)
+        os.mkdir(self.root_folder)
 
         cuts_per_atom_orbital = {}
         self._make_corrected_potential_folder()
@@ -170,7 +170,7 @@ class DFTCorrection(Correction):
             self.correction_type)
         if os.path.exists(calculation_folder):
             shutil.rmtree(calculation_folder)
-        os.mkdir(calculation_folder, exist_ok=True)
+        os.mkdir(calculation_folder)
 
         for file in self.input_files:
             shutil.copyfile(file, os.path.join(calculation_folder, file))
@@ -217,7 +217,7 @@ class DFTCorrection(Correction):
         name = self.corrected_potfiles_folder
         if os.path.exists(name):
             shutil.rmtree(name)
-        os.mkdir(name, exist_ok=True)
+        os.mkdir(name)
         for atom in self.atoms:
             try:
                 potential_filename = "{}.{}".format(
@@ -269,7 +269,7 @@ class DFTCorrection(Correction):
         path = os.path.join(self.root_folder, folder_name)
         if os.path.exists(path):
             shutil.rmtree(path)
-        os.mkdir(path, exist_ok=True)
+        os.mkdir(path)
         self._generate_atom_potential(path, symbol)
 
         percentuals = {}
@@ -338,7 +338,7 @@ class DFTCorrection(Correction):
         folder_path = os.path.join(base_path, "pseudopotential")
         if os.path.exists(folder_path):
             shutil.rmtree(folder_path)
-        os.mkdir(folder_path, exist_ok=True)
+        os.mkdir(folder_path)
         input_file = InputFile.minimum_setup(
             symbol,
             self.exchange_correlation_type,
@@ -428,7 +428,7 @@ class DFTCorrection(Correction):
             folder = os.path.join(base_path, "find_cut")
             if os.path.exists(folder):
                 shutil.rmtree(folder)
-            os.mkdir(folder, exist_ok=True)
+            os.mkdir(folder)
         else:
             base_path = '.'  # Local Path
 
