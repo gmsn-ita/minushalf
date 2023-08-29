@@ -91,9 +91,15 @@ def execute(quiet: bool):
     runner = software_factory.get_runner(**software_configurations)
     runner.run()
 
-    # Makes root folder
+    # Makes hidden folder
+    logger.info("Make .minushalf folder")
+    hidden_folder = ".minushalf"
+    if os.path.exists(hidden_folder):
+        shutil.rmtree(hidden_folder)
+    os.mkdir(hidden_folder)
+
     logger.info("Make potfiles folder")
-    root_folder = "./.minushalf/mkpotfiles"
+    root_folder = f"{hidden_folder}/mkpotfiles"
     if os.path.exists(root_folder):
         shutil.rmtree(root_folder)
     os.mkdir(root_folder)
