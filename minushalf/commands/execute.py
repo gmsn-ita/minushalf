@@ -93,10 +93,10 @@ def execute(quiet: bool):
 
     # Makes root folder
     logger.info("Make potfiles folder")
-    root_folder = "./.minushalf/mkpotfiles"
+    root_folder = ".minushalf/mkpotfiles"
     if os.path.exists(root_folder):
         shutil.rmtree(root_folder)
-    os.mkdir(root_folder)
+    os.mkdir(root_folder, exist_ok=True)
 
     # get atoms list
     logger.info("Get atoms list")

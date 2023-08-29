@@ -90,7 +90,8 @@ def _get_valence_band_projection(minushalf_yaml: MinushalfYaml,
         band_location = minushalf_yaml.get_overwrite_vbm()
         projection_df = _get_band_characters(band_location, software_factory)
     else:
-        projection_df = _get_vbm_projection(software_factory, is_indirect=minushalf_yaml.get_indirect())
+        projection_df = _get_vbm_projection(
+            software_factory, is_indirect=minushalf_yaml.get_indirect())
     # If the vbm characters are overwritten manually
     has_replace = bool(minushalf_yaml.get_vbm_characters())
     if has_replace:
@@ -113,7 +114,8 @@ def _get_conduction_band_projection(
         band_location = minushalf_yaml.get_overwrite_cbm()
         projection_df = _get_band_characters(band_location, software_factory)
     else:
-        projection_df = _get_cbm_projection(software_factory, is_indirect=minushalf_yaml.get_indirect())
+        projection_df = _get_cbm_projection(
+            software_factory, is_indirect=minushalf_yaml.get_indirect())
 
     has_replace = bool(minushalf_yaml.get_cbm_characters())
     if has_replace:
@@ -219,7 +221,7 @@ def get_valence_correction_params(
     params["calculation_code"] = minushalf_yaml.get_calculation_code()
     params["amplitude"] = minushalf_yaml.get_amplitude()
     params["tolerance"] = minushalf_yaml.get_tolerance()
-    params["corrected_potfiles_folder"] = "corrected_valence_potfiles"
+    params["corrected_potfiles_folder"] = ".minushalf/corrected_valence_potfiles"
     params["correction_type"] = "valence"
     params["is_conduction"] = False
     params["indirect"] = minushalf_yaml.get_indirect()
@@ -255,14 +257,14 @@ def get_conduction_correction_params(
     ).get_name()
     params["band_projection"] = _get_conduction_band_projection(
         minushalf_yaml, software_factory)
-    params["potential_folder"] = "corrected_valence_potfiles"
+    params["potential_folder"] = ".minushalf/corrected_valence_potfiles"
     params[
         "exchange_correlation_type"] = minushalf_yaml.get_exchange_corr_code()
     params["max_iterations"] = minushalf_yaml.get_max_iterations()
     params["calculation_code"] = minushalf_yaml.get_calculation_code()
     params["amplitude"] = minushalf_yaml.get_amplitude()
     params["tolerance"] = minushalf_yaml.get_tolerance()
-    params["corrected_potfiles_folder"] = "corrected_conduction_potfiles"
+    params["corrected_potfiles_folder"] = ".minushalf/corrected_conduction_potfiles"
     params["correction_type"] = "conduction"
     params["is_conduction"] = True
     params["indirect"] = minushalf_yaml.get_indirect()
