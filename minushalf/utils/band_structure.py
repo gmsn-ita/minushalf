@@ -205,6 +205,14 @@ class BandStructure():
         Returns:
             VBM index and its eigenvalue, CBM index and its eigenvalue and band gap
         """
+        if self.is_metal():
+            return {
+            "vbm":
+            "VBM: The material is a metal, VBM is not defined",
+            "cbm":
+            "CBM: The material is a metal, CBM is not defined.",
+            "gap": -1.0
+        }
 
         vbm = self.vbm_index(is_indirect=is_indirect)
         vbm_eigenval = self.eigenvalues[vbm[0]][vbm[1] - 1]
