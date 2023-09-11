@@ -13,9 +13,12 @@ def correct_potential_fourier_transform(
     cut: float,
 ) -> np.array:
     const = Constants()
-    
+
     k = np.reshape(k, (len(k), 1))
-    
+
+    if not k[0][0]:
+        k[0][0] = 10**(-12)
+
     try:
         filter_rays = rays[np.where(rays < cut)]
     except ValueError as cut_error:
@@ -31,12 +34,12 @@ def correct_potential_fourier_transform(
         (potential * np.sin(const.bohr_radius * k * radius) +
          lazy_potential * np.sin(const.bohr_radius * k * lazy_radius)) / 2)
 
-    ## Sum all rows and transpose
+    # Sum all rows and transpose
 
     initial_term = (occupation_potential[0] *
                     np.sin(const.bohr_radius * k * rays[0]) / 2 * rays[0])
 
-    ## Reshape vectors to give the correct output format
+    # Reshape vectors to give the correct output format
     initial_term = np.reshape(initial_term, (len(initial_term)))
     k = np.reshape(k, (len(k)))
 

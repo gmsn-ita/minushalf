@@ -16,6 +16,7 @@ class AtomicPotential():
     for fractional occupations in valence
     or conduction bands
     """
+
     def __init__(
         self,
         vtotal: Vtotal,
@@ -86,13 +87,13 @@ class AtomicPotential():
 
         occupied_potential = self.occupy_potential(cut, amplitude)
 
-        ## generate a sample of the absolute values of the wave vector
+        # generate a sample of the absolute values of the wave vector
         size_potential_sampling = len(
             self.potential_file.get_potential_fourier_transform())
         maximum_absolute_value_wave_vector = self.potential_file.get_maximum_module_wave_vector(
         )
         absolute_wave_vectors = np.arange(size_potential_sampling) * (
-            maximum_absolute_value_wave_vector / size_potential_sampling) + (maximum_absolute_value_wave_vector / size_potential_sampling)
+            maximum_absolute_value_wave_vector / size_potential_sampling)
 
         corrected_potential = correct_potential_fourier_transform(
             coefficient=np.array(
