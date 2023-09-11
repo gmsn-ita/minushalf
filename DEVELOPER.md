@@ -57,7 +57,7 @@ Poetry is a powerful dependency management and packaging tool for Python. Follow
 1. **Install Poetry**: Open a terminal window and execute the following command:
 
    ```bash
-   curl -sSL https://install.python-poetry.org | python -
+   curl -sSL https://install.python-poetry.org | python3 - --version 1.3.2
    ```
 
    This will download and install Poetry on your system.
