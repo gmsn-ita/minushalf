@@ -98,7 +98,25 @@ Poetry is a powerful dependency management and packaging tool for Python. Follow
 
    Poetry will read the `pyproject.toml` file in your project directory and set up the necessary dependencies and virtual environment.
 
-6. **Run tests**: To make sure you setup the env correctly, run the command:
+   In case the command above doesn't work, try this other command:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+7. **Install Fortran compiler**: To install gfortran, run the command:
+
+   ```bash
+   sudo apt-get install gfortran
+   ```
+
+
+8. **Installing the Package in Development Mode**: When you install `minushalf` in development mode, any changes you make will be reflected without the need for re-installation:
+
+   ```bash
+   pip install -e .
+   ```
+
+9. **Run tests**: To make sure you setup the env correctly, run the command:
 
    ```bash
    pytest
