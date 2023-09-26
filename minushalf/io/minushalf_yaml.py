@@ -145,6 +145,18 @@ class MinushalfYaml(MinushalfYaml):
         """
         return self.correction.indirect
 
+    def get_fractional_valence_treshold(self) -> bool:
+        """
+        Returns the fractional valence treshold
+        """
+        return self.correction.fractional_valence_treshold
+
+    def get_fractional_conduction_treshold(self) -> bool:
+        """
+        Returns the fractional conduction treshold
+        """
+        return self.correction.fractional_conduction_treshold
+
     def get_divide_character(self) -> list:
         """
         Returns the divide characters
