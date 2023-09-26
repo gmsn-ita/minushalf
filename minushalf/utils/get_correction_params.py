@@ -179,22 +179,22 @@ def _get_divide_character(divide_characters: list, correction_indexes: dict,
     return dividers
 
 
-def _get_valence_correction_indexes(correction_code, band_projection):
+def _get_valence_correction_indexes(correction_code, band_projection, treshold: int):
     """
     Get the correction indexes needed to the corrrection
     """
     if "vf" in correction_code:
-        return get_fractionary_correction_indexes(band_projection)
+        return get_fractionary_correction_indexes(band_projection, treshold)
     else:
         return get_simple_correction_indexes(band_projection)
 
 
-def _get_conduction_correction_indexes(correction_code, band_projection):
+def _get_conduction_correction_indexes(correction_code, band_projection, treshold: int):
     """
     Get the correction indexes needed to the corrrection
     """
     if "cf" in correction_code:
-        return get_fractionary_correction_indexes(band_projection)
+        return get_fractionary_correction_indexes(band_projection, treshold)
     else:
         return get_simple_correction_indexes(band_projection)
 
@@ -230,7 +230,7 @@ def get_valence_correction_params(
     ] if params["indirect"] else ["INCAR", "POSCAR", "KPOINTS"]
 
     params["correction_indexes"] = _get_valence_correction_indexes(
-        correction_code, params["band_projection"])
+        correction_code, params["band_projection"], minushalf_yaml.get_fractional_valence_treshold())
     params["cut_initial_guess"] = _get_cut_initial_guess(
         minushalf_yaml.get_valence_cut_initial_guess(),
         params["correction_indexes"], software_factory)
@@ -272,7 +272,7 @@ def get_conduction_correction_params(
         "INCAR", "POSCAR", "KPOINTS", "CHGCAR"
     ] if params["indirect"] else ["INCAR", "POSCAR", "KPOINTS"]
     params["correction_indexes"] = _get_conduction_correction_indexes(
-        correction_code, params["band_projection"])
+        correction_code, params["band_projection"], minushalf_yaml.get_fractional_conduction_treshold())
     params["cut_initial_guess"] = _get_cut_initial_guess(
         minushalf_yaml.get_conduction_cut_initial_guess(),
         params["correction_indexes"], software_factory)

@@ -43,6 +43,16 @@ class MinushalfYaml(ABC):
         """
 
     @abstractmethod
+    def get_fractional_valence_treshold(self) -> bool:
+        """
+        Returns the fractional valence treshold
+        """
+    @abstractmethod
+    def get_fractional_conduction_treshold(self) -> bool:
+        """
+        Returns the fractional conduction treshold
+        """
+    @abstractmethod
     def get_overwrite_cbm(self) -> str:
         """
         Returns the parameter that overwrites cbm
