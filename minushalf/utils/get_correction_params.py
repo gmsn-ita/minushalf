@@ -274,7 +274,7 @@ def get_conduction_correction_params(
     params["correction_indexes"] = _get_conduction_correction_indexes(
         correction_code, params["band_projection"])
     params["cut_initial_guess"] = _get_cut_initial_guess(
-        minushalf_yaml.get_valence_cut_initial_guess(),
+        minushalf_yaml.get_conduction_cut_initial_guess(),
         params["correction_indexes"], software_factory)
 
     params["divide_character"] = _get_divide_character(
