@@ -76,11 +76,11 @@ class BandStructure():
         else:
             minimum_band_gap = inf
             for kpoint, values in self.eigenvalues.items():
-                valence_band_eigenval,valence_band_idx = max(
-                    ((x,i) for i,x in enumerate(values) if x < self.fermi_energy))
+                valence_band_eigenval, valence_band_idx = max(
+                    ((x, i) for i, x in enumerate(values) if x < self.fermi_energy))
                 _, conduction_band_eigenval = min((x for x in enumerate(
                     values) if x[1] > self.fermi_energy), key=lambda x: x[1])
-             
+
                 if conduction_band_eigenval - valence_band_eigenval-minimum_band_gap <= 1e-8:
                     kpoint_vbm = kpoint
                     band_vbm = valence_band_idx + 1
@@ -105,14 +105,14 @@ class BandStructure():
         if is_indirect:
             for kpoint, values in self.eigenvalues.items():
                 for band_index, energy in enumerate(values):
-                    if self.fermi_energy-energy <=1e-8 and  energy < min_energy_reached:
+                    if self.fermi_energy-energy <= 1e-8 and energy < min_energy_reached:
                         min_energy_reached = energy
                         kpoint_cbm = kpoint
                         band_cbm = band_index + 1
         else:
             minimum_band_gap = inf
             for kpoint, values in self.eigenvalues.items():
-                valence_band_eigenval,_ = max(((x,i) for i,x in enumerate(
+                valence_band_eigenval, _ = max(((x, i) for i, x in enumerate(
                     values) if x < self.fermi_energy))
                 conduction_band_idx, conduction_band_eigenval = min(
                     (x for x in enumerate(values) if x[1] > self.fermi_energy), key=lambda x: x[1])
@@ -155,7 +155,7 @@ class BandStructure():
                 vbm_projection (defaultdict(list)): Contains the projection
                 of each orbital of each atom in the respective band
         """
-        cbm_index = self.cbm_index()
+        cbm_index = self.cbm_index(is_indirect=is_indirect)
 
         procar_projection = self.band_projection_file.get_band_projection(
             *cbm_index)
@@ -207,12 +207,12 @@ class BandStructure():
         """
         if self.is_metal():
             return {
-            "vbm":
-            "VBM: The material is a metal, VBM is not defined",
-            "cbm":
-            "CBM: The material is a metal, CBM is not defined.",
-            "gap": -1.0
-        }
+                "vbm":
+                "VBM: The material is a metal, VBM is not defined",
+                "cbm":
+                "CBM: The material is a metal, CBM is not defined.",
+                "gap": -1.0
+            }
 
         vbm = self.vbm_index(is_indirect=is_indirect)
         vbm_eigenval = self.eigenvalues[vbm[0]][vbm[1] - 1]
