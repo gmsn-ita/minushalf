@@ -1,0 +1,5 @@
+software: VASP
+vasp:
+    command: ['python', '/home/augusto/minushalf_env38/minushalf/tests/test_farm/VASP/1_carbon/sanitycheck.py']
+correction:
+    correction_code: v
