@@ -1,11 +1,9 @@
-#!/usr/bin/env python3
 """
-mock_vasp.py
 ------------
 Mock VASP script called by minushalf execute via minushalf.yaml.
 
 Instead of running a real VASP calculation, this script copies pre-computed
-output files from INPUTS/cut_2.XX to the current working directory.
+output files from INPUTS/ to the current working directory.
 
 Usage in minushalf.yaml:
     software: VASP
@@ -22,9 +20,7 @@ from pathlib import Path
 # CONFIGURATION
 # ─────────────────────────────────────────────────────────────────────────────
 
-# Folder containing the pre-computed VASP output folders (cut_2.59, cut_2.72, etc.)
-# Lives next to this script.
-INPUTS_DIR = Path(__file__).parent / "INPUTS"
+
 
 def copy_mock_output():
     """
@@ -35,7 +31,9 @@ def copy_mock_output():
     # Build the exact destination path minushalf expects
     dest_dir = Path.cwd()
 
-    source_dir = INPUTS_DIR
+    # INPUTS directory
+    source_dir = Path(__file__).parent / "INPUTS"
+    
     if source_dir.exists():
         for item in source_dir.iterdir():
             dest = dest_dir / item.name

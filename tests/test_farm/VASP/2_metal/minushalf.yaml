@@ -1,5 +1,0 @@
-software: VASP
-vasp:
-    command: ['python', '/home/augusto/minushalf_env38/minushalf/tests/test_farm/VASP/2_metal/metalcheck.py']
-correction:
-    correction_code: v

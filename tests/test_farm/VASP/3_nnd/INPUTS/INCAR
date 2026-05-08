@@ -1,4 +1,3 @@
-SYSTEM = r-GeO2 ENCUT convergence test
 ISTART = 0
 ICHARG = 2
 PREC   = Accurate
@@ -13,5 +12,4 @@ ALGO   = Normal
 LWAVE  = .FALSE.
 LCHARG = .FALSE.
 LASPH  = .TRUE.
-NPAR   = 4
 LORBIT = 11

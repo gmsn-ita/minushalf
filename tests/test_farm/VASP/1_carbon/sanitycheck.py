@@ -28,15 +28,15 @@ from pathlib import Path
 # CONFIGURATION
 # ─────────────────────────────────────────────────────────────────────────────
 
-# Folder containing the pre-computed VASP output folders (cut_2.59, cut_2.72, etc.)
-# Lives next to this script.
-INPUTS_DIR = Path(__file__).parent / "INPUTS"
-
 def copy_mock_output():
     """
     Copy all files and folders from INPUTS/cut_2.XX into the
     current working directory (wherever minushalf is running from).
     """
+
+    # Folder containing the pre-computed VASP output folders (cut_2.59, cut_2.72, etc.)
+    # Lives next to this script.
+    inputs_dir = Path(__file__).parent / "INPUTS"
 
     # Build the exact destination path minushalf expects
     dest_dir = Path.cwd()
@@ -47,7 +47,7 @@ def copy_mock_output():
     # Extract the value after 'cut_2.'
     if folder_name.startswith("cut_2."):
         cut_value = folder_name.split("cut_2.")[1]
-        source_dir = INPUTS_DIR / f"cut_2.{cut_value}"
+        source_dir = inputs_dir / f"cut_2.{cut_value}"
 
         # Verify the source folder actually exists
         if not source_dir.exists():
@@ -72,7 +72,7 @@ def copy_mock_output():
 
         print(f"\nDONE\n")
     else:
-        source_dir = INPUTS_DIR / "cut_2.dummy"
+        source_dir = inputs_dir / "cut_2.dummy"
         if source_dir.exists():
             for item in source_dir.iterdir():
                 dest = dest_dir / item.name

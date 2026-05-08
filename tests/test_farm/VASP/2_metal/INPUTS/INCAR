@@ -1,9 +1,9 @@
-SYSTEM = r-GeO2 ENCUT convergence test
+SYSTEM = AgF testing
 ISTART = 0
 ICHARG = 2
 PREC   = Accurate
 EDIFF  = 1E-4
-ENCUT = 500.0
+ENCUT = 300.0
 NSW    = 0
 IBRION = -1
 ISMEAR = 0
@@ -13,5 +13,4 @@ ALGO   = Normal
 LWAVE  = .FALSE.
 LCHARG = .FALSE.
 LASPH  = .TRUE.
-NPAR   = 4
 LORBIT = 11

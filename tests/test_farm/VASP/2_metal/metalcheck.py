@@ -1,15 +1,8 @@
-#!/usr/bin/env python3
 """
-mock_vasp.py
-------------
 Mock VASP script called by minushalf execute via minushalf.yaml.
 
 Instead of running a real VASP calculation, this script copies pre-computed
-output files from INPUTS/cut_2.XX to the current working directory.
-
-Each time this script is called, it advances through the CUT_SEQUENCE array,
-so successive calls copy from different input folders, simulating multiple
-VASP runs with different cutoff values.
+output files from INPUTS/ to the current working directory.
 
 Usage in minushalf.yaml:
     software: VASP
@@ -17,8 +10,6 @@ Usage in minushalf.yaml:
         command: ['python', '/full/path/to/sanitycheck.py']
     correction:
         correction_code: v
-
-To reset the sequence between test runs, delete the .mock_vasp_state file.
 """
 import shutil
 import sys
@@ -28,24 +19,18 @@ from pathlib import Path
 # CONFIGURATION
 # ─────────────────────────────────────────────────────────────────────────────
 
-# Folder containing the pre-computed VASP output folders (cut_2.59, cut_2.72, etc.)
-# Lives next to this script.
-INPUTS_DIR = Path(__file__).parent / "INPUTS"
-
 def copy_mock_output():
     """
-    Copy all files and folders from INPUTS/cut_2.XX into the
+    Copy all files and folders from INPUTS/ into the
     current working directory (wherever minushalf is running from).
     """
 
-    # Build the exact destination path minushalf expects
+    # Path minushalf is running into
     dest_dir = Path.cwd()
 
-    # Get the last part of the path (folder name)
-    folder_name = dest_dir.name
+    # INPUTS directory
+    source_dir = Path(__file__).parent / "INPUTS"
 
-
-    source_dir = INPUTS_DIR
     if source_dir.exists():
         for item in source_dir.iterdir():
             dest = dest_dir / item.name
@@ -56,7 +41,7 @@ def copy_mock_output():
                     shutil.rmtree(dest)
                 shutil.copytree(item, dest)
     else:
-        print(f"[MOCK VASP] WARNING: INPUTS directory not found at {source_dir.resolve()}")
+        print(f"WARNING: INPUTS directory not found at {source_dir.resolve()}")
     print(f"\nDONE\n")  
 
 # ─────────────────────────────────────────────────────────────────────────────
