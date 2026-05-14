@@ -7,7 +7,7 @@ output files from INPUTS/ to the current working directory.
 Usage in minushalf.yaml:
     software: VASP
     vasp:
-        command: ['python', '/full/path/to/sanitycheck.py']
+        command: ['python', '/full/path/to/metalcheck.py']
     correction:
         correction_code: v
 """

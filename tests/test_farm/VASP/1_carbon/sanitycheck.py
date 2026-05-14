@@ -1,15 +1,11 @@
 #!/usr/bin/env python3
 """
-mock_vasp.py
+sanitycheck.py
 ------------
 Mock VASP script called by minushalf execute via minushalf.yaml.
 
 Instead of running a real VASP calculation, this script copies pre-computed
-output files from INPUTS/cut_2.XX to the current working directory.
-
-Each time this script is called, it advances through the CUT_SEQUENCE array,
-so successive calls copy from different input folders, simulating multiple
-VASP runs with different cutoff values.
+output files from INPUTS/cut_XX to the current working directory.
 
 Usage in minushalf.yaml:
     software: VASP
@@ -17,8 +13,6 @@ Usage in minushalf.yaml:
         command: ['python', '/full/path/to/sanitycheck.py']
     correction:
         correction_code: v
-
-To reset the sequence between test runs, delete the .mock_vasp_state file.
 """
 import shutil
 import sys
@@ -30,7 +24,7 @@ from pathlib import Path
 
 def copy_mock_output():
     """
-    Copy all files and folders from INPUTS/cut_2.XX into the
+    Copy all files and folders from INPUTS/cut_XX into the
     current working directory (wherever minushalf is running from).
     """
 
@@ -44,15 +38,15 @@ def copy_mock_output():
     # Get the last part of the path (folder name)
     folder_name = dest_dir.name
 
-    # Extract the value after 'cut_2.'
-    if folder_name.startswith("cut_2."):
-        cut_value = folder_name.split("cut_2.")[1]
-        source_dir = inputs_dir / f"cut_2.{cut_value}"
+    # Extract the value after 'cut_'
+    if folder_name.startswith("cut_"):
+        cut_value = folder_name.split("cut_")[1]
+        source_dir = inputs_dir / f"cut_{cut_value}"
 
         # Verify the source folder actually exists
         if not source_dir.exists():
             print(f"[MOCK VASP] ERROR: Source folder not found: {source_dir.resolve()}")
-            print(f"[MOCK VASP] Make sure INPUTS/cut_2.{cut_value} exists next to this script.")
+            print(f"[MOCK VASP] Make sure INPUTS/cut_{cut_value} exists next to this script.")
             sys.exit(1)
 
         items = list(source_dir.iterdir())
@@ -72,7 +66,7 @@ def copy_mock_output():
 
         print(f"\nDONE\n")
     else:
-        source_dir = inputs_dir / "cut_2.dummy"
+        source_dir = inputs_dir / "cut_dummy"
         if source_dir.exists():
             for item in source_dir.iterdir():
                 dest = dest_dir / item.name
@@ -83,7 +77,7 @@ def copy_mock_output():
                         shutil.rmtree(dest)
                     shutil.copytree(item, dest)
         else:
-            print(f"[MOCK VASP] WARNING: cut_2.dummy not found at {source_dir.resolve()}")
+            print(f"[MOCK VASP] WARNING: cut_dummy not found at {source_dir.resolve()}")
         print(f"\nDONE\n")  
 
 # ─────────────────────────────────────────────────────────────────────────────

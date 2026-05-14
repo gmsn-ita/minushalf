@@ -1,7 +1,7 @@
 """
 run_tests.py
 ------------
-Read the test registry from mhtests.yml and runs each test sequentially.
+Read the test registry from testconfig.yml and runs each test sequentially.
 
 For each test, the script performs the following steps:
 1. Resolves the absolute path of the test script
@@ -11,7 +11,7 @@ For each test, the script performs the following steps:
 
 Usage:
     python run_tests.py
-To add a new test, simply include a new entry in mhtests.yml. No changes to this script are required.
+To add a new test, simply include a new entry in testconfig.yml. No changes to this script are required.
 """
 
 import subprocess
@@ -29,12 +29,12 @@ import shutil
 
 def potcar_setup(registry, base_dir="test_farm/VASP"):
     """
-    Copies and organizes POTCAR files for VASP test cases, based on the
+    Copy and organize POTCAR files for VASP test cases, based on the
     test registry loaded from the .yml file.
 
-    For each test, reads the required atoms and:
-      - Copies individual POTCAR.<atom> files to the test's minushalf_potfiles dir.
-      - Concatenates them into a single POTCAR file in the test's INPUTS dir.
+    For each test, read the required atoms and:
+      - Copy individual POTCAR.<atom> files to the test's minushalf_potfiles dir.
+      - Concatenate them into a single POTCAR file in the test's INPUTS dir.
 
     Args:
         registry (list[dict]): List of test entries loaded from testconfig.yml.
@@ -72,7 +72,7 @@ def potcar_setup(registry, base_dir="test_farm/VASP"):
         
         # If a *.dummy subfolder exists inside INPUTS, concatenate POTCARs there.
         # Otherwise, place the concatenated POTCAR directly in the INPUTS folder.
-        dummy_dirs = glob.glob(os.path.join(input_dir, "*.dummy"))
+        dummy_dirs = glob.glob(os.path.join(input_dir, "*dummy"))
         dummy_dirs = [d for d in dummy_dirs if os.path.isdir(d)]
 
         if dummy_dirs:
@@ -109,12 +109,12 @@ def run_test(test: dict, tests_root: Path):
     folder      = tests_root / test["folder"]
     script      = folder / test["script"]
 
-    print(f"\n{'='*60}")
+    print_separator()
     print(f"  TEST : {name}")
     print(f"  DESC : {description}")
     print(f"  DIR  : {folder}")
     print(f"  SCRIPT: {script}")
-    print(f"{'='*60}\n")
+    print_separator()
 
     # Verify the test folder exists
     if not folder.exists():
@@ -151,7 +151,7 @@ def run_test(test: dict, tests_root: Path):
         return False
 
 
-def separator():
+def print_separator():
     print(f"\n{'='*60}")
 # ─────────────────────────────────────────────────────────────────────────────
 # MAIN
@@ -159,18 +159,18 @@ def separator():
 
 if __name__ == "__main__":
     
-     # Directory where test farm lives (the tests/test_farm folder)
+    # Directory where test farm lives (the tests/test_farm folder)
     tests_root = Path(__file__).parent.resolve()
 
     tests_base_dir = tests_root / "test_farm"
     # Path to the test registry
     registry_file = tests_root / "testconfig.yml"
 
-    separator()
+    print_separator()
     print(f"  MHTEST - Minushalf Test Runner")
     print(f"  Tests root : {tests_root}")
     print(f"  Registry   : {registry_file}")
-    separator()
+    print_separator()
 
     tests = load_registry(registry_file)
     potcar_setup(tests)
@@ -182,9 +182,9 @@ if __name__ == "__main__":
         results[test["name"]] = passed
 
     # ── Final summary ────────────────────────────────────────────────────────
-    separator()
+    print_separator()
     print(f"  SUMMARY")
-    separator()
+    print_separator()
     for name, passed in results.items():
         status = "✅ PASS" if passed else "❌ FAIL"
         print(f"  {status}  {name}")
@@ -193,7 +193,7 @@ if __name__ == "__main__":
     passed = sum(results.values())
     failed = total - passed
     print(f"\n  Total: {total}  |  Passed: {passed}  |  Failed: {failed}")
-    separator()
+    print_separator()
 
     # Exit with error code if any test failed
     sys.exit(0 if failed == 0 else 1)

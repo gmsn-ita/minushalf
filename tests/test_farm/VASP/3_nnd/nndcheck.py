@@ -8,7 +8,7 @@ output files from INPUTS/ to the current working directory.
 Usage in minushalf.yaml:
     software: VASP
     vasp:
-        command: ['python', '/full/path/to/sanitycheck.py']
+        command: ['python', '/full/path/to/nndcheck.py']
     correction:
         correction_code: v
 """
@@ -20,11 +20,9 @@ from pathlib import Path
 # CONFIGURATION
 # ─────────────────────────────────────────────────────────────────────────────
 
-
-
 def copy_mock_output():
     """
-    Copy all files and folders from INPUTS/cut_2.XX into the
+    Copy all files and folders from INPUTS/ into the
     current working directory (wherever minushalf is running from).
     """
 
@@ -44,7 +42,7 @@ def copy_mock_output():
                     shutil.rmtree(dest)
                 shutil.copytree(item, dest)
     else:
-        print(f"WARNING: INPUTS directory not found at {source_dir.resolve()}")
+        raise FileNotFoundError(f"INPUTS directory not found at {source_dir.resolve()}")
     print(f"\nDONE\n")  
 
 # ─────────────────────────────────────────────────────────────────────────────
