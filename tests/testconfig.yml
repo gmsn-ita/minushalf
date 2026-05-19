@@ -1,0 +1,24 @@
+
+  # To add a new test, just copy one of the blocks above and fill in the fields:
+  # - name:        unique identifier for the test
+  # - description: human readable description of what the test does
+  # - folder:      path to the test folder relative to the tests/test_farm/ directory
+  # - script:      name of the mock VASP python script inside that folder
+
+- name: "1_carbon"
+  description: "Sanity check - basic carbon calculation"
+  folder: "VASP/1_carbon"
+  script: "sanitycheck.py"
+  atoms: ["c"]
+
+- name: "2_metal"
+  description: "False metal check - material that should not be metallic"
+  folder: "VASP/2_metal"
+  script: "metalcheck.py"
+  atoms: ["ag", "f"]
+
+- name: "3_nnd"
+  description: "Tests for OUTCAR reading bugs"
+  folder: "VASP/3_nnd"
+  script: "nndcheck.py"
+  atoms: ["ag", "sb", "s"]

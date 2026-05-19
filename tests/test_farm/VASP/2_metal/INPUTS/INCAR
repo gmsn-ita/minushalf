@@ -1,0 +1,16 @@
+SYSTEM = AgF testing
+ISTART = 0
+ICHARG = 2
+PREC   = Accurate
+EDIFF  = 1E-4
+ENCUT = 300.0
+NSW    = 0
+IBRION = -1
+ISMEAR = 0
+SIGMA  = 0.05
+LREAL=.FALSE.
+ALGO   = Normal
+LWAVE  = .FALSE.
+LCHARG = .FALSE.
+LASPH  = .TRUE.
+LORBIT = 11
