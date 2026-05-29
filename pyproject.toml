@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "minushalf"
-version = "1.8"
+version = "1.9"
 description = "Preprocessing tools for help in dft minus one half calculations"
 authors = ["Henrique <hentt30@gmail.com>"]
 

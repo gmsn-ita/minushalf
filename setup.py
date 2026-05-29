@@ -36,7 +36,7 @@ class f2py_Build(build_ext):
 
 setuptools.setup(
     name="minushalf",
-    version="1.8",
+    version="1.9",
     packages=setuptools.find_packages(),
     include_package_data=True,
     package_data={
