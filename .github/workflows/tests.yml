@@ -1,29 +1,37 @@
 name: Python package
-
 on:
   pull_request:
     branches: [main]
-
 concurrency:
   group: ${{ github.head_ref }}
   cancel-in-progress: true
-
 jobs:
   test-ubuntu:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         python: ["3.14"]
-
     steps:
       - uses: actions/checkout@v6
+
       - name: Setup Python
         uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python }}
-      - name: Install Tox and any other packages
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gfortran
+
+      - name: Install Python dependencies
+        run: pip install numpy
+
+      - name: Install minushalf
+        run: pip install .
+
+      - name: Install Tox
         run: pip install tox
 
       - name: Run Tox
-        # Run tox using the version of Python in `PATH`
         run: tox run -f py$(echo ${{ matrix.python }} | tr -d .)
