@@ -4,9 +4,11 @@
 
 In this markdown guide, we'll delve into everything you need to know about Minushalf. Whether you're an experienced developer or just starting out, this guide will walk you through the features, capabilities, and best practices for working with MinusHalf. 
 
-## Installing pyenv and Switching to Python 3.6.15
+## Installing pyenv and Switching to Python 3.14
 
-[`pyenv`](https://github.com/pyenv/pyenv) is a popular tool for managing multiple versions of Python on your system. Here's how you can install `pyenv` and switch to Python 3.6.15 for your MinusHalf development:
+[`pyenv`](https://github.com/pyenv/pyenv) is a popular tool for managing multiple versions of Python on your system. Here's how you can install `pyenv` and switch to Python 3.14* for your Minushalf development:
+
+*NOTE: Any version greater than 3.11 should also work.
 
 1. **Install pyenv**: Open a terminal window and execute the following commands:
 
@@ -23,31 +25,31 @@ In this markdown guide, we'll delve into everything you need to know about Minus
 
    This will install `pyenv` and set up the necessary environment variables in your shell profile.
 
-2. **Install Python 3.6.15**: Use `pyenv` to install Python 3.6.15 by executing the following command:
+2. **Install Python 3.14**: Use `pyenv` to install Python 3.14 by executing the following command:
 
    ```bash
-   pyenv install 3.6.15
+   pyenv install 3.14
    ```
 
-   This will download and install Python 3.6.15.
+   This will download and install Python 3.14.
 
-3. **Set Global Python Version**: Set the global Python version to 3.6.15 with the following command:
+3. **Set Global Python Version**: Set the global Python version to 3.14 with the following command:
 
    ```bash
-   pyenv global 3.6.15
+   pyenv global 3.14
    ```
 
-   This ensures that Python 3.6.15 is used as the default version across your system.
+   This ensures that Python 3.14 is used as the default version across your system.
 
-4. **Verify Python Version**: Confirm that Python 3.6.15 is now the active version by running:
+4. **Verify Python Version**: Confirm that Python 3.14 is now the active version by running:
 
    ```bash
    python --version
    ```
 
-   You should see the output indicating Python 3.6.15.
+   You should see the output indicating Python 3.14.
 
-Now you have `pyenv` installed and Python 3.6.15 set as your active version. You can proceed with your MinusHalf development using this specific Python version. Remember to refer to the MinusHalf documentation and the earlier sections of this guide for a complete development setup.
+Now you have `pyenv` installed and Python 3.14 set as your active version. You can proceed with your MinusHalf development using this specific Python version. Remember to refer to the MinusHalf documentation and the earlier sections of this guide for a complete development setup.
 
 
 ## Installation of Poetry
