@@ -9,4 +9,4 @@ pyyaml==6.0.1
 scipy==1.17.1
 aenum==3.1.17
 meson==1.11.1
-ninja==1.13.2
+ninja==1.13.0

@@ -18,8 +18,8 @@ scipy = "1.17.1"
 aenum = "3.1.17"
 
 [tool.poetry.group.dev.dependencies]
-pytest = "==7.0.0"
-pytest-mock = "==3.10.0"
+pytest = ">=7.0.0"
+pytest-mock = ">=3.10.0"
 autopep8 = "^2.0.2"
 
 [build-system]
@@ -41,8 +41,8 @@ install_command = python -m pip install {opts} {packages}
 
 [testenv]
 deps =
-    pytest==7.0.0
-    pytest-mock==3.10.0
+    pytest>=7.0.0
+    pytest-mock>=3.10.0
     pandas==3.0.3
     fortranformat==2.0.3
     click==8.1.0
