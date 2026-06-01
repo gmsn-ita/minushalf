@@ -44,6 +44,5 @@ def projection_to_df(projection: defaultdict(list)) -> pd.DataFrame:
             cat for col in cols for cat in orbital_type if col.startswith(cat)
         ]
 
-    normalized_df = normalized_df.groupby(join_orbitals(projection_df.columns),
-                                          axis=1).sum().round()
+    normalized_df = normalized_df.T.groupby(join_orbitals(projection_df.columns)).sum().T.round()
     return normalized_df

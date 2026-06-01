@@ -1,57 +1,61 @@
 [tool.poetry]
 name = "minushalf"
-version = "1.8"
+version = "1.9"
 description = "Preprocessing tools for help in dft minus one half calculations"
 authors = ["Henrique <hentt30@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.6.15"
-pandas = "1.1.5"
-fortranformat = "0.2.5"
-Click = "7.1.2"
-pyfiglet = "0.8.post1" 
-loguru = "0.5.3"
-tabulate = "0.8.10"
+python = "^3.14"
+pandas = "3.0.3"
+fortranformat = "2.0.3"
+click = "8.1.0"
+pyfiglet = "1.0.4"
+loguru = "0.7.3"
+tabulate = "0.9.0"
+numpy = "2.4.6"
 pyyaml = "6.0.1"
-scipy = "1.5.4"
-aenum = "3.0.0"
-numpy = "1.19.5"
-
-
-[tool.poetry.dev-dependencies]
-pytest = "6.2.1"
-pytest-mock = "3.0.0"
+scipy = "1.17.1"
+aenum = "3.1.17"
 
 [tool.poetry.group.dev.dependencies]
+pytest = ">=7.0.0"
+pytest-mock = ">=3.10.0"
 autopep8 = "^2.0.2"
 
 [build-system]
 build-backend = "setuptools.build_meta"
-requires = ["setuptools","numpy==1.19.5"]
+requires = ["setuptools", "wheel", "numpy==2.4.6", "meson", "ninja"]
+
+[tool.pytest.ini_options]
+# tells pytest where your tests live
+testpaths = ["tests"]
+# makes 'import minushalf' work from the repo root
+pythonpath = ["."]
 
 [tool.tox]
 legacy_tox_ini = """
-
 [tox]
-envlist =  py{36}
-skipsdist=True
-install_command = python -m pip install .
+envlist = py314
+skipsdist = True
+install_command = python -m pip install {opts} {packages}
 
 [testenv]
-deps=
-    pytest==6.2.1
-    pytest-mock==3.0.0
-    pandas==1.1.5
-    fortranformat==0.2.5
-    Click==7.1.2
-    pyfiglet==0.8.post1 
-    loguru==0.5.3
-    tabulate==0.8.10
-    pyyaml
-    scipy==1.5.4
-    aenum==3.0.0
-    numpy==1.19.5
-usedevelop=True
-commands=
-    python -m pytest
+deps =
+    pytest>=7.0.0
+    pytest-mock>=3.10.0
+    pandas==3.0.3
+    fortranformat==2.0.3
+    click==8.1.0
+    pyfiglet==1.0.4
+    loguru==0.7.3
+    tabulate==0.9.0
+    numpy==2.4.6
+    pyyaml==6.0.1
+    scipy==1.17.1
+    aenum==3.1.17
+    meson==1.11.1
+    ninja==1.13.0
+usedevelop = True
+commands =
+    python -m pytest {posargs}
 """
