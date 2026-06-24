@@ -78,7 +78,8 @@ def execute(quiet: bool):
     # Read yaml file
     logger.info("Reading minushalf.yaml file")
     minushalf_yaml = MinushalfYaml.from_file()
-    correction_factory_chooser = {Softwares.vasp.value: DFTCorrection}
+    correction_factory_chooser = {Softwares.vasp.value: DFTCorrection,
+                                  Softwares.qe.value: DFTCorrection}
 
     software_name = minushalf_yaml.get_software_name()
     correction = correction_factory_chooser[software_name]

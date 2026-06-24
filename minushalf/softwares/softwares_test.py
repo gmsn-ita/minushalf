@@ -10,7 +10,7 @@ def test_softwares():
     Verify if all softwares available are
     in the class
     """
-    softwares = ["VASP"]
+    softwares = ["VASP", "QE"]
     for element in softwares:
         assert Softwares[element.lower()].value == element
 

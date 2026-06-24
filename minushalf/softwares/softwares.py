@@ -4,6 +4,7 @@ by the CLI
 """
 from enum import Enum, unique
 from minushalf.softwares.vasp.vasp_factory import Vasp
+from minushalf.softwares.qe.qe_factory import QE
 
 
 @unique
@@ -13,6 +14,7 @@ class Softwares(Enum):
     """
 
     vasp = "VASP"
+    qe = "QE"
 
     def __str__(self):
         return str(self.name)
@@ -34,6 +36,7 @@ class Softwares(Enum):
 
 def get_software_factory(software: str):
     software_to_factory = {
-        Softwares.vasp.value: Vasp()
+        Softwares.vasp.value: Vasp(),
+        Softwares.qe.value: QE()
     }
     return software_to_factory[software]
