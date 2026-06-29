@@ -144,3 +144,48 @@ class QE(SoftwaresAbstractFactory):
         > Missing implementation to run ld1.x and virtual_v2.x
         """
         return QERunner(command)
+    
+    
+    def get_nearest_neighbor_distance(self,
+                                      ion_index: str,
+                                      filename: str,
+                                      base_path: str = None) -> float:
+        """
+            Args:
+                ion_index (str): The index of the ion from atoms map.
+                filename (str): Name of the pw.x output file.
+                base_path (str): Path to the folder where the file is located.
+
+            Returns:
+                distance (float): The distance of the nearest neighbor.
+        """
+        if base_path:
+            filename = os.path.join(base_path, filename)
+
+        output = PWOutput(filename)
+        return output.nearest_neighbor_distance(ion_index)
+
+    def get_number_of_equal_neighbors(self,
+                                      atoms_map: dict,
+                                      symbol: str,
+                                      filename: str = "OUTCAR",
+                                      base_path: str = None) -> float:
+        """
+        Given an map that links atoms symbols with it's index
+        this function returns the number of neighbors of the atom with
+        equal symbol but different indexes.
+
+            Args:
+                atoms_map (dict): Map the atoms index to their symbol.
+                symbom (str): The symbol of the target atom.
+
+            Returns:
+                number_equal_neighbors (int): Returns the number of neighbors with
+                                        same symbol but different indexes.
+        """
+        if base_path:
+            filename = os.path.join(base_path, filename)
+
+        output = PWOutput(filename)
+        return output.number_of_equal_neighbors(atoms_map, symbol)
+
