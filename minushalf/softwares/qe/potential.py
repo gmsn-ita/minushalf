@@ -2,9 +2,9 @@
 Reads a UPF v2 pseudopotential file, an input file for
 Quantum ESPRESSO software
 """
+import os
 import re
 import numpy as np
-from itertools import chain
 from minushalf.softwares.potential_file import PotentialFile
 
 
@@ -17,15 +17,6 @@ class Potential(PotentialFile):
     # Self-closing tag that holds all metadata as attributes:
     # <PP_HEADER ... mesh_size="1058" z_valence="5.00" element="N " .../>
     _HEADER_REGEX = re.compile(r"^\s*<PP_HEADER")
-
-    # Opening tags for data blocks — capture size for validation
-    # e.g.  <PP_R type="real"  size="1058" columns="8">
-    _OPEN_TAG_REGEX = re.compile(
-        r'^\s*<({tag})[^>]*size\s*=\s*"?\s*(\d+)"?[^>]*>'
-    )
-
-    # Closing tags
-    _CLOSE_TAG_REGEX = re.compile(r"^\s*</{tag}\s*>")
 
     # A data row: one or more scientific-notation or decimal numbers
     _DATA_ROW_REGEX = re.compile(
@@ -48,11 +39,10 @@ class Potential(PotentialFile):
             mesh_size   : number of radial grid points (int)
             r_grid      : radial grid r(i) in Bohr (np.ndarray, shape (mesh_size,))
             rab_grid    : integration weights dr(i) in Bohr (np.ndarray)
-            potential   : local potential V_local(r)·r in Ry·Bohr (np.ndarray)
-            name        : fixed string "UPF"
+            potential   : local potential V_local(r) in Ry (np.ndarray)
         """
         self.filename = filename
-        self.name = "UPF"
+        self.name = os.path.basename(self.filename)
 
         self.element, self.z_valence, self.mesh_size = (
             self._get_header_info()
@@ -61,13 +51,13 @@ class Potential(PotentialFile):
         self.rab_grid = self._get_block("PP_RAB")
         self.potential = self._get_block("PP_LOCAL")
 
-    def get_potential_fourier_transform(self) -> np.ndarray:
+    def get_local_potential(self) -> np.ndarray:
         """
-        Returns the local potential array V_local(r)·r sampled on the
+        Returns the local potential array V_local(r) sampled on the
         radial grid.
 
         Returns:
-            potential (np.ndarray): V_local(r)·r values in Ry·Bohr,
+            potential (np.ndarray): V_local(r) values in Ry,
                                     shape (mesh_size,)
         """
         return self.potential
@@ -78,17 +68,18 @@ class Potential(PotentialFile):
         """
         return self.name
 
-    def get_maximum_module_wave_vector(self) -> float:
+    def get_maximum_module_wave_vector(self) -> None:
         """
-        UPF files do not store k_max explicitly.  Returns the Nyquist
-        limit estimated from the radial grid spacing:
-            k_max ≈ π / dr_min
+        Not applicable for QE: k_max is not used by the QE correction
+        workflow and is not provided in the UPF file.
+ 
+        If an estimate is ever needed, the Nyquist limit from the radial
+        grid spacing can be used:
+            dr_min = min(diff(r_grid[r_grid > 0]))
+            k_max  ≈ π / dr_min   [Bohr⁻¹]
+        """
+        pass
 
-        Returns:
-            k_max (float): estimated maximum wave-vector modulus in Bohr⁻¹
-        """
-        dr_min = float(np.min(np.diff(self.r_grid[self.r_grid > 0])))
-        return np.pi / dr_min
 
     def to_stringlist(self) -> list:
         """
@@ -138,7 +129,7 @@ class Potential(PotentialFile):
     #  Private helpers                                                     #
     # ------------------------------------------------------------------ #
 
-    def _get_header_info(self) -> tuple:
+    def _get_header_info(self) -> tuple[str, float, int]:
         """
         Parse the self-closing <PP_HEADER .../> tag to extract:
           - element symbol
@@ -205,15 +196,11 @@ class Potential(PotentialFile):
 
         with open(self.filename, "r") as fh:
             for line in fh:
-                if not inside:
-                    if open_re.match(line):
-                        inside = True
-                    continue
-
-                if close_re.match(line):
+                if not inside and open_re.match(line):
+                    inside = True
+                elif inside and close_re.match(line):
                     break
-
-                if self._DATA_ROW_REGEX.match(line):
+                elif inside and self._DATA_ROW_REGEX.match(line):
                     values.extend(float(v) for v in line.split())
 
         if not values:
@@ -233,7 +220,7 @@ class Potential(PotentialFile):
         return data
 
     @staticmethod
-    def _format_data_block(array: np.ndarray, columns: int = 4) -> list:
+    def _format_data_block(array: np.ndarray, columns: int = 4) -> list[str]:
         """
         Format a NumPy array back into UPF-style lines of `columns`
         values each, using scientific notation matching QE's output.
@@ -251,3 +238,20 @@ class Potential(PotentialFile):
             line = "   ".join(f"{v:18.10E}" for v in chunk)
             lines.append(f"  {line}\n")
         return lines
+
+# ---------------------------------------------------------------------------
+# Smoke-test
+# ---------------------------------------------------------------------------
+if __name__ == "__main__":
+    import sys
+
+    filename = sys.argv[1] if len(sys.argv) > 1 else "/home/bruno-augusto/Desktop/QE_minushalf/QE/Al.upf"
+    upf = Potential(filename)
+
+    print(f"element    : {upf.element}")
+    print(f"z_valence  : {upf.z_valence}")
+    print(f"mesh_size  : {upf.mesh_size}")
+    print(f"r_grid     : {upf.r_grid[:4]} ...")
+    print(f"potential  : {upf.potential[:4]} ...")
+    print(f"name       : {upf.name} ...")
+    

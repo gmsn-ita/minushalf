@@ -1,7 +1,7 @@
 """
 Interface for
-classes that handles with fourier
-transforms of the potential
+classes that handles with the 
+local potential
 """
 from abc import ABC, abstractmethod
 
@@ -28,11 +28,10 @@ class PotentialFile(ABC):
         """
 
     @abstractmethod
-    def get_potential_fourier_transform(self) -> list:
+    def get_local_potential(self) -> list:
         """
         Abstract methods returns
-        the fourier transform of the
-        potential
+        the local potential
         """
 
     @abstractmethod

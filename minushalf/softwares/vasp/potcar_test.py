@@ -17,8 +17,8 @@ def test_potcar_ag(file_path):
     assert potcar.psctr_parameters[3].strip() == "PAW_PBE Ag 34Apr4331"
     assert np.isclose(potcar.get_maximum_module_wave_vector(),
                       20.0022020200042)
-    assert np.isclose(potcar.get_potential_fourier_transform()[0], 4.44444444)
-    assert np.isclose(potcar.get_potential_fourier_transform()[-1], 3.33333333)
+    assert np.isclose(potcar.get_local_potential()[0], 4.44444444)
+    assert np.isclose(potcar.get_local_potential()[-1], 3.33333333)
     assert potcar.last_lines[0].strip() == "gradient corrections used for XC"
     assert potcar.last_lines[-1].strip() == "End of Dataset"
 
@@ -49,8 +49,8 @@ def test_potcar_c(file_path):
     assert potcar.psctr_parameters[3].strip() == "PAW_PBE C 41Apr1441"
     assert np.isclose(potcar.get_maximum_module_wave_vector(),
                       232.232322323323)
-    assert np.isclose(potcar.get_potential_fourier_transform()[0], 4.44444444)
-    assert np.isclose(potcar.get_potential_fourier_transform()[-1], 2.22222222)
+    assert np.isclose(potcar.get_local_potential()[0], 4.44444444)
+    assert np.isclose(potcar.get_local_potential()[-1], 2.22222222)
     assert potcar.last_lines[0].strip() == "gradient corrections used for XC"
     assert potcar.last_lines[-1].strip() == "End of Dataset"
 
@@ -81,8 +81,8 @@ def test_potcar_er(file_path):
     assert potcar.psctr_parameters[3].strip() == "PAW_PBE Er 31Sep4331"
     assert np.isclose(potcar.get_maximum_module_wave_vector(),
                       23.0323023432223)
-    assert np.isclose(potcar.get_potential_fourier_transform()[0], 2.22222222)
-    assert np.isclose(potcar.get_potential_fourier_transform()[-1], 3.33333333)
+    assert np.isclose(potcar.get_local_potential()[0], 2.22222222)
+    assert np.isclose(potcar.get_local_potential()[-1], 3.33333333)
     assert potcar.last_lines[0].strip() == "gradient corrections used for XC"
     assert potcar.last_lines[-1].strip() == "End of Dataset"
 
@@ -113,8 +113,8 @@ def test_potcar_f(file_path):
     assert potcar.psctr_parameters[3].strip() == "PAW_PBE F 11Apr1111"
     assert np.isclose(potcar.get_maximum_module_wave_vector(),
                       144.114114424213)
-    assert np.isclose(potcar.get_potential_fourier_transform()[0], 3.34333333)
-    assert np.isclose(potcar.get_potential_fourier_transform()[-1], 1.11111111)
+    assert np.isclose(potcar.get_local_potential()[0], 3.34333333)
+    assert np.isclose(potcar.get_local_potential()[-1], 1.11111111)
     assert potcar.last_lines[0].strip() == "gradient corrections used for XC"
     assert potcar.last_lines[-1].strip() == "End of Dataset"
 
@@ -145,8 +145,8 @@ def test_potcar_fe(file_path):
     assert potcar.psctr_parameters[3].strip() == "PAW_PBE Fe 21Sep2222"
     assert np.isclose(potcar.get_maximum_module_wave_vector(),
                       22.2222222222142)
-    assert np.isclose(potcar.get_potential_fourier_transform()[0], 4.34344444)
-    assert np.isclose(potcar.get_potential_fourier_transform()[-1], 4.41442111)
+    assert np.isclose(potcar.get_local_potential()[0], 4.34344444)
+    assert np.isclose(potcar.get_local_potential()[-1], 4.41442111)
     assert potcar.last_lines[0].strip() == "gradient corrections used for XC"
     assert potcar.last_lines[-1].strip() == "End of Dataset"
 
@@ -177,8 +177,8 @@ def test_potcar_ga(file_path):
     assert potcar.psctr_parameters[3].strip() == "PAW_PBE Ga 33Apr3333"
     assert np.isclose(potcar.get_maximum_module_wave_vector(),
                       22.3000320300002)
-    assert np.isclose(potcar.get_potential_fourier_transform()[0], 4.44444444)
-    assert np.isclose(potcar.get_potential_fourier_transform()[-1], 2.22222224)
+    assert np.isclose(potcar.get_local_potential()[0], 4.44444444)
+    assert np.isclose(potcar.get_local_potential()[-1], 2.22222224)
     assert potcar.last_lines[0].strip() == "gradient corrections used for XC"
     assert potcar.last_lines[-1].strip() == "End of Dataset"
 
@@ -209,8 +209,8 @@ def test_potcar_h(file_path):
     assert potcar.psctr_parameters[3].strip() == "PAW_PBE H 33Jun3333"
     assert np.isclose(potcar.get_maximum_module_wave_vector(),
                       121.120000122110)
-    assert np.isclose(potcar.get_potential_fourier_transform()[0], 3.33333333)
-    assert np.isclose(potcar.get_potential_fourier_transform()[-1], 4.44444444)
+    assert np.isclose(potcar.get_local_potential()[0], 3.33333333)
+    assert np.isclose(potcar.get_local_potential()[-1], 4.44444444)
     assert potcar.last_lines[0].strip() == "gradient corrections used for XC"
     assert potcar.last_lines[-1].strip() == "End of Dataset"
 
@@ -241,8 +241,8 @@ def test_potcar_he(file_path):
     assert potcar.psctr_parameters[3].strip() == "PAW_PBE He 33Jan4334"
     assert np.isclose(potcar.get_maximum_module_wave_vector(),
                       022.224440022024)
-    assert np.isclose(potcar.get_potential_fourier_transform()[0], 3.33333333)
-    assert np.isclose(potcar.get_potential_fourier_transform()[-1], 4.44444444)
+    assert np.isclose(potcar.get_local_potential()[0], 3.33333333)
+    assert np.isclose(potcar.get_local_potential()[-1], 4.44444444)
     assert potcar.last_lines[0].strip() == "gradient corrections used for XC"
     assert potcar.last_lines[-1].strip() == "End of Dataset"
 
@@ -273,8 +273,8 @@ def test_potcar_mg(file_path):
     assert potcar.psctr_parameters[3].strip() == "PAW_PBE Mg 11Apr1112"
     assert np.isclose(potcar.get_maximum_module_wave_vector(),
                       43.3004443404304)
-    assert np.isclose(potcar.get_potential_fourier_transform()[0], 1.11111311)
-    assert np.isclose(potcar.get_potential_fourier_transform()[-1], 3.33333332)
+    assert np.isclose(potcar.get_local_potential()[0], 1.11111311)
+    assert np.isclose(potcar.get_local_potential()[-1], 3.33333332)
     assert potcar.last_lines[0].strip() == "gradient corrections used for XC"
     assert potcar.last_lines[-1].strip() == "End of Dataset"
 
@@ -305,8 +305,8 @@ def test_potcar_ir(file_path):
     assert potcar.psctr_parameters[3].strip() == "PAW_PBE Ir 13Sep1111"
     assert np.isclose(potcar.get_maximum_module_wave_vector(),
                       32.3233333333332)
-    assert np.isclose(potcar.get_potential_fourier_transform()[0], 4.44444444)
-    assert np.isclose(potcar.get_potential_fourier_transform()[-1], 4.41114111)
+    assert np.isclose(potcar.get_local_potential()[0], 4.44444444)
+    assert np.isclose(potcar.get_local_potential()[-1], 4.41114111)
     assert potcar.last_lines[0].strip() == "gradient corrections used for XC"
     assert potcar.last_lines[-1].strip() == "End of Dataset"
 
@@ -337,8 +337,8 @@ def test_potcar_mo(file_path):
     assert potcar.psctr_parameters[3].strip() == "PAW_PBE Mo 33Apr1331"
     assert np.isclose(potcar.get_maximum_module_wave_vector(),
                       22.2220200222202)
-    assert np.isclose(potcar.get_potential_fourier_transform()[0], 2.22222222)
-    assert np.isclose(potcar.get_potential_fourier_transform()[-1], 1.11111111)
+    assert np.isclose(potcar.get_local_potential()[0], 2.22222222)
+    assert np.isclose(potcar.get_local_potential()[-1], 1.11111111)
     assert potcar.last_lines[0].strip() == "gradient corrections used for XC"
     assert potcar.last_lines[-1].strip() == "End of Dataset"
 
@@ -369,8 +369,8 @@ def test_potcar_n(file_path):
     assert potcar.psctr_parameters[3].strip() == "PAW_PBE N 44Apr4444"
     assert np.isclose(potcar.get_maximum_module_wave_vector(),
                       434.434441343344)
-    assert np.isclose(potcar.get_potential_fourier_transform()[0], 4.33444344)
-    assert np.isclose(potcar.get_potential_fourier_transform()[-1], 2.22342222)
+    assert np.isclose(potcar.get_local_potential()[0], 4.33444344)
+    assert np.isclose(potcar.get_local_potential()[-1], 2.22342222)
     assert potcar.last_lines[0].strip() == "gradient corrections used for XC"
     assert potcar.last_lines[-1].strip() == "End of Dataset"
 
@@ -401,8 +401,8 @@ def test_potcar_ne(file_path):
     assert potcar.psctr_parameters[3].strip() == "PAW_PBE Ne 43Jan2443"
     assert np.isclose(potcar.get_maximum_module_wave_vector(),
                       220.424220000201)
-    assert np.isclose(potcar.get_potential_fourier_transform()[0], 3.33333333)
-    assert np.isclose(potcar.get_potential_fourier_transform()[-1], 4.44444444)
+    assert np.isclose(potcar.get_local_potential()[0], 3.33333333)
+    assert np.isclose(potcar.get_local_potential()[-1], 4.44444444)
     assert potcar.last_lines[0].strip() == "gradient corrections used for XC"
     assert potcar.last_lines[-1].strip() == "End of Dataset"
 
@@ -433,8 +433,8 @@ def test_potcar_ru(file_path):
     assert potcar.psctr_parameters[3].strip() == "PAW_PBE Ru 31Feb0334"
     assert np.isclose(potcar.get_maximum_module_wave_vector(),
                       14.4341134441414)
-    assert np.isclose(potcar.get_potential_fourier_transform()[0], 3.33333333)
-    assert np.isclose(potcar.get_potential_fourier_transform()[-1], 4.44444444)
+    assert np.isclose(potcar.get_local_potential()[0], 3.33333333)
+    assert np.isclose(potcar.get_local_potential()[-1], 4.44444444)
     assert potcar.last_lines[0].strip() == "gradient corrections used for XC"
     assert potcar.last_lines[-1].strip() == "End of Dataset"
 
@@ -465,8 +465,8 @@ def test_potcar_s(file_path):
     assert potcar.psctr_parameters[3].strip() == "PAW_PBE S 43Sep3444"
     assert np.isclose(potcar.get_maximum_module_wave_vector(),
                       23.2322222332323)
-    assert np.isclose(potcar.get_potential_fourier_transform()[0], 4.44444444)
-    assert np.isclose(potcar.get_potential_fourier_transform()[-1], 4.44444444)
+    assert np.isclose(potcar.get_local_potential()[0], 4.44444444)
+    assert np.isclose(potcar.get_local_potential()[-1], 4.44444444)
     assert potcar.last_lines[0].strip() == "gradient corrections used for XC"
     assert potcar.last_lines[-1].strip() == "End of Dataset"
 
@@ -497,8 +497,8 @@ def test_potcar_sn(file_path):
     assert potcar.psctr_parameters[3].strip() == "PAW_PBE Sn 13Apr3113"
     assert np.isclose(potcar.get_maximum_module_wave_vector(),
                       44.4444234442442)
-    assert np.isclose(potcar.get_potential_fourier_transform()[0], 1.11111111)
-    assert np.isclose(potcar.get_potential_fourier_transform()[-1], 1.41441111)
+    assert np.isclose(potcar.get_local_potential()[0], 1.11111111)
+    assert np.isclose(potcar.get_local_potential()[-1], 1.41441111)
     assert potcar.last_lines[0].strip() == "gradient corrections used for XC"
     assert potcar.last_lines[-1].strip() == "End of Dataset"
 
@@ -529,8 +529,8 @@ def test_potcar_tc(file_path):
     assert potcar.psctr_parameters[3].strip() == "PAW_PBE Tc 10Feb0114"
     assert np.isclose(potcar.get_maximum_module_wave_vector(),
                       11.1111111111111)
-    assert np.isclose(potcar.get_potential_fourier_transform()[0], 2.22222222)
-    assert np.isclose(potcar.get_potential_fourier_transform()[-1], 1.41121414)
+    assert np.isclose(potcar.get_local_potential()[0], 2.22222222)
+    assert np.isclose(potcar.get_local_potential()[-1], 1.41121414)
     assert potcar.last_lines[0].strip() == "gradient corrections used for XC"
     assert potcar.last_lines[-1].strip() == "End of Dataset"
 
@@ -561,8 +561,8 @@ def test_potcar_v(file_path):
     assert potcar.psctr_parameters[3].strip() == "PAW_PBE V 11Apr3113"
     assert np.isclose(potcar.get_maximum_module_wave_vector(),
                       33.3331333111131)
-    assert np.isclose(potcar.get_potential_fourier_transform()[0], 1.11111111)
-    assert np.isclose(potcar.get_potential_fourier_transform()[-1], 2.22444222)
+    assert np.isclose(potcar.get_local_potential()[0], 1.11111111)
+    assert np.isclose(potcar.get_local_potential()[-1], 2.22444222)
     assert potcar.last_lines[0].strip() == "gradient corrections used for XC"
     assert potcar.last_lines[-1].strip() == "End of Dataset"
 
@@ -593,8 +593,8 @@ def test_potcar_w(file_path):
     assert potcar.psctr_parameters[3].strip() == "PAW_PBE W 41Apr4444"
     assert np.isclose(potcar.get_maximum_module_wave_vector(),
                       42.4444422222444)
-    assert np.isclose(potcar.get_potential_fourier_transform()[0], 4.44444444)
-    assert np.isclose(potcar.get_potential_fourier_transform()[-1], 4.44444444)
+    assert np.isclose(potcar.get_local_potential()[0], 4.44444444)
+    assert np.isclose(potcar.get_local_potential()[-1], 4.44444444)
     assert potcar.last_lines[0].strip() == "gradient corrections used for XC"
     assert potcar.last_lines[-1].strip() == "End of Dataset"
 
@@ -624,8 +624,8 @@ def test_potcar_xe(file_path):
     assert potcar.psctr_parameters[-1].strip() == "local part"
     assert potcar.psctr_parameters[3].strip() == "PAW_PBE Xe 21Sep2222"
     assert np.isclose(potcar.get_maximum_module_wave_vector(), 3.3220323033312)
-    assert np.isclose(potcar.get_potential_fourier_transform()[0], 1.11111111)
-    assert np.isclose(potcar.get_potential_fourier_transform()[-1], 4.44424424)
+    assert np.isclose(potcar.get_local_potential()[0], 1.11111111)
+    assert np.isclose(potcar.get_local_potential()[-1], 4.44424424)
     assert potcar.last_lines[0].strip() == "gradient corrections used for XC"
     assert potcar.last_lines[-1].strip() == "End of Dataset"
 
@@ -656,8 +656,8 @@ def test_potcar_lda_si(file_path):
     assert potcar.psctr_parameters[3].strip() == "PAW Si 04Apr4222"
     assert np.isclose(potcar.get_maximum_module_wave_vector(),
                       31.2131311111111)
-    assert np.isclose(potcar.get_potential_fourier_transform()[0], 2.22222222)
-    assert np.isclose(potcar.get_potential_fourier_transform()[-1], 3.33333333)
+    assert np.isclose(potcar.get_local_potential()[0], 2.22222222)
+    assert np.isclose(potcar.get_local_potential()[-1], 3.33333333)
     assert potcar.last_lines[0].strip() == "core charge-density (partial)"
     assert potcar.last_lines[-1].strip() == "End of Dataset"
 

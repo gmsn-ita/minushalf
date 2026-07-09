@@ -21,7 +21,7 @@ class Potcar(PotentialFile):
         self.last_lines = self._get_last_lines()
         self.name = "POTCAR"
 
-    def get_potential_fourier_transform(self) -> list:
+    def get_local_potential(self) -> list:
         """
         Returns:
             potential(list): List of fourier transform
