@@ -9,7 +9,6 @@ from typing import List
 
 from minushalf.softwares.software_abstract_factory import SoftwaresAbstractFactory
 
-from minushalf.softwares.qe.pwoutput import PWOutput
 from minushalf.softwares.qe.pwscf import PWSCF
 from minushalf.softwares.qe.projoutput import ProjOutput
 from minushalf.softwares.qe.potential import Potential
@@ -34,11 +33,11 @@ class QE(SoftwaresAbstractFactory):
         """
         if base_path:
             filename = os.path.join(base_path, filename)
-        pwout = PWOutput(filename, self.syst)
+        pwout = PWSCF(filename, self.syst)
         return pwout.atoms_map
     
     def get_fermi_energy(self,
-                         filename: str = 'pwscf.xml',
+                         filename: str  = 'pwscf.xml',
                          base_path: str = None) -> float:
         """
             Args:
@@ -50,8 +49,8 @@ class QE(SoftwaresAbstractFactory):
         """
         if base_path:
             filename = os.path.join(base_path, filename)
-        pwscf = PWSCF(filename, self.syst)
-        return pwscf.fermi_energy
+        pwout = PWSCF(filename, self.syst)
+        return pwout.fermi_energy
     
     def get_band_projection_class(
         self,
@@ -84,7 +83,7 @@ class QE(SoftwaresAbstractFactory):
         """
         if base_path:
             filename = os.path.join(base_path, filename)
-        pwout = PWOutput(filename)
+        pwout = PWSCF(filename)
         return pwout.num_bands
 
     def get_number_of_kpoints(self,
@@ -100,7 +99,7 @@ class QE(SoftwaresAbstractFactory):
         """
         if base_path:
             filename = os.path.join(base_path, filename)
-        pwout = PWOutput(filename)
+        pwout = PWSCF(filename)
         return pwout.num_kpoints
 
     def get_potential_class(
@@ -134,8 +133,8 @@ class QE(SoftwaresAbstractFactory):
         """
         if base_path:
             filename = os.path.join(base_path, filename)
-        pwscf = PWSCF(filename)
-        return pwscf.eigenvalues
+        pwout = PWSCF(filename)
+        return pwout.eigenvalues
 
     def get_runner(self, command: List[str]):
         """
@@ -162,7 +161,7 @@ class QE(SoftwaresAbstractFactory):
         if base_path:
             filename = os.path.join(base_path, filename)
 
-        output = PWOutput(filename)
+        output = PWSCF(filename)
         return output.nearest_neighbor_distance(ion_index)
 
     def get_number_of_equal_neighbors(self,
@@ -186,6 +185,6 @@ class QE(SoftwaresAbstractFactory):
         if base_path:
             filename = os.path.join(base_path, filename)
 
-        output = PWOutput(filename)
+        output = PWSCF(filename)
         return output.number_of_equal_neighbors(atoms_map, symbol)
 
