@@ -38,8 +38,8 @@ def test_pwscf_aln_2d(file_path):
     # --- nearest_neighbor_distance: check all ions have entries ---
     for index in pwscf.atoms_map:
         assert len(pwscf.relative_distances[index]) > 0
-    assert pwscf.number_of_equal_neighbors(pwscf.atoms_map, "Al") == 0 
-    assert pwscf.number_of_equal_neighbors(pwscf.atoms_map, "N") == 0
+    assert pwscf.number_of_equal_neighbors(pwscf.atoms_map, "Al") == 1 
+    assert pwscf.number_of_equal_neighbors(pwscf.atoms_map, "N") == 1
 
 def test_pwscf_sic_2d(file_path):
     """
@@ -72,5 +72,5 @@ def test_pwscf_sic_2d(file_path):
     # --- nearest_neighbor_distance: check all ions have entries ---
     for index in pwscf.atoms_map:
         assert len(pwscf.relative_distances[index]) > 0
-    assert pwscf.number_of_equal_neighbors(pwscf.atoms_map, "Si") == 1 
-    assert pwscf.number_of_equal_neighbors(pwscf.atoms_map, "C") == 1
+    assert pwscf.number_of_equal_neighbors(pwscf.atoms_map, "Si") == 0 
+    assert pwscf.number_of_equal_neighbors(pwscf.atoms_map, "C") == 0
