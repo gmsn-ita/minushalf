@@ -1,15 +1,12 @@
 """
 Reads the pw.x XML data file ($prefix.xml),
 an output of Quantum ESPRESSO software
-
-The XML schema used here is the one written by pw.x since QE 6.x
-(the "data-file-schema.xml" / $prefix.xml format), not the legacy
-plain-text stdout format parsed by ``pwoutput.py``. All energies in
-this schema are reported in Hartree atomic units.
 """
 import numpy as np
 import xml.etree.ElementTree as ET
 from collections import defaultdict
+
+_BOHR_TO_ANGSTROM = 0.529177
 
 
 class PWSCF():
@@ -202,7 +199,6 @@ class PWSCF():
                 { ion_index_str: [(neighbor_index_str, distance_Å), ...] }
                 sorted by ascending distance for each ion.
         """
-        BOHR_TO_ANGSTROM = 0.529177
         atomic_structure = self._root.find(".//atomic_structure")
         if atomic_structure is None:
             raise Exception(
@@ -242,7 +238,7 @@ class PWSCF():
                         min_dist = dist
                 if min_dist is not None:
                     relative_distances[i].append(
-                        (j, min_dist * BOHR_TO_ANGSTROM)
+                        (j, min_dist * _BOHR_TO_ANGSTROM)
                     )
             relative_distances[i].sort(key=lambda t: t[1])
 

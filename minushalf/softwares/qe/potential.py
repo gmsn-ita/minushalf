@@ -238,20 +238,4 @@ class Potential(PotentialFile):
             line = "   ".join(f"{v:18.10E}" for v in chunk)
             lines.append(f"  {line}\n")
         return lines
-
-# ---------------------------------------------------------------------------
-# Smoke-test
-# ---------------------------------------------------------------------------
-if __name__ == "__main__":
-    import sys
-
-    filename = sys.argv[1] if len(sys.argv) > 1 else "/home/bruno-augusto/Desktop/QE_minushalf/QE/Al.upf"
-    upf = Potential(filename)
-
-    print(f"element    : {upf.element}")
-    print(f"z_valence  : {upf.z_valence}")
-    print(f"mesh_size  : {upf.mesh_size}")
-    print(f"r_grid     : {upf.r_grid[:4]} ...")
-    print(f"potential  : {upf.potential[:4]} ...")
-    print(f"name       : {upf.name} ...")
     

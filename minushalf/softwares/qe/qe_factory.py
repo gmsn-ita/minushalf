@@ -22,7 +22,7 @@ class QE(SoftwaresAbstractFactory):
     """
 
     def get_atoms_map(self,
-                      filename: str,
+                      filename: str = 'pwscf.xml',
                       base_path: str = None) -> dict:
         """
         Args:
@@ -71,7 +71,7 @@ class QE(SoftwaresAbstractFactory):
         return ProjOutput(filename)
     
     def get_number_of_bands(self,
-                            filename: str,
+                            filename: str = 'pwscf.xml',
                             base_path: str = None) -> int:
         """
             Args:
@@ -87,7 +87,7 @@ class QE(SoftwaresAbstractFactory):
         return pwout.num_bands
 
     def get_number_of_kpoints(self,
-                              filename: str,
+                              filename: str = 'pwscf.xml',
                               base_path: str = None) -> int:
         """
             Args:
@@ -120,7 +120,7 @@ class QE(SoftwaresAbstractFactory):
         return Potential(filename)
 
     def get_eigenvalues(self,
-                        filename: str,
+                        filename: str = 'pwscf.xml',
                         base_path: str = None) -> dict:
         """
             Args:
@@ -147,7 +147,7 @@ class QE(SoftwaresAbstractFactory):
     
     def get_nearest_neighbor_distance(self,
                                       ion_index: str,
-                                      filename: str,
+                                      filename: str = 'pwscf.xml',
                                       base_path: str = None) -> float:
         """
             Args:
@@ -167,7 +167,7 @@ class QE(SoftwaresAbstractFactory):
     def get_number_of_equal_neighbors(self,
                                       atoms_map: dict,
                                       symbol: str,
-                                      filename: str = "OUTCAR",
+                                      filename: str = 'pwscf.xml',
                                       base_path: str = None) -> float:
         """
         Given an map that links atoms symbols with it's index
