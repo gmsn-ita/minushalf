@@ -3,7 +3,6 @@ Reads projwfc_up file, an output of
 Quantum ESPRESSO projwfc.x software
 """
 import re
-from itertools import islice
 from collections import defaultdict
 from minushalf.softwares.band_projection_file import BandProjectionFile
 
@@ -12,6 +11,27 @@ class ProjOutput(BandProjectionFile):
     """
     Reads a projwfc_up file and stores band projection information.
 
+    File structure
+    --------------
+    The file is divided into blocks separated by a state header line:
+
+        state_idx  atom_idx  symbol  wfc_label  wfc_idx  l  m
+
+    e.g.:
+        1    1 Al   3S     1    0    1
+        2    1 Al   3P     2    1    1
+        ...
+
+    Each state block is followed by rows of:
+        kpoint_index    band_index    projection_value
+
+    e.g.:
+        1       1        0.4379301244
+        1       2        0.1468167336
+        ...
+        40      20       0.0003262801
+
+    The projection value is |<psi_nk | phi_i>|^2 (already squared).
     """
 
     # ------------------------------------------------------------------ #
@@ -59,6 +79,10 @@ class ProjOutput(BandProjectionFile):
         Return the projection of a given (kpoint, band) onto every
         atomic state.
 
+        Mirrors the Procar interface:  the return value is a dict whose
+        keys are atom indices (str) and whose values are lists of floats,
+        one entry per orbital of that atom, ordered by increasing m.
+
         Args:
             kpoint      (int): 1-based k-point index
             band_number (int): 1-based band index
@@ -86,15 +110,21 @@ class ProjOutput(BandProjectionFile):
         return projections
 
     # ------------------------------------------------------------------ #
-    #  Private helpers                                                   #
+    #  Private helpers                                                     #
     # ------------------------------------------------------------------ #
 
     def _get_dimensions(self) -> tuple:
         """
         Single-pass scan to determine:
-          - number of k-points  (max kpoint index seen)
-          - number of bands     (max band index seen)
+          - number of k-points  (from header line: "nstates  nkpts  nbands")
+          - number of bands     (from header line: "nstates  nkpts  nbands")
           - number of states    (count of state header lines)
+
+        The file header contains a summary line of exactly three integers:
+            16      40      20
+        meaning 16 atomic states, 40 k-points, 20 bands. This is read
+        directly rather than inferring from max indices in the data rows,
+        which would risk picking up stray integers from the file header.
 
         Also populates self.states_info as a side-effect so we only
         read the file once during __init__.
@@ -102,12 +132,25 @@ class ProjOutput(BandProjectionFile):
         Returns:
             (num_kpoints, num_bands, num_states) (tuple[int, int, int])
         """
-        max_kpoint = 0
-        max_band = 0
+        # Matches exactly three integers on a line — the summary header
+        summary_regex = re.compile(r"^\s*(\d+)\s+(\d+)\s+(\d+)\s*$")
+
+        num_kpoints = None
+        num_bands   = None
         states_seen = set()
 
         with open(self.filename, "r") as fh:
             for line in fh:
+                # Parse summary header before state blocks begin
+                if num_kpoints is None:
+                    summary_match = summary_regex.match(line)
+                    if summary_match:
+                        # format: num_states  num_kpoints  num_bands
+                        num_kpoints = int(summary_match.group(2))
+                        num_bands   = int(summary_match.group(3))
+                    continue
+
+                # Once header is found, collect state header lines
                 state_match = self._STATE_HEADER_REGEX.match(line)
                 if state_match:
                     state_idx = int(state_match.group(1))
@@ -120,29 +163,19 @@ class ProjOutput(BandProjectionFile):
                             "l":         int(state_match.group(4)),
                             "m":         int(state_match.group(5)),
                         })
-                    continue
 
-                data_match = self._DATA_ROW_REGEX.match(line)
-                if data_match:
-                    kpt  = int(data_match.group(1))
-                    band = int(data_match.group(2))
-                    if kpt  > max_kpoint:
-                        max_kpoint = kpt
-                    if band > max_band:
-                        max_band = band
-
+        if num_kpoints is None or num_bands is None:
+            raise Exception(
+                "ProjOutput parser could not find the summary header line "
+                f"(nstates nkpts nbands) in {self.filename}"
+            )
         if not states_seen:
             raise Exception(
                 "ProjOutput parser could not find any state headers "
                 f"in {self.filename}"
             )
-        if max_kpoint == 0 or max_band == 0:
-            raise Exception(
-                "ProjOutput parser could not find any projection data "
-                f"in {self.filename}"
-            )
 
-        return max_kpoint, max_band, len(states_seen)
+        return num_kpoints, num_bands, len(states_seen)
 
     def _load_projections(self) -> None:
         """
@@ -178,3 +211,4 @@ class ProjOutput(BandProjectionFile):
             s: {k: dict(bands) for k, bands in kpts.items()}
             for s, kpts in raw.items()
         }
+        

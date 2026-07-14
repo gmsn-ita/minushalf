@@ -3,7 +3,6 @@ Test Potential class
 """
 import numpy as np
 from minushalf.softwares.qe.potential import Potential
-from minushalf.softwares.vasp.potcar import Potcar
 
 
 def test_potential_al(file_path):
