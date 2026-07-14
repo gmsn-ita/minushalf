@@ -12,7 +12,7 @@ def test_parse_projoutput_header_aln_2d(file_path):
     Test if the dimensions and states_info are correctly parsed
     from the projwfc_up file for AlN (2D).
     """
-    filename = file_path("/aln-2d/proj.projwfc_up")
+    filename = file_path("aln-2d/proj.projwfc_up")
     proj = ProjOutput(filename)
 
     # --- dimensions ---
@@ -42,7 +42,7 @@ def test_get_band_projection_kpt_1_band_1_aln_2d(file_path):
     """
     Verify the band projection for kpoint 1, band 1 for AlN (2D).
     """
-    filename = file_path("/aln-2d/proj.projwfc_up")
+    filename = file_path("aln-2d/proj.projwfc_up")
     proj = ProjOutput(filename)
 
     # Expected: { atom_index_str: [orbital_proj_0, orbital_proj_1, ...] }
@@ -64,7 +64,7 @@ def test_get_band_projection_kpt_1_band_last_aln_2d(file_path):
     """
     Verify the band projection for kpoint 1, last band for AlN (2D).
     """
-    filename = file_path("/aln-2d/proj.projwfc_up")
+    filename = file_path("aln-2d/proj.projwfc_up")
     proj = ProjOutput(filename)
 
     expected = {
@@ -87,7 +87,7 @@ def test_get_band_projection_kpt_last_band_1_aln_2d(file_path):
     """
     Verify the band projection for the last kpoint, band 1 for AlN (2D).
     """
-    filename = file_path("/aln-2d/proj.projwfc_up")
+    filename = file_path("aln-2d/proj.projwfc_up")
     proj = ProjOutput(filename)
 
     expected = {
@@ -110,7 +110,7 @@ def test_parse_projoutput_header_sic_2d(file_path):
     Test if the dimensions and states_info are correctly parsed
     from the projwfc_up file for SiC (2D).
     """
-    filename = file_path("/sic-2d/proj.projwfc_up")
+    filename = file_path("sic-2d/proj.projwfc_up")
     proj = ProjOutput(filename)
 
     # --- dimensions ---
@@ -140,7 +140,7 @@ def test_get_band_projection_kpt_1_band_1_sic_2d(file_path):
     """
     Verify the band projection for kpoint 1, band 1 for SiC (2D).
     """
-    filename = file_path("/sic-2d/proj.projwfc_up")
+    filename = file_path("sic-2d/proj.projwfc_up")
     proj = ProjOutput(filename)
 
     # Expected: { atom_index_str: [orbital_proj_0, orbital_proj_1, ...] }
@@ -160,7 +160,7 @@ def test_get_band_projection_kpt_1_band_last_sic_2d(file_path):
     """
     Verify the band projection for kpoint 1, last band for SiC (2D).
     """
-    filename = file_path("/sic-2d/proj.projwfc_up")
+    filename = file_path("sic-2d/proj.projwfc_up")
     proj = ProjOutput(filename)
 
     expected = {
@@ -181,7 +181,7 @@ def test_get_band_projection_kpt_last_band_1_sic_2d(file_path):
     """
     Verify the band projection for the last kpoint, band 1 for SiC (2D).
     """
-    filename = file_path("/sic-2d/proj.projwfc_up")
+    filename = file_path("sic-2d/proj.projwfc_up")
     proj = ProjOutput(filename)
 
     expected = {
