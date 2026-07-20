@@ -11,7 +11,7 @@ _BOHR_TO_ANGSTROM = 0.529177
 
 class PWSCF():
     """
-    Reads a pw.x XML output file (e.g. pwscf.xml) and stores
+    Read a pw.x XML output file (e.g. pwscf.xml) and stores
     information parsed from it.
     """
 
