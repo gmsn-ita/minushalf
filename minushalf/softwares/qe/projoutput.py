@@ -1,6 +1,9 @@
 """
-Reads projwfc_up file, an output of
-Quantum ESPRESSO projwfc.x software
+Parse the `projwfc.x` output file from Quantum ESPRESSO.
+
+Read and process the spin-up projection file (`projwfc_up`), which
+contains the projections of Kohn-Sham states onto atomic orbitals as
+computed by `projwfc.x`.
 """
 import re
 from collections import defaultdict
@@ -9,29 +12,24 @@ from minushalf.softwares.band_projection_file import BandProjectionFile
 
 class ProjOutput(BandProjectionFile):
     """
-    Reads a projwfc_up file and stores band projection information.
-
+    Parse a `projwfc_up` file and store the band projection information.
     File structure
     --------------
-    The file is divided into blocks separated by a state header line:
-
+    The file consists of blocks, one per atomic state, each introduced by a
+    header line with the following fields:
         state_idx  atom_idx  symbol  wfc_label  wfc_idx  l  m
-
-    e.g.:
+    Example::
         1    1 Al   3S     1    0    1
         2    1 Al   3P     2    1    1
-        ...
-
-    Each state block is followed by rows of:
+    Each header is followed by rows of k-point and band projections:
         kpoint_index    band_index    projection_value
-
-    e.g.:
+    Example::
         1       1        0.4379301244
         1       2        0.1468167336
         ...
         40      20       0.0003262801
-
-    The projection value is |<psi_nk | phi_i>|^2 (already squared).
+    The projection value is :math:`|\\langle \\psi_{nk} | \\phi_i \\rangle|^2`
+    (already squared).
     """
 
     # ------------------------------------------------------------------ #

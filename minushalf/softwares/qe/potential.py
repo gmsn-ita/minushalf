@@ -3,8 +3,8 @@ Reads a UPF v2 pseudopotential file, an input file for
 Quantum ESPRESSO software
 """
 import os
-import re
 import numpy as np
+import xml.etree.ElementTree as ET
 from minushalf.softwares.potential_file import PotentialFile
 
 
@@ -12,21 +12,29 @@ class Potential(PotentialFile):
     """
     Parses a UPF v2 pseudopotential file and stores the local potential
     and radial mesh.
+
+    UPF v2 file structure (relevant blocks):
+    -----------------------------------------
+    <PP_HEADER ... mesh_size="1058" z_valence="5.00" element="N" .../>
+
+    <PP_MESH>
+      <PP_R type="real" size="1058" columns="8">
+        0.0000    0.0100    0.0200 ...      ← radial grid r(i) in Bohr
+      </PP_R>
+      <PP_RAB type="real" size="1058" columns="8">
+        ...                                 ← integration weights dr(i)
+      </PP_RAB>
+    </PP_MESH>
+
+    <PP_LOCAL type="real" size="1058" columns="4">
+      -1.7028214881E+01  -1.7027517148E+01  ...   ← V_local(r) in Ry
+    </PP_LOCAL>
+
+    Values in PP_LOCAL are V_local(r) in Ry (QE convention), sampled on
+    the radial grid. The radial grid PP_R and weights
+    PP_RAB are stored alongside so that callers can perform a Fourier
+    transform if needed.
     """
-
-    # Self-closing tag that holds all metadata as attributes:
-    # <PP_HEADER ... mesh_size="1058" z_valence="5.00" element="N " .../>
-    _HEADER_REGEX = re.compile(r"^\s*<PP_HEADER")
-
-    # A data row: one or more scientific-notation or decimal numbers
-    _DATA_ROW_REGEX = re.compile(
-        r"^\s*[-+]?[0-9]*\.?[0-9]+(?:[EeDd][-+]?\d+)?"
-    )
-
-    # Attribute extraction helpers
-    _ATTR_MESH_SIZE  = re.compile(r'mesh_size\s*=\s*"?\s*(\d+)"?')
-    _ATTR_Z_VALENCE  = re.compile(r'z_valence\s*=\s*"?\s*([-+]?[0-9.E+\-]+)"?')
-    _ATTR_ELEMENT    = re.compile(r'element\s*=\s*"([^"]+)"')
 
     def __init__(self, filename: str) -> None:
         """
@@ -34,6 +42,7 @@ class Potential(PotentialFile):
             filename (str): path to the UPF v2 file (e.g. 'N.upf')
         Members:
             filename    : stored path
+            name        : name of the upf file
             element     : chemical symbol parsed from PP_HEADER (str)
             z_valence   : valence charge from PP_HEADER (float)
             mesh_size   : number of radial grid points (int)
@@ -42,20 +51,25 @@ class Potential(PotentialFile):
             potential   : local potential V_local(r) in Ry (np.ndarray)
         """
         self.filename = filename
+        self._root = ET.parse(filename).getroot()
         self.name = os.path.basename(self.filename)
 
         self.element, self.z_valence, self.mesh_size = (
             self._get_header_info()
         )
-        self.r_grid  = self._get_block("PP_R")
+        self.r_grid   = self._get_block("PP_R")
         self.rab_grid = self._get_block("PP_RAB")
         self.potential = self._get_block("PP_LOCAL")
+
+    # ------------------------------------------------------------------ #
+    #  Public interface — mirrors Potcar                                   #
+    # ------------------------------------------------------------------ #
 
     def get_local_potential(self) -> np.ndarray:
         """
         Returns the local potential array V_local(r) sampled on the
         radial grid.
-
+ 
         Returns:
             potential (np.ndarray): V_local(r) values in Ry,
                                     shape (mesh_size,)
@@ -72,7 +86,7 @@ class Potential(PotentialFile):
         """
         Not applicable for QE: k_max is not used by the QE correction
         workflow and is not provided in the UPF file.
- 
+
         If an estimate is ever needed, the Nyquist limit from the radial
         grid spacing can be used:
             dr_min = min(diff(r_grid[r_grid > 0]))
@@ -80,36 +94,22 @@ class Potential(PotentialFile):
         """
         pass
 
-
     def to_stringlist(self) -> list:
-        """
-        Reconstruct the UPF file as a list of strings, replacing only
-        the PP_LOCAL block with the (possibly modified) self.potential.
-        
-        Returns:
-            upf_lines (list[str]): full UPF file contents
-        """
-        local_open_re  = re.compile(r"^\s*<PP_LOCAL[^>]*>")
-        local_close_re = re.compile(r"^\s*</PP_LOCAL\s*>")
-
         lines_out = []
         skip = False
 
         with open(self.filename, "r") as fh:
             for line in fh:
-                if local_open_re.match(line):
-                    # Write the original opening tag verbatim
+                stripped = line.strip()
+                if stripped.startswith("<PP_LOCAL") and stripped.endswith(">"):
                     lines_out.append(line)
-                    # Inject the (modified) potential values
                     lines_out.extend(self._format_data_block(self.potential,
-                                                             columns=4))
+                                                            columns=4))
                     skip = True
-                    continue
-                if skip and local_close_re.match(line):
+                elif skip and stripped == "</PP_LOCAL>":
                     lines_out.append(line)
                     skip = False
-                    continue
-                if not skip:
+                elif not skip:
                     lines_out.append(line)
 
         return lines_out
@@ -129,87 +129,56 @@ class Potential(PotentialFile):
     #  Private helpers                                                     #
     # ------------------------------------------------------------------ #
 
-    def _get_header_info(self) -> tuple[str, float, int]:
+    def _get_header_info(self) -> tuple:
         """
-        Parse the self-closing <PP_HEADER .../> tag to extract:
-          - element symbol
-          - z_valence
-          - mesh_size
-
-        The tag may span multiple lines, so lines are accumulated until
-        the closing '/>' is found.
+        Extract element, z_valence and mesh_size from the
+        <PP_HEADER .../> attributes using ElementTree.
 
         Returns:
             (element, z_valence, mesh_size) (tuple[str, float, int])
         """
-        header_lines = []
-        inside = False
-
-        with open(self.filename, "r") as fh:
-            for line in fh:
-                if not inside and self._HEADER_REGEX.match(line):
-                    inside = True
-                if inside:
-                    header_lines.append(line)
-                    if "/>" in line:
-                        break
-
-        if not header_lines:
+        header = self._root.find(".//PP_HEADER")
+        if header is None:
             raise Exception(
                 f"UPFFile parser could not find <PP_HEADER> in {self.filename}"
             )
 
-        header_text = "".join(header_lines)
+        element   = header.get("element")
+        z_valence = header.get("z_valence")
+        mesh_size = header.get("mesh_size")
 
-        element_match   = self._ATTR_ELEMENT.search(header_text)
-        z_val_match     = self._ATTR_Z_VALENCE.search(header_text)
-        mesh_size_match = self._ATTR_MESH_SIZE.search(header_text)
-
-        if not (element_match and z_val_match and mesh_size_match):
+        if not (element and z_valence and mesh_size):
             raise Exception(
                 "UPFFile parser could not extract element, z_valence, or "
                 f"mesh_size from PP_HEADER in {self.filename}"
             )
 
         return (
-            element_match.group(1).strip(),
-            float(z_val_match.group(1)),
-            int(mesh_size_match.group(1)),
+            element.strip(),
+            float(z_valence),
+            int(mesh_size),
         )
 
     def _get_block(self, tag: str) -> np.ndarray:
         """
-        Generic block reader: finds <tag ...> ... </tag> in the UPF file
-        and returns all numeric values as a flat NumPy array.
-        
+        Generic block reader: finds the element with the given tag anywhere
+        in the tree and returns all its numeric text content as a flat
+        NumPy array.
+
         Args:
             tag (str): block name, e.g. 'PP_R', 'PP_RAB', 'PP_LOCAL'
 
         Returns:
             data (np.ndarray): flat float64 array of all values in the block
         """
-        open_re  = re.compile(rf"^\s*<{re.escape(tag)}[^>]*>")
-        close_re = re.compile(rf"^\s*</{re.escape(tag)}\s*>")
-
-        values = []
-        inside = False
-
-        with open(self.filename, "r") as fh:
-            for line in fh:
-                if not inside and open_re.match(line):
-                    inside = True
-                elif inside and close_re.match(line):
-                    break
-                elif inside and self._DATA_ROW_REGEX.match(line):
-                    values.extend(float(v) for v in line.split())
-
-        if not values:
+        element = self._root.find(f".//{tag}")
+        if element is None or not element.text:
             raise Exception(
                 f"UPFFile parser could not find block <{tag}> "
                 f"in {self.filename}"
             )
 
-        data = np.array(values, dtype=np.float64)
+        data = np.array(element.text.split(), dtype=np.float64)
 
         if len(data) != self.mesh_size:
             raise Exception(
@@ -220,7 +189,7 @@ class Potential(PotentialFile):
         return data
 
     @staticmethod
-    def _format_data_block(array: np.ndarray, columns: int = 4) -> list[str]:
+    def _format_data_block(array: np.ndarray, columns: int = 4) -> list:
         """
         Format a NumPy array back into UPF-style lines of `columns`
         values each, using scientific notation matching QE's output.

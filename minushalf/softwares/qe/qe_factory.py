@@ -1,7 +1,9 @@
 """
-    Factory to generate same modules for different softwares
+Abstract factory interface for creating software-specific objects used in the
+minushalf workflow, such as runners, parsers, and pseudopotential handlers.
 
-    - Quantum Espresso
+Supported software packages:
+    - Quantum ESPRESSO
 """
 
 import os
@@ -17,24 +19,35 @@ from minushalf.softwares.qe.runner import QERunner
 
 class QE(SoftwaresAbstractFactory):
     """
-    Concrete Factory for create instances
-    for Quantum Espresso
+    Concrete implementation of `SoftwaresAbstractFactory` for Quantum ESPRESSO.
+
+    Provides factory methods to create the objects required to run and parse
+    Quantum ESPRESSO calculations within the minushalf workflow, including
+    runners, parsers, and pseudopotential handlers.
     """
+    def __init__(self):
+        self._pwscf_cache = {}
+
+    def _load_pwscf(self, filename='pwscf.xml', base_path=None):
+        if base_path:
+            filename = os.path.join(base_path, filename)
+        if filename not in self._pwscf_cache:
+            self._pwscf_cache[filename] = PWSCF(filename)
+        return self._pwscf_cache[filename]
+    
 
     def get_atoms_map(self,
                       filename: str = 'pwscf.xml',
                       base_path: str = None) -> dict:
         """
         Args:
-            filename (str): Name of the output file.
+            filename (str): Name of the 'prefix'.xml file from QE pw.x scf calculation.
             base_path (str): Path to the folder where the file is located.
         Returns:
             atoms_map (dict): Map of atomic symbols to their respective indexes.
         """
-        if base_path:
-            filename = os.path.join(base_path, filename)
-        pwout = PWSCF(filename, self.syst)
-        return pwout.atoms_map
+
+        return self._load_pwscf(filename, base_path).atoms_map
     
     def get_fermi_energy(self,
                          filename: str  = 'pwscf.xml',
@@ -47,10 +60,7 @@ class QE(SoftwaresAbstractFactory):
             Returns:
                 fermi_energy (dict): Energy of the fermi level
         """
-        if base_path:
-            filename = os.path.join(base_path, filename)
-        pwout = PWSCF(filename, self.syst)
-        return pwout.fermi_energy
+        return self._load_pwscf(filename, base_path).fermi_energy
     
     def get_band_projection_class(
         self,
@@ -75,32 +85,26 @@ class QE(SoftwaresAbstractFactory):
                             base_path: str = None) -> int:
         """
             Args:
-                filename (str): Name of the output file from pw.x.
+                filename (str): Name of the 'prefix'.xml file from QE pw.x scf calculation.
                 base_path (str): Path to the folder where the file is located.
 
             Returns:
                 number_of_bands(int): Number of bands used in calculation
         """
-        if base_path:
-            filename = os.path.join(base_path, filename)
-        pwout = PWSCF(filename)
-        return pwout.num_bands
+        return self._load_pwscf(filename, base_path).number_of_bands
 
     def get_number_of_kpoints(self,
                               filename: str = 'pwscf.xml',
                               base_path: str = None) -> int:
         """
             Args:
-                filename (str): Name of the output file from pw.x.
+                filename (str): Name of the 'prefix'.xml file from QE pw.x scf calculation.
                 base_path (str): Path to the folder where the file is located.
 
             Returns:
                 number_of_kpoints(int): Number of kpoints used in calculation
         """
-        if base_path:
-            filename = os.path.join(base_path, filename)
-        pwout = PWSCF(filename)
-        return pwout.num_kpoints
+        return self._load_pwscf(filename, base_path).number_of_kpoints
 
     def get_potential_class(
         self,
@@ -131,10 +135,7 @@ class QE(SoftwaresAbstractFactory):
                 eigenvalues (dict): dictionary containing the eigenvalues
                 for each kpoint and each band
         """
-        if base_path:
-            filename = os.path.join(base_path, filename)
-        pwout = PWSCF(filename)
-        return pwout.eigenvalues
+        return self._load_pwscf(filename, base_path).eigenvalues
 
     def get_runner(self, command: List[str]):
         """
@@ -152,17 +153,13 @@ class QE(SoftwaresAbstractFactory):
         """
             Args:
                 ion_index (str): The index of the ion from atoms map.
-                filename (str): Name of the pw.x output file.
+                filename (str): Name of the 'prefix'.xml file from QE pw.x scf calculation.
                 base_path (str): Path to the folder where the file is located.
 
             Returns:
                 distance (float): The distance of the nearest neighbor.
         """
-        if base_path:
-            filename = os.path.join(base_path, filename)
-
-        output = PWSCF(filename)
-        return output.nearest_neighbor_distance(ion_index)
+        return self._load_pwscf(filename, base_path).nearest_neighbor_distance(ion_index)
 
     def get_number_of_equal_neighbors(self,
                                       atoms_map: dict,
@@ -177,14 +174,12 @@ class QE(SoftwaresAbstractFactory):
             Args:
                 atoms_map (dict): Map the atoms index to their symbol.
                 symbom (str): The symbol of the target atom.
+                filename (str): Name of the 'prefix'.xml file from QE pw.x scf calculation.
+                base_path (str): Path to the folder where the file is located.
 
             Returns:
                 number_equal_neighbors (int): Returns the number of neighbors with
                                         same symbol but different indexes.
         """
-        if base_path:
-            filename = os.path.join(base_path, filename)
-
-        output = PWSCF(filename)
-        return output.number_of_equal_neighbors(atoms_map, symbol)
+        return self._load_pwscf(filename, base_path).number_of_equal_neighbors(atoms_map, symbol)
 

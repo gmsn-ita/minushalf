@@ -55,9 +55,22 @@ def test_get_band_projection_kpt_1_band_1_aln_2d(file_path):
 
     band_projection = proj.get_band_projection(kpoint=1, band_number=1)
 
+    # Check that the returned keys match exactly
+    assert set(band_projection.keys()) == set(expected.keys())
+
     for atom_index, projections in band_projection.items():
+        # Check that this atom_index was expected
+        assert atom_index in expected
+
+        # Check that the number of orbitals matches
+        assert len(projections) == len(expected[atom_index])
+
+        # Check each orbital value
         for orbital_idx, value in enumerate(projections):
-            assert np.isclose(value, expected[atom_index][orbital_idx])
+            assert np.isclose(value, expected[atom_index][orbital_idx]), (
+                f"atom {atom_index}, orbital {orbital_idx}: "
+                f"got {value}, expected {expected[atom_index][orbital_idx]}"
+            )
 
 
 def test_get_band_projection_kpt_1_band_last_aln_2d(file_path):
@@ -78,9 +91,22 @@ def test_get_band_projection_kpt_1_band_last_aln_2d(file_path):
         kpoint=1, band_number=proj.num_bands
     )
 
+    # Check that the returned keys match exactly
+    assert set(band_projection.keys()) == set(expected.keys())
+
     for atom_index, projections in band_projection.items():
+        # Check that this atom_index was expected
+        assert atom_index in expected
+
+        # Check that the number of orbitals matches
+        assert len(projections) == len(expected[atom_index])
+
+        # Check each orbital value
         for orbital_idx, value in enumerate(projections):
-            assert np.isclose(value, expected[atom_index][orbital_idx])
+            assert np.isclose(value, expected[atom_index][orbital_idx]), (
+                f"atom {atom_index}, orbital {orbital_idx}: "
+                f"got {value}, expected {expected[atom_index][orbital_idx]}"
+            )
 
 
 def test_get_band_projection_kpt_last_band_1_aln_2d(file_path):
@@ -101,9 +127,22 @@ def test_get_band_projection_kpt_last_band_1_aln_2d(file_path):
         kpoint=proj.num_kpoints, band_number=1
     )
 
+    # Check that the returned keys match exactly
+    assert set(band_projection.keys()) == set(expected.keys())
+
     for atom_index, projections in band_projection.items():
+        # Check that this atom_index was expected
+        assert atom_index in expected
+
+        # Check that the number of orbitals matches
+        assert len(projections) == len(expected[atom_index])
+
+        # Check each orbital value
         for orbital_idx, value in enumerate(projections):
-            assert np.isclose(value, expected[atom_index][orbital_idx])
+            assert np.isclose(value, expected[atom_index][orbital_idx]), (
+                f"atom {atom_index}, orbital {orbital_idx}: "
+                f"got {value}, expected {expected[atom_index][orbital_idx]}"
+            )
 
 def test_parse_projoutput_header_sic_2d(file_path):
     """
@@ -151,9 +190,22 @@ def test_get_band_projection_kpt_1_band_1_sic_2d(file_path):
 
     band_projection = proj.get_band_projection(kpoint=1, band_number=1)
 
+    # Check that the returned keys match exactly
+    assert set(band_projection.keys()) == set(expected.keys())
+
     for atom_index, projections in band_projection.items():
+        # Check that this atom_index was expected
+        assert atom_index in expected
+
+        # Check that the number of orbitals matches
+        assert len(projections) == len(expected[atom_index])
+
+        # Check each orbital value
         for orbital_idx, value in enumerate(projections):
-            assert np.isclose(value, expected[atom_index][orbital_idx])
+            assert np.isclose(value, expected[atom_index][orbital_idx]), (
+                f"atom {atom_index}, orbital {orbital_idx}: "
+                f"got {value}, expected {expected[atom_index][orbital_idx]}"
+            )
 
 
 def test_get_band_projection_kpt_1_band_last_sic_2d(file_path):
@@ -172,9 +224,22 @@ def test_get_band_projection_kpt_1_band_last_sic_2d(file_path):
         kpoint=1, band_number=proj.num_bands
     )
 
+    # Check that the returned keys match exactly
+    assert set(band_projection.keys()) == set(expected.keys())
+
     for atom_index, projections in band_projection.items():
+        # Check that this atom_index was expected
+        assert atom_index in expected
+
+        # Check that the number of orbitals matches
+        assert len(projections) == len(expected[atom_index])
+
+        # Check each orbital value
         for orbital_idx, value in enumerate(projections):
-            assert np.isclose(value, expected[atom_index][orbital_idx])
+            assert np.isclose(value, expected[atom_index][orbital_idx]), (
+                f"atom {atom_index}, orbital {orbital_idx}: "
+                f"got {value}, expected {expected[atom_index][orbital_idx]}"
+            )
 
 
 def test_get_band_projection_kpt_last_band_1_sic_2d(file_path):
@@ -193,6 +258,19 @@ def test_get_band_projection_kpt_last_band_1_sic_2d(file_path):
         kpoint=proj.num_kpoints, band_number=1
     )
 
+    # Check that the returned keys match exactly
+    assert set(band_projection.keys()) == set(expected.keys())
+
     for atom_index, projections in band_projection.items():
+        # Check that this atom_index was expected
+        assert atom_index in expected
+
+        # Check that the number of orbitals matches
+        assert len(projections) == len(expected[atom_index])
+
+        # Check each orbital value
         for orbital_idx, value in enumerate(projections):
-            assert np.isclose(value, expected[atom_index][orbital_idx])
+            assert np.isclose(value, expected[atom_index][orbital_idx]), (
+                f"atom {atom_index}, orbital {orbital_idx}: "
+                f"got {value}, expected {expected[atom_index][orbital_idx]}"
+            )
