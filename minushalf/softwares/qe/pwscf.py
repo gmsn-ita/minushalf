@@ -1,5 +1,5 @@
 """
-Reads the pw.x XML data file ($prefix.xml),
+Read the pw.x XML data file ($prefix.xml),
 an output of Quantum ESPRESSO software
 """
 import numpy as np
