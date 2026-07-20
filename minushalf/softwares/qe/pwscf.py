@@ -5,6 +5,7 @@ an output of Quantum ESPRESSO software
 import numpy as np
 import xml.etree.ElementTree as ET
 from collections import defaultdict
+from typing import Any, Callable
 
 _BOHR_TO_ANGSTROM = 0.529177
 
@@ -76,80 +77,49 @@ class PWSCF():
 
     def _get_fermi_energy(self) -> float:
         """
-        Extract the Fermi energy from the QE XML data file.
-
-        The relevant snippet looks like:
-            <band_structure>
-                ...
-                <fermi_energy>1.315231424826367E-001</fermi_energy>
-                ...
-            </band_structure>
-
-        Returns:
-            fermi_energy (float): Fermi energy in Hartree atomic units
+        Extract the Fermi energy in Hartree atomic units from
+        <band_structure>/<fermi_energy>.
         """
-        fermi_element = self._root.find(".//fermi_energy")
-        if fermi_element is None:
-            raise Exception(
-                f"PWSCF parser could not find <fermi_energy> in {self.filename}"
-            )
-        try:
-            return float(fermi_element.text)
-        except ValueError as invalid_conversion:
-            raise Exception(
-                "PWSCF parser could not parse the fermi energy value"
-            ) from invalid_conversion
+        return self._get_xml_value(".//fermi_energy", float, "<fermi_energy>")
 
     def _get_number_of_kpoints(self) -> int:
         """
-        Extract the number of k-points from the <nks> tag inside
-        <band_structure> of the QE XML file.
-
-        The relevant snippet looks like:
-            <band_structure>
-                ...
-                <nks>40</nks>
-                ...
-            </band_structure>
-
-        Returns:
-            number_of_kpoints (int): number of k-points used in the calculation
+        Extract the number of k-points from <band_structure>/<nks>.
         """
-        nks_element = self._root.find(".//band_structure/nks")
-        if nks_element is None:
-            raise Exception(
-                f"PWSCF parser could not find <band_structure>/<nks> in {self.filename}"
-            )
-        try:
-            return int(nks_element.text)
-        except ValueError as invalid_conversion:
-            raise Exception(
-                "PWSCF parser could not parse the number of k-points value"
-            ) from invalid_conversion
+        return self._get_xml_value(".//band_structure/nks", int,
+                                   "<band_structure>/<nks>")
 
     def _get_number_of_bands(self) -> int:
         """
-        Extract the number of bands from the <bands> block of the QE XML file.
+        Extract the number of bands from <band_structure>/<nbnd>.
+        """
+        return self._get_xml_value(".//band_structure/nbnd", int,
+                                   "<band_structure>/<nbnd>")
 
-        The relevant snippet looks like:
-            <bands>
-                <nbnd>20</nbnd>
-                ...
-            </bands>
+    def _get_xml_value(self, xpath: str, cast: Callable[[str], Any],
+                       label: str) -> Any:
+        """
+        Look up a value in the parsed XML tree and cast it to the desired type.
+
+        Args:
+            xpath (str): XPath expression locating the element to read.
+            cast  (Callable[[str], Any]): callable to convert the element's
+                text content to the desired type (e.g. float, int).
+            label (str): human-readable label used in error messages.
 
         Returns:
-            number_of_bands (int): number of bands used in the calculation
+            The element's text content converted using cast.
         """
-        nbnd_element = self._root.find(".//band_structure/nbnd")
-        if nbnd_element is None:
+        element = self._root.find(xpath)
+        if element is None:
             raise Exception(
-                f"PWSCF parser could not find <band_structure>/<nbnd> in {self.filename}"
+                f"PWSCF parser could not find {label} in {self.filename}"
             )
         try:
-            return int(nbnd_element.text)
+            return cast(element.text)
         except ValueError as invalid_conversion:
             raise Exception(
-                "PWSCF parser could not parse the number of bands value"
+                f"PWSCF parser could not parse the {label} value"
             ) from invalid_conversion
 
     def _get_eigenvalues(self) -> defaultdict:
@@ -314,4 +284,3 @@ class PWSCF():
         same_symbol     = atoms_map.get(target_index) == symbol
         not_visited     = not visited_neighbors[target_index]
         return different_index and same_symbol and not_visited
-
