@@ -10,7 +10,7 @@ from minushalf.softwares.potential_file import PotentialFile
 
 class Potential(PotentialFile):
     """
-    Parses a UPF v2 pseudopotential file and stores the local potential
+    Parse a UPF v2 pseudopotential file and store the local potential
     and radial mesh.
 
     UPF v2 file structure (relevant blocks):
