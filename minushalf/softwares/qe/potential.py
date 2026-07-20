@@ -1,6 +1,5 @@
 """
-Reads a UPF v2 pseudopotential file, an input file for
-Quantum ESPRESSO software
+Read a UPF v2 pseudopotential file
 """
 import os
 import numpy as np
