@@ -54,7 +54,7 @@ def get_output_filenames(software: str,
     elif software.upper() in ("QE", "QUANTUM_ESPRESSO"):
         if input_name is None:
             raise Exception(
-                "QE requires --software-input to determine output file prefix."
+                "QE requires --input-name to determine output file prefix."
             )
         prefix, outdir = _get_prefix_and_outdir(input_name)
 

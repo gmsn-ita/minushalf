@@ -26,7 +26,7 @@ from minushalf.utils.software_input import get_output_filenames
               nargs=1,
               help="""Path to folder where the relevant files are located.""")
 @click.option(
-    '-i', '--input-name',
+    '-n', '--input-name',
     type=click.Path(),
     nargs=1,
     default=None,
