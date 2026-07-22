@@ -41,7 +41,7 @@ def band_gap(software: str, base_path: str, input_name: str, indirect:bool) -> N
     """Uses output files from softwares that perform ab initio calculations to
       provide the locations of VBM, CBM and the Gap value in electronvolts.The
       names of the files required for each software are listed below, it is
-      worth mentioning that their names cannot be modified.
+      worth mentioning that, for some software, their names cannot be modified.
 
     VASP: PROCAR, EIGENVAL, vasprun.xml
     QE:   {prefix}.xml, {prefix}.save/, {prefix}.pdos_atm* (requires --input-name)

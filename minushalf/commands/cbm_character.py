@@ -7,6 +7,8 @@ from minushalf.softwares.softwares import Softwares, get_software_factory
 from minushalf.utils.cli_messages import welcome_message, end_message
 from minushalf.utils.projection_to_df import projection_to_df
 from minushalf.utils.band_structure import BandStructure
+from minushalf.utils.software_input import get_output_filenames
+
 
 
 @click.command()
@@ -28,7 +30,15 @@ from minushalf.utils.band_structure import BandStructure
               nargs=1,
               is_flag=True,
               help="""Calculate indirect band gap.""")
-def cbm_character(software: str, base_path: str, indirect: bool) -> None:
+@click.option('-n',
+              '--input-name',
+              type=click.Path(),
+              nargs=1,
+              default=None,
+              help="""Path to the software input file. Required for QE to determine
+              output file prefix."""
+)
+def cbm_character(software: str, base_path: str, input_name: str, indirect: bool) -> None:
     """Uses output files from softwares that perform ab initio calculations to
       discover the first conduction band (CBM) and extract, in percentage, its
       character corresponding to each orbital type (s, p, d, ... ). The
@@ -36,18 +46,29 @@ def cbm_character(software: str, base_path: str, indirect: bool) -> None:
       worth mentioning that their names cannot be modified.
 
     VASP: PROCAR, EIGENVAL, vasprun.xml
+    QE:   {prefix}.xml, {prefix}.save/, {prefix}.pdos_atm* (requires --input-name)
     """
 
     welcome_message("minushalf")
 
+    filenames = get_output_filenames(software, input_name, base_path)
     factory = get_software_factory(software.upper())
 
-    eigenvalues = factory.get_eigenvalues(base_path=base_path)
-    fermi_energy = factory.get_fermi_energy(base_path=base_path)
-    atoms_map = factory.get_atoms_map(base_path=base_path)
-    num_bands = factory.get_number_of_bands(base_path=base_path)
+    eigenvalues          = factory.get_eigenvalues(
+                               filename=filenames["eigenvalues"],
+                               base_path=base_path)
+    fermi_energy         = factory.get_fermi_energy(
+                               filename=filenames["fermi_energy"],
+                               base_path=base_path)
+    atoms_map            = factory.get_atoms_map(
+                               filename=filenames["atoms_map"],
+                               base_path=base_path)
+    num_bands            = factory.get_number_of_bands(
+                               filename=filenames["number_of_bands"],
+                               base_path=base_path)
     band_projection_file = factory.get_band_projection_class(
-        base_path=base_path)
+                               filename=filenames["band_projection"],
+                               base_path=base_path)
 
     band_structure = BandStructure(eigenvalues, fermi_energy, atoms_map,
                                    num_bands, band_projection_file)
