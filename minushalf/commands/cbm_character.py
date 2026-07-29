@@ -51,7 +51,7 @@ def cbm_character(software: str, base_path: str, input_name: str, indirect: bool
 
     welcome_message("minushalf")
 
-    filenames = get_output_filenames(software, input_name, base_path)
+    filenames = get_output_filenames(software.upper(), input_name, base_path)
     factory = get_software_factory(software.upper())
 
     eigenvalues          = factory.get_eigenvalues(

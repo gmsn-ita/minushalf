@@ -1,22 +1,38 @@
 """
-Leads with input file (INP.ae)
-read by atomic program.
+Leads with input file
+read by atomic programs.
+
+Suported programs are:
+    ATOM, for VASP
+    ld1.x, for Quantum ESPRESSO
 """
 import numpy as np
 import fortranformat as ff
 import loguru
 from minushalf.utils.electronic_distribution import ElectronicDistribution
 from minushalf.utils.periodic_table import PeriodicTable
-from minushalf.utils.exchange_correlation import ExchangeCorrelation
+from minushalf.utils.exchange_correlation import ExchangeCorrelation, ExchangeCorrelationQE
 from minushalf.utils.calculation_code import CalculationCode
 from minushalf.utils.drop_comments import drop_comments
 from minushalf.utils.parse_valence_orbital_line import parse_valence_orbitals
+
 
 
 class InputFile:
     """
     Parses input file.
     """
+
+    _NOBLE_GAS_CORE = {
+    0: None,
+    1: "He",
+    3: "Ne",
+    5: "Ar",
+    8: "Kr",
+    11: "Xe",
+    15: "Rn",
+    }
+
     def __init__(self,
                  exchange_correlation_code: str,
                  calculation_code: str,
@@ -26,16 +42,22 @@ class InputFile:
                  number_core_orbitals: int,
                  valence_orbitals: list,
                  description: str = "",
-                 last_lines: list = None) -> None:
+                 last_lines: list = None,
+                 software: str = "VASP",
+                 cut: float = 0.0) -> None:
         """
         Args:
+            software (str): For wich software the input file is. (VASP, Quantum ESPRESSO, ...)
+
+            cut (float): The potential cutoff radius (for ld1.x)
+
             chemical_symbol (str): Symbol of the chemical element (H, He, Li...)
 
             esoteric_line (str):  Its use is somewhat esoteric and for most
             calculations it should contain just a 0.0 in the position shown.
 
             exchange_correlation_code (str): functional of exchange and correlation
-            ((r)ca(s), (r)wi(s), (r)hl(s), (r)gl(s) ,(r)bh(s), (r)pb(s), (r)rp(s), (r)rv(s), (r)bl(s))
+            ((r)ca(s), (r)wi(s), (r)hl(s), (r)gl(s) ,(r)bh(s), (r)pb(s), (r)rp(s), (r)rv(s), (r)bl(s), (r)pz(s))
 
             calculation code (str): Calculation code for inp file (ae)
 
@@ -50,6 +72,8 @@ class InputFile:
             last_lines (list): any line or property that comes after
             electronic distribution
         """
+        self.software = software
+        self.cut = cut
         self.exchange_correlation_code = exchange_correlation_code
         self.calculation_code = calculation_code
         self.description = description
@@ -78,7 +102,7 @@ class InputFile:
         format the string correctly.
 
         Args:
-            symbol (str): chemical symbol of the element (H, He, Li...)
+            symbol (str): chemical symbol of the element (H, He, Li, ...)
         """
 
         try:
@@ -94,7 +118,7 @@ class InputFile:
         """
         Returns:
             Functional of exchange and correlation
-            (ca, wi, hl, gl,bh, pb, rp, rv, bl
+            (ca, wi, hl, gl,bh, pb, rp, rv, bl, pz)
         """
         return self._exchange_correlation_code
 
@@ -107,7 +131,7 @@ class InputFile:
 
         Args:
             exchange_correlation_code (str): functional of exchange and correlation
-            (ca, wi, hl, gl ,bh, pb, rp, rv, bl()
+            (ca, wi, hl, gl ,bh, pb, rp, rv, bl, pz)
         """
         try:
             code = ExchangeCorrelation[exchange_correlation_code].value
@@ -134,6 +158,8 @@ class InputFile:
         """
         Verify if the calculation is valid
         conforms the ATOM documentation
+
+        Note: For DFT-1/2 calculations, only ae is supported. This is a legacy and redundant code.
 
         Args:
             calculation code (str): Calculation code for inp file (ae)
@@ -180,6 +206,8 @@ class InputFile:
                 "Trouble with occupation. Please verify the parameters passed and the INP file."
             )
 
+#### VASP ATOM Input file ######
+     
     def _add_first_line(self, input_lines: list) -> None:
         """
         Add the first line of the INP file (Calculation code and description)
@@ -241,19 +269,153 @@ class InputFile:
 
             input_lines.append("{}{}\n".format(quantum_numbers, occupation))
 
+#### Quantum ESPRESSO ld1.x Input file ######
+
+    def _add_input_card(self, lines: list) -> None:
+
+        zed    = list(PeriodicTable).index(
+                    PeriodicTable[self.chemical_symbol]) + 1
+        config = self._build_config(self.chemical_symbol)
+
+        # Translate VASP code to QE equivalent
+        try:
+            dft = ExchangeCorrelationQE[self.exchange_correlation_code].value
+        except KeyError:
+            raise ValueError(
+                f"Exchange-correlation code '{self.exchange_correlation_code}' "
+                f"is not supported for QE (ca and bh are VASP-only)."
+            )
+
+        lines.append("&input\n")
+        lines.append(f"  title='{self.chemical_symbol}',\n")
+        lines.append(f"  zed={zed},\n")
+        lines.append(f"  config='{config}',\n")
+        lines.append(f"  dft='{dft}'\n")
+        lines.append("  iswitch=4\n")
+        lines.append("/\n")
+
+    def _add_test_card(self, lines: list) -> None:
+        """
+        Append the &test namelist to lines.
+
+        configts(1) mirrors the full ground-state configuration.
+        configts(2) is the fractional-occupation configuration used
+        for the DFT-1/2 correction, derived by reducing the outermost
+        non-zero orbital occupation by 0.5.
+
+        Note: file_pseudo and file_pseudopw are left blank pending
+        implementation of the pseudopotential file resolution logic.
+        """
+        config_gs   = self._build_config(self.chemical_symbol)
+        config_half = self._build_half_config(self.chemical_symbol)
+
+        lines.append("&test\n")
+        lines.append("  file_pseudo='NewPseudo.UPF',\n")
+        lines.append(f"  file_pseudopw='{self.chemical_symbol}-05.upf.temp',\n")
+        lines.append(f"  configts(1)='{config_gs}',\n")
+        lines.append(f"  configts(2)='{config_half}',\n")
+        lines.append(f"  rcutv={self.cut}\n")
+        lines.append("/\n")
+
+    @staticmethod
+    def _build_config(chemical_symbol: str) -> str:
+        """
+        Build the full spectroscopic config string for ld1.x.
+        Core orbitals are represented in noble gas notation.
+
+        Examples:
+            N  (0 core)  → '1s2 2s2 2p3'         (He has 0 core so no bracket)
+            Cl (3 core)  → '[Ne] 3s2 3p5'
+            Al (3 core)  → '[Ne] 3s2 3p1'
+        """
+        _L_LABELS = {0: "s", 1: "p", 2: "d", 3: "f"}
+
+        raw_lines = InputFile._get_electronic_distribution_from_symbol(
+            chemical_symbol)
+        num_core = int(raw_lines[0].split()[0])
+        orbital_lines = raw_lines[1:]
+
+        core_str = ""
+        noble = InputFile._NOBLE_GAS_CORE.get(num_core)
+        if noble:
+            core_str = f"[{noble}] "
+
+        parts = []
+        for line in orbital_lines:
+            tokens = line.split()
+            n   = int(tokens[0])
+            l   = int(tokens[1])
+            occ = float(tokens[2])
+            if occ < 1e-8:
+                continue
+            occ_str = f"{int(occ)}" if occ == int(occ) else f"{occ:.1f}"
+            parts.append(f"{n}{_L_LABELS[l]}{occ_str}")
+
+        return core_str + " ".join(parts)
+
+
+    @staticmethod
+    def _build_half_config(chemical_symbol: str) -> str:
+        """
+        Build the DFT-1/2 config string with noble gas core notation,
+        reducing the outermost non-zero orbital occupation by 0.5.
+
+        Example:
+            N  → '1s2 2s2 2p2.5'
+            Cl → '[Ne] 3s2 3p4.5'
+        """
+        _L_LABELS = {0: "s", 1: "p", 2: "d", 3: "f"}
+
+        raw_lines = InputFile._get_electronic_distribution_from_symbol(
+            chemical_symbol)
+        num_core = int(raw_lines[0].split()[0])
+        orbital_lines = raw_lines[1:]
+
+        core_str = ""
+        noble = InputFile._NOBLE_GAS_CORE.get(num_core)
+        if noble:
+            core_str = f"[{noble}] "
+
+        orbitals = []
+        for line in orbital_lines:
+            tokens = line.split()
+            n   = int(tokens[0])
+            l   = int(tokens[1])
+            occ = float(tokens[2])
+            if occ < 1e-8:
+                continue
+            orbitals.append({"n": n, "l": l, "occ": occ})
+
+        orbitals[-1]["occ"] -= 0.5
+
+        parts = []
+        for orb in orbitals:
+            occ_str = (f"{int(orb['occ'])}" if orb["occ"] == int(orb["occ"])
+                    else f"{orb['occ']:.1f}")
+            parts.append(f"{orb['n']}{_L_LABELS[orb['l']]}{occ_str}")
+
+        return core_str + " ".join(parts)
+
+#### END Of Suported Softwares ####
+
     def to_stringlist(self) -> list:
         """
             Returns:
                 List with the lines of the INP file.
         """
+        
         input_lines = []
-        self._add_first_line(input_lines)
-        self._add_second_line(input_lines)
-        self._add_third_line(input_lines)
-        self._add_fourth_line(input_lines)
-        self._add_electronic_distribution(input_lines)
-        ## Append last lines
-        input_lines += self.last_lines
+        if self.software == "VASP":
+            self._add_first_line(input_lines)
+            self._add_second_line(input_lines)
+            self._add_third_line(input_lines)
+            self._add_fourth_line(input_lines)
+            self._add_electronic_distribution(input_lines)
+            ## Append last lines
+            input_lines += self.last_lines
+        elif self.software == "QE":
+            self._add_input_card(input_lines)
+            self._add_test_card(input_lines)
 
         return input_lines
 
@@ -413,7 +575,8 @@ class InputFile:
     def minimum_setup(chemical_symbol: str,
                       exchange_correlation_code: str,
                       maximum_iterations: int = 100,
-                      calculation_code: str = "ae") -> any:
+                      calculation_code: str = "ae",
+                      software: str = "VASP", cut: float = 0.0) -> any:
         """
         Create INP file with minimum setup.
 
@@ -421,7 +584,7 @@ class InputFile:
             chemical_symbol (str): Symbol of the chemical element (H, He, Li...).
 
             exchange_correlation_code (str): functional of exchange and correlation
-            ( ca, wi, hl, gl, bh, pb, rp , rv, bl)
+            ( ca, wi, hl, gl, bh, pb, rp , rv, bl, pz)
 
             maximum_iterations (int): Maximum number of iterations for atomic program.
             The default is 100
@@ -433,6 +596,10 @@ class InputFile:
         electronic_distribution = InputFile._get_electronic_distribution_from_symbol(
             chemical_symbol)
         constructor_props = {
+            "software":
+            software,
+            "cut":
+            cut,
             "exchange_correlation_code":
             exchange_correlation_code,
             "calculation_code":
