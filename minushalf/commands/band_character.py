@@ -7,7 +7,7 @@ from minushalf.softwares.softwares import Softwares, get_software_factory
 from minushalf.utils.cli_messages import welcome_message,end_message
 from minushalf.utils.projection_to_df import projection_to_df
 from minushalf.utils.band_structure import  BandStructure
-from minushalf.utils.software_input import get_output_filenames
+from minushalf.minushalf.utils.software_output import get_output_filenames
 
 
 @click.command()
@@ -30,8 +30,8 @@ from minushalf.utils.software_input import get_output_filenames
     type=click.Path(),
     nargs=1,
     default=None,
-    help="""Path to the software input file. Required for QE to determine
-            output file prefix."""
+    help="""Path to the input file for pw.x or projwfc.x. Required for QE to determine
+            <prefix> of output files."""
 )
 def band_character(kpoint: int, band: int, software: str,
                    base_path: str, input_name: str) -> None:

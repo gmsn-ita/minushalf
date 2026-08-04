@@ -47,10 +47,6 @@ class InputFile:
                  cut: float = 0.0) -> None:
         """
         Args:
-            software (str): For wich software the input file is. (VASP, Quantum ESPRESSO, ...)
-
-            cut (float): The potential cutoff radius (for ld1.x)
-
             chemical_symbol (str): Symbol of the chemical element (H, He, Li...)
 
             esoteric_line (str):  Its use is somewhat esoteric and for most
@@ -71,6 +67,10 @@ class InputFile:
 
             last_lines (list): any line or property that comes after
             electronic distribution
+
+            software (str): For wich software the input file is. (VASP, Quantum ESPRESSO, ...)
+
+            cut (float): The potential cutoff radius (for ld1.x)            
         """
         self.software = software
         self.cut = cut
