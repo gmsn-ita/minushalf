@@ -1,0 +1,6 @@
+&PROJWFC
+    prefix      = 'GaN'
+    filpdos     = 'pdos'       ! prefix for output files
+    filproj     = 'gan'       ! optional, for band-resolved projections
+    lsym        = .true.
+/

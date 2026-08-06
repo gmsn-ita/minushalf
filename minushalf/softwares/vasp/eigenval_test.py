@@ -11,7 +11,7 @@ def test_parse_eigenvalues_gan_3d(file_path):
     Test if the eigenvalues module
     collect all the eigenvalues.
     """
-    filename = file_path("/gan-3d/EIGENVAL")
+    filename = file_path("/gan-3d/vasp/EIGENVAL")
     eigenval = Eigenvalues(filename)
 
     number_of_bands = 16

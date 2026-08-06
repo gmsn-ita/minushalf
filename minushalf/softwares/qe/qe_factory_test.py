@@ -52,7 +52,7 @@ def test_get_fermi_energy(file_path):
     base_path = file_path("/aln-2d/")
     factory = QE()
     fermi_energy = factory.get_fermi_energy(filename=filename,base_path=base_path)
-    assert np.isclose(0.08419211711929003, fermi_energy)
+    assert np.isclose(2.29098605, fermi_energy)
 
 
 def test_get_number_of_bands(file_path):
@@ -85,7 +85,7 @@ def test_get_eigenvalues(file_path):
     base_path = file_path("/aln-2d/")
     factory = QE()
     eigenvalues = factory.get_eigenvalues(filename=filename,base_path=base_path)
-    assert np.isclose(eigenvalues[4][3], -0.01935860333558499)
+    assert np.isclose(eigenvalues[4][3], -0.526774853)
 
 
 def test_get_runner():

@@ -15,9 +15,9 @@ def test_is_metal_gan_3d(file_path):
     """
     Confirms that ge GaN 3d is not an metal.
     """
-    procar_filename = file_path("/gan-3d/PROCAR")
-    eigenval_filename = file_path("/gan-3d/EIGENVAL")
-    vasprun_filename = file_path("/gan-3d/vasprun.xml")
+    procar_filename = file_path("/gan-3d/vasp/PROCAR")
+    eigenval_filename = file_path("/gan-3d/vasp/EIGENVAL")
+    vasprun_filename = file_path("/gan-3d/vasp/vasprun.xml")
     procar = Procar(procar_filename)
     vasprun = Vasprun(vasprun_filename)
     eigenval = Eigenvalues(eigenval_filename)
@@ -38,7 +38,7 @@ def test_create_bandstrutcture_gan_3d(file_path):
     software_module = Vasp()
 
     band_structure = BandStructure.create(software_module,
-                                          file_path("/gan-3d/"))
+                                          file_path("/gan-3d/vasp/"))
 
     assert isinstance(band_structure, BandStructure)
     assert band_structure.is_metal() is False
@@ -48,9 +48,9 @@ def test_band_gap_gan_3d(file_path):
     """
     Tests GaN 3d band gap .
     """
-    procar_filename = file_path("/gan-3d/PROCAR")
-    eigenval_filename = file_path("/gan-3d/EIGENVAL")
-    vasprun_filename = file_path("/gan-3d/vasprun.xml")
+    procar_filename = file_path("/gan-3d/vasp/PROCAR")
+    eigenval_filename = file_path("/gan-3d/vasp/EIGENVAL")
+    vasprun_filename = file_path("/gan-3d/vasp/vasprun.xml")
 
     procar = Procar(procar_filename)
     vasprun = Vasprun(vasprun_filename)
@@ -70,9 +70,9 @@ def test_vbm_index_gan_3d(file_path):
     """
     Test if the index of the valence maximum band is correct
     """
-    procar_filename = file_path("/gan-3d/PROCAR")
-    eigenval_filename = file_path("/gan-3d/EIGENVAL")
-    vasprun_filename = file_path("/gan-3d/vasprun.xml")
+    procar_filename = file_path("/gan-3d/vasp/PROCAR")
+    eigenval_filename = file_path("/gan-3d/vasp/EIGENVAL")
+    vasprun_filename = file_path("/gan-3d/vasp/vasprun.xml")
     kpoint_vbm = 1
     band_vbm = 9
 
@@ -95,9 +95,9 @@ def test_cbm_index_gan_3d(file_path):
     """
     Test if the index of the conduction minimum band is correct
     """
-    procar_filename = file_path("/gan-3d/PROCAR")
-    eigenval_filename = file_path("/gan-3d/EIGENVAL")
-    vasprun_filename = file_path("/gan-3d/vasprun.xml")
+    procar_filename = file_path("/gan-3d/vasp/PROCAR")
+    eigenval_filename = file_path("/gan-3d/vasp/EIGENVAL")
+    vasprun_filename = file_path("/gan-3d/vasp/vasprun.xml")
     kpoint_cbm = 1
     band_cbm = 10
 
@@ -120,9 +120,9 @@ def test_vbm_projection_gan_3d(file_path):
     """
     Test if the projection of the valence maximum band is correct
     """
-    procar_filename = file_path("/gan-3d/PROCAR")
-    eigenval_filename = file_path("/gan-3d/EIGENVAL")
-    vasprun_filename = file_path("/gan-3d/vasprun.xml")
+    procar_filename = file_path("/gan-3d/vasp/PROCAR")
+    eigenval_filename = file_path("/gan-3d/vasp/EIGENVAL")
+    vasprun_filename = file_path("/gan-3d/vasp/vasprun.xml")
     projection = {
         "Ga": [0.000, 0.006, 0.034, 0.006, 0.094, 0.016, 0.000, 0.016, 0.000],
         "N": [0.000, 0.076, 0.446, 0.074, 0.000, 0.000, 0.000, 0.000, 0.000]
@@ -149,9 +149,9 @@ def test_cbm_projection_gan_3d(file_path):
     """
     Test if the projection of the valence maximum band is correct
     """
-    procar_filename = file_path("/gan-3d/PROCAR")
-    eigenval_filename = file_path("/gan-3d/EIGENVAL")
-    vasprun_filename = file_path("/gan-3d/vasprun.xml")
+    procar_filename = file_path("/gan-3d/vasp/PROCAR")
+    eigenval_filename = file_path("/gan-3d/vasp/EIGENVAL")
+    vasprun_filename = file_path("/gan-3d/vasp/vasprun.xml")
     projection = {
         "Ga": [0.276, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000],
         "N": [0.355, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000]
@@ -179,9 +179,9 @@ def test_get_band_projection_kpt_9_band_11_gan_3d(file_path):
     Verify if the informations returned about projection
     in the 11ª band of the 9º kpoint is correct for the 3d GaN.
     """
-    procar_filename = file_path("/gan-3d/PROCAR")
-    eigenval_filename = file_path("/gan-3d/EIGENVAL")
-    vasprun_filename = file_path("/gan-3d/vasprun.xml")
+    procar_filename = file_path("/gan-3d/vasp/PROCAR")
+    eigenval_filename = file_path("/gan-3d/vasp/EIGENVAL")
+    vasprun_filename = file_path("/gan-3d/vasp/vasprun.xml")
 
     procar = Procar(procar_filename)
     vasprun = Vasprun(vasprun_filename)

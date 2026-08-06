@@ -78,8 +78,17 @@ class BandStructure():
             for kpoint, values in self.eigenvalues.items():
                 valence_band_eigenval, valence_band_idx = max(
                     ((x, i) for i, x in enumerate(values) if x < self.fermi_energy))
-                _, conduction_band_eigenval = min((x for x in enumerate(
-                    values) if x[1] > self.fermi_energy), key=lambda x: x[1])
+                try:
+                    _, conduction_band_eigenval = min(
+                        (x for x in enumerate(values) if x[1] > self.fermi_energy),
+                        key=lambda x: x[1]
+                    )
+                except ValueError as err:
+                    raise ValueError(
+                        "There are no bands above the Fermi energy. "
+                        "This usually means the calculation was run with too few bands (nbnd). "
+                        "Increase the number of bands and rerun the calculation."
+                    ) from err
 
                 if conduction_band_eigenval - valence_band_eigenval-minimum_band_gap <= 1e-8:
                     kpoint_vbm = kpoint
@@ -93,8 +102,8 @@ class BandStructure():
         Find the kpoint and the band for cbm
 
             Returns:
-                vbm_index (tuple): Contains the kpoint
-                number and the band number of th vbm
+                cbm_index (tuple): Contains the kpoint
+                number and the band number of the cbm
         """
         if self.is_metal():
             raise Exception("Conduction band is not defined for metals")

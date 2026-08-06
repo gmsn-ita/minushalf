@@ -10,8 +10,8 @@ def test_cbm_character_gan_3d(file_path):
     Test the result of vbm-character for
     GaN 3d
     """
-    base_path = file_path("/gan-3d/")
-    result_path = file_path("/gan-3d/result_cbm_character.txt")
+    base_path = file_path("/gan-3d/vasp")
+    result_path = file_path("/gan-3d/vasp/result_cbm_character.txt")
     runner = CliRunner()
     result = runner.invoke(cbm_character, ['-b', base_path])
     print(result.output)

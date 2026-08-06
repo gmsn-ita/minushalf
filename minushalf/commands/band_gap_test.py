@@ -10,8 +10,8 @@ def test_band_gap_gan_3d(file_path):
     Test the result of band-gap for
     GaN 3d
     """
-    base_path = file_path("/gan-3d/")
-    result_path = file_path("/gan-3d/result_band_gap.txt")
+    base_path = file_path("/gan-3d/vasp/")
+    result_path = file_path("/gan-3d/vasp/result_band_gap.txt")
     runner = CliRunner()
     result = runner.invoke(band_gap, ['-b', base_path])
 
@@ -70,6 +70,21 @@ def test_band_gap_aln_2d(file_path):
     result_path = file_path("/aln-2d/result_band_gap.txt")
     runner = CliRunner()
     result = runner.invoke(band_gap, ['-b', base_path])
+
+    with open(result_path) as file:
+        assert file.read() == result.output
+
+def test_band_gap_gan_3d_qe(file_path):
+    """
+    Test the result of band-gap for
+    GaN 3d
+    """
+    base_path = file_path("/gan-3d/qe/")
+    input_path = file_path("/gan-3d/qe/proj.in")
+    result_path = file_path("/gan-3d/qe/result_band_gap_qe.txt")
+    runner = CliRunner()
+    result = runner.invoke(band_gap, ['-b', base_path, '-s', 'QE', '-n', input_path])
+    print(result.output)
 
     with open(result_path) as file:
         assert file.read() == result.output

@@ -12,7 +12,7 @@ def test_parse_distances_gan_3d(file_path):
     """
     Test if the distances are extracted correctly
     """
-    filename = file_path("/gan-3d/OUTCAR")
+    filename = file_path("/gan-3d/vasp/OUTCAR")
     outcar = Outcar(filename)
 
     assert len(outcar.relative_distances["1"]) == 4
@@ -31,7 +31,7 @@ def test_nearest_neighbor_gan_3d(file_path):
     """
     Test the nearest neighbor function
     """
-    filename = file_path("/gan-3d/OUTCAR")
+    filename = file_path("/gan-3d/vasp/OUTCAR")
     outcar = Outcar(filename)
 
     assert np.isclose(outcar.nearest_neighbor_distance("1"), 1.97)

@@ -13,7 +13,7 @@ def test_vasprun_parser_for_fermi_energy_and_atoms_gan_3d(file_path):
     is catching the right values for atom informations
     and fermi energy.
     """
-    filename = file_path("/gan-3d/vasprun.xml")
+    filename = file_path("/gan-3d/vasp/vasprun.xml")
     vasprun = Vasprun(filename)
 
     fermi_energy = 5.06822674

@@ -17,11 +17,11 @@ def test_pwscf_aln_2d(file_path):
     pwscf = PWSCF(filename)
 
     atoms = {'1': 'Al', '2': 'Al', '3': 'N', '4': 'N'}
-    fermi_energy = 0.08419211711929003
+    fermi_energy = 2.29098605
     nkpts = 40
     nbands = 20
-    eigenvalue_firstk_firstband = -0.4542495477716721
-    eigenvalue_firstk_lastband = 0.783801907326827
+    eigenvalue_firstk_firstband = -12.36076976
+    eigenvalue_firstk_lastband = 21.32835345
     nearest_neighbor_distance = 1.890927
 
     for index, symbol in pwscf.atoms_map.items():
@@ -51,11 +51,11 @@ def test_pwscf_sic_2d(file_path):
     pwscf = PWSCF(filename)
 
     atoms = {'1': 'Si', '2': 'C'}
-    fermi_energy = 0.1074738477156851
+    fermi_energy = 2.92451471
     nkpts = 29
     nbands = 8
-    eigenvalue_firstk_firstband = -0.3048121981390278
-    eigenvalue_firstk_lastband = 0.2535174898199273
+    eigenvalue_firstk_firstband = -8.29436907
+    eigenvalue_firstk_lastband = 6.89856784
     nearest_neighbor_distance = 2.338973
 
     for index, symbol in pwscf.atoms_map.items():

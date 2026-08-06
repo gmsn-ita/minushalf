@@ -15,7 +15,7 @@ def test_parse_procar_header_gan_3d(file_path):
     about the total number of kpoints and the number of
     bands for each kpoint.
     """
-    filename = file_path("/gan-3d/PROCAR")
+    filename = file_path("/gan-3d/vasp/PROCAR")
     procar = Procar(filename)
     number_of_kpoints = 10
     number_of_bands = 16
@@ -31,7 +31,7 @@ def test_get_band_projection_kpt_1_band_5_gan_3d(file_path):
     Verify if the informations returned about projection
     in the 5ª band of the 1º kpoint is correct for the 3d GaN.
     """
-    filename = file_path("/gan-3d/PROCAR")
+    filename = file_path("/gan-3d/vasp/PROCAR")
     procar = Procar(filename)
 
     kpt_1_band_5_projection = {
@@ -52,7 +52,7 @@ def test_get_band_projection_kpt_9_band_11_gan_3d(file_path):
     Verify if the informations returned about projection
     in the 11ª band of the 9º kpoint is correct for the 3d GaN.
     """
-    filename = file_path("/gan-3d/PROCAR")
+    filename = file_path("/gan-3d/vasp/PROCAR")
     procar = Procar(filename)
 
     kpt_9_band_11_projection = {

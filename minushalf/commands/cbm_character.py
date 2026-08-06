@@ -7,7 +7,7 @@ from minushalf.softwares.softwares import Softwares, get_software_factory
 from minushalf.utils.cli_messages import welcome_message, end_message
 from minushalf.utils.projection_to_df import projection_to_df
 from minushalf.utils.band_structure import BandStructure
-from minushalf.minushalf.utils.software_output import get_output_filenames
+from minushalf.utils.software_output import get_output_filenames
 
 
 

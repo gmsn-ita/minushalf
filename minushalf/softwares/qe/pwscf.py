@@ -8,7 +8,7 @@ from collections import defaultdict
 from typing import Any, Callable
 
 _BOHR_TO_ANGSTROM = 0.529177
-
+_HARTREE_TO_EV = 27.2114
 
 class PWSCF():
     """
@@ -24,12 +24,12 @@ class PWSCF():
             filename:          stored path
             atoms_map:         dict mapping each atom index (str) to its symbol
                                e.g. { '1': 'Al', '2': 'Al', '3': 'N', '4': 'N' }
-            fermi_energy:      Fermi energy in Hartree atomic units
+            fermi_energy:      Fermi energy in eV
             number_of_kpoints: number of k-points used in the calculation
             number_of_bands:   number of bands used in the calculation
             eigenvalues:       defaultdict(list) where keys are 1-based kpoint
                                indices and values are lists of eigenvalues in
-                               Hartree atomic units for each band, in order
+                               eV for each band, in order
             relative_distances: defaultdict(list) mapping each ion index (str)
                                to a list of (neighbor_index, distance_Å) tuples,
                                mirroring Outcar.relative_distances
@@ -37,10 +37,13 @@ class PWSCF():
         self.filename = filename
         self._root = ET.parse(filename).getroot()
         self.atoms_map = self._get_atoms_map()
-        self.fermi_energy = self._get_fermi_energy()
+        self.fermi_energy = self._get_fermi_energy() * _HARTREE_TO_EV
         self.number_of_kpoints = self._get_number_of_kpoints()
         self.number_of_bands = self._get_number_of_bands()
-        self.eigenvalues = self._get_eigenvalues()
+        self.eigenvalues = {
+        kpt: [e * _HARTREE_TO_EV for e in bands]
+        for kpt, bands in self._get_eigenvalues().items()
+        }
         self.relative_distances = self._get_distances()
 
     # ------------------------------------------------------------------ #
