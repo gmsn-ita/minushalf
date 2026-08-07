@@ -73,3 +73,18 @@ def test_vbm_character_aln_2d(file_path):
 
     with open(result_path) as file:
         assert file.read() == result.output
+
+def test_vbm_character_gan_3d_qe(file_path):
+    """
+    Test the result of vbm-character for
+    GaN 3d for QE
+    """
+    base_path = file_path("/gan-3d/qe/")
+    input_path = file_path("/gan-3d/qe/proj.in")
+    result_path = file_path("/gan-3d/qe/result_vbm_character_qe.txt")
+    runner = CliRunner()
+    result = runner.invoke(vbm_character, ['-b', base_path, '-s', 'QE', '-n', input_path])
+
+    with open(result_path) as file:
+        assert file.read() == result.output
+

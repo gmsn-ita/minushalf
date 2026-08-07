@@ -14,9 +14,6 @@ def test_cbm_character_gan_3d(file_path):
     result_path = file_path("/gan-3d/vasp/result_cbm_character.txt")
     runner = CliRunner()
     result = runner.invoke(cbm_character, ['-b', base_path])
-    print(result.output)
-    import os
-    os.system(f"echo {result.output} > a.txt")
     with open(result_path) as file:
         assert file.read() == result.output
 
@@ -73,5 +70,18 @@ def test_cbm_character_aln_2d(file_path):
     runner = CliRunner()
     result = runner.invoke(cbm_character, ['-b', base_path])
 
+    with open(result_path) as file:
+        assert file.read() == result.output
+
+def test_cbm_character_gan_3d_qe(file_path):
+    """
+    Test the result of vbm-character for
+    GaN 3d for QE format
+    """
+    base_path = file_path("/gan-3d/qe/")
+    input_path = file_path("/gan-3d/qe/proj.in")
+    result_path = file_path("/gan-3d/qe/result_cbm_character_qe.txt")
+    runner = CliRunner()
+    result = runner.invoke(cbm_character, ['-b', base_path, '-s', 'QE', '-n', input_path])
     with open(result_path) as file:
         assert file.read() == result.output
