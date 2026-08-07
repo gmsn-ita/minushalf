@@ -1,35 +1,38 @@
 """
-Parse the `projwfc.x` output file from Quantum ESPRESSO.
-
-Read and process the spin-up projection file (`projwfc_up`), which
-contains the projections of Kohn-Sham states onto atomic orbitals as
-computed by `projwfc.x`.
+Reads projwfc_up file, an output of
+Quantum ESPRESSO projwfc.x software
 """
 import re
+from itertools import islice
 from collections import defaultdict
 from minushalf.softwares.band_projection_file import BandProjectionFile
 
 
 class ProjOutput(BandProjectionFile):
     """
-    Parse a `projwfc_up` file and store the band projection information.
+    Reads a projwfc_up file and stores band projection information.
+
     File structure
     --------------
-    The file consists of blocks, one per atomic state, each introduced by a
-    header line with the following fields:
+    The file is divided into blocks separated by a state header line:
+
         state_idx  atom_idx  symbol  wfc_label  wfc_idx  l  m
-    Example::
+
+    e.g.:
         1    1 Al   3S     1    0    1
         2    1 Al   3P     2    1    1
-    Each header is followed by rows of k-point and band projections:
+        ...
+
+    Each state block is followed by rows of:
         kpoint_index    band_index    projection_value
-    Example::
+
+    e.g.:
         1       1        0.4379301244
         1       2        0.1468167336
         ...
         40      20       0.0003262801
-    The projection value is :math:`|\\langle \\psi_{nk} | \\phi_i \\rangle|^2`
-    (already squared).
+
+    The projection value is |<psi_nk | phi_i>|^2 (already squared).
     """
 
     # ------------------------------------------------------------------ #
@@ -72,14 +75,40 @@ class ProjOutput(BandProjectionFile):
     #  Public interface (mirrors Procar.get_band_projection)               #
     # ------------------------------------------------------------------ #
 
+    # Maps QE (l, m) to PROCAR column index, matching the Orbital enum order:
+    # s, py, pz, px, dxy, dyz, dz2, dxz, dx2, f_3, f_2, f_1, f0, f1, f2, f3
+    _LM_TO_PROCAR_INDEX = {
+        (0, 1):  0,   # s
+        (1, 1):  1,   # py
+        (1, 2):  2,   # pz
+        (1, 3):  3,   # px
+        (2, 1):  4,   # dxy
+        (2, 2):  5,   # dyz
+        (2, 3):  6,   # dz2
+        (2, 4):  7,   # dxz
+        (2, 5):  8,   # dx2
+        (3, 1):  9,   # f_3
+        (3, 2): 10,   # f_2
+        (3, 3): 11,   # f_1
+        (3, 4): 12,   # f0
+        (3, 5): 13,   # f1
+        (3, 6): 14,   # f2
+        (3, 7): 15,   # f3
+    }
+
     def get_band_projection(self, kpoint: int, band_number: int) -> dict:
         """
-        Return the projection of a given (kpoint, band) onto every
-        atomic state.
+        Return the projection of a given (kpoint, band) onto every atom,
+        mapped to the orbitals column order (s, py, pz, px, dxy, ..., f3),
+        truncated to the highest orbital declared for each atom.
 
-        Mirrors the Procar interface:  the return value is a dict whose
-        keys are atom indices (str) and whose values are lists of floats,
-        one entry per orbital of that atom, ordered by increasing m.
+        The output dict keys are atom index strings. Each value is a list
+        of floats covering only the orbitals declared in the projwfc_up
+        file for that atom — e.g. N with only s and p states returns 4
+        values [s, py, pz, px], while Ga with s, p, and d returns 9.
+
+        States with the same (l, m) for the same atom (e.g. two 4s
+        projections) are summed into the same column.
 
         Args:
             kpoint      (int): 1-based k-point index
@@ -87,23 +116,40 @@ class ProjOutput(BandProjectionFile):
 
         Returns:
             projections (dict):
-                { "1": [proj_state1, proj_state2, ...],   # atom 1 orbitals
-                  "2": [proj_state5, proj_state6, ...],   # atom 2 orbitals
-                  ... }
+                { atom_index_str: [s, py, pz, px, ...] }
         """
         if not self._projections:
             self._load_projections()
 
-        projections = {}
+        # Determine the highest PROCAR column index declared per atom
+        max_col_per_atom = {}
         for state in self.states_info:
             atom_key = str(state["atom_idx"])
+            col = self._LM_TO_PROCAR_INDEX.get((state["l"], state["m"]))
+            if col is not None:
+                max_col_per_atom[atom_key] = max(
+                    max_col_per_atom.get(atom_key, 0), col
+                )
+
+        # Initialise projection lists sized to the highest declared column
+        projections = {
+            atom_key: [0.0] * (max_col + 1)
+            for atom_key, max_col in max_col_per_atom.items()
+        }
+
+        # Accumulate projection values into the correct column
+        for state in self.states_info:
+            atom_key = str(state["atom_idx"])
+            col = self._LM_TO_PROCAR_INDEX.get((state["l"], state["m"]))
+            if col is None:
+                continue
             value = (
                 self._projections
                 .get(state["state_idx"], {})
                 .get(kpoint, {})
                 .get(band_number, 0.0)
             )
-            projections.setdefault(atom_key, []).append(value)
+            projections[atom_key][col] += value
 
         return projections
 
@@ -209,4 +255,3 @@ class ProjOutput(BandProjectionFile):
             s: {k: dict(bands) for k, bands in kpts.items()}
             for s, kpts in raw.items()
         }
-        

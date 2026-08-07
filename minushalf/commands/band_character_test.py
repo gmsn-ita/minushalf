@@ -73,3 +73,17 @@ def test_band_character_aln_2d_VASP(file_path):
 
     with open(result_path) as file:
         assert file.read() == result.output
+
+def test_band_character_gan_3d_QE(file_path):
+    """
+    Test the result of band-character for
+    GaN 3d in QE format.
+    """
+    base_path = file_path("/gan-3d/qe/")
+    input_path = file_path("/gan-3d/qe/proj.in")
+    result_path = file_path("/gan-3d/qe/result_band_character_qe.txt")
+    runner = CliRunner()
+    result = runner.invoke(band_character, ['6', '7', '-b', base_path, '-s', 'QE', '-n', input_path])
+
+    with open(result_path) as file:
+        assert file.read() == result.output
