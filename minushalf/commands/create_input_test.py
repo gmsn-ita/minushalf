@@ -22,3 +22,18 @@ def test_create_input_with_all_elements():
             result = runner.invoke(create_input, [symbol])
             assert result.exit_code == 0
             assert os.path.exists("INP") == True
+
+def test_create_input_with_all_elements_qe():
+    """
+    Test if the atomic run produce the correct output for
+    elements in the periodic table
+    """
+    runner = CliRunner()
+
+    for element in ElectronicDistribution:
+        symbol = str(element).upper()
+        with runner.isolated_filesystem():
+            result = runner.invoke(create_input, [symbol, '-s', 'QE'])
+            assert result.exit_code == 0
+            assert os.path.exists("INP") == True
+
