@@ -1,9 +1,8 @@
 """
-Reads projwfc_up file, an output of
+Parse projwfc_up file, an output of
 Quantum ESPRESSO projwfc.x software
 """
 import re
-from itertools import islice
 from collections import defaultdict
 from minushalf.softwares.band_projection_file import BandProjectionFile
 

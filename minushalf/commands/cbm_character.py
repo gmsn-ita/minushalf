@@ -35,8 +35,8 @@ from minushalf.utils.software_output import get_output_filenames
               type=click.Path(),
               nargs=1,
               default=None,
-              help="""Path to the software input file. Required for QE to determine
-              output file prefix."""
+              help="""Path to the input file for pw.x or projwfc.x. Required for QE to determine
+            <prefix> of output files."""
 )
 def cbm_character(software: str, base_path: str, input_name: str, indirect: bool) -> None:
     """Uses output files from softwares that perform ab initio calculations to
