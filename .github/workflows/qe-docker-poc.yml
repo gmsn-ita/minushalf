@@ -39,6 +39,30 @@ jobs:
             command -v virtual_v2.x
           '
 
+      - name: Run QE silicon SCF with MPI
+        run: |
+          cp minushalf/fixtures/Si/Si.upf \
+             tests/integration/qe/si/Si.upf
+
+          docker run --rm \
+            -e OMPI_ALLOW_RUN_AS_ROOT=1 \
+            -e OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1 \
+            -v "$PWD:/workspace/minushalf" \
+            -w /workspace/minushalf/tests/integration/qe/si \
+            minushalf-qe:ci \
+            bash -c '
+              set -e
+
+              mpirun -np 2 pw.x < si_scf.in > si_scf.out
+
+              grep -q "convergence has been achieved" si_scf.out
+              grep -q "JOB DONE" si_scf.out
+
+              grep -E \
+                "Parallel version|total energy|convergence has been achieved|JOB DONE" \
+                si_scf.out
+            '
+
       - name: Install MinusHalf and run tests
         run: |
           docker run --rm \
