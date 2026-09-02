@@ -68,3 +68,58 @@ jobs:
               python -m pip install pytest pytest-mock
               python -m pytest -q
             '
+
+      - name: Run MinusHalf QE integration workflow
+        run: |
+          mkdir -p tests/integration/qe/minushalf-execute
+
+          cp tests/integration/qe/si/si_scf.in \
+             tests/integration/qe/minushalf-execute/si1.in
+
+          cp minushalf/fixtures/Si/Si.upf \
+             tests/integration/qe/minushalf-execute/Si.UPF
+
+          cat > tests/integration/qe/minushalf-execute/minushalf.yaml <<'YAML'
+          software: QE
+
+          qe:
+              pw_command: ['/opt/quantum-espresso/bin/pw.x']
+              projwfc_command: ['/opt/quantum-espresso/bin/projwfc.x']
+              ld1_command: ['/opt/quantum-espresso/bin/ld1.x']
+              virtual_v2_command: ['mpirun', '-np', '4', '/opt/quantum-espresso/upflib/virtual_v2.x']
+              input_file: ./si1.in
+
+          atomic_program:
+              exchange_correlation_code: pz
+              calculation_code: ae
+              max_iterations: 100
+
+          correction:
+              correction_code: v
+              potfiles_folder: ./
+              amplitude: 1.0
+              indirect: .true.
+          YAML
+
+          sed -i 's/Si\.upf/Si.UPF/' \
+            tests/integration/qe/minushalf-execute/si1.in
+
+          docker run --rm \
+            -e OMPI_ALLOW_RUN_AS_ROOT=1 \
+            -e OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1 \
+            -v "$PWD:/workspace/minushalf" \
+            -w /workspace/minushalf/tests/integration/qe/minushalf-execute \
+            ghcr.io/marcosegv/minushalf-qe-base:qe-7.5 \
+            bash -c '
+              set -e
+
+              python -m pip install -e /workspace/minushalf
+
+              minushalf execute 2>&1 | tee minushalf_execute.log
+
+              test -f minushalf_results.dat
+
+              echo
+              echo "===== MinusHalf results ====="
+              cat minushalf_results.dat
+            '
