@@ -66,9 +66,8 @@ def get_output_filenames(software: str,
         input_dir = os.path.dirname(os.path.abspath(input_name))
         if base_path:
             input_dir = base_path
-        xml_dir = os.path.normpath(os.path.join(input_dir, outdir))
 
-        xml_file = os.path.join(xml_dir, f"{prefix}.xml")
+        xml_file = os.path.join(outdir, f"{prefix}.xml")
 
         # Resolve UPF path for the requested atom, or None if not requested
         if atom is not None:
@@ -86,6 +85,11 @@ def get_output_filenames(software: str,
             "nearest_neighbor":  xml_file,
             "potential":         potential,
         }
+        if base_path:
+            filenames = {
+                k: os.path.join(base_path, v)
+                for k, v in filenames.items()
+            }
 
     else:
         raise Exception(
