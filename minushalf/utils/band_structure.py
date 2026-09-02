@@ -69,7 +69,7 @@ class BandStructure():
         if is_indirect:
             for kpoint, values in self.eigenvalues.items():
                 for band_index, energy in enumerate(values):
-                    if max_energy_reached - energy <= 1e-8 and energy < self.fermi_energy:
+                    if max_energy_reached - energy <= 1e-8 and energy <= self.fermi_energy:
                         max_energy_reached = energy
                         kpoint_vbm = kpoint
                         band_vbm = band_index + 1
@@ -77,7 +77,7 @@ class BandStructure():
             minimum_band_gap = inf
             for kpoint, values in self.eigenvalues.items():
                 valence_band_eigenval, valence_band_idx = max(
-                    ((x, i) for i, x in enumerate(values) if x < self.fermi_energy))
+                    ((x, i) for i, x in enumerate(values) if x <= self.fermi_energy))
                 try:
                     _, conduction_band_eigenval = min(
                         (x for x in enumerate(values) if x[1] > self.fermi_energy),
@@ -114,7 +114,7 @@ class BandStructure():
         if is_indirect:
             for kpoint, values in self.eigenvalues.items():
                 for band_index, energy in enumerate(values):
-                    if self.fermi_energy-energy <= 1e-8 and energy < min_energy_reached:
+                    if self.fermi_energy-energy <= -1e-8 and energy < min_energy_reached:
                         min_energy_reached = energy
                         kpoint_cbm = kpoint
                         band_cbm = band_index + 1
