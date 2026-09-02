@@ -33,9 +33,6 @@ jobs:
 
       - name: Run QE silicon SCF with MPI
         run: |
-          cp minushalf/fixtures/Si/Si.upf \
-             tests/integration/qe/si/Si.upf
-
           docker run --rm \
             -e OMPI_ALLOW_RUN_AS_ROOT=1 \
             -e OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1 \
@@ -45,14 +42,14 @@ jobs:
             bash -c '
               set -e
 
-              mpirun -np 2 pw.x < si_scf.in > si_scf.out
+              mpirun -np 2 pw.x < si1.in > si1.out
 
-              grep -q "convergence has been achieved" si_scf.out
-              grep -q "JOB DONE" si_scf.out
+              grep -q "convergence has been achieved" si1.out
+              grep -q "JOB DONE" si1.out
 
               grep -E \
-                "Parallel version|total energy|convergence has been achieved|JOB DONE" \
-                si_scf.out
+                "Parallel version|highest occupied|total energy|convergence has been achieved|JOB DONE" \
+                si1.out
             '
 
       - name: Install MinusHalf and run tests
@@ -67,4 +64,26 @@ jobs:
               python -m pip install -e .
               python -m pip install pytest pytest-mock
               python -m pytest -q
+            '
+
+      - name: Run MinusHalf QE integration workflow
+        run: |
+          docker run --rm \
+            -e OMPI_ALLOW_RUN_AS_ROOT=1 \
+            -e OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1 \
+            -v "$PWD:/workspace/minushalf" \
+            -w /workspace/minushalf/tests/integration/qe/si \
+            ghcr.io/marcosegv/minushalf-qe-base:qe-7.5 \
+            bash -c '
+              set -euo pipefail
+
+              python -m pip install -e /workspace/minushalf
+
+              minushalf execute 2>&1 | tee minushalf_execute.log
+
+              test -f minushalf_results.dat
+
+              echo
+              echo "===== MinusHalf results ====="
+              cat minushalf_results.dat
             '

@@ -1,0 +1,19 @@
+software: QE
+
+qe:
+    pw_command: ['/opt/quantum-espresso/bin/pw.x']
+    projwfc_command: ['/opt/quantum-espresso/bin/projwfc.x']
+    ld1_command: ['/opt/quantum-espresso/bin/ld1.x']
+    virtual_v2_command: ['mpirun', '-np', '4', '/opt/quantum-espresso/upflib/virtual_v2.x']
+    input_file: ./si1.in
+
+atomic_program:
+    exchange_correlation_code: pz
+    calculation_code: ae
+    max_iterations: 100
+
+correction:
+    correction_code: v
+    potfiles_folder: ./
+    amplitude: 1.0
+    indirect: .true.
