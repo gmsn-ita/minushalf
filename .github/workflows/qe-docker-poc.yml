@@ -1,0 +1,53 @@
+name: QE Docker PoC
+
+on:
+  push:
+    branches:
+      - qe_container
+  workflow_dispatch:
+
+jobs:
+  test-qe-container:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Show runner architecture
+        run: |
+          uname -a
+          uname -m
+          docker --version
+
+      - name: Build QE Docker image
+        run: |
+          docker build \
+            -f docker/Dockerfile \
+            -t minushalf-qe:ci \
+            .
+
+      - name: Verify QE environment
+        run: |
+          docker run --rm minushalf-qe:ci bash -lc '
+            python --version
+            mpirun --version
+            command -v pw.x
+            command -v projwfc.x
+            command -v ld1.x
+            command -v virtual_v2.x
+          '
+
+      - name: Install MinusHalf and run tests
+        run: |
+          docker run --rm \
+            -e OMPI_ALLOW_RUN_AS_ROOT=1 \
+            -e OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1 \
+            -v "$PWD:/workspace/minushalf" \
+            -w /workspace/minushalf \
+            minushalf-qe:ci \
+            bash -lc '
+              python -m pip install -e .
+              python -m pip install pytest pytest-mock
+              python -m pytest -q
+            '
