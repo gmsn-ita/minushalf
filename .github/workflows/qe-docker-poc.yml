@@ -10,6 +10,10 @@ jobs:
   test-qe-container:
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: read
+      packages: write
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
@@ -76,3 +80,19 @@ jobs:
               python -m pip install pytest pytest-mock
               python -m pytest -q
             '
+
+      - name: Log in to GitHub Container Registry
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | \
+            docker login ghcr.io \
+              -u "${{ github.actor }}" \
+              --password-stdin
+
+      - name: Publish QE Docker image
+        run: |
+          docker tag \
+            minushalf-qe:ci \
+            ghcr.io/marcosegv/minushalf-qe-base:qe-7.5
+
+          docker push \
+            ghcr.io/marcosegv/minushalf-qe-base:qe-7.5
