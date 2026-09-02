@@ -377,6 +377,8 @@ class InputFile:
             C, orbital='p'  → '2s2 2p1.5'   (p orbital reduced)
             C, orbital='s'  → '2s1.5 2p2'   (s orbital reduced instead)
             Fe, orbital='d' → '[Ar] 4s2 3d5.5'
+
+        TODO: Consider amplitude for removal of other fractions of electron.
         """
         _L_LABELS  = {0: "s", 1: "p", 2: "d", 3: "f"}
         _L_NUMBERS = {"s": 0,  "p": 1,  "d": 2,  "f": 3}
