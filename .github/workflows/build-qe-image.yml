@@ -1,0 +1,63 @@
+name: Build QE Docker Image
+
+on:
+  push:
+    branches:
+      - qe_container
+    paths:
+      - 'docker/Dockerfile'
+      - '.github/workflows/build-qe-image.yml'
+
+  workflow_dispatch:
+
+jobs:
+  build-qe-image:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Show runner architecture
+        run: |
+          uname -a
+          uname -m
+          docker --version
+
+      - name: Build QE Docker image
+        run: |
+          docker build \
+            -f docker/Dockerfile \
+            -t minushalf-qe:ci \
+            .
+
+      - name: Verify QE environment
+        run: |
+          docker run --rm minushalf-qe:ci bash -c '
+            python --version
+            mpirun --version
+            command -v pw.x
+            command -v projwfc.x
+            command -v ld1.x
+            command -v virtual_v2.x
+          '
+
+      - name: Log in to GitHub Container Registry
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | \
+            docker login ghcr.io \
+              -u "${{ github.actor }}" \
+              --password-stdin
+
+      - name: Publish QE Docker image
+        run: |
+          docker tag \
+            minushalf-qe:ci \
+            ghcr.io/marcosegv/minushalf-qe-base:qe-7.5
+
+          docker push \
+            ghcr.io/marcosegv/minushalf-qe-base:qe-7.5

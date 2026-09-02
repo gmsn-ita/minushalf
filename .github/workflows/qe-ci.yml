@@ -1,47 +1,35 @@
-name: QE Docker PoC
+name: QE CI
 
 on:
   push:
     branches:
       - qe_container
+
   workflow_dispatch:
 
 jobs:
-  test-qe-container:
+  test-minushalf-qe:
     runs-on: ubuntu-latest
 
     permissions:
       contents: read
-      packages: write
+      packages: read
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
 
-      - name: Show runner architecture
+      - name: Log in to GitHub Container Registry
         run: |
-          uname -a
-          uname -m
-          docker --version
+          echo "${{ secrets.GITHUB_TOKEN }}" | \
+            docker login ghcr.io \
+              -u "${{ github.actor }}" \
+              --password-stdin
 
-      - name: Build QE Docker image
+      - name: Pull QE Docker image
         run: |
-          docker build \
-            -f docker/Dockerfile \
-            -t minushalf-qe:ci \
-            .
-
-      - name: Verify QE environment
-        run: |
-          docker run --rm minushalf-qe:ci bash -c '
-            echo "PATH=$PATH"
-            python --version
-            mpirun --version
-            command -v pw.x
-            command -v projwfc.x
-            command -v ld1.x
-            command -v virtual_v2.x
-          '
+          docker pull \
+            ghcr.io/marcosegv/minushalf-qe-base:qe-7.5
 
       - name: Run QE silicon SCF with MPI
         run: |
@@ -53,7 +41,7 @@ jobs:
             -e OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1 \
             -v "$PWD:/workspace/minushalf" \
             -w /workspace/minushalf/tests/integration/qe/si \
-            minushalf-qe:ci \
+            ghcr.io/marcosegv/minushalf-qe-base:qe-7.5 \
             bash -c '
               set -e
 
@@ -74,25 +62,9 @@ jobs:
             -e OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1 \
             -v "$PWD:/workspace/minushalf" \
             -w /workspace/minushalf \
-            minushalf-qe:ci \
+            ghcr.io/marcosegv/minushalf-qe-base:qe-7.5 \
             bash -c '
               python -m pip install -e .
               python -m pip install pytest pytest-mock
               python -m pytest -q
             '
-
-      - name: Log in to GitHub Container Registry
-        run: |
-          echo "${{ secrets.GITHUB_TOKEN }}" | \
-            docker login ghcr.io \
-              -u "${{ github.actor }}" \
-              --password-stdin
-
-      - name: Publish QE Docker image
-        run: |
-          docker tag \
-            minushalf-qe:ci \
-            ghcr.io/marcosegv/minushalf-qe-base:qe-7.5
-
-          docker push \
-            ghcr.io/marcosegv/minushalf-qe-base:qe-7.5
