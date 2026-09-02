@@ -28,7 +28,7 @@ class QE(SoftwaresAbstractFactory):
     def __init__(self):
         self._pwscf_cache = {}
 
-    def _load_pwscf(self, filename='pwscf.xml', base_path=None):
+    def _load_pwscf(self, filename: str ='pwscf.xml', base_path: str = None):
         if base_path:
             filename = os.path.join(base_path, filename)
         if filename not in self._pwscf_cache:
