@@ -46,7 +46,8 @@ class InputFile:
                  software: str = "VASP",
                  cut: float = 0.0,
                  file_pseudo: str = "NewPseudo.UPF",
-                 orbital: str = None) -> None:
+                 orbital: str = None,
+                 amplitude: float = 1.0) -> None:
         """
         Args:
             chemical_symbol (str): Symbol of the chemical element (H, He, Li...)
@@ -90,6 +91,7 @@ class InputFile:
             self.last_lines = last_lines
         self.file_pseudo = file_pseudo
         self.orbital = orbital
+        self.amplitude = amplitude
 
     @property
     def chemical_symbol(self) -> str:
@@ -362,7 +364,7 @@ class InputFile:
 
 
     @staticmethod
-    def _build_half_config(chemical_symbol: str, orbital: str = None) -> str:
+    def _build_half_config(chemical_symbol: str, orbital: str = None, amplitude: float = 1.0) -> str:
         """
         Build the DFT-1/2 config string, reducing the occupation of the
         specified orbital by 0.5.
@@ -382,6 +384,8 @@ class InputFile:
         """
         _L_LABELS  = {0: "s", 1: "p", 2: "d", 3: "f"}
         _L_NUMBERS = {"s": 0,  "p": 1,  "d": 2,  "f": 3}
+
+        electron_fraction = 0.5 * amplitude
 
         raw_lines = InputFile._get_electronic_distribution_from_symbol(
             chemical_symbol)
@@ -426,11 +430,11 @@ class InputFile:
                     f"orbital to apply the DFT-1/2 correction to."
                 )
 
-            target_orbital["occ"] -= 0.5
+            target_orbital["occ"] -= electron_fraction
 
         else:
             # Legacy fallback — reduce the last orbital in the list
-            orbitals[-1]["occ"] -= 0.5
+            orbitals[-1]["occ"] -= electron_fraction
 
         parts = []
         for orb in orbitals:
