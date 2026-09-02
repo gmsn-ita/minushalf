@@ -29,7 +29,8 @@ jobs:
 
       - name: Verify QE environment
         run: |
-          docker run --rm minushalf-qe:ci bash -lc '
+          docker run --rm minushalf-qe:ci bash -c '
+            echo "PATH=$PATH"
             python --version
             mpirun --version
             command -v pw.x
@@ -46,7 +47,7 @@ jobs:
             -v "$PWD:/workspace/minushalf" \
             -w /workspace/minushalf \
             minushalf-qe:ci \
-            bash -lc '
+            bash -c '
               python -m pip install -e .
               python -m pip install pytest pytest-mock
               python -m pytest -q
