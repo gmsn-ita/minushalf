@@ -1,6 +1,6 @@
 &CONTROL
     calculation = 'scf',
-    prefix = 'si',
+    prefix = 'pwscf',
     pseudo_dir = '.',
     outdir = '.'
 /
