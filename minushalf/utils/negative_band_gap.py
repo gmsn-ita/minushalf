@@ -10,6 +10,7 @@ from loguru import logger
 from minushalf.softwares.software_abstract_factory import SoftwaresAbstractFactory
 from minushalf.utils.atomic_potential import AtomicPotential
 from minushalf.utils.band_structure import BandStructure
+from minushalf.utils.software_output import get_output_filenames
 
 
 def _get_corrected_potfile_lines(
@@ -143,13 +144,23 @@ def _get_gap(software_factory: SoftwaresAbstractFactory,
         Returns:
             gap (float): Gap of the semiconductor material
     """
-    eigenvalues = software_factory.get_eigenvalues(base_path=cut_folder)
-    fermi_energy = software_factory.get_fermi_energy(base_path=cut_folder)
-    atoms_map = software_factory.get_atoms_map(base_path=cut_folder)
-    num_bands = software_factory.get_number_of_bands(base_path=cut_folder)
-    band_projection_file = software_factory.get_band_projection_class(
-        base_path=cut_folder)
+    filenames = get_output_filenames('VASP')
 
+    eigenvalues          = software_factory.get_eigenvalues(
+                               filename=filenames["eigenvalues"],
+                               base_path=cut_folder)
+    fermi_energy         = software_factory.get_fermi_energy(
+                               filename=filenames["fermi_energy"],
+                               base_path=cut_folder)
+    atoms_map            = software_factory.get_atoms_map(
+                               filename=filenames["atoms_map"],
+                               base_path=cut_folder)
+    num_bands            = software_factory.get_number_of_bands(
+                               filename=filenames["number_of_bands"],
+                               base_path=cut_folder)
+    band_projection_file = software_factory.get_band_projection_class(
+                               filename=filenames["band_projection"],
+                               base_path=cut_folder)
     band_structure = BandStructure(eigenvalues, fermi_energy, atoms_map,
                                    num_bands, band_projection_file)
 

@@ -9,7 +9,7 @@ from minushalf.softwares.softwares import (Softwares)
 
 def test_default_parameters():
     """
-    Test minushalf.yaml class withou pass
+    Test minushalf.yaml class without pass
     parameters, so all parameters
     are set to default
     """
@@ -20,6 +20,7 @@ def test_default_parameters():
         **file.get_software_configurations_params()
     }
     default_params = {
+        "input_file": None,
         "exchange_correlation_code": "pb",
         "calculation_code": "ae",
         "max_iterations": 100,
@@ -60,6 +61,7 @@ def test_minushalf_without_filling_correction(file_path):
         **file.get_software_configurations_params()
     }
     expected_params = {
+        "input_file": None,
         "exchange_correlation_code": "wi",
         "calculation_code": "ae",
         "max_iterations": 200,
@@ -100,6 +102,7 @@ def test_minushalf_filled_out(file_path):
         **file.get_software_configurations_params()
     }
     expected_params = {
+        "input_file": None,
         "exchange_correlation_code": "wi",
         "calculation_code": "ae",
         "max_iterations": 200,
@@ -142,6 +145,7 @@ def test_minushalf_characters(file_path):
         **file.get_software_configurations_params()
     }
     expected_params = {
+        "input_file": None,
         "exchange_correlation_code": "wi",
         "calculation_code": "ae",
         "max_iterations": 200,

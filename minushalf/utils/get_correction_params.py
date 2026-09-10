@@ -11,23 +11,26 @@ from minushalf.utils.simple_correction_indexes import get_simple_correction_inde
 from minushalf.utils.cut_initial_guess_methods import (CutInitialGuessMethods)
 from minushalf.utils.band_structure import BandStructure
 from minushalf.utils.projection_to_df import projection_to_df
+from minushalf.utils.software_output import get_output_filenames
+from minushalf.utils.software_input import get_input_filenames
 
 
-def _get_vbm_projection(factory: SoftwaresAbstractFactory, is_indirect: bool) -> pd.DataFrame:
+def _get_vbm_projection(factory: SoftwaresAbstractFactory, is_indirect: bool, filenames: list) -> pd.DataFrame:
     """
     Returns vbm projection
     """
-    band_structure = BandStructure.create(factory)
+
+    band_structure = BandStructure.create(factory, filenames)
     vbm_projection = band_structure.vbm_projection(is_indirect=is_indirect)
     normalized_df = projection_to_df(vbm_projection)
     return normalized_df
 
 
-def _get_cbm_projection(factory: SoftwaresAbstractFactory, is_indirect: bool) -> pd.DataFrame:
+def _get_cbm_projection(factory: SoftwaresAbstractFactory, is_indirect: bool, filenames: list) -> pd.DataFrame:
     """
     Returns cbm projection
     """
-    band_structure = BandStructure.create(factory)
+    band_structure = BandStructure.create(factory, filenames)
     cbm_projection = band_structure.cbm_projection(is_indirect=is_indirect)
     normalized_df = projection_to_df(cbm_projection)
     return normalized_df
@@ -54,7 +57,8 @@ def _overwrite_band_projection(new_values: list,
 
 
 def _get_band_characters(band_location: list,
-                         factory: SoftwaresAbstractFactory) -> pd.DataFrame:
+                         factory: SoftwaresAbstractFactory,
+                         filenames: list) -> pd.DataFrame:
     """
     Overwrite values in VBM or CBM band projection
 
@@ -70,15 +74,15 @@ def _get_band_characters(band_location: list,
                                                     with the values overwrited.
 
     """
-
-    band_structure = BandStructure.create(factory)
+    band_structure = BandStructure.create(factory, filenames)
     vbm_projection = band_structure.band_projection(*band_location)
     normalized_df = projection_to_df(vbm_projection)
     return normalized_df
 
 
 def _get_valence_band_projection(minushalf_yaml: MinushalfYaml,
-                                 software_factory: SoftwaresAbstractFactory):
+                                 software_factory: SoftwaresAbstractFactory,
+                                 filenames: list):
     """
     Implements logic to return valence band projection
     """
@@ -91,7 +95,7 @@ def _get_valence_band_projection(minushalf_yaml: MinushalfYaml,
         projection_df = _get_band_characters(band_location, software_factory)
     else:
         projection_df = _get_vbm_projection(
-            software_factory, is_indirect=minushalf_yaml.get_indirect())
+            software_factory, is_indirect=minushalf_yaml.get_indirect(), filenames=filenames)
     # If the vbm characters are overwritten manually
     has_replace = bool(minushalf_yaml.get_vbm_characters())
     if has_replace:
@@ -103,7 +107,8 @@ def _get_valence_band_projection(minushalf_yaml: MinushalfYaml,
 
 def _get_conduction_band_projection(
         minushalf_yaml: MinushalfYaml,
-        software_factory: SoftwaresAbstractFactory):
+        software_factory: SoftwaresAbstractFactory,
+        filenames: list):
     """
     Implements logic to return conduction band projection
     """
@@ -115,7 +120,7 @@ def _get_conduction_band_projection(
         projection_df = _get_band_characters(band_location, software_factory)
     else:
         projection_df = _get_cbm_projection(
-            software_factory, is_indirect=minushalf_yaml.get_indirect())
+            software_factory, is_indirect=minushalf_yaml.get_indirect(), filenames=filenames)
 
     has_replace = bool(minushalf_yaml.get_cbm_characters())
     if has_replace:
@@ -125,11 +130,11 @@ def _get_conduction_band_projection(
     return projection_df
 
 
-def _guess_distance(symbol, software_factory):
+def _guess_distance(symbol, software_factory, filenames):
     """
     Guess the distance
     """
-    atoms_map = software_factory.get_atoms_map()
+    atoms_map = software_factory.get_atoms_map(filename=filenames["atoms_map"])
     ion_index = None
     for key, value in atoms_map.items():
         if value == symbol:
@@ -137,14 +142,14 @@ def _guess_distance(symbol, software_factory):
             break
 
     nearest_distance = software_factory.get_nearest_neighbor_distance(
-        ion_index)
+        ion_index, filename=filenames["nearest_neighbor"])
     cut_guesser = CutInitialGuess()
     return cut_guesser.guess(nearest_distance,
                              CutInitialGuessMethods.three_dimensions.value)
 
 
 def _get_cut_initial_guess(initial_guess: list, correction_indexes: dict,
-                           software_factory: SoftwaresAbstractFactory) -> dict:
+                           software_factory: SoftwaresAbstractFactory, filenames: dict) -> dict:
     """
     Get cut initial guess parameter
     """
@@ -155,12 +160,12 @@ def _get_cut_initial_guess(initial_guess: list, correction_indexes: dict,
         for orbital in orbitals:
             if not (atom, orbital) in cut_guesses:
                 cut_guesses[(atom, orbital)] = _guess_distance(
-                    atom, software_factory)
+                    atom, software_factory, filenames)
     return cut_guesses
 
 
 def _get_divide_character(divide_characters: list, correction_indexes: dict,
-                          software_factory: SoftwaresAbstractFactory):
+                          software_factory: SoftwaresAbstractFactory, filenames: dict):
     """
     Get divide character param
     """
@@ -168,14 +173,14 @@ def _get_divide_character(divide_characters: list, correction_indexes: dict,
         divide_characters = []
 
     dividers = {(e[0], e[1]): e[2] for e in divide_characters}
-    atoms_map = software_factory.get_atoms_map()
+    atoms_map = software_factory.get_atoms_map(filename=filenames["atoms_map"])
     for atom, orbitals in correction_indexes.items():
         for orbital in orbitals:
             if not (atom, orbital) in dividers:
                 dividers[(
                     atom,
                     orbital)] = software_factory.get_number_of_equal_neighbors(
-                        atoms_map=atoms_map, symbol=atom)
+                        atoms_map=atoms_map, symbol=atom, filename=filenames["nearest_neighbor"])
     return dividers
 
 
@@ -198,6 +203,15 @@ def _get_conduction_correction_indexes(correction_code, band_projection, treshol
     else:
         return get_simple_correction_indexes(band_projection)
 
+def get_potential_filename(minushalf_yaml: MinushalfYaml, atom: dict):
+
+    software = minushalf_yaml.get_software_name()
+    input_file = minushalf_yaml.get_software_configurations_params()["input_file"]
+    symbol = next(iter(atom))
+    filenames = get_output_filenames(software=software, input_name=input_file, atom = symbol)
+    potential_filename = filenames["potential"]
+
+    return potential_filename
 
 def get_valence_correction_params(
     minushalf_yaml: MinushalfYaml,
@@ -207,13 +221,15 @@ def get_valence_correction_params(
     """
     Returns the parameters for the valence correction
     """
+
+    software = minushalf_yaml.get_software_name()
+    input_file = minushalf_yaml.get_software_configurations_params()["input_file"]
+    filenames = get_output_filenames(software=software, input_name=input_file)
     correction_code = minushalf_yaml.get_correction_code()
     params = kwargs
     params["software_factory"] = software_factory
-    params["potential_filename"] = software_factory.get_potential_class(
-    ).get_name()
     params["band_projection"] = _get_valence_band_projection(
-        minushalf_yaml, software_factory)
+        minushalf_yaml, software_factory, filenames)
     params["potential_folder"] = minushalf_yaml.get_potential_folder()
     params[
         "exchange_correlation_type"] = minushalf_yaml.get_exchange_corr_code()
@@ -225,19 +241,17 @@ def get_valence_correction_params(
     params["correction_type"] = "valence"
     params["is_conduction"] = False
     params["indirect"] = minushalf_yaml.get_indirect()
-    params["input_files"] = [
-        "INCAR", "POSCAR", "KPOINTS", "CHGCAR"
-    ] if params["indirect"] else ["INCAR", "POSCAR", "KPOINTS"]
-
+    params["input_files"] = get_input_filenames(software, input_file, params["indirect"])
     params["correction_indexes"] = _get_valence_correction_indexes(
         correction_code, params["band_projection"], minushalf_yaml.get_fractional_valence_treshold())
+    params["potential_filename"] = get_potential_filename(minushalf_yaml, params["correction_indexes"])
     params["cut_initial_guess"] = _get_cut_initial_guess(
         minushalf_yaml.get_valence_cut_initial_guess(),
-        params["correction_indexes"], software_factory)
-
+        params["correction_indexes"], software_factory, filenames)
     params["divide_character"] = _get_divide_character(
         minushalf_yaml.get_divide_character(), params["correction_indexes"],
-        software_factory)
+        software_factory, filenames)
+    params["commands"] = minushalf_yaml.get_software_configurations_params()
 
     return params
 
@@ -250,13 +264,14 @@ def get_conduction_correction_params(
     """
     Returns the parameters for the conduction correction
     """
+    software = minushalf_yaml.get_software_name()
+    input_file = minushalf_yaml.get_software_configurations_params()["input_file"]
+    filenames = get_output_filenames(software=software, input_name=input_file)    
     correction_code = minushalf_yaml.get_correction_code()
     params = kwargs
     params["software_factory"] = software_factory
-    params["potential_filename"] = software_factory.get_potential_class(
-    ).get_name()
     params["band_projection"] = _get_conduction_band_projection(
-        minushalf_yaml, software_factory)
+        minushalf_yaml, software_factory, filenames)
     params["potential_folder"] = ".minushalf/corrected_valence_potfiles"
     params[
         "exchange_correlation_type"] = minushalf_yaml.get_exchange_corr_code()
@@ -268,17 +283,17 @@ def get_conduction_correction_params(
     params["correction_type"] = "conduction"
     params["is_conduction"] = True
     params["indirect"] = minushalf_yaml.get_indirect()
-    params["input_files"] = [
-        "INCAR", "POSCAR", "KPOINTS", "CHGCAR"
-    ] if params["indirect"] else ["INCAR", "POSCAR", "KPOINTS"]
+    params["input_files"] = get_input_filenames(software, input_file, params["indirect"])
     params["correction_indexes"] = _get_conduction_correction_indexes(
         correction_code, params["band_projection"], minushalf_yaml.get_fractional_conduction_treshold())
+    params["potential_filename"] = get_potential_filename(minushalf_yaml, params["correction_indexes"])
     params["cut_initial_guess"] = _get_cut_initial_guess(
         minushalf_yaml.get_conduction_cut_initial_guess(),
-        params["correction_indexes"], software_factory)
+        params["correction_indexes"], software_factory, filenames)
 
     params["divide_character"] = _get_divide_character(
         minushalf_yaml.get_divide_character(), params["correction_indexes"],
-        software_factory)
+        software_factory, filenames)
+    params["commands"] = minushalf_yaml.get_software_configurations_params()
 
     return params

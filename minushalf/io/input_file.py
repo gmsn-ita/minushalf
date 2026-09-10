@@ -41,10 +41,14 @@ class InputFile:
                  number_valence_orbitals: int,
                  number_core_orbitals: int,
                  valence_orbitals: list,
+                 is_conduction: bool = True,
                  description: str = "",
                  last_lines: list = None,
                  software: str = "VASP",
-                 cut: float = 0.0) -> None:
+                 cut: float = 0.0,
+                 file_pseudo: str = "NewPseudo.UPF",
+                 orbital: str = None,
+                 amplitude: float = 1.0) -> None:
         """
         Args:
             chemical_symbol (str): Symbol of the chemical element (H, He, Li...)
@@ -86,6 +90,10 @@ class InputFile:
             self.last_lines = []
         else:
             self.last_lines = last_lines
+        self.file_pseudo = file_pseudo
+        self.orbital = orbital
+        self.amplitude = amplitude
+        self.is_conduction = is_conduction
 
     @property
     def chemical_symbol(self) -> str:
@@ -277,7 +285,6 @@ class InputFile:
                     PeriodicTable[self.chemical_symbol]) + 1
         config = self._build_config(self.chemical_symbol)
 
-        # Translate VASP code to QE equivalent
         try:
             dft = ExchangeCorrelationQE[self.exchange_correlation_code].value
         except KeyError:
@@ -289,8 +296,8 @@ class InputFile:
         lines.append("&input\n")
         lines.append(f"  title='{self.chemical_symbol}',\n")
         lines.append(f"  zed={zed},\n")
-        lines.append(f"  config='{config}',\n")
-        lines.append(f"  dft='{dft}'\n")
+        lines.append(f"  config='{config[0]}',\n")
+        lines.append(f"  dft='{dft.upper()}'\n")
         lines.append("  iswitch=4\n")
         lines.append("/\n")
 
@@ -302,23 +309,20 @@ class InputFile:
         configts(2) is the fractional-occupation configuration used
         for the DFT-1/2 correction, derived by reducing the outermost
         non-zero orbital occupation by 0.5.
-
-        Note: file_pseudo and file_pseudopw are left blank pending
-        implementation of the pseudopotential file resolution logic.
         """
         config_gs   = self._build_config(self.chemical_symbol)
-        config_half = self._build_half_config(self.chemical_symbol)
+        config_half = self._build_half_config(self.is_conduction, self.chemical_symbol, self.orbital, self.amplitude)
 
         lines.append("&test\n")
-        lines.append("  file_pseudo='NewPseudo.UPF',\n")
+        lines.append(f"  file_pseudo='{self.file_pseudo}',\n")
         lines.append(f"  file_pseudopw='{self.chemical_symbol}-05.upf.temp',\n")
-        lines.append(f"  configts(1)='{config_gs}',\n")
+        lines.append(f"  configts(1)='{config_gs[1]}',\n")
         lines.append(f"  configts(2)='{config_half}',\n")
         lines.append(f"  rcutv={self.cut}\n")
         lines.append("/\n")
 
     @staticmethod
-    def _build_config(chemical_symbol: str) -> str:
+    def _build_config(chemical_symbol: str) -> list:
         """
         Build the full spectroscopic config string for ld1.x.
         Core orbitals are represented in noble gas notation.
@@ -351,24 +355,39 @@ class InputFile:
             occ_str = f"{int(occ)}" if occ == int(occ) else f"{occ:.1f}"
             parts.append(f"{n}{_L_LABELS[l]}{occ_str}")
 
-        return core_str + " ".join(parts)
+        core_format = core_str + " ".join(parts)
+        valence_format = " ".join(parts)
+
+        return [core_format, valence_format]
 
 
     @staticmethod
-    def _build_half_config(chemical_symbol: str) -> str:
+    def _build_half_config(is_conduction: bool, chemical_symbol: str, orbital: str = None, amplitude: float = 1.0) -> str:
         """
-        Build the DFT-1/2 config string with noble gas core notation,
-        reducing the outermost non-zero orbital occupation by 0.5.
+        Build the DFT-1/2 config string, reducing the occupation of the
+        specified orbital by 0.5.
 
-        Example:
-            N  → '1s2 2s2 2p2.5'
-            Cl → '[Ne] 3s2 3p4.5'
+        Args:
+            chemical_symbol (str): e.g. 'C', 'Si', 'Fe'
+            orbital (str): orbital type to correct — 's', 'p', 'd', or 'f'.
+                        If None, falls back to reducing the outermost
+                        non-zero orbital (legacy behaviour).
+
+        Examples:
+            C, orbital='p'  → '2s2 2p1.5'   (p orbital reduced)
+            C, orbital='s'  → '2s1.5 2p2'   (s orbital reduced instead)
+            Fe, orbital='d' → '[Ar] 4s2 3d5.5'
+
+        TODO: Consider amplitude for removal of other fractions of electron.
         """
-        _L_LABELS = {0: "s", 1: "p", 2: "d", 3: "f"}
+        _L_LABELS  = {0: "s", 1: "p", 2: "d", 3: "f"}
+        _L_NUMBERS = {"s": 0,  "p": 1,  "d": 2,  "f": 3}
+
+        electron_fraction = 0.5 * amplitude * (1 - 2*is_conduction)
 
         raw_lines = InputFile._get_electronic_distribution_from_symbol(
             chemical_symbol)
-        num_core = int(raw_lines[0].split()[0])
+        num_core     = int(raw_lines[0].split()[0])
         orbital_lines = raw_lines[1:]
 
         core_str = ""
@@ -386,7 +405,34 @@ class InputFile:
                 continue
             orbitals.append({"n": n, "l": l, "occ": occ})
 
-        orbitals[-1]["occ"] -= 0.5
+        if orbital is not None:
+            # Find the target l quantum number
+            target_l = _L_NUMBERS.get(orbital.lower())
+            if target_l is None:
+                raise ValueError(
+                    f"Unknown orbital type '{orbital}'. "
+                    f"Must be one of: s, p, d, f"
+                )
+
+            # Find the outermost non-zero orbital matching target_l
+            # "outermost" means highest n among those with l == target_l
+            target_orbital = None
+            for orb in reversed(orbitals):
+                if orb["l"] == target_l:
+                    target_orbital = orb
+                    break
+
+            if target_orbital is None:
+                raise ValueError(
+                    f"Atom '{chemical_symbol}' has no occupied '{orbital}' "
+                    f"orbital to apply the DFT-1/2 correction to."
+                )
+
+            target_orbital["occ"] -= electron_fraction
+
+        else:
+            # Legacy fallback — reduce the last orbital in the list
+            orbitals[-1]["occ"] -= electron_fraction
 
         parts = []
         for orb in orbitals:
@@ -394,8 +440,8 @@ class InputFile:
                     else f"{orb['occ']:.1f}")
             parts.append(f"{orb['n']}{_L_LABELS[orb['l']]}{occ_str}")
 
-        return core_str + " ".join(parts)
-
+        return " ".join(parts)
+    
 #### END Of Suported Softwares ####
 
     def to_stringlist(self) -> list:
@@ -576,7 +622,12 @@ class InputFile:
                       exchange_correlation_code: str,
                       maximum_iterations: int = 100,
                       calculation_code: str = "ae",
-                      software: str = "VASP", cut: float = 0.0) -> any:
+                      software: str = "VASP", cut: float = 0.0,
+                      file_pseudo: str = "NewPseudo.UPF",
+                      orbital: str = None,
+                      amplitude: float = 1.0,
+                      is_conduction: bool = True
+                      ) -> any:
         """
         Create INP file with minimum setup.
 
@@ -592,7 +643,7 @@ class InputFile:
             Returns:
                 input_file: instance of InputFile class.
         """
-
+        print(f"inside the minimum setup, calculation code is {calculation_code} and -s is {software}")
         electronic_distribution = InputFile._get_electronic_distribution_from_symbol(
             chemical_symbol)
         constructor_props = {
@@ -602,6 +653,8 @@ class InputFile:
             cut,
             "exchange_correlation_code":
             exchange_correlation_code,
+            "file_pseudo":
+            file_pseudo,
             "calculation_code":
             calculation_code,
             "chemical_symbol":
@@ -619,7 +672,13 @@ class InputFile:
             "valence_orbitals": [
                 parse_valence_orbitals(orbital)
                 for orbital in electronic_distribution[1:]
-            ]
+            ],
+            "orbital": 
+            orbital,
+            "amplitude":
+            amplitude,
+            "is_conduction":
+            is_conduction
         }
 
         return InputFile(**constructor_props)

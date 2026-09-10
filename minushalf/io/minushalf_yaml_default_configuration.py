@@ -80,6 +80,7 @@ class VaspDefaultParams(Enum):
     """
 
     command = ['mpirun', 'vasp']
+    input_file = None
 
     def __str__(self):
         return str(self.name)
@@ -99,6 +100,35 @@ class VaspDefaultParams(Enum):
         values = map(lambda element: element.value, VaspDefaultParams)
         keys = map(lambda element: element.__str__(), VaspDefaultParams)
         return dict(zip(keys, values))
+
+@unique
+class QEDefaultParams(Enum):
+    """
+    Default value of parameters in the qe tag.
+    """
+
+    pw_command = ['mpirun', 'pw.x']
+    projwfc_command = ['mpirun', 'projwfc.x']
+    ld1_command = ['mpirun', 'ld1.x']
+    virtual_v2_commande = ['mpirun', 'virtual_v2.x']
+    input_file = None
+
+    def __str__(self):
+        return str(self.name)
+
+    @staticmethod
+    def to_list():
+        """
+        Returns a list of default parameters.
+        """
+        return [element.value for element in QEDefaultParams]
+
+    @staticmethod
+    def to_dict():
+        """
+        Returns a dictionary of default parameters.
+        """
+        return {str(element): element.value for element in QEDefaultParams}
 
 
 @unique

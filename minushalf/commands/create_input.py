@@ -52,7 +52,6 @@ from minushalf.utils.cli_messages import (welcome_message, end_message)
               pz: Perdew-Zunger LDA (Quantum ESPRESSO only)
 
               """)
-# This is the "dft" tag in Quantum ESPRESSO
 @click.option('-c',
               '--calculation_code',
               type=click.Choice(CalculationCode.to_list(),

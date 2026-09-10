@@ -14,12 +14,14 @@ from minushalf.io.input_file import InputFile
 from minushalf.utils.atomic_potential import AtomicPotential
 from minushalf.utils.band_structure import BandStructure
 from minushalf.utils.negative_band_gap import find_negative_band_gap
+from minushalf.utils.negative_band_gap_qe import find_negative_band_gap_qe
 from minushalf.io.correction_interface import Correction
 from minushalf.softwares.runner import Runner
 from minushalf.softwares.software_abstract_factory import SoftwaresAbstractFactory
+from minushalf.utils.software_output import get_output_filenames
 
 
-class DFTCorrection(Correction):
+class VASPCorrection(Correction):
     """
     An algorithm that realizes corrections for
     VASP software
@@ -47,6 +49,7 @@ class DFTCorrection(Correction):
         is_conduction: bool,
         correction_indexes: dict,
         divide_character: list,
+        **kwargs
     ):
         """
         init method for the vasp correction class
@@ -191,16 +194,23 @@ class DFTCorrection(Correction):
         # Run ab initio calculations
         self.runner.run(calculation_folder)
 
+        filenames = get_output_filenames('VASP')
+
         eigenvalues = self.software_factory.get_eigenvalues(
-            base_path=calculation_folder)
+            base_path=calculation_folder,
+            filename=filenames["eigenvalues"])
         fermi_energy = self.software_factory.get_fermi_energy(
-            base_path=calculation_folder)
+            base_path=calculation_folder,
+            filename=filenames["fermi_energy"])
         atoms_map = self.software_factory.get_atoms_map(
-            base_path=calculation_folder)
+            base_path=calculation_folder,
+            filename=filenames["atoms_map"])
         num_bands = self.software_factory.get_number_of_bands(
-            base_path=calculation_folder)
+            base_path=calculation_folder,
+            filename=filenames["number_of_bands"])
         band_projection_file = self.software_factory.get_band_projection_class(
-            base_path=calculation_folder)
+            base_path=calculation_folder,
+            filename=filenames["band_projection"])
 
         band_structure = BandStructure(eigenvalues, fermi_energy, atoms_map,
                                        num_bands, band_projection_file)
@@ -462,3 +472,340 @@ class DFTCorrection(Correction):
 
         cut = result.x[0]
         return cut
+
+
+class QECorrection(Correction):
+    """
+    An algorithm that realizes DFT-1/2 corrections for
+    Quantum ESPRESSO.
+    """
+
+    def __init__(
+        self,
+        root_folder: str,
+        potential_filename: str,
+        potential_folder: str,         # folder with uncorrected .upf files per element
+        exchange_correlation_type: str,
+        max_iterations: int,
+        software_factory: SoftwaresAbstractFactory,
+        runner: Runner,
+        calculation_code: str,
+        amplitude: float,
+        cut_initial_guess: dict,
+        tolerance: float,
+        input_files: list,             # QE input files (scf.in, etc.)
+        indirect: bool,
+        corrected_potfiles_folder: str,
+        correction_type: str,
+        band_projection: pd.DataFrame,
+        atoms: list,
+        is_conduction: bool,
+        correction_indexes: dict,
+        divide_character: list,
+        commands: dict,
+    ):
+        """
+        init method for the QE correction class
+            Args:
+                root_folder (str): Path to the folder where the  correction will be made for each atom
+
+                potential_filename (str): Path of the potential choosen for correction.
+
+                potential_folder (str): Folder containing all potential files
+
+                atoms (list): Atoms name
+
+                band_projection (pd.DataFrame): Shows the contribution of each atom in the CBM or VBM
+
+                runner (Runner): class to execute the program that makes ab initio calculations
+
+                only_conduction (bool): Conduction correction without previous valence correction
+
+                indirect (bool): Realize calculations considering indirect gaps
+
+                input_files (list): Input files for QE, in the following order [scf.in, A1.upf, A2.upf, ...]
+
+                commands (list): List of commands to run pw.x, projwfc.x, ld1.x and vistual_v2.x
+        """
+        self.root_folder              = root_folder
+        self.hidden_folder            = None
+        self.atoms                    = atoms
+        self.potential_filename       = potential_filename
+        self.band_projection          = band_projection
+        self.potential_folder         = potential_folder
+        self.exchange_correlation_type = exchange_correlation_type
+        self.max_iterations           = max_iterations
+        self.calculation_code         = calculation_code
+        self.amplitude                = amplitude
+        self.cut_initial_guess        = cut_initial_guess
+        self.tolerance                = tolerance
+        self.runner                   = runner
+        self.software_factory         = software_factory
+        self.atom_potential           = None
+        self.sum_correction_percentual = 100
+        self.corrected_potfiles_folder = corrected_potfiles_folder
+        self.correction_type          = correction_type
+        self.is_conduction            = is_conduction
+        self.correction_indexes       = correction_indexes
+        self.input_files              = input_files
+        self.indirect                 = indirect
+        self.divide_character         = divide_character
+        self.commands                 = commands
+
+    @property
+    def potential_folder(self) -> str:
+        """
+        Returns:
+            Name of the folder that helds all the potential files
+            initially not corrected.
+        """
+        return self._potential_folder
+
+
+    @potential_folder.setter
+    def potential_folder(self, path: str) -> None:
+        """
+        Verify that the potential file exists inside the potential folder.
+
+        The potential filename is provided by self.potential_filename.
+        """
+        abs_path = os.path.join(path, self.potential_filename)
+
+        if not os.path.exists(abs_path):
+            logger.error("Potential folder incomplete")
+            raise FileNotFoundError(
+                f"Potential folder lacks {self.potential_filename}."
+            )
+
+        self._potential_folder = path
+
+    def _copy_corrected_potential(
+        self,
+        symbol: str,
+        orbital: str,
+        correction_folder: str
+    ) -> None:
+        """
+        Copy the corrected pseudopotential generated by ld1.x to the
+        main QE calculation folder.
+        """
+        main_folder = os.path.dirname(os.path.abspath(self.input_files[0]))
+
+        # Find the pseudopotential corresponding to this atom.
+        potential_filename = get_output_filenames(
+            "QE",
+            self.input_files[0],
+            atom=symbol
+        )["potential"]
+
+        corrected_potential = os.path.join(
+            correction_folder,
+            f"{symbol}-05.upf"
+        )
+
+        destination = os.path.join(
+            main_folder,
+            os.path.basename(potential_filename)
+        )
+
+        if not os.path.exists(corrected_potential):
+            raise FileNotFoundError(
+                f"Corrected pseudopotential not found: "
+                f"{corrected_potential}"
+            )
+
+        shutil.copy2(
+            corrected_potential,
+            destination
+        )
+
+        logger.info(
+            f"Corrected {symbol} {orbital} potential copied to "
+            f"{destination}"
+        )
+
+
+
+    def execute(self) -> tuple:
+        """
+        Execute the Quantum ESPRESSO correction algorithm.
+        
+        """
+
+        # Create corrected potentials folder inside .minushalf
+        corrected_potentials_folder = os.path.join(os.path.dirname(self.root_folder), "corrected_potentials")
+        if not os.path.exists(corrected_potentials_folder):
+            os.mkdir(corrected_potentials_folder)
+
+        # Create calculation folder for correction type
+        self.hidden_folder = self.root_folder
+        self.root_folder = os.path.join(self.root_folder, self.correction_type)
+        if os.path.exists(self.root_folder):
+            shutil.rmtree(self.root_folder)
+        os.mkdir(self.root_folder)
+
+        cuts_per_atom_orbital = {}
+        self.sum_correction_percentual = self._get_sum_correction_percentual()
+
+        for symbol, orbitals in self.correction_indexes.items():
+            for orbital in orbitals:
+                cut = self._find_best_correction(symbol, orbital)
+                cuts_per_atom_orbital[(symbol, orbital)] = cut
+
+        gap = self._get_result_gap(is_indirect=self.indirect)
+        return (cuts_per_atom_orbital, gap)
+
+    def _find_best_correction(self, symbol: str, orbital: str) -> float:
+        """
+        Make calculation folder for correction of specific atom and orbital and find the best cut
+            Args:
+                symbol (str): Atom symbol
+                orbital (str): Orbital type (s,p,d,f)
+            Returns:
+                gap_and_cut (tuple): Tuple containing
+                the optimum cut and the gap generated
+                by the correction.
+        """
+        folder_name = f"mkpotcar_{symbol.lower()}_{orbital.lower()}"
+        path = os.path.join(self.root_folder, folder_name)
+        if os.path.exists(path):
+            shutil.rmtree(path)
+        os.mkdir(path)
+
+        number_equal_neighbors = self.divide_character[(symbol.capitalize(),
+                                                        orbital.lower())]
+        value = (100 / (1 + number_equal_neighbors)) * (
+            self.band_projection[orbital][symbol] /
+            self.sum_correction_percentual)
+        logger.info(f"percentual of half electron is {round(value)}")
+
+        cut = self._find_cut(symbol=symbol, base_path=path, orbital=orbital)
+
+        potential_filename = get_output_filenames(
+            "QE",
+            self.input_files[0],
+            atom=symbol
+        )["potential"]
+
+        # Copy corrected potential to corrected_potentials folder
+        find_cut_path = os.path.join(path, "find_cut")
+        corrected_potentials_folder = os.path.join(os.path.dirname(self.hidden_folder), "corrected_potentials")
+        src = os.path.join(find_cut_path, "cut_{:.2f}".format(cut), os.path.basename(potential_filename))
+        dest = os.path.join(corrected_potentials_folder, os.path.basename(potential_filename))
+        shutil.copy2(src, dest)
+
+        return cut
+
+    def _get_result_gap(self, is_indirect: bool) -> float:
+        """
+        Run a final ab initio calculation with all corrected UPF files
+        and return the band gap.
+        """
+        # Copy input files into the calculation folder
+        calculation_folder = os.path.join(os.path.dirname(self.hidden_folder), "optimized_cut")
+        if not os.path.exists(calculation_folder): 
+            os.mkdir(calculation_folder)
+        for file in self.input_files:
+            shutil.copyfile(file, os.path.join(calculation_folder, file))
+
+        # Copy corrected potentials into the calculation folder and make potentials available to the user
+        corrected_potentials_folder = os.path.join(os.path.dirname(self.hidden_folder), "corrected_potentials")
+        main_folder = os.path.dirname(os.path.abspath(self.input_files[0]))
+        public_corrected_potentials_folder = os.path.join(main_folder, "minushalf_corrected_potentials")
+        if not os.path.exists(public_corrected_potentials_folder): 
+            os.mkdir(public_corrected_potentials_folder)
+
+        for potential_file in os.listdir(corrected_potentials_folder):
+            source = os.path.join(corrected_potentials_folder, potential_file)
+            shutil.copyfile(source, os.path.join(calculation_folder, potential_file))
+            shutil.copyfile(source, os.path.join(public_corrected_potentials_folder, potential_file))
+
+
+        self.runner.run(calculation_folder)
+
+        filenames = get_output_filenames('QE', self.input_files[0])
+
+        # All factory calls pass input_files to resolve prefix/outdir
+        eigenvalues = self.software_factory.get_eigenvalues(
+            base_path=calculation_folder,
+            filename=filenames["eigenvalues"])
+        fermi_energy = self.software_factory.get_fermi_energy(
+            base_path=calculation_folder,
+            filename=filenames["fermi_energy"])
+        atoms_map = self.software_factory.get_atoms_map(
+            base_path=calculation_folder,
+            filename=filenames["atoms_map"])
+        num_bands = self.software_factory.get_number_of_bands(
+            base_path=calculation_folder,
+            filename=filenames["number_of_bands"])
+        band_projection_file = self.software_factory.get_band_projection_class(
+            base_path=calculation_folder,
+            filename=filenames["band_projection"])
+
+        band_structure = BandStructure(eigenvalues, fermi_energy, atoms_map,
+                                       num_bands, band_projection_file)
+        gap_report = band_structure.band_gap(is_indirect)
+        return gap_report["gap"]
+
+    def _find_cut(self, symbol: str, base_path: str, orbital: str) -> float:
+        """
+        Find the cut which gives the maximum gap using Nelder-Mead.
+        """
+
+        folder = os.path.join(base_path, "find_cut")
+        if os.path.exists(folder):
+            shutil.rmtree(folder)
+        os.mkdir(folder)
+
+        function_args = {
+            "base_path":                  base_path,
+            "software_factory":           self.software_factory,
+            "runner":                     self.runner,
+            "symbol":                     symbol,
+            "default_potential_filename": self.potential_filename,
+            "atom_potential":             self.atom_potential,
+            "potfiles_folder":            self.potential_folder,
+            "amplitude":                  self.amplitude,
+            "atoms":                      self.atoms,
+            "software_files":             self.input_files,
+            "is_conduction":              self.is_conduction,
+            "indirect":                   self.indirect,
+            "orbital":                    orbital,
+            "exchange_correlation_type":  self.exchange_correlation_type,
+            "max_iterations":             self.max_iterations,
+            "calculation_code":           self.calculation_code,
+            "ld1_command":                self.commands["ld1_command"],
+            "virtual_v2_command":         self.commands["virtual_v2_command"],
+            "hidden_folder":              self.hidden_folder
+        }
+        cut_initial_guess = self.cut_initial_guess[(symbol.capitalize(),
+                                                    orbital.lower())]
+        result = minimize(
+            find_negative_band_gap_qe,
+            x0=cut_initial_guess,
+            args=(function_args),
+            method="Nelder-Mead",
+            options={'xatol': self.tolerance}
+        )
+        if not result.success:
+            logger.error("Optimization failed")
+            raise Exception("Optimization failed.")
+
+        return result.x[0]
+    
+    def _get_sum_correction_percentual(self) -> float:
+        """
+        Sum of the percentuals of orbitals to be corrected.
+        """
+        total_sum = 0
+        for symbol, orbitals in self.correction_indexes.items():
+            for orbital in orbitals:
+                total_sum += self.band_projection[orbital][symbol]
+
+        if total_sum == 0:
+            logger.error(
+                "No orbital selected for correction. Check your threshold.")
+            raise ValueError(
+                "No orbital selected for correction. Check your threshold.")
+
+        return total_sum

@@ -11,7 +11,7 @@ from minushalf.softwares.software_abstract_factory import SoftwaresAbstractFacto
 class BandStructure():
     """
     Extact band structure insights from
-    VASP classes
+    factory classes
     """
 
     def __init__(self, eigenvalues: dict, fermi_energy: float, atoms_map: dict,
@@ -69,7 +69,7 @@ class BandStructure():
         if is_indirect:
             for kpoint, values in self.eigenvalues.items():
                 for band_index, energy in enumerate(values):
-                    if max_energy_reached - energy <= 1e-8 and energy < self.fermi_energy:
+                    if max_energy_reached - energy <= 1e-8 and energy <= self.fermi_energy:
                         max_energy_reached = energy
                         kpoint_vbm = kpoint
                         band_vbm = band_index + 1
@@ -77,7 +77,7 @@ class BandStructure():
             minimum_band_gap = inf
             for kpoint, values in self.eigenvalues.items():
                 valence_band_eigenval, valence_band_idx = max(
-                    ((x, i) for i, x in enumerate(values) if x < self.fermi_energy))
+                    ((x, i) for i, x in enumerate(values) if x <= self.fermi_energy))
                 try:
                     _, conduction_band_eigenval = min(
                         (x for x in enumerate(values) if x[1] > self.fermi_energy),
@@ -114,7 +114,7 @@ class BandStructure():
         if is_indirect:
             for kpoint, values in self.eigenvalues.items():
                 for band_index, energy in enumerate(values):
-                    if self.fermi_energy-energy <= 1e-8 and energy < min_energy_reached:
+                    if self.fermi_energy-energy <= -1e-8 and energy < min_energy_reached:
                         min_energy_reached = energy
                         kpoint_cbm = kpoint
                         band_cbm = band_index + 1
@@ -242,6 +242,7 @@ class BandStructure():
 
     @staticmethod
     def create(software_module: SoftwaresAbstractFactory,
+               filenames: dict,
                base_path: str = '.'):
         """
         Create band structure class from ab inition results
@@ -256,12 +257,20 @@ class BandStructure():
                 band_strucure (BandStructure): Class with band structure informations
 
         """
-        eigenvalues = software_module.get_eigenvalues(base_path=base_path)
-        fermi_energy = software_module.get_fermi_energy(base_path=base_path)
-        atoms_map = software_module.get_atoms_map(base_path=base_path)
-        num_bands = software_module.get_number_of_bands(base_path=base_path)
+        eigenvalues          = software_module.get_eigenvalues(
+                                filename=filenames["eigenvalues"],
+                                base_path=base_path)
+        fermi_energy         = software_module.get_fermi_energy(
+                                filename=filenames["fermi_energy"],
+                                base_path=base_path)
+        atoms_map            = software_module.get_atoms_map(
+                                filename=filenames["atoms_map"],
+                                base_path=base_path)
+        num_bands            = software_module.get_number_of_bands(
+                                filename=filenames["number_of_bands"],
+                                base_path=base_path)
         band_projection_file = software_module.get_band_projection_class(
-            base_path=base_path)
-
+                                filename=filenames["band_projection"],
+                                base_path=base_path)
         return BandStructure(eigenvalues, fermi_energy, atoms_map, num_bands,
                              band_projection_file)

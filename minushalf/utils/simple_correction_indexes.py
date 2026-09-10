@@ -16,7 +16,7 @@ def get_simple_correction_indexes(band_projection: pd.DataFrame) -> dict:
 
             Returns:
 
-                correction_indexes (dict):A dict wherw the keys are the atoms
+                correction_indexes (dict):A dict where the keys are the atoms
                                           symbols and the value is a list with the orbitals type to be
                                           corrected.
                                           Ex:

@@ -1,5 +1,5 @@
 """
-Test procar module
+Test band_structure module
 The functions in this file obey the following rules:
 test_(what the function is meant to do)_(chemical compound)
 """
@@ -9,6 +9,7 @@ from minushalf.softwares.vasp.procar import Procar
 from minushalf.softwares.vasp.eigenval import Eigenvalues
 from minushalf.softwares.vasp.vasp_factory import Vasp
 from minushalf.softwares.vasp.vasprun import Vasprun
+from minushalf.utils.software_output import get_output_filenames
 
 
 def test_is_metal_gan_3d(file_path):
@@ -36,8 +37,10 @@ def test_create_bandstrutcture_gan_3d(file_path):
     Tests create method for GaN 3d
     """
     software_module = Vasp()
+    filenames = get_output_filenames(software="VASP")
 
     band_structure = BandStructure.create(software_module,
+                                          filenames,
                                           file_path("/gan-3d/vasp/"))
 
     assert isinstance(band_structure, BandStructure)
@@ -276,11 +279,13 @@ def test_create_bandstrutcture_bn_2d(file_path):
     """
     Tests create method for BN 2d
     """
-    softare_module = Vasp()
+    software_module = Vasp()
+    filenames = get_output_filenames(software="VASP")
     kpoint_vbm = 24
     band_vbm = 4
 
-    band_structure = BandStructure.create(softare_module,
+    band_structure = BandStructure.create(software_module,
+                                          filenames,
                                           file_path("/bn-2d/"))
 
     vbm_index = band_structure.vbm_index()
