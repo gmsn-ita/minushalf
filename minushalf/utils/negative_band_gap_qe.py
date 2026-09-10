@@ -14,7 +14,7 @@ from minushalf.utils.band_structure import BandStructure
 from minushalf.utils.software_output import get_output_filenames
 
 
-def _set_up_cut_folder(base_path: str, input_files: list, cut: float) -> str:
+def _set_up_cut_folder(base_path: str, input_files: list, cut: float, potentials_folder: str) -> str:
     """
         Creates and populates the folder where the first principles calculations will be done
 
@@ -27,7 +27,7 @@ def _set_up_cut_folder(base_path: str, input_files: list, cut: float) -> str:
             cut_folder (str): Path to folder where the first principles calculations will be done
     """
     cut_folder = _create_cut_folder(base_path, cut)
-    _copy_input_files(input_files, cut_folder)
+    _copy_input_files(input_files, cut_folder, potentials_folder)
     return cut_folder
 
 
@@ -53,7 +53,7 @@ def _create_cut_folder(base_path: str, cut: float) -> str:
     return cut_folder
 
 
-def _copy_input_files(input_files: list, destination_folder: str) -> None:
+def _copy_input_files(input_files: list, destination_folder: str, potentials_folder: str) -> None:
     """
         Copy the input files for the first principles calculations
 
@@ -64,6 +64,14 @@ def _copy_input_files(input_files: list, destination_folder: str) -> None:
 
     for file in input_files:
         shutil.copyfile(file, os.path.join(destination_folder, file))
+
+    # Copy previously corrected potentials
+    corrected_potentials_folder = potentials_folder
+
+    if os.path.exists(corrected_potentials_folder):
+        for potential_file in os.listdir(corrected_potentials_folder):
+            source = os.path.join(corrected_potentials_folder, potential_file)
+            shutil.copyfile(source, os.path.join(destination_folder, potential_file))
 
 
 def _get_gap(software_factory: SoftwaresAbstractFactory,
@@ -82,7 +90,6 @@ def _get_gap(software_factory: SoftwaresAbstractFactory,
 
     
     filenames = get_output_filenames('QE', software_files[0])
-    print(f"Filenames to get gap are {filenames}")
 
     eigenvalues          = software_factory.get_eigenvalues(
                                filename=filenames["eigenvalues"],
@@ -285,9 +292,10 @@ def find_negative_band_gap_qe(cuts: list, *args: tuple) -> float:
     virtual_v2_command = extra_args["virtual_v2_command"]
     software_factory = extra_args["software_factory"]
     is_conduction = extra_args["is_conduction"] 
+    potentials_folder = os.path.join(os.path.dirname(extra_args["hidden_folder"]), "corrected_potentials")
 
     cut_folder = _set_up_cut_folder(extra_args["base_path"],
-                                extra_args["software_files"], cut) 
+                                extra_args["software_files"], cut, potentials_folder) 
 
     _generate_potential(base_path=cut_folder,
                         potential_filename=extra_args["default_potential_filename"],

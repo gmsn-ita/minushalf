@@ -528,6 +528,7 @@ class QECorrection(Correction):
                 commands (list): List of commands to run pw.x, projwfc.x, ld1.x and vistual_v2.x
         """
         self.root_folder              = root_folder
+        self.hidden_folder            = None
         self.atoms                    = atoms
         self.potential_filename       = potential_filename
         self.band_projection          = band_projection
@@ -577,43 +578,6 @@ class QECorrection(Correction):
             )
 
         self._potential_folder = path
-
-
-    def _backup_original_potentials(self) -> None:
-        """
-        Backup the original pseudopotential files.
-        """
-        main_folder = os.path.dirname(os.path.abspath(self.input_files[0]))
-
-
-        backup_folder = os.path.join(
-            main_folder,
-            "minushalf_original_potentials"
-        )
-
-        if os.path.exists(backup_folder):
-            shutil.rmtree(backup_folder)
-
-        os.makedirs(backup_folder)
-
-        for potential in self.input_files[1:]:
-            source = os.path.abspath(potential)
-            destination = os.path.join(
-                backup_folder,
-                os.path.basename(potential)
-            )
-
-            if not os.path.exists(source):
-                raise FileNotFoundError(
-                    f"Original pseudopotential not found: {source}"
-                )
-
-            shutil.copy2(source, destination)
-
-        logger.info(
-            f"Original pseudopotentials backed up to {backup_folder}"
-        )
-
 
     def _copy_corrected_potential(
         self,
@@ -667,8 +631,14 @@ class QECorrection(Correction):
         Execute the Quantum ESPRESSO correction algorithm.
         
         """
-        self._backup_original_potentials()
 
+        # Create corrected potentials folder inside .minushalf
+        corrected_potentials_folder = os.path.join(os.path.dirname(self.root_folder), "corrected_potentials")
+        if not os.path.exists(corrected_potentials_folder):
+            os.mkdir(corrected_potentials_folder)
+
+        # Create calculation folder for correction type
+        self.hidden_folder = self.root_folder
         self.root_folder = os.path.join(self.root_folder, self.correction_type)
         if os.path.exists(self.root_folder):
             shutil.rmtree(self.root_folder)
@@ -717,10 +687,11 @@ class QECorrection(Correction):
             atom=symbol
         )["potential"]
 
-        # Copy corrected potential to the main folder
+        # Copy corrected potential to corrected_potentials folder
         find_cut_path = os.path.join(path, "find_cut")
+        corrected_potentials_folder = os.path.join(os.path.dirname(self.hidden_folder), "corrected_potentials")
         src = os.path.join(find_cut_path, "cut_{:.2f}".format(cut), os.path.basename(potential_filename))
-        dest = os.path.dirname(os.path.abspath(self.input_files[0]))
+        dest = os.path.join(corrected_potentials_folder, os.path.basename(potential_filename))
         shutil.copy2(src, dest)
 
         return cut
@@ -730,7 +701,25 @@ class QECorrection(Correction):
         Run a final ab initio calculation with all corrected UPF files
         and return the band gap.
         """
-        calculation_folder = os.path.dirname(os.path.abspath(self.input_files[0]))
+        # Copy input files into the calculation folder
+        calculation_folder = os.path.join(os.path.dirname(self.hidden_folder), "optimized_cut")
+        if not os.path.exists(calculation_folder): 
+            os.mkdir(calculation_folder)
+        for file in self.input_files:
+            shutil.copyfile(file, os.path.join(calculation_folder, file))
+
+        # Copy corrected potentials into the calculation folder and make potentials available to the user
+        corrected_potentials_folder = os.path.join(os.path.dirname(self.hidden_folder), "corrected_potentials")
+        main_folder = os.path.dirname(os.path.abspath(self.input_files[0]))
+        public_corrected_potentials_folder = os.path.join(main_folder, "minushalf_corrected_potentials")
+        if not os.path.exists(public_corrected_potentials_folder): 
+            os.mkdir(public_corrected_potentials_folder)
+
+        for potential_file in os.listdir(corrected_potentials_folder):
+            source = os.path.join(corrected_potentials_folder, potential_file)
+            shutil.copyfile(source, os.path.join(calculation_folder, potential_file))
+            shutil.copyfile(source, os.path.join(public_corrected_potentials_folder, potential_file))
+
 
         self.runner.run(calculation_folder)
 
@@ -786,7 +775,8 @@ class QECorrection(Correction):
             "max_iterations":             self.max_iterations,
             "calculation_code":           self.calculation_code,
             "ld1_command":                self.commands["ld1_command"],
-            "virtual_v2_command":         self.commands["virtual_v2_command"]
+            "virtual_v2_command":         self.commands["virtual_v2_command"],
+            "hidden_folder":              self.hidden_folder
         }
         cut_initial_guess = self.cut_initial_guess[(symbol.capitalize(),
                                                     orbital.lower())]

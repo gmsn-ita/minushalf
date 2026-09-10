@@ -27,7 +27,6 @@ def get_atoms_list(factory: SoftwaresAbstractFactory, filename: str) -> list:
     """
     Returns atoms_list
     """
-    logger.debug(f"filename is {filename}")
     atoms_map = factory.get_atoms_map(filename=filename)
     atoms = [atoms_map[key] for key in sorted(atoms_map)]
     return list(OrderedDict.fromkeys(atoms))
