@@ -136,7 +136,9 @@ def _generate_potential(base_path: str,
                         max_iterations: int,
                         calculation_code: str,
                         ld1_command: str,
-                        virtual_v2_command: str
+                        virtual_v2_command: str,
+                        amplitude: float,
+                        is_conduction: bool
                         ) -> None:
     """
     Routine to correct the potential using ld1.x
@@ -158,6 +160,8 @@ def _generate_potential(base_path: str,
         calculation_code=calculation_code,
         file_pseudo=original_upf,
         orbital=orbital.lower(),
+        amplitude=amplitude,
+        is_conduction=is_conduction
     )
 
     inp_path = os.path.join(base_path, "INP")
@@ -295,7 +299,9 @@ def find_negative_band_gap_qe(cuts: list, *args: tuple) -> float:
                         calculation_code=extra_args["calculation_code"],
                         ld1_command = ld1_command,
                         virtual_v2_command=virtual_v2_command,
-                        software_factory=software_factory)
+                        software_factory=software_factory,
+                        amplitude = extra_args["amplitude"],
+                        is_conduction = is_conduction)
 
     runner.run(cut_folder)
 

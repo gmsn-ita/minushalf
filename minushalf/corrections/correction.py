@@ -21,7 +21,7 @@ from minushalf.softwares.software_abstract_factory import SoftwaresAbstractFacto
 from minushalf.utils.software_output import get_output_filenames
 
 
-class DFTCorrection(Correction):
+class VASPCorrection(Correction):
     """
     An algorithm that realizes corrections for
     VASP software

@@ -41,6 +41,7 @@ class InputFile:
                  number_valence_orbitals: int,
                  number_core_orbitals: int,
                  valence_orbitals: list,
+                 is_conduction: bool = True,
                  description: str = "",
                  last_lines: list = None,
                  software: str = "VASP",
@@ -92,6 +93,7 @@ class InputFile:
         self.file_pseudo = file_pseudo
         self.orbital = orbital
         self.amplitude = amplitude
+        self.is_conduction = is_conduction
 
     @property
     def chemical_symbol(self) -> str:
@@ -313,7 +315,7 @@ class InputFile:
         implementation of the pseudopotential file resolution logic.
         """
         config_gs   = self._build_config(self.chemical_symbol)
-        config_half = self._build_half_config(self.chemical_symbol, self.orbital)
+        config_half = self._build_half_config(self.is_conduction, self.chemical_symbol, self.orbital, self.amplitude)
 
         lines.append("&test\n")
         lines.append(f"  file_pseudo='{self.file_pseudo}',\n")
@@ -364,7 +366,7 @@ class InputFile:
 
 
     @staticmethod
-    def _build_half_config(chemical_symbol: str, orbital: str = None, amplitude: float = 1.0) -> str:
+    def _build_half_config(is_conduction: bool, chemical_symbol: str, orbital: str = None, amplitude: float = 1.0) -> str:
         """
         Build the DFT-1/2 config string, reducing the occupation of the
         specified orbital by 0.5.
@@ -385,7 +387,7 @@ class InputFile:
         _L_LABELS  = {0: "s", 1: "p", 2: "d", 3: "f"}
         _L_NUMBERS = {"s": 0,  "p": 1,  "d": 2,  "f": 3}
 
-        electron_fraction = 0.5 * amplitude
+        electron_fraction = 0.5 * amplitude * (1 - 2*is_conduction)
 
         raw_lines = InputFile._get_electronic_distribution_from_symbol(
             chemical_symbol)
@@ -626,7 +628,10 @@ class InputFile:
                       calculation_code: str = "ae",
                       software: str = "VASP", cut: float = 0.0,
                       file_pseudo: str = "NewPseudo.UPF",
-                      orbital: str = None) -> any:
+                      orbital: str = None,
+                      amplitude: float = 1.0,
+                      is_conduction: bool = True
+                      ) -> any:
         """
         Create INP file with minimum setup.
 
@@ -642,7 +647,7 @@ class InputFile:
             Returns:
                 input_file: instance of InputFile class.
         """
-
+        print(f"inside the minimum setup, calculation code is {calculation_code} and -s is {software}")
         electronic_distribution = InputFile._get_electronic_distribution_from_symbol(
             chemical_symbol)
         constructor_props = {
@@ -673,7 +678,11 @@ class InputFile:
                 for orbital in electronic_distribution[1:]
             ],
             "orbital": 
-            orbital
+            orbital,
+            "amplitude":
+            amplitude,
+            "is_conduction":
+            is_conduction
         }
 
         return InputFile(**constructor_props)

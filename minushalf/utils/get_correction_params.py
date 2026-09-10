@@ -130,11 +130,11 @@ def _get_conduction_band_projection(
     return projection_df
 
 
-def _guess_distance(symbol, software_factory):
+def _guess_distance(symbol, software_factory, filenames):
     """
     Guess the distance
     """
-    atoms_map = software_factory.get_atoms_map()
+    atoms_map = software_factory.get_atoms_map(filename=filenames["atoms_map"])
     ion_index = None
     for key, value in atoms_map.items():
         if value == symbol:
@@ -142,14 +142,14 @@ def _guess_distance(symbol, software_factory):
             break
 
     nearest_distance = software_factory.get_nearest_neighbor_distance(
-        ion_index)
+        ion_index, filename=filenames["nearest_neighbor"])
     cut_guesser = CutInitialGuess()
     return cut_guesser.guess(nearest_distance,
                              CutInitialGuessMethods.three_dimensions.value)
 
 
 def _get_cut_initial_guess(initial_guess: list, correction_indexes: dict,
-                           software_factory: SoftwaresAbstractFactory) -> dict:
+                           software_factory: SoftwaresAbstractFactory, filenames: dict) -> dict:
     """
     Get cut initial guess parameter
     """
@@ -160,12 +160,12 @@ def _get_cut_initial_guess(initial_guess: list, correction_indexes: dict,
         for orbital in orbitals:
             if not (atom, orbital) in cut_guesses:
                 cut_guesses[(atom, orbital)] = _guess_distance(
-                    atom, software_factory)
+                    atom, software_factory, filenames)
     return cut_guesses
 
 
 def _get_divide_character(divide_characters: list, correction_indexes: dict,
-                          software_factory: SoftwaresAbstractFactory):
+                          software_factory: SoftwaresAbstractFactory, filenames: dict):
     """
     Get divide character param
     """
@@ -173,14 +173,14 @@ def _get_divide_character(divide_characters: list, correction_indexes: dict,
         divide_characters = []
 
     dividers = {(e[0], e[1]): e[2] for e in divide_characters}
-    atoms_map = software_factory.get_atoms_map()
+    atoms_map = software_factory.get_atoms_map(filename=filenames["atoms_map"])
     for atom, orbitals in correction_indexes.items():
         for orbital in orbitals:
             if not (atom, orbital) in dividers:
                 dividers[(
                     atom,
                     orbital)] = software_factory.get_number_of_equal_neighbors(
-                        atoms_map=atoms_map, symbol=atom)
+                        atoms_map=atoms_map, symbol=atom, filename=filenames["nearest_neighbor"])
     return dividers
 
 
@@ -247,10 +247,10 @@ def get_valence_correction_params(
     params["potential_filename"] = get_potential_filename(minushalf_yaml, params["correction_indexes"])
     params["cut_initial_guess"] = _get_cut_initial_guess(
         minushalf_yaml.get_valence_cut_initial_guess(),
-        params["correction_indexes"], software_factory)
+        params["correction_indexes"], software_factory, filenames)
     params["divide_character"] = _get_divide_character(
         minushalf_yaml.get_divide_character(), params["correction_indexes"],
-        software_factory)
+        software_factory, filenames)
     params["commands"] = minushalf_yaml.get_software_configurations_params()
 
     return params
@@ -289,11 +289,11 @@ def get_conduction_correction_params(
     params["potential_filename"] = get_potential_filename(minushalf_yaml, params["correction_indexes"])
     params["cut_initial_guess"] = _get_cut_initial_guess(
         minushalf_yaml.get_conduction_cut_initial_guess(),
-        params["correction_indexes"], software_factory)
+        params["correction_indexes"], software_factory, filenames)
 
     params["divide_character"] = _get_divide_character(
         minushalf_yaml.get_divide_character(), params["correction_indexes"],
-        software_factory)
+        software_factory, filenames)
     params["commands"] = minushalf_yaml.get_software_configurations_params()
 
     return params

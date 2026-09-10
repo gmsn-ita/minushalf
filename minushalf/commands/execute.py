@@ -13,21 +13,22 @@ from minushalf.io.minushalf_yaml import MinushalfYaml
 from minushalf.io.make_minushalf_results import make_minushalf_results
 from minushalf.utils.cli_messages import welcome_message, end_message
 from minushalf.utils.get_correction_params import get_valence_correction_params, get_conduction_correction_params
+from minushalf.utils.software_output import get_output_filenames
 
 from minushalf.softwares.softwares import Softwares, get_software_factory
-from minushalf.corrections.correction import (DFTCorrection, QECorrection)
+from minushalf.corrections.correction import (VASPCorrection, QECorrection)
 from minushalf.io.minushalf_yaml_default_configuration import CorrectionDefaultParams
 
 
 from minushalf.softwares.software_abstract_factory import (
     SoftwaresAbstractFactory)
 
-
-def get_atoms_list(factory: SoftwaresAbstractFactory) -> list:
+def get_atoms_list(factory: SoftwaresAbstractFactory, filename: str) -> list:
     """
     Returns atoms_list
     """
-    atoms_map = factory.get_atoms_map()
+    logger.debug(f"filename is {filename}")
+    atoms_map = factory.get_atoms_map(filename=filename)
     atoms = [atoms_map[key] for key in sorted(atoms_map)]
     return list(OrderedDict.fromkeys(atoms))
 
@@ -78,7 +79,7 @@ def execute(quiet: bool):
     # Read yaml file
     logger.info("Reading minushalf.yaml file")
     minushalf_yaml = MinushalfYaml.from_file()
-    correction_factory_chooser = {Softwares.vasp.value: DFTCorrection,
+    correction_factory_chooser = {Softwares.vasp.value: VASPCorrection,
                                   Softwares.qe.value: QECorrection}
 
     software_name = minushalf_yaml.get_software_name()
@@ -106,8 +107,9 @@ def execute(quiet: bool):
     os.mkdir(root_folder)
 
     # get atoms list
+    filenames = get_output_filenames(software_name, input_name=software_configurations["input_file"])
     logger.info("Get atoms list")
-    atoms = get_atoms_list(software_factory)
+    atoms = get_atoms_list(software_factory, filenames["atoms_map"])
 
     # amplitude logger
     if not np.isclose(minushalf_yaml.get_amplitude(),
