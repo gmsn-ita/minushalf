@@ -96,7 +96,7 @@ def test_get_runner():
     projwfc_command = ['mpirun', '-np', '4', 'projwfc.x']
     input_file = 'scf.in'
     factory = QE()
-    runner = factory.get_runner(pw_command,projwfc_command,input_file)
+    runner = factory.get_runner(pw_command, projwfc_command, input_file)
     assert isinstance(runner, QERunner)
 
 

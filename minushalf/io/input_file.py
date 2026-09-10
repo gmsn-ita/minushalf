@@ -285,7 +285,6 @@ class InputFile:
                     PeriodicTable[self.chemical_symbol]) + 1
         config = self._build_config(self.chemical_symbol)
 
-        # Translate VASP code to QE equivalent
         try:
             dft = ExchangeCorrelationQE[self.exchange_correlation_code].value
         except KeyError:
@@ -310,9 +309,6 @@ class InputFile:
         configts(2) is the fractional-occupation configuration used
         for the DFT-1/2 correction, derived by reducing the outermost
         non-zero orbital occupation by 0.5.
-
-        Note: file_pseudo and file_pseudopw are left blank pending
-        implementation of the pseudopotential file resolution logic.
         """
         config_gs   = self._build_config(self.chemical_symbol)
         config_half = self._build_half_config(self.is_conduction, self.chemical_symbol, self.orbital, self.amplitude)
@@ -326,7 +322,7 @@ class InputFile:
         lines.append("/\n")
 
     @staticmethod
-    def _build_config(chemical_symbol: str) -> str:
+    def _build_config(chemical_symbol: str) -> list:
         """
         Build the full spectroscopic config string for ld1.x.
         Core orbitals are represented in noble gas notation.

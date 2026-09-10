@@ -70,10 +70,7 @@ def get_output_filenames(software: str,
         xml_file = os.path.join(outdir, f"{prefix}.xml")
 
         # Resolve UPF path for the requested atom, or None if not requested
-        if atom is not None:
-            potential = _get_upf_for_atom(input_name, atom)
-        else:
-            potential = None
+        potential = _get_upf_for_atom(input_name, atom) if atom is not None else None
 
         filenames = {
             "eigenvalues":       xml_file,
@@ -116,35 +113,31 @@ def _get_upf_for_atom(input_name_path: str, atom: str) -> str:
     Raises:
         Exception: if the atom is not found in ATOMIC_SPECIES.
     """
-    in_atomic_species = False
+    CARD_NAMES = {
+        "ATOMIC_POSITIONS", "K_POINTS", "CELL_PARAMETERS",
+        "CONSTRAINTS", "OCCUPATIONS", "ATOMIC_FORCES",
+    }
+    input_dir = os.path.dirname(os.path.abspath(input_name_path))
 
     with open(input_name_path) as fh:
+        in_atomic_species = False
         for line in fh:
             stripped = line.strip()
 
             # Detect the start of the ATOMIC_SPECIES card
-            if stripped.upper() == "ATOMIC_SPECIES":
-                in_atomic_species = True
-                continue
-
             if not in_atomic_species:
+                if stripped.upper() == "ATOMIC_SPECIES":
+                    in_atomic_species = True
                 continue
 
             # Any card name or namelist start signals end of ATOMIC_SPECIES
-            if stripped.startswith("&") or stripped.upper() in (
-                "ATOMIC_POSITIONS", "K_POINTS",
-                "CELL_PARAMETERS", "CONSTRAINTS",
-                "OCCUPATIONS", "ATOMIC_FORCES"
-            ):
+            if stripped.startswith("&") or stripped.upper() in CARD_NAMES:
                 break
 
             # Each line: Symbol  Mass  UPF_filename
             parts = stripped.split()
-            if len(parts) >= 3 and parts[0] == atom:
-                upf_filename = parts[2]
-                # Resolve relative to the input file's directory
-                input_dir = os.path.dirname(os.path.abspath(input_name_path))
-                return os.path.join(input_dir, upf_filename)
+            if len(parts) >= 3 and parts[0] == atom:               
+                return os.path.join(input_dir, parts[2])
 
     raise Exception(
         f"Atom '{atom}' not found in ATOMIC_SPECIES card of '{input_name_path}'."

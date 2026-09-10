@@ -121,16 +121,14 @@ class QEDefaultParams(Enum):
         """
         Returns a list of default parameters.
         """
-        return list(map(lambda element: element.value, QEDefaultParams))
+        return [element.value for element in QEDefaultParams]
 
     @staticmethod
     def to_dict():
         """
         Returns a dictionary of default parameters.
         """
-        values = map(lambda element: element.value, QEDefaultParams)
-        keys = map(lambda element: element.__str__(), QEDefaultParams)
-        return dict(zip(keys, values))
+        return {str(element): element.value for element in QEDefaultParams}
 
 
 @unique

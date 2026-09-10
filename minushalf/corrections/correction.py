@@ -477,7 +477,7 @@ class VASPCorrection(Correction):
 class QECorrection(Correction):
     """
     An algorithm that realizes DFT-1/2 corrections for
-    Quantum ESPRESSO software.
+    Quantum ESPRESSO.
     """
 
     def __init__(
@@ -505,7 +505,7 @@ class QECorrection(Correction):
         commands: dict,
     ):
         """
-        init method for the qe correction class
+        init method for the QE correction class
             Args:
                 root_folder (str): Path to the folder where the  correction will be made for each atom
 

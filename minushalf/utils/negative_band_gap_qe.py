@@ -266,7 +266,7 @@ def _copy_pp_pswfc(source_upf: str, target_upf: str) -> None:
 
 def find_negative_band_gap_qe(cuts: list, *args: tuple) -> float:
     """
-                Run Qauntum ESPRESSO and return the gap value multiplied by -1
+                Run Quantum ESPRESSO and return the gap value multiplied by -1
 
                 Args:
                     cuts (float): List of cuts
