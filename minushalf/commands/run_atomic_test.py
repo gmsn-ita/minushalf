@@ -28,7 +28,7 @@ def test_atomic_with_all_elements():
     runner = CliRunner()
 
     for element in ElectronicDistribution:
-        inp = InputFile.minimum_setup(str(element), "pb")
+        inp = InputFile.minimum_setup(chemical_symbol=str(element), exchange_correlation_code="pb")
         lines = inp.to_stringlist()
         with runner.isolated_filesystem():
             with open("INP", "w") as file:

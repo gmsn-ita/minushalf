@@ -65,30 +65,38 @@ from minushalf.utils.cli_messages import (welcome_message, end_message)
               ae: All electrons
               """)
 @click.option(
-    '-m',
-    "--maximum_iterations",
-    type=click.IntRange(0, 10000),
-    nargs=1,
-    default=100,
-    show_default=True,
-    help="""Maximum number of iterations performed by the atomic program""")
-@click.option('-f',
-              "--filename",
-              type=str,
-              nargs=1,
-              default='INP',
-              show_default=True,
-              help="""Name of the created file""")
-@click.option('-r',
-              "--cut",
-              type=float,
-              nargs=1,
-              default='0.0',
-              show_default=True,
-              help="""CUT parameter""")
+            '-m',
+            "--maximum_iterations",
+            type=click.IntRange(0, 10000),
+            nargs=1,
+            default=100,
+            show_default=True,
+            help="""Maximum number of iterations performed by the atomic program""")
+@click.option(  
+            '-p',
+            '--potential_file',
+            type=str,
+            default=None,
+            help="""Path to the pseudopotential file to be corrected""")
+@click.option(
+            '-f',
+            "--filename",
+            type=str,
+            nargs=1,
+            default='INP',
+            show_default=True,
+            help="""Name of the created file""")
+@click.option(
+            '-r',
+            "--cut",
+            type=float,
+            nargs=1,
+            default='0.0',
+            show_default=True,
+            help="""CUT parameter""")
 @click.option('--quiet', default=False, is_flag=True)
 def create_input(software: str, cut: float, chemical_symbol: str, exchange_correlation_code: str,
-                 calculation_code: str, maximum_iterations: int, filename: str,
+                 calculation_code: str, maximum_iterations: int, filename: str, potential_file: str,
                  quiet: bool):
     """
     Create the input file for the run-atomic command.
@@ -111,10 +119,13 @@ def create_input(software: str, cut: float, chemical_symbol: str, exchange_corre
         logger.remove()
         logger.add(sys.stdout, level="ERROR")
 
-    input_file = InputFile.minimum_setup(chemical_symbol.capitalize(),
-                                         exchange_correlation_code,
-                                         maximum_iterations, calculation_code,
-                                         software.upper(), cut)
+    input_file = InputFile.minimum_setup(chemical_symbol=chemical_symbol.capitalize(),
+                                         exchange_correlation_code=exchange_correlation_code,
+                                         maximum_iterations=maximum_iterations,
+                                         calculation_code=calculation_code,
+                                         software=software.upper(), 
+                                         file_pseudo=potential_file,
+                                         cut=cut)
     logger.info("Creating INP file")  
 
     input_file.to_file(filename)

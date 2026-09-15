@@ -46,7 +46,7 @@ class InputFile:
                  last_lines: list = None,
                  software: str = "VASP",
                  cut: float = 0.0,
-                 file_pseudo: str = "NewPseudo.UPF",
+                 file_pseudo: str = None,
                  orbital: str = None,
                  amplitude: float = 1.0) -> None:
         """
@@ -623,7 +623,7 @@ class InputFile:
                       maximum_iterations: int = 100,
                       calculation_code: str = "ae",
                       software: str = "VASP", cut: float = 0.0,
-                      file_pseudo: str = "NewPseudo.UPF",
+                      file_pseudo: str = None,
                       orbital: str = None,
                       amplitude: float = 1.0,
                       is_conduction: bool = True
