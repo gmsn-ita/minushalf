@@ -15,7 +15,7 @@ class BandStructure():
     """
 
     def __init__(self, eigenvalues: dict, fermi_energy: float, atoms_map: dict,
-                 num_bands: int, band_projection: BandProjectionFile):
+                 num_bands: int, band_projection: BandProjectionFile = None):
         """
             Args:
                 eigenvalues (dict): Egenvalues of dft calculation 
@@ -53,9 +53,13 @@ class BandStructure():
         """
         Find the kpoint and the band for the Valence Band Maximum (VBM).
 
+        The VBM is always the highest-energy occupied state across all
+        k-points — this does not depend on whether the gap being computed
+        is direct or indirect. `is_indirect` is kept only for interface
+        consistency with `cbm_index` and `band_gap`.
+
         Args:
-            is_indirect (bool): If True, considers an indirect band gap for VBM.
-                           If False, considers a direct band gap for VBM.
+            is_indirect (bool): Unused; retained for interface compatibility.
 
         Returns:
             vbm_index (tuple): A tuple containing the kpoint number and the band number of the VBM.
@@ -66,40 +70,26 @@ class BandStructure():
         kpoint_vbm = None
         band_vbm = None
         max_energy_reached = -inf
-        if is_indirect:
-            for kpoint, values in self.eigenvalues.items():
-                for band_index, energy in enumerate(values):
-                    if max_energy_reached - energy <= 1e-8 and energy <= self.fermi_energy:
-                        max_energy_reached = energy
-                        kpoint_vbm = kpoint
-                        band_vbm = band_index + 1
-        else:
-            minimum_band_gap = inf
-            for kpoint, values in self.eigenvalues.items():
-                valence_band_eigenval, valence_band_idx = max(
-                    ((x, i) for i, x in enumerate(values) if x <= self.fermi_energy))
-                try:
-                    _, conduction_band_eigenval = min(
-                        (x for x in enumerate(values) if x[1] > self.fermi_energy),
-                        key=lambda x: x[1]
-                    )
-                except ValueError as err:
-                    raise ValueError(
-                        "There are no bands above the Fermi energy. "
-                        "This usually means the calculation was run with too few bands (nbnd). "
-                        "Increase the number of bands and rerun the calculation."
-                    ) from err
-
-                if conduction_band_eigenval - valence_band_eigenval-minimum_band_gap <= 1e-8:
+        for kpoint, values in self.eigenvalues.items():
+            for band_index, energy in enumerate(values):
+                if energy <= self.fermi_energy and max_energy_reached - energy <= 1e-8:
+                    max_energy_reached = energy
                     kpoint_vbm = kpoint
-                    band_vbm = valence_band_idx + 1
-                    minimum_band_gap = conduction_band_eigenval - valence_band_eigenval
+                    band_vbm = band_index + 1
 
         return (kpoint_vbm, band_vbm)
-
+    
     def cbm_index(self, is_indirect: bool = False) -> tuple:
         """
-        Find the kpoint and the band for cbm
+        Find the kpoint and the band for the Conduction Band Minimum (CBM).
+
+        For an indirect gap, the CBM is the lowest-energy unoccupied state
+        anywhere (any k-point, any band).
+
+        For a direct gap, the CBM is defined at the *same* k-point as the
+        VBM: it is simply the band immediately above the VBM band at that
+        k-point, regardless of whether some other k-point would yield a
+        smaller gap.
 
             Returns:
                 cbm_index (tuple): Contains the kpoint
@@ -110,25 +100,30 @@ class BandStructure():
 
         kpoint_cbm = None
         band_cbm = None
-        min_energy_reached = inf
+
         if is_indirect:
+            min_energy_reached = inf
             for kpoint, values in self.eigenvalues.items():
                 for band_index, energy in enumerate(values):
-                    if self.fermi_energy-energy <= -1e-8 and energy < min_energy_reached:
+                    if self.fermi_energy - energy <= -1e-8 and energy < min_energy_reached:
                         min_energy_reached = energy
                         kpoint_cbm = kpoint
                         band_cbm = band_index + 1
         else:
-            minimum_band_gap = inf
-            for kpoint, values in self.eigenvalues.items():
-                valence_band_eigenval, _ = max(((x, i) for i, x in enumerate(
-                    values) if x < self.fermi_energy))
-                conduction_band_idx, conduction_band_eigenval = min(
-                    (x for x in enumerate(values) if x[1] > self.fermi_energy), key=lambda x: x[1])
-                if (conduction_band_eigenval - valence_band_eigenval-minimum_band_gap) <= 1e-8:
-                    kpoint_cbm = kpoint
-                    band_cbm = conduction_band_idx + 1
-                    minimum_band_gap = conduction_band_eigenval - valence_band_eigenval
+            kpoint_vbm, band_vbm = self.vbm_index(is_indirect=False)
+            values = self.eigenvalues[kpoint_vbm]
+
+            # band_vbm is 1-indexed, so band_vbm (0-indexed) is the next band up.
+            if band_vbm >= len(values):
+                raise ValueError(
+                    "There is no band above the VBM at its k-point. "
+                    "This usually means the calculation was run with too few "
+                    "bands (nbnd). Increase the number of bands and rerun the "
+                    "calculation."
+                )
+
+            kpoint_cbm = kpoint_vbm
+            band_cbm = band_vbm + 1
 
         return (kpoint_cbm, band_cbm)
 

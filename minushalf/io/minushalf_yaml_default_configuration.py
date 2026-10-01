@@ -110,7 +110,7 @@ class QEDefaultParams(Enum):
     pw_command = ['mpirun', 'pw.x']
     projwfc_command = ['mpirun', 'projwfc.x']
     ld1_command = ['mpirun', 'ld1.x']
-    virtual_v2_commande = ['mpirun', 'virtual_v2.x']
+    virtual_v2_command = ['mpirun', 'virtual_v2.x']
     input_file = None
 
     def __str__(self):

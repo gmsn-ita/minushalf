@@ -7,6 +7,7 @@ Suported programs are:
     ld1.x, for Quantum ESPRESSO
 """
 import numpy as np
+import os
 import fortranformat as ff
 import loguru
 from minushalf.utils.electronic_distribution import ElectronicDistribution
@@ -48,7 +49,8 @@ class InputFile:
                  cut: float = 0.0,
                  file_pseudo: str = None,
                  orbital: str = None,
-                 amplitude: float = 1.0) -> None:
+                 amplitude: float = 1.0,
+                 fraction_value: int = 100) -> None:
         """
         Args:
             chemical_symbol (str): Symbol of the chemical element (H, He, Li...)
@@ -94,6 +96,7 @@ class InputFile:
         self.orbital = orbital
         self.amplitude = amplitude
         self.is_conduction = is_conduction
+        self.fraction_value = fraction_value
 
     @property
     def chemical_symbol(self) -> str:
@@ -311,13 +314,17 @@ class InputFile:
         non-zero orbital occupation by 0.5.
         """
         config_gs   = self._build_config(self.chemical_symbol)
-        config_half = self._build_half_config(self.is_conduction, self.chemical_symbol, self.orbital, self.amplitude)
+        config_half = self._build_half_config(self.chemical_symbol, self.orbital, self.amplitude, self.fraction_value)
 
         lines.append("&test\n")
-        lines.append(f"  file_pseudo='{self.file_pseudo}',\n")
+        lines.append(f"  file_pseudo='{os.path.basename(self.file_pseudo)}',\n")
         lines.append(f"  file_pseudopw='{self.chemical_symbol}-05.upf.temp',\n")
-        lines.append(f"  configts(1)='{config_gs[1]}',\n")
-        lines.append(f"  configts(2)='{config_half}',\n")
+        if self.is_conduction == True:
+            lines.append(f"  configts(1)='{config_half}',\n")
+            lines.append(f"  configts(2)='{config_gs[1]}',\n")
+        else:    
+            lines.append(f"  configts(1)='{config_gs[1]}',\n")
+            lines.append(f"  configts(2)='{config_half}',\n")
         lines.append(f"  rcutv={self.cut}\n")
         lines.append("/\n")
 
@@ -362,38 +369,33 @@ class InputFile:
 
 
     @staticmethod
-    def _build_half_config(is_conduction: bool, chemical_symbol: str, orbital: str = None, amplitude: float = 1.0) -> str:
+    def _build_half_config(chemical_symbol: str, orbital: str = None,
+                            amplitude: float = 1.0, fraction_value: int = 100) -> str:
         """
         Build the DFT-1/2 config string, reducing the occupation of the
-        specified orbital by 0.5.
+        specified orbital by a fraction of 0.5.
 
         Args:
             chemical_symbol (str): e.g. 'C', 'Si', 'Fe'
             orbital (str): orbital type to correct — 's', 'p', 'd', or 'f'.
                         If None, falls back to reducing the outermost
-                        non-zero orbital (legacy behaviour).
+                        non-zero orbital.
 
         Examples:
             C, orbital='p'  → '2s2 2p1.5'   (p orbital reduced)
             C, orbital='s'  → '2s1.5 2p2'   (s orbital reduced instead)
-            Fe, orbital='d' → '[Ar] 4s2 3d5.5'
+            Fe, orbital='d' → '4s2 3d5.5'
 
         TODO: Consider amplitude for removal of other fractions of electron.
         """
         _L_LABELS  = {0: "s", 1: "p", 2: "d", 3: "f"}
         _L_NUMBERS = {"s": 0,  "p": 1,  "d": 2,  "f": 3}
 
-        electron_fraction = 0.5 * amplitude * (1 - 2*is_conduction)
+        electron_fraction = 0.5 * amplitude * (fraction_value/100)
 
         raw_lines = InputFile._get_electronic_distribution_from_symbol(
             chemical_symbol)
-        num_core     = int(raw_lines[0].split()[0])
         orbital_lines = raw_lines[1:]
-
-        core_str = ""
-        noble = InputFile._NOBLE_GAS_CORE.get(num_core)
-        if noble:
-            core_str = f"[{noble}] "
 
         orbitals = []
         for line in orbital_lines:
@@ -431,13 +433,13 @@ class InputFile:
             target_orbital["occ"] -= electron_fraction
 
         else:
-            # Legacy fallback — reduce the last orbital in the list
+            # Reduce the last orbital in the list
             orbitals[-1]["occ"] -= electron_fraction
 
         parts = []
         for orb in orbitals:
             occ_str = (f"{int(orb['occ'])}" if orb["occ"] == int(orb["occ"])
-                    else f"{orb['occ']:.1f}")
+                    else f"{orb['occ']:.2f}")
             parts.append(f"{orb['n']}{_L_LABELS[orb['l']]}{occ_str}")
 
         return " ".join(parts)
@@ -626,7 +628,8 @@ class InputFile:
                       file_pseudo: str = None,
                       orbital: str = None,
                       amplitude: float = 1.0,
-                      is_conduction: bool = True
+                      is_conduction: bool = False,
+                      fraction_value: int = 100
                       ) -> any:
         """
         Create INP file with minimum setup.
@@ -643,7 +646,6 @@ class InputFile:
             Returns:
                 input_file: instance of InputFile class.
         """
-        print(f"inside the minimum setup, calculation code is {calculation_code} and -s is {software}")
         electronic_distribution = InputFile._get_electronic_distribution_from_symbol(
             chemical_symbol)
         constructor_props = {
@@ -678,7 +680,9 @@ class InputFile:
             "amplitude":
             amplitude,
             "is_conduction":
-            is_conduction
+            is_conduction,
+            "fraction_value":
+            fraction_value
         }
 
         return InputFile(**constructor_props)

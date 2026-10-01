@@ -577,8 +577,7 @@ class QECorrection(Correction):
     def potential_folder(self) -> str:
         """
         Returns:
-            Name of the folder that helds all the potential files
-            initially not corrected.
+            Directory containing the original pseudopotential files.
         """
         return self._potential_folder
 
@@ -664,6 +663,8 @@ class QECorrection(Correction):
         cuts_per_atom_orbital = {}
         self.sum_correction_percentual = self._get_sum_correction_percentual()
 
+        correction_dict = {symbol: list(orbitals) for symbol, orbitals in self.correction_indexes.items()}
+        logger.info(f"Orbitals to be corrected: {correction_dict}")
         for symbol, orbitals in self.correction_indexes.items():
             for orbital in orbitals:
                 cut = self._find_best_correction(symbol, orbital)
@@ -689,28 +690,43 @@ class QECorrection(Correction):
             shutil.rmtree(path)
         os.mkdir(path)
 
-        number_equal_neighbors = self.divide_character[(symbol.capitalize(),
-                                                        orbital.lower())]
-        value = (100 / (1 + number_equal_neighbors)) * (
-            self.band_projection[orbital][symbol] /
-            self.sum_correction_percentual)
-        logger.info(f"percentual of half electron is {round(value)}")
+        value = round(100 * (self.band_projection[orbital][symbol] / self.sum_correction_percentual))
+        logger.info(f"percentual of half electron is {value}")
 
-        cut = self._find_cut(symbol=symbol, base_path=path, orbital=orbital)
+        cut = self._find_cut(symbol=symbol, base_path=path, orbital=orbital, fraction_value=value)
+        logger.info(f"Computed cut for symbol='{symbol}', orbital='{orbital}', fraction_value={value}: cut={cut}")
 
         potential_filename = get_output_filenames(
             "QE",
             self.input_files[0],
             atom=symbol
         )["potential"]
+        logger.info(
+            f"Potential filename resolved for symbol='{symbol}' (input_file='{self.input_files[0]}'): {potential_filename}"
+        )
 
         # Copy corrected potential to corrected_potentials folder
         find_cut_path = os.path.join(path, "find_cut")
         corrected_potentials_folder = os.path.join(os.path.dirname(self.hidden_folder), "corrected_potentials")
         src = os.path.join(find_cut_path, "cut_{:.2f}".format(cut), os.path.basename(potential_filename))
         dest = os.path.join(corrected_potentials_folder, os.path.basename(potential_filename))
-        shutil.copy2(src, dest)
 
+        logger.info(f"find_cut_path: {find_cut_path}", find_cut_path)
+        logger.info(f"corrected_potentials_folder: {corrected_potentials_folder}", corrected_potentials_folder)
+        logger.info(f"Copying potential for symbol='{symbol}', orbital='{orbital}': src={src} -> dest={dest}",
+                    symbol, orbital, src, dest)
+        if not os.path.isfile(src):
+            logger.error(
+                f"Source potential file does not exist for symbol='{symbol}', orbital='{orbital}': {src}"
+            )
+
+        if os.path.isfile(dest):
+            logger.warning(
+                f"Destination already exists and will be overwritten for symbol='{symbol}': {dest}"
+            )
+
+        shutil.copy2(src, dest)
+        logger.info(f"Successfully copied potential for symbol='{symbol}' to {dest}")
         return cut
 
     def _get_result_gap(self, is_indirect: bool) -> float:
@@ -764,7 +780,7 @@ class QECorrection(Correction):
         gap_report = band_structure.band_gap(is_indirect)
         return gap_report["gap"]
 
-    def _find_cut(self, symbol: str, base_path: str, orbital: str) -> float:
+    def _find_cut(self, symbol: str, base_path: str, orbital: str, fraction_value: int) -> float:
         """
         Find the cutoff radius that maximises the band gap using the Nelder-Mead method.
         """
@@ -793,7 +809,8 @@ class QECorrection(Correction):
             "calculation_code":           self.calculation_code,
             "ld1_command":                self.commands["ld1_command"],
             "virtual_v2_command":         self.commands["virtual_v2_command"],
-            "hidden_folder":              self.hidden_folder
+            "hidden_folder":              self.hidden_folder,
+            "fraction_value":             fraction_value
         }
         cut_initial_guess = self.cut_initial_guess[(symbol.capitalize(),
                                                     orbital.lower())]
