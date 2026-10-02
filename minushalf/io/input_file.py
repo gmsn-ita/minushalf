@@ -313,11 +313,21 @@ class InputFile:
         for the DFT-1/2 correction, derived by reducing the outermost
         non-zero orbital occupation by 0.5.
         """
+
         config_gs   = self._build_config(self.chemical_symbol)
         config_half = self._build_half_config(self.chemical_symbol, self.orbital, self.amplitude, self.fraction_value)
 
+        
         lines.append("&test\n")
-        lines.append(f"  file_pseudo='{os.path.basename(self.file_pseudo)}',\n")
+        if not self.file_pseudo:
+            loguru.logger.warning(
+                "Missing pseudopotential path. Please provide the path to the "
+                "potential to be corrected using -p or directly into the INP file" \
+                "e.g. <path>/<to>/Si.UPF"
+            )
+            lines.append(f"  file_pseudo='{self.chemical_symbol}.UPF',\n")
+        else:
+            lines.append(f"  file_pseudo='{os.path.basename(self.file_pseudo)}',\n")
         lines.append(f"  file_pseudopw='{self.chemical_symbol}-05.upf.temp',\n")
         if self.is_conduction == True:
             lines.append(f"  configts(1)='{config_half}',\n")
