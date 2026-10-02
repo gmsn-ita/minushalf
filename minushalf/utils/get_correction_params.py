@@ -91,7 +91,6 @@ def _get_valence_band_projection(minushalf_yaml: MinushalfYaml,
 
     projection_df = None
     if has_overwrite:
-        logger.debug(f"[DEBUG] Entrei no has_overwrite")
         band_location = minushalf_yaml.get_overwrite_vbm()
         projection_df = _get_band_characters(band_location, software_factory, filenames)
     else:
@@ -99,14 +98,11 @@ def _get_valence_band_projection(minushalf_yaml: MinushalfYaml,
             software_factory, is_indirect=minushalf_yaml.get_indirect(), filenames=filenames)
     # If the vbm characters are overwritten manually
     has_replace = bool(minushalf_yaml.get_vbm_characters())
-    logger.debug(f"[DEBUG] Has_repalce: {has_replace}")
 
     if has_replace:
-        logger.debug(f"[DEBUG] Entrei no has_replace")
         projection_df = _overwrite_band_projection(
             minushalf_yaml.get_vbm_characters(), projection_df)
 
-    logger.debug(f"[DEBUG] Projeção: {projection_df}")
     return projection_df
 
 
@@ -193,7 +189,6 @@ def _get_valence_correction_indexes(correction_code, band_projection, treshold: 
     """
     Get the correction indexes needed to the corrrection
     """
-    logger.debug(f"[DEBUG] Pegando correction idexes  para correção de valência: codigo {correction_code}; projeção de banda {band_projection}, limiar {treshold}")
     if "vf" in correction_code:
         return get_fractionary_correction_indexes(band_projection, treshold)
     else:
