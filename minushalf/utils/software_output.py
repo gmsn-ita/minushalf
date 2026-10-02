@@ -12,7 +12,8 @@ import glob
 
 def get_output_filenames(software: str,
                          input_name: str = None,
-                         base_path: str = None) -> dict:
+                         base_path: str = None,
+                         atom: str = None) -> dict:
     """
     Returns a dict of resolved output filenames for each factory method,
     given the software name and optionally a software input file path.
@@ -21,6 +22,9 @@ def get_output_filenames(software: str,
         software       (str): software name, e.g. 'VASP' or 'QE'
         input_name (str): path to the software input file (required for QE)
         base_path      (str): base directory for relative paths
+        atom           (str): chemical symbol e.g. 'Si'. If provided and
+                              software is QE, resolves the UPF path for
+                              that element from the ATOMIC_SPECIES card.
 
     Returns:
         filenames (dict): keys match factory method names, values are
@@ -62,9 +66,11 @@ def get_output_filenames(software: str,
         input_dir = os.path.dirname(os.path.abspath(input_name))
         if base_path:
             input_dir = base_path
-        xml_dir = os.path.normpath(os.path.join(input_dir, outdir))
 
-        xml_file = os.path.join(xml_dir, f"{prefix}.xml")
+        xml_file = os.path.join(outdir, f"{prefix}.xml")
+
+        # Resolve UPF path for the requested atom, or None if not requested
+        potential = _get_upf_for_atom(input_name, atom) if atom is not None else None
 
         filenames = {
             "eigenvalues":       xml_file,
@@ -72,10 +78,15 @@ def get_output_filenames(software: str,
             "atoms_map":         xml_file,
             "number_of_bands":   xml_file,
             "number_of_kpoints": xml_file,
-            "band_projection":   _find_projwfc_up(input_dir),
+            "band_projection":   _find_projwfc_up(input_dir, input_name),
             "nearest_neighbor":  xml_file,
-            "potential":         None,   # supplied per-element, not from prefix
+            "potential":         potential,
         }
+        if base_path:
+            filenames = {
+                k: os.path.join(base_path, v)
+                for k, v in filenames.items()
+            }
 
     else:
         raise Exception(
@@ -84,6 +95,53 @@ def get_output_filenames(software: str,
         )
 
     return filenames
+
+
+def _get_upf_for_atom(input_name_path: str, atom: str) -> str:
+    """
+    Reads a QE input file and returns the UPF filename for the
+    requested chemical symbol, as declared in the ATOMIC_SPECIES card.
+
+    Args:
+        input_name_path (str): path to the QE input file (e.g. scf.in)
+        atom            (str): chemical symbol to look up, e.g. 'Si'
+
+    Returns:
+        upf_path (str): path to the UPF file, resolved relative to the
+                        directory of the input file.
+
+    Raises:
+        Exception: if the atom is not found in ATOMIC_SPECIES.
+    """
+    CARD_NAMES = {
+        "ATOMIC_POSITIONS", "K_POINTS", "CELL_PARAMETERS",
+        "CONSTRAINTS", "OCCUPATIONS", "ATOMIC_FORCES",
+    }
+    input_dir = os.path.dirname(os.path.abspath(input_name_path))
+
+    with open(input_name_path) as fh:
+        in_atomic_species = False
+        for line in fh:
+            stripped = line.strip()
+
+            # Detect the start of the ATOMIC_SPECIES card
+            if not in_atomic_species:
+                if stripped.upper() == "ATOMIC_SPECIES":
+                    in_atomic_species = True
+                continue
+
+            # Any card name or namelist start signals end of ATOMIC_SPECIES
+            if stripped.startswith("&") or stripped.upper() in CARD_NAMES:
+                break
+
+            # Each line: Symbol  Mass  UPF_filename
+            parts = stripped.split()
+            if len(parts) >= 3 and parts[0] == atom:               
+                return os.path.join(input_dir, parts[2])
+
+    raise Exception(
+        f"Atom '{atom}' not found in ATOMIC_SPECIES card of '{input_name_path}'."
+    )
 
 
 def _get_prefix_and_outdir(input_name_path: str) -> tuple:
@@ -126,38 +184,44 @@ def _get_prefix_and_outdir(input_name_path: str) -> tuple:
     if prefix is None:
         prefix = "pwscf"
 
-
     return prefix, outdir
 
 
-def _find_projwfc_up(directory: str) -> str:
+def _find_projwfc_up(directory: str, input_name: str) -> Optional[str]:
     """
-    Searches for a *.projwfc_up file in the given directory.
+    Find the projwfc.x output file (*.projwfc_up).
 
-    This is a temporary solution until a dedicated projwfc.x input
-    parser is implemented. It assumes there is exactly one projwfc_up
-    file in the directory.
+    Lookup order:
+        1. If the input file has a 'filproj = <prefix>' line, return
+           '<directory>/<prefix>.projwfc_up'.
+        2. Otherwise, search `directory` for a single *.projwfc_up file.
+        3. If nothing is found, or several files match, return None.
 
     Args:
         directory (str): directory to search in
+        input_name (str): name of the input file that may contain filproj
 
     Returns:
-        path (str): full path to the found .projwfc_up file
-
-    Raises:
-        Exception: if none or more than one file is found
+        path (str | None): path to the projwfc_up file, or None if it
+        cannot be determined
     """
+
+    _FILPROJ_RE = re.compile(r"\bfilproj\s*=\s*['\"]?([^'\",\s]+)", re.IGNORECASE)
+
+    # 1. Look for filproj in the input file.
+    input_path = os.path.join(directory, input_name)
+    if os.path.isfile(input_path):
+        with open(input_path, "r") as f:
+            for line in f:
+                line = line.split("!", 1)[0]  # drop comments
+                match = _FILPROJ_RE.search(line)
+                if match:
+                    return os.path.join(directory, f"{match.group(1)}.projwfc_up")
+
+    # 2. Fall back to searching the directory.
     matches = glob.glob(os.path.join(directory, "*.projwfc_up"))
 
-    if not matches:
-        raise Exception(
-            f"input_name: could not find any *.projwfc_up file "
-            f"in {directory}. Make sure projwfc.x has been run."
-        )
-    if len(matches) > 1:
-        raise Exception(
-            f"input_name: found multiple *.projwfc_up files in "
-            f"{directory}: {matches}. Please remove the unused ones."
-        )
-
-    return matches[0]
+    # 3. Exactly one match -> return it; zero or multiple -> None.
+    if len(matches) == 1:
+        return matches[0]
+    return None

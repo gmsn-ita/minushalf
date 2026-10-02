@@ -13,7 +13,7 @@ def test_occupation_with_default_params_O():
     """
     Test occupation command in the p orbital of oxygen
     """
-    inp_oxygen = InputFile.minimum_setup("O", "pb")
+    inp_oxygen = InputFile.minimum_setup(chemical_symbol="O", exchange_correlation_code="pb")
     lines = inp_oxygen.to_stringlist()
     runner = CliRunner()
     with runner.isolated_filesystem():
@@ -32,7 +32,7 @@ def test_multiple_occupation_with_default_params_O():
     """
     Test occupation command in the p and s orbitals of oxygen
     """
-    inp_oxygen = InputFile.minimum_setup("O", "pb")
+    inp_oxygen = InputFile.minimum_setup(chemical_symbol="O", exchange_correlation_code="pb")
     lines = inp_oxygen.to_stringlist()
     runner = CliRunner()
     with runner.isolated_filesystem():
@@ -53,7 +53,7 @@ def test_failing_occupation_with_default_params_O():
     """
     Test passing invalid secondary quantum number
     """
-    inp_oxygen = InputFile.minimum_setup("O", "pb")
+    inp_oxygen = InputFile.minimum_setup(chemical_symbol="O", exchange_correlation_code="pb")
     lines = inp_oxygen.to_stringlist()
     runner = CliRunner()
     with runner.isolated_filesystem():
@@ -68,7 +68,7 @@ def test_occupation_with_default_params_Yb():
     """
     Test occupation command in the p orbital of ytterbium
     """
-    inp_oxygen = InputFile.minimum_setup("Yb", "pb")
+    inp_oxygen = InputFile.minimum_setup(chemical_symbol="Yb", exchange_correlation_code="pb")
     lines = inp_oxygen.to_stringlist()
     runner = CliRunner()
     with runner.isolated_filesystem():
@@ -87,7 +87,7 @@ def test_multiple_occupation_with_default_params_Yb():
     """
     Test multiple occupation command in the p orbital of ytterbium
     """
-    inp_oxygen = InputFile.minimum_setup("Yb", "pb")
+    inp_oxygen = InputFile.minimum_setup(chemical_symbol="Yb", exchange_correlation_code="pb")
     lines = inp_oxygen.to_stringlist()
     runner = CliRunner()
     with runner.isolated_filesystem():
@@ -108,7 +108,7 @@ def test_failing_occupation_with_default_params_Yb():
     """
     Test invalid occupation number for Yb
     """
-    inp_oxygen = InputFile.minimum_setup("Yb", "pb")
+    inp_oxygen = InputFile.minimum_setup(chemical_symbol="Yb", exchange_correlation_code="pb")
     lines = inp_oxygen.to_stringlist()
     runner = CliRunner()
     with runner.isolated_filesystem():
@@ -123,7 +123,7 @@ def test_occupation_with_default_params_Na():
     """
     Test occupation command in the p orbital of sodium
     """
-    inp_oxygen = InputFile.minimum_setup("Na", "pb")
+    inp_oxygen = InputFile.minimum_setup(chemical_symbol="Na", exchange_correlation_code="pb")
     lines = inp_oxygen.to_stringlist()
     runner = CliRunner()
     with runner.isolated_filesystem():
@@ -142,7 +142,7 @@ def test_failing_occupation_with_default_params_Na():
     """
     Test wrong input to secondary quantum number
     """
-    inp_oxygen = InputFile.minimum_setup("Na", "pb")
+    inp_oxygen = InputFile.minimum_setup(chemical_symbol="Na", exchange_correlation_code="pb")
     lines = inp_oxygen.to_stringlist()
     runner = CliRunner()
     with runner.isolated_filesystem():
@@ -157,7 +157,7 @@ def test_occupation_with_default_params_Au():
     """
     Test occupation command in the p orbital of gold
     """
-    inp_oxygen = InputFile.minimum_setup("Au", "pb")
+    inp_oxygen = InputFile.minimum_setup(chemical_symbol="Au", exchange_correlation_code="pb")
     lines = inp_oxygen.to_stringlist()
     runner = CliRunner()
     with runner.isolated_filesystem():
@@ -176,7 +176,7 @@ def test_failing_occupation_with_default_params_Au():
     """
     Test wrong occuparion percentual passed to command
     """
-    inp_oxygen = InputFile.minimum_setup("Au", "pb")
+    inp_oxygen = InputFile.minimum_setup(chemical_symbol="Au", exchange_correlation_code="pb")
     lines = inp_oxygen.to_stringlist()
     runner = CliRunner()
     with runner.isolated_filesystem():
@@ -191,7 +191,7 @@ def test_occupation_with_default_params_Si():
     """
     Test occupation command in the p orbital of silicium
     """
-    inp_oxygen = InputFile.minimum_setup("Si", "pb")
+    inp_oxygen = InputFile.minimum_setup(chemical_symbol="Si", exchange_correlation_code="pb")
     lines = inp_oxygen.to_stringlist()
     runner = CliRunner()
     with runner.isolated_filesystem():

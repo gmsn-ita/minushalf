@@ -19,7 +19,7 @@ def test_minimum_setup(file_path):
     for element in ElectronicDistribution:
         symbol = str(element)
         path = file_path(f"{symbol}/INP")
-        inp = InputFile.minimum_setup(symbol, 'pb')
+        inp = InputFile.minimum_setup(chemical_symbol=symbol, exchange_correlation_code='pb')
         with open(path, "r") as file:
             assert file.read() == "".join(inp.to_stringlist())
 
@@ -34,7 +34,7 @@ def test_from_file(file_path):
         path = file_path(f"{symbol}/INP_COMMENTED")
 
         inp_from_file = InputFile.from_file(path)
-        inp_minimum_setup = InputFile.minimum_setup(symbol, 'pb')
+        inp_minimum_setup = InputFile.minimum_setup(chemical_symbol=symbol, exchange_correlation_code='pb')
 
         from_file_string = "".join(inp_from_file.to_stringlist())
         minimum_setup_string = "".join(inp_minimum_setup.to_stringlist())
@@ -46,7 +46,7 @@ def test_electron_occupation_ag():
     """
         Test occupation in INP file for Ag
         """
-    inp = InputFile.minimum_setup('Ag', 'pb')
+    inp = InputFile.minimum_setup(chemical_symbol='Ag', exchange_correlation_code='pb')
     inp.electron_occupation(0.5, 2)
     inp.electron_occupation(0.2, 0)
 
@@ -61,7 +61,7 @@ def test_electron_occupation_si():
     """
         Test occupation in INP file for Si
         """
-    inp = InputFile.minimum_setup('Si', 'pb')
+    inp = InputFile.minimum_setup(chemical_symbol='Si', exchange_correlation_code='pb')
     inp.electron_occupation(0.4, 0)
     inp.electron_occupation(0.3, 1)
 
@@ -76,7 +76,7 @@ def test_electron_occupation_au():
     """
         Test occupation in INP file for Au
         """
-    inp = InputFile.minimum_setup('Au', 'pb')
+    inp = InputFile.minimum_setup(chemical_symbol='Au', exchange_correlation_code='pb')
     inp.electron_occupation(0.1, 0)
     inp.electron_occupation(0.4, 2)
 
@@ -91,7 +91,7 @@ def test_electron_occupation_yb():
     """
         Test occupation in INP file for Yb
         """
-    inp = InputFile.minimum_setup('Yb', 'pb')
+    inp = InputFile.minimum_setup(chemical_symbol='Yb', exchange_correlation_code='pb')
     inp.electron_occupation(0.5, 0)
     inp.electron_occupation(0.5, 3)
 
@@ -106,7 +106,7 @@ def test_electron_occupation_na():
     """
         Test occupation in INP file for Na
         """
-    inp = InputFile.minimum_setup('Na', 'pb')
+    inp = InputFile.minimum_setup(chemical_symbol='Na', exchange_correlation_code='pb')
     inp.electron_occupation(0.5, 0)
 
     for orbital in inp.valence_orbitals:
