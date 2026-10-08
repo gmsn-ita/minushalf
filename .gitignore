@@ -130,3 +130,7 @@ dmypy.json
 
 #POTCAR files
 POTCAR*
+
+# Local CI outputs and the reference workbook (not distributed in Git).
+/ci-artifacts/
+ct9b00322_si_002.xlsx

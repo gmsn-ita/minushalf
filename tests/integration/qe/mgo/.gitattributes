@@ -1,0 +1,2 @@
+# Preserve vendor pseudopotential bytes, including original whitespace.
+*.UPF -text -whitespace

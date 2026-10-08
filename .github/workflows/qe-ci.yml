@@ -17,7 +17,7 @@ concurrency:
 jobs:
   test-minushalf-qe:
     runs-on: ubuntu-24.04
-    timeout-minutes: 45
+    timeout-minutes: 60
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
@@ -45,11 +45,9 @@ jobs:
           mkdir -p ci-artifacts
           git rev-parse HEAD > ci-artifacts/commit.txt
           docker image inspect minushalf-qe:ci > ci-artifacts/image.json
-          sha256sum tests/integration/qe/si/Si.UPF \
-            tests/integration/qe/si/si1.in \
-            tests/integration/qe/si/minushalf.yaml > ci-artifacts/inputs.sha256
 
-      - name: Install MinusHalf and run unit and silicon integration tests
+
+      - name: Install MinusHalf and run unit and material integration tests
         run: |
           docker run --rm --init \
             -e OMPI_ALLOW_RUN_AS_ROOT=1 \
@@ -66,16 +64,24 @@ jobs:
               python -m pip freeze > ci-artifacts/python-packages.txt
               python -m pytest -q --junitxml=ci-artifacts/pytest.xml 2>&1 | tee ci-artifacts/pytest.log
 
-              cd tests/integration/qe/si
-              mpirun -np 2 pw.x < si1.in > si1.out 2>&1
-              grep -q "convergence has been achieved" si1.out
-              grep -q "JOB DONE" si1.out
-              grep -E "Parallel version|highest occupied|total energy|convergence has been achieved|JOB DONE" si1.out
-
-              minushalf execute 2>&1 | tee minushalf_execute.log
-              test -s minushalf_results.dat
-              cat minushalf_results.dat
+              python -m unittest discover -s tests/integration/qe -p test_report.py -v 2>&1 | tee ci-artifacts/report-tests.log
+              python tests/integration/qe/run_cases.py
             '
+
+      - name: Collect material comparison
+        if: always()
+        run: |
+          # Container-created reports belong to root. Collect in the container
+          # too; the host fallback only handles an image-build failure.
+          if docker image inspect minushalf-qe:ci >/dev/null 2>&1; then
+            docker run --rm \
+              -v "$PWD:/workspace/minushalf" \
+              -w /workspace/minushalf minushalf-qe:ci \
+              python tests/integration/qe/run_cases.py --summarize
+          else
+            python3 tests/integration/qe/run_cases.py --summarize
+          fi
+          cat ci-artifacts/qe/summary.md >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload diagnostics and results
         if: always()
@@ -85,18 +91,18 @@ jobs:
           if-no-files-found: warn
           retention-days: 14
           path: |
-            ci-artifacts/
-            tests/integration/qe/si/*.out
-            tests/integration/qe/si/*.log
-            tests/integration/qe/si/*.dat
-            tests/integration/qe/si/minushalf.yaml
-            tests/integration/qe/si/proj.in
-
-      - name: Explain test scope
-        if: always()
-        run: |
-          printf '%s\n' \
-            '## QE integration test' \
-            'Checks: unit tests, converged silicon SCF, successful MinusHalf execution, and a nonempty results file.' \
-            'These checks assess technical completion. They do not validate the physical gap or prove that a pseudopotential correction was applied.' \
-            'Download the diagnostic artifact to inspect logs, results, and version records.' >> "$GITHUB_STEP_SUMMARY"
+            ci-artifacts/*.txt
+            ci-artifacts/*.json
+            ci-artifacts/*.xml
+            ci-artifacts/*.log
+            ci-artifacts/qe/summary.csv
+            ci-artifacts/qe/summary.md
+            ci-artifacts/qe/*/result.json
+            ci-artifacts/qe/*/baseline/*.out
+            ci-artifacts/qe/*/baseline/*.json
+            ci-artifacts/qe/*/minushalf/*.log
+            ci-artifacts/qe/*/minushalf/*.dat
+            ci-artifacts/qe/*/minushalf/*.json
+            ci-artifacts/qe/*/minushalf/*.in
+            ci-artifacts/qe/*/minushalf/*.yaml
+            ci-artifacts/qe/*/minushalf/minushalf_corrected_potentials/*.UPF

@@ -18,13 +18,23 @@ Inside the container, the workflow:
 
 1. Installs MinusHalf and its test dependencies.
 2. Runs the Python tests with `pytest`.
-3. Runs a silicon SCF calculation with two MPI processes and checks convergence.
-4. Runs `minushalf execute` and checks that it produces a nonempty results file.
+3. Runs separate Si and MgO SCF calculations with two MPI processes and checks convergence.
+4. Runs `minushalf execute` for each material and collects its gap and CUTs.
+5. Shows both materials in an Actions summary and saves a CSV, including
+   experimental gaps, signed differences, absolute errors, timings and failures.
 
-The silicon inputs and pseudopotential are in `tests/integration/qe/si/`.
-A passing run confirms that these steps completed successfully. Checking the
-physical gap and whether the correction was applied correctly is separate
-work; those checks are not part of this CI yet.
+The fixed inputs, pseudopotentials and two experimental reference entries are
+in `tests/integration/qe/`. CI does not query Materials Project or download
+pseudopotentials. The original spreadsheet is not included in Git.
+
+See the [case notes and references](../tests/integration/qe/README.md) for
+the selected values and their sources. Si retains the existing LDA/PZ fixture;
+MgO uses PBE. These are small integration cases, not a uniform scientific benchmark.
+
+PASS means technical completion with a converged baseline and readable,
+finite results. The experimental difference is displayed without a pass/fail
+tolerance. UPF byte changes are recorded as diagnostics; checking the physical
+correction and numerical convergence remains separate work.
 
 ## Running and checking a test
 
@@ -34,11 +44,14 @@ also supports manual dispatch. For pull requests, GitHub tests the proposed
 merge with the base branch.
 
 Open **Actions > QE CI** to follow a run. Its downloadable artifact contains
-the available logs, test reports, silicon results and version information.
+the available logs, test reports, material results and version information.
 The upload step also runs after test failures to help with debugging.
 
-Each job has a 45-minute limit, including the image build and installation.
+Each job has a 60-minute limit, including the image build and installation.
 This limit applies only to GitHub Actions, not to cluster calculations.
+Within that job, Si has a 15-minute budget and MgO has 30 minutes, including
+the baseline (at most three minutes). A timeout is reported explicitly and the next material
+is still attempted. Results already collected remain available if a later case fails.
 
 ## Publishing the base image
 

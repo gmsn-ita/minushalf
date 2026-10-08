@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "dataset": {
+    "citation": "Borlido et al., Large-Scale Benchmark of Exchange–Correlation Functionals for the Determination of Electronic Band Gaps of Solids, J. Chem. Theory Comput. 15, 5069–5079 (2019).",
+    "doi": "10.1021/acs.jctc.9b00322",
+    "source_file": "ct9b00322_si_002.xlsx",
+    "source_sheet": "Sheet1",
+    "note": "Only two reference entries are transcribed. The workbook is not distributed. Row numbers are one-based Excel rows; gaps are in eV."
+  },
+  "cases": [
+    {
+      "case": "si",
+      "material_id": "mp-149",
+      "formula": "Si",
+      "input_file": "si1.in",
+      "functional": "LDA/PZ",
+      "projwfc_lsym": true,
+      "experimental_gap_ev": 1.17,
+      "experimental_reference_doi": "10.1007/978-3-642-18865-7",
+      "reference_source": "Madelung, Semiconductors: Data Handbook (2004), as specified in the workbook header; no individual DOI in these rows.",
+      "source_row": 378,
+      "reference_icsd_id": "51688",
+      "scientific_validation": "NOT_PERFORMED",
+      "files": [
+        "Si.UPF",
+        "minushalf.yaml",
+        "si1.in"
+      ],
+      "timeout_seconds": 900
+    },
+    {
+      "case": "mgo",
+      "material_id": "mp-1265",
+      "formula": "MgO",
+      "input_file": "qe.in",
+      "functional": "PBE",
+      "projwfc_lsym": false,
+      "experimental_gap_ev": 7.672,
+      "experimental_reference_doi": "10.1007/978-3-642-18865-7",
+      "reference_source": "Madelung, Semiconductors: Data Handbook (2004), as specified in the workbook header; no individual DOI in these rows.",
+      "source_row": 301,
+      "reference_icsd_id": "9863",
+      "scientific_validation": "NOT_PERFORMED",
+      "files": [
+        "Mg.UPF",
+        "O.UPF",
+        "minushalf.yaml",
+        "qe.in"
+      ],
+      "timeout_seconds": 1800
+    }
+  ]
+}
