@@ -2,62 +2,69 @@ name: Build QE Docker Image
 
 on:
   push:
-    branches:
-      - qe_container
+    branches: [qe_container]
     paths:
-      - 'docker/Dockerfile'
-      - '.github/workflows/build-qe-image.yml'
-
+      - docker/Dockerfile
+      - .github/workflows/build-qe-image.yml
   workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: qe-image-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   build-qe-image:
-    runs-on: ubuntu-latest
-
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
     permissions:
       contents: read
       packages: write
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
-      - name: Show runner architecture
-        run: |
-          uname -a
-          uname -m
-          docker --version
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
-      - name: Build QE Docker image
-        run: |
-          docker build \
-            -f docker/Dockerfile \
-            -t minushalf-qe:ci \
-            .
+      - name: Build QE base image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: docker/Dockerfile
+          platforms: linux/amd64
+          load: true
+          tags: minushalf-qe:ci
+          labels: |
+            org.opencontainers.image.source=https://github.com/${{ github.repository }}
+          cache-from: type=gha,scope=qe-base-amd64
+          cache-to: type=gha,scope=qe-base-amd64,mode=max
 
       - name: Verify QE environment
         run: |
-          docker run --rm minushalf-qe:ci bash -c '
+          docker run --rm minushalf-qe:ci bash -euo pipefail -c '
             python --version
             mpirun --version
-            command -v pw.x
-            command -v projwfc.x
-            command -v ld1.x
-            command -v virtual_v2.x
+            for executable in pw.x projwfc.x ld1.x virtual_v2.x; do
+              command -v "$executable"
+            done
           '
 
       - name: Log in to GitHub Container Registry
+        env:
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "${{ secrets.GITHUB_TOKEN }}" | \
-            docker login ghcr.io \
-              -u "${{ github.actor }}" \
-              --password-stdin
+          printf '%s' "$GHCR_TOKEN" | docker login ghcr.io \
+            -u "$GITHUB_ACTOR" --password-stdin
 
-      - name: Publish QE Docker image
+      - name: Publish QE base image
         run: |
-          docker tag \
-            minushalf-qe:ci \
-            ghcr.io/marcosegv/minushalf-qe-base:qe-7.5
-
-          docker push \
-            ghcr.io/marcosegv/minushalf-qe-base:qe-7.5
+          image="ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/minushalf-qe-base"
+          docker tag minushalf-qe:ci "$image:qe-7.5-$GITHUB_SHA"
+          docker tag minushalf-qe:ci "$image:qe-7.5"
+          docker push "$image:qe-7.5-$GITHUB_SHA"
+          docker push "$image:qe-7.5"

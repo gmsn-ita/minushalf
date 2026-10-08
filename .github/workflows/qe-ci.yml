@@ -2,88 +2,101 @@ name: QE CI
 
 on:
   push:
-    branches:
-      - qe_container
-
+    branches: [qe_container]
+  pull_request:
+    branches: [qe_execute, main]
   workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: qe-ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   test-minushalf-qe:
-    runs-on: ubuntu-latest
-
-    permissions:
-      contents: read
-      packages: read
-
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
-      - name: Log in to GitHub Container Registry
-        run: |
-          echo "${{ secrets.GITHUB_TOKEN }}" | \
-            docker login ghcr.io \
-              -u "${{ github.actor }}" \
-              --password-stdin
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
-      - name: Pull QE Docker image
-        run: |
-          docker pull \
-            ghcr.io/marcosegv/minushalf-qe-base:qe-7.5
+      # CI uses its own loaded image, so first-time publication and private
+      # GHCR package permissions cannot race with or block the tests.
+      - name: Build or reuse cached QE base image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: docker/Dockerfile
+          platforms: linux/amd64
+          load: true
+          tags: minushalf-qe:ci
+          cache-from: type=gha,scope=qe-ci-amd64
+          cache-to: type=gha,scope=qe-ci-amd64,mode=max
 
-      - name: Run QE silicon SCF with MPI
+      - name: Record test provenance
         run: |
-          docker run --rm \
+          mkdir -p ci-artifacts
+          git rev-parse HEAD > ci-artifacts/commit.txt
+          docker image inspect minushalf-qe:ci > ci-artifacts/image.json
+          sha256sum tests/integration/qe/si/Si.UPF \
+            tests/integration/qe/si/si1.in \
+            tests/integration/qe/si/minushalf.yaml > ci-artifacts/inputs.sha256
+
+      - name: Install MinusHalf and run unit and silicon integration tests
+        run: |
+          docker run --rm --init \
             -e OMPI_ALLOW_RUN_AS_ROOT=1 \
             -e OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1 \
-            -v "$PWD:/workspace/minushalf" \
-            -w /workspace/minushalf/tests/integration/qe/si \
-            ghcr.io/marcosegv/minushalf-qe-base:qe-7.5 \
-            bash -c '
-              set -e
-
-              mpirun -np 2 pw.x < si1.in > si1.out
-
-              grep -q "convergence has been achieved" si1.out
-              grep -q "JOB DONE" si1.out
-
-              grep -E \
-                "Parallel version|highest occupied|total energy|convergence has been achieved|JOB DONE" \
-                si1.out
-            '
-
-      - name: Install MinusHalf and run tests
-        run: |
-          docker run --rm \
-            -e OMPI_ALLOW_RUN_AS_ROOT=1 \
-            -e OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1 \
+            -e OMP_NUM_THREADS=1 \
+            -e OPENBLAS_NUM_THREADS=1 \
+            -e MKL_NUM_THREADS=1 \
             -v "$PWD:/workspace/minushalf" \
             -w /workspace/minushalf \
-            ghcr.io/marcosegv/minushalf-qe-base:qe-7.5 \
-            bash -c '
-              python -m pip install -e .
-              python -m pip install pytest pytest-mock
-              python -m pytest -q
-            '
+            minushalf-qe:ci \
+            bash -euo pipefail -c '
+              python -m pip install -e . pytest pytest-mock 2>&1 | tee ci-artifacts/install.log
+              python -m pip check
+              python -m pip freeze > ci-artifacts/python-packages.txt
+              python -m pytest -q --junitxml=ci-artifacts/pytest.xml 2>&1 | tee ci-artifacts/pytest.log
 
-      - name: Run MinusHalf QE integration workflow
-        run: |
-          docker run --rm \
-            -e OMPI_ALLOW_RUN_AS_ROOT=1 \
-            -e OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1 \
-            -v "$PWD:/workspace/minushalf" \
-            -w /workspace/minushalf/tests/integration/qe/si \
-            ghcr.io/marcosegv/minushalf-qe-base:qe-7.5 \
-            bash -c '
-              set -euo pipefail
-
-              python -m pip install -e /workspace/minushalf
+              cd tests/integration/qe/si
+              mpirun -np 2 pw.x < si1.in > si1.out 2>&1
+              grep -q "convergence has been achieved" si1.out
+              grep -q "JOB DONE" si1.out
+              grep -E "Parallel version|highest occupied|total energy|convergence has been achieved|JOB DONE" si1.out
 
               minushalf execute 2>&1 | tee minushalf_execute.log
-
-              test -f minushalf_results.dat
-
-              echo
-              echo "===== MinusHalf results ====="
+              test -s minushalf_results.dat
               cat minushalf_results.dat
             '
+
+      - name: Upload diagnostics and results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qe-ci-${{ github.run_id }}-${{ github.run_attempt }}
+          if-no-files-found: warn
+          retention-days: 14
+          path: |
+            ci-artifacts/
+            tests/integration/qe/si/*.out
+            tests/integration/qe/si/*.log
+            tests/integration/qe/si/*.dat
+            tests/integration/qe/si/minushalf.yaml
+            tests/integration/qe/si/proj.in
+
+      - name: Explain test scope
+        if: always()
+        run: |
+          printf '%s\n' \
+            '## QE integration test' \
+            'Checks: unit tests, converged silicon SCF, successful MinusHalf execution, and a nonempty results file.' \
+            'These checks assess technical completion. They do not validate the physical gap or prove that a pseudopotential correction was applied.' \
+            'Download the diagnostic artifact to inspect logs, results, and version records.' >> "$GITHUB_STEP_SUMMARY"
