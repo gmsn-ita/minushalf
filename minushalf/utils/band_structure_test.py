@@ -1,5 +1,5 @@
 """
-Test procar module
+Test band_structure module
 The functions in this file obey the following rules:
 test_(what the function is meant to do)_(chemical compound)
 """
@@ -9,6 +9,7 @@ from minushalf.softwares.vasp.procar import Procar
 from minushalf.softwares.vasp.eigenval import Eigenvalues
 from minushalf.softwares.vasp.vasp_factory import Vasp
 from minushalf.softwares.vasp.vasprun import Vasprun
+from minushalf.utils.software_output import get_output_filenames
 
 
 def test_is_metal_gan_3d(file_path):
@@ -36,8 +37,10 @@ def test_create_bandstrutcture_gan_3d(file_path):
     Tests create method for GaN 3d
     """
     software_module = Vasp()
+    filenames = get_output_filenames(software="VASP")
 
     band_structure = BandStructure.create(software_module,
+                                          filenames,
                                           file_path("/gan-3d/vasp/"))
 
     assert isinstance(band_structure, BandStructure)
@@ -276,11 +279,13 @@ def test_create_bandstrutcture_bn_2d(file_path):
     """
     Tests create method for BN 2d
     """
-    softare_module = Vasp()
+    software_module = Vasp()
+    filenames = get_output_filenames(software="VASP")
     kpoint_vbm = 24
     band_vbm = 4
 
-    band_structure = BandStructure.create(softare_module,
+    band_structure = BandStructure.create(software_module,
+                                          filenames,
                                           file_path("/bn-2d/"))
 
     vbm_index = band_structure.vbm_index()
@@ -807,7 +812,7 @@ def test_band_gap_aln_2d(file_path):
                                    num_bands=procar.num_bands,
                                    band_projection=procar)
 
-    assert np.isclose(band_structure.band_gap()["gap"],3.61138)
+    assert np.isclose(band_structure.band_gap()["gap"],5.950414)
 
 
 def test_vbm_index_aln_2d(file_path):
@@ -817,7 +822,7 @@ def test_vbm_index_aln_2d(file_path):
     procar_filename = file_path("/aln-2d/PROCAR")
     eigenval_filename = file_path("/aln-2d/EIGENVAL")
     vasprun_filename = file_path("/aln-2d/vasprun.xml")
-    kpoint_vbm = 1
+    kpoint_vbm = 16
     band_vbm = 4
 
     procar = Procar(procar_filename)
@@ -842,7 +847,7 @@ def test_cbm_index_aln_2d(file_path):
     procar_filename = file_path("/aln-2d/PROCAR")
     eigenval_filename = file_path("/aln-2d/EIGENVAL")
     vasprun_filename = file_path("/aln-2d/vasprun.xml")
-    kpoint_cbm = 1
+    kpoint_cbm = 16
     band_cbm = 5
 
     procar = Procar(procar_filename)
@@ -868,9 +873,9 @@ def test_vbm_projection_aln_2d(file_path):
     eigenval_filename = file_path("/aln-2d/EIGENVAL")
     vasprun_filename = file_path("/aln-2d/vasprun.xml")
     projection = {
-        "Al": [0.0, 0.046, 0.0, 0.015, 0.0, 0.0, 0.0, 0.0, 0.0],
-        "N": [0.0, 0.449, 0.0, 0.142, 0.0, 0.0, 0.0, 0.0, 0.0]
-    }
+                    'Al': [0.0, 0.0, 0.002, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+                    'N': [0.0, 0.0, 0.51, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+                }
 
     procar = Procar(procar_filename)
     vasprun = Vasprun(vasprun_filename)
@@ -896,9 +901,9 @@ def test_cbm_projection_aln_2d(file_path):
     eigenval_filename = file_path("/aln-2d/EIGENVAL")
     vasprun_filename = file_path("/aln-2d/vasprun.xml")
     projection = {
-        "Al": [0.055, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000],
-        "N": [0.132, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000]
-    }
+                    'Al': [0.0, 0.0, 0.216, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+                    'N': [0.0, 0.0, 0.003, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+                }
 
     procar = Procar(procar_filename)
     vasprun = Vasprun(vasprun_filename)
