@@ -188,6 +188,41 @@ def format_number(value):
     return "—" if value in (None, "") else f"{value:.6g}"
 
 
+def print_console_summary(rows):
+    """Print aligned columns without Markdown markup in terminal logs."""
+    headers = ("Material", "XC", "Status", "QE gap", "MH gap", "Exp. gap", "MH - Exp.")
+    table = []
+    for row in rows:
+        values = [format_number(row[key]) for key in
+                  ("qe_gap_ev", "minushalf_gap_ev", "experimental_gap_ev")]
+        difference = row["mh_minus_exp_ev"]
+        signed = "—" if difference in (None, "") else f"{difference:+.6g}"
+        table.append([row["formula"], row["functional"], row["status"], *values, signed])
+    widths = [max(len(str(record[i])) for record in [headers, *table])
+              for i in range(len(headers))]
+
+    def line(record):
+        return "  ".join(str(value).ljust(widths[i]) if i < 3 else
+                         str(value).rjust(widths[i]) for i, value in enumerate(record))
+
+    print("\nQE / MinusHalf reference comparison (all gaps in eV)\n")
+    print(line(headers))
+    print("  ".join("-" * width for width in widths))
+    for record in table:
+        print(line(record))
+    print("\nCalculation details:")
+    for row in rows:
+        cuts = "; ".join(f"{c['element']}-{c['orbital']} ({c['correction']}): {c['cut_au']:g} bohr"
+                         for c in row["cuts"]) or "—"
+        print(f"  {row['formula']}: CUT={cuts}; time={format_number(row['elapsed_seconds'])} s; "
+              f"lsym={str(row['projwfc_lsym']).lower()}")
+        if row["error"] or row["corrected_upf_bytes"]:
+            print(f"    {row['error'] or row['corrected_upf_bytes']}")
+    print("\nPASS = technical completion; scientific validation NOT_PERFORMED.")
+    print("Experimental differences are descriptive, not CI pass/fail criteria.")
+    print("References and full details: summary.md and summary.csv\n")
+
+
 def summarize(manifest, output):
     rows = []
     for case in manifest["cases"]:
@@ -242,7 +277,7 @@ def main():
     manifest = json.loads((ROOT / "cases.json").read_text())
     output = args.output.resolve()
     if args.summarize:
-        summarize(manifest, output)
+        print_console_summary(summarize(manifest, output))
         return 0
     if args.timeout is not None and (not math.isfinite(args.timeout) or args.timeout <= 0):
         parser.error("--timeout must be finite and positive")
@@ -252,7 +287,7 @@ def main():
     for case in manifest["cases"]:
         run_case(case, manifest["dataset"], output, args.timeout if args.timeout is not None else case["timeout_seconds"])
         rows = summarize(manifest, output)
-    print((output / "summary.md").read_text())
+    print_console_summary(rows)
     return 0 if all(row["status"] == "PASS" for row in rows) else 1
 
 
