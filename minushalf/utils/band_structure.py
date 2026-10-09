@@ -64,6 +64,9 @@ class BandStructure():
         Returns:
             vbm_index (tuple): A tuple containing the kpoint number and the band number of the VBM.
         """
+        # Threshold for the computational zero value of the diffrence of floats
+        threshold = 1e-8 
+        
         if self.is_metal():
             raise Exception("Conduction band is not defined for metals")
 
@@ -72,7 +75,7 @@ class BandStructure():
         max_energy_reached = -inf
         for kpoint, values in self.eigenvalues.items():
             for band_index, energy in enumerate(values):
-                if energy <= self.fermi_energy and max_energy_reached - energy <= 1e-8:
+                if energy <= self.fermi_energy and max_energy_reached - energy <= threshold:
                     max_energy_reached = energy
                     kpoint_vbm = kpoint
                     band_vbm = band_index + 1
@@ -95,6 +98,9 @@ class BandStructure():
                 cbm_index (tuple): Contains the kpoint
                 number and the band number of the cbm
         """
+        # Threshold for the computational zero value of the diffrence of floats
+        threshold = 1e-8 
+
         if self.is_metal():
             raise Exception("Conduction band is not defined for metals")
 
@@ -105,7 +111,7 @@ class BandStructure():
             min_energy_reached = inf
             for kpoint, values in self.eigenvalues.items():
                 for band_index, energy in enumerate(values):
-                    if self.fermi_energy - energy <= -1e-8 and energy < min_energy_reached:
+                    if self.fermi_energy - energy <= -threshold and energy < min_energy_reached:
                         min_energy_reached = energy
                         kpoint_cbm = kpoint
                         band_cbm = band_index + 1
