@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
   "dataset": {
-    "citation": "Borlido et al., Large-Scale Benchmark of Exchange–Correlation Functionals for the Determination of Electronic Band Gaps of Solids, J. Chem. Theory Comput. 15, 5069–5079 (2019).",
+    "citation": "Borlido et al., Large-Scale Benchmark of Exchange\u2013Correlation Functionals for the Determination of Electronic Band Gaps of Solids, J. Chem. Theory Comput. 15, 5069\u20135079 (2019).",
     "doi": "10.1021/acs.jctc.9b00322",
     "source_file": "ct9b00322_si_002.xlsx",
     "source_sheet": "Sheet1",
-    "note": "Only two reference entries are transcribed. The workbook is not distributed. Row numbers are one-based Excel rows; gaps are in eV."
+    "note": "Reference entries are transcribed individually; the workbook is not distributed. Gaps are in eV and Excel rows are one-based."
   },
   "cases": [
     {
@@ -26,7 +26,8 @@
         "minushalf.yaml",
         "si1.in"
       ],
-      "timeout_seconds": 900
+      "timeout_seconds": 900,
+      "ci_enabled": true
     },
     {
       "case": "mgo",
@@ -47,7 +48,8 @@
         "minushalf.yaml",
         "qe.in"
       ],
-      "timeout_seconds": 1800
+      "timeout_seconds": 1800,
+      "ci_enabled": false
     }
   ]
 }

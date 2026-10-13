@@ -18,12 +18,12 @@ Inside the container, the workflow:
 
 1. Installs MinusHalf and its test dependencies.
 2. Runs the Python tests with `pytest`.
-3. Runs separate Si and MgO SCF calculations with two MPI processes and checks convergence.
+3. Runs separate SCF calculations for the selected fixed cases with two MPI processes and checks convergence.
 4. Runs `minushalf execute` for each material and collects its gap and CUTs.
-5. Shows both materials in an Actions summary and saves a CSV, including
+5. Shows the selected materials in an Actions summary and saves a CSV, including
    experimental gaps, signed differences, absolute errors, timings and failures.
 
-The fixed inputs, pseudopotentials and two experimental reference entries are
+The fixed inputs, pseudopotentials and experimental reference entries are
 in `tests/integration/qe/`. CI does not query Materials Project or download
 pseudopotentials. The original spreadsheet is not included in Git.
 
@@ -49,7 +49,7 @@ The upload step also runs after test failures to help with debugging.
 
 Each job has a 60-minute limit, including the image build and installation.
 This limit applies only to GitHub Actions, not to cluster calculations.
-Within that job, Si has a 15-minute budget and MgO has 30 minutes, including
+Within that job, Si has a 15-minute budget and the prepared SiC candidate has 30 minutes, including
 the baseline (at most three minutes). A timeout is reported explicitly and the next material
 is still attempted. Results already collected remain available if a later case fails.
 
@@ -64,3 +64,8 @@ the token supplied by GitHub Actions and requires package write access.
 
 The image contains QE and the build tools. MinusHalf is installed from
 the checked-out source when the tests run.
+
+Default material tests require projection symmetry (`lsym=true`). MgO is
+retained as an optional diagnostic and is excluded from automatic runs.
+SiC is added by the local preparation command in the case README; its first
+Actions run establishes whether it is suitable for the routine suite.

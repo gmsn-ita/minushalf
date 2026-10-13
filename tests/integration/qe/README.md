@@ -1,13 +1,13 @@
 # Small QE integration cases
 
-These fixed Si and MgO cases exercise the QE/MinusHalf workflow after a code
+These fixed cases exercise the QE/MinusHalf workflow after a code
 change. Keeping the inputs in the repository makes each run repeatable and
 avoids Materials Project API keys or pseudopotential downloads during CI.
 The container build and Python installation still download their dependencies.
 
 ## Experimental references
 
-Only the following two entries were transcribed from the supporting workbook;
+The existing fixtures use the following entries from the supporting workbook;
 the XLSX is neither included in the repository nor required by the tests.
 
 | Case | Reference MP ID | Reference ICSD ID | Experimental gap (eV) | Sheet1 row | Source |
@@ -27,7 +27,7 @@ the XLSX is neither included in the repository nor required by the tests.
    a separate experimental DOI. These values are transcribed from [1], not
    independently re-extracted from the handbook.
 
-`cases.json` contains the two reference values, citations, case settings and
+`cases.json` contains the prepared cases, reference values, citations, settings and
 input filenames. Download metadata and checksums are kept outside Git.
 
 ## Inputs and pseudopotentials
@@ -42,7 +42,7 @@ Its MP ID above identifies the corresponding experimental reference entry.
 - Primitive two-atom cell, `ibrav=2`, `celldm(1)=10.2076` bohr.
 - `8 8 8 0 0 0` k-point grid; `ecutwfc=50` Ry; eight bands.
 - The committed `Si.UPF` header specifies a norm-conserving LDA/PZ potential.
-- Atomic correction uses `pz`, valence correction, amplitude 1 and indirect gap.
+- Atomic correction uses `pz`, valence correction, amplitude **0.5** and indirect gap.
 - `projwfc` uses `lsym=.true.`.
 
 The inherited Si UPF does not name its original author/download URL. Its
@@ -82,7 +82,7 @@ with the results.
 
 ## Results and checks
 
-The Actions run summary displays both materials. Download its artifact for
+The Actions run summary displays the selected materials. Download its artifact for
 `ci-artifacts/qe/summary.csv`, per-case `result.json`, logs and input/version
 records. A case that fails does not prevent the next case from being attempted;
 the overall integration step still fails when any case fails. Unit tests must
@@ -130,6 +130,78 @@ including the build and installation. These are CI budgets, not cluster settings
 
 To add a material, add a fixture directory and a `cases.json` entry with its
 reference, input filenames and time budget, document its origin and confirm its runtime.
-The collector uses the manifest to include all cases. SiC is a candidate for
-a later addition after confirming that its polytype matches the experimental
-reference and testing the fractional correction configuration with the group.
+The collector uses the manifest and the case selection described below.
+
+## Current CI selection
+
+Default runs include only entries with `ci_enabled=true` and require
+`projwfc_lsym=true`. Silicon is enabled. MgO remains available as an explicitly
+selected diagnostic because its existing fixture requires `lsym=false`:
+
+```bash
+python tests/integration/qe/run_cases.py --case mgo --output ci-artifacts/mgo-diagnostic
+python tests/integration/qe/run_cases.py --case mgo --output ci-artifacts/mgo-diagnostic --summarize
+```
+
+The silicon amplitude is the only changed scientific parameter in the existing
+fixtures. Keep the same MinusHalf commit when comparing amplitude 1 with 0.5.
+In the current QE implementation, the atomic occupation change is
+`0.5 * amplitude * fraction_value / 100`. For Si with fraction 100%, amplitude
+0.5 gives a removal of 0.25 electrons. This does not establish a general rule
+for other materials or implement the proposed first-neighbor formula.
+
+## Preparing the 4H-SiC candidate
+
+Run this once on the preparation computer, with `mp-api`, `pymatgen` and `PyYAML`
+installed (the existing `qe-runner` environment):
+
+```bash
+python tests/integration/qe/prepare_sic.py
+```
+
+The helper reads `MP_API_KEY` or asks for it without echoing it. It downloads
+`mp-11714`, checks the eight-atom Si4C4 composition and space group 186, and
+preserves the downloaded final geometry with high-precision coordinates.
+It does not relax, symmetrize or reduce the cell. This is the 4H polytype,
+not cubic 3C-SiC. The experimental reference is 3.2 eV in workbook row 383,
+ICSD 24170, using references [1] and [2] above. The workbook is not committed.
+The 4H assignment is also documented in
+[doi:10.1063/5.0263170](https://doi.org/10.1063/5.0263170).
+
+The helper downloads these PBE ultrasoft PSlibrary potentials and retains
+original bytes and headers:
+
+- [C.pbe-n-rrkjus_psl.1.0.0.UPF](https://pseudopotentials.quantum-espresso.org/upf_files/C.pbe-n-rrkjus_psl.1.0.0.UPF)
+- [Si.pbe-n-rrkjus_psl.1.0.0.UPF](https://pseudopotentials.quantum-espresso.org/upf_files/Si.pbe-n-rrkjus_psl.1.0.0.UPF)
+
+Cutoffs are rounded upward from the maximum machine-readable UPF recommendations.
+The grid uses `ceil(|b_i| / 0.2)` along each reciprocal lattice vector, with
+`b_i` including 2*pi, in inverse angstrom. This is a starting protocol, not a
+convergence result. No reduced cutoff or coarse-grid speed optimization is applied.
+
+SiC uses `vf`, amplitude 1, indirect gap, and the existing 10% orbital selection
+threshold (`fractional_valence_treshold`, preserving the API spelling).
+The code selects orbital contributions above that threshold, normalizes them
+among selected orbitals, and rounds the resulting percentages. Fractions such
+as 64/36 are **not** hardcoded. Inspect the selected orbitals and fractions in
+`minushalf_execute.log` and the actual atomic input configurations. This
+configuration is a candidate for review, not a validated general prescription.
+
+The helper registers SiC for CI only after preparing all input files. The first
+run must establish that `lsym=true` works and that runtime fits the 1800-second
+budget. There is no automatic fallback to disabled symmetry. The result must
+contain corrections for both Si and C to pass the additional coverage check.
+A passing run still does not establish the correctness of the fractions.
+
+Commit the generated `sic/` fixture and updated `cases.json`. No download
+metadata, key or XLSX is included. Actions uses these committed files and never
+runs the download helper. Until the helper runs, default CI contains Si only.
+
+## Evidence to review
+
+The artifact includes the actual YAML, full execution log, corrected UPFs and
+`correction-inputs/` copies of atomic `INP` and projection inputs when present.
+Inspect `configts(1)` and `configts(2)` for the actual orbital occupations.
+Compare old and new Si gaps and CUTs using runs with identical source and inputs
+except amplitude. Review SiC contributions, both element corrections, symmetry
+and elapsed time before treating it as an established routine case.

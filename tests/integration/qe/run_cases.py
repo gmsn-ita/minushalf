@@ -167,6 +167,9 @@ def run_case(case, dataset, output, timeout):
             raise TimeoutError("Case time budget exhausted after baseline")
         run_command(["minushalf", "execute"], work, work / "minushalf_execute.log", remaining)
         gap, cuts = parse_results((work / "minushalf_results.dat").read_text())
+        required = set(case.get("required_corrected_elements", []))
+        if not required.issubset({cut["element"] for cut in cuts}):
+            raise ValueError("Expected corrections for all of: " + ", ".join(sorted(required)))
         result.update(minushalf_gap_ev=gap, cuts=cuts, status="PASS")
         difference = gap - case["experimental_gap_ev"]
         result.update(mh_minus_exp_ev=difference, absolute_error_ev=abs(difference),
@@ -174,6 +177,17 @@ def run_case(case, dataset, output, timeout):
     except Exception as exc:
         result.update(status=f"{stage}_{'TIMEOUT' if isinstance(exc, TimeoutError) else 'FAILED'}",
                       error=str(exc))
+    # Keep compact atomic/projection evidence even after a failed calculation.
+    # Flattening into a visible directory allows Actions to upload these files.
+    work = case_dir / "minushalf"
+    evidence = case_dir / "correction-inputs"
+    if work.is_dir():
+        for source in work.rglob("*"):
+            if source.is_file() and source.name in ("INP", "proj.in", "proj-used.in"):
+                evidence.mkdir(exist_ok=True)
+                relative = source.relative_to(work)
+                name = "__".join(relative.parts)
+                shutil.copy2(source, evidence / name.lstrip("."))
     result["elapsed_seconds"] = round(time.monotonic() - started, 3)
     (case_dir / "result.json").write_text(json.dumps(result, indent=2, allow_nan=False) + "\n")
     print(f"[{case['case']}] {result['status']}: MH={result['minushalf_gap_ev']} eV", flush=True)
@@ -254,11 +268,11 @@ def summarize(manifest, output):
         lines.append("| " + " | ".join(map(markdown_cell, cells)) + " |")
     lines += ["", "PASS means technical completion: converged baseline, successful MinusHalf execution, finite nonnegative gap and positive CUTs.",
               "Experimental differences are descriptive; no experimental tolerance is used to pass or fail CI. Scientific validation is NOT_PERFORMED.",
-              "These small fixed inputs are not a convergence study or a statistically representative benchmark. Si uses LDA/PZ; MgO uses PBE.", "",
+              "These fixed inputs are not a convergence study or a statistically representative benchmark. See the XC column for each functional.", "",
               "[1] Borlido et al., J. Chem. Theory Comput. **15**, 5069–5079 (2019), "
               "[doi:10.1021/acs.jctc.9b00322](https://doi.org/10.1021/acs.jctc.9b00322), "
-              "supporting data `ct9b00322_si_002.xlsx`, Sheet1, rows 378 (Si) and 301 (MgO). "
-              "Both use the header reference: O. Madelung, *Semiconductors: Data Handbook* (2004), "
+              "supporting data `ct9b00322_si_002.xlsx`, Sheet1 (individual rows in summary.csv). "
+              "Default experimental reference: O. Madelung, *Semiconductors: Data Handbook* (2004), "
               "[doi:10.1007/978-3-642-18865-7](https://doi.org/10.1007/978-3-642-18865-7).", "",
               "### Diagnostics", ""]
     for row in rows:
@@ -268,13 +282,35 @@ def summarize(manifest, output):
     return rows
 
 
+def select_cases(manifest, requested=None):
+    """Default to symmetry-enabled CI fixtures; diagnostics require selection."""
+    cases = manifest["cases"]
+    if requested:
+        unknown = set(requested) - {c["case"] for c in cases}
+        if unknown:
+            raise ValueError("Unknown cases: " + ", ".join(sorted(unknown)))
+        selected = [c for c in cases if c["case"] in requested]
+    else:
+        selected = [c for c in cases if c.get("ci_enabled", True)]
+        if any(not c["projwfc_lsym"] for c in selected):
+            raise ValueError("Default CI cases must use lsym=true")
+    if not selected:
+        raise ValueError("No cases selected")
+    return {**manifest, "cases": selected}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, default=Path("ci-artifacts/qe"))
     parser.add_argument("--timeout", type=float, default=None, help="Override the per-case time budgets, in seconds")
     parser.add_argument("--summarize", action="store_true", help="Collect existing reports without running calculations")
+    parser.add_argument("--case", action="append", help="Select a named case; repeat for multiple cases")
     args = parser.parse_args()
     manifest = json.loads((ROOT / "cases.json").read_text())
+    try:
+        manifest = select_cases(manifest, args.case)
+    except ValueError as exc:
+        parser.error(str(exc))
     output = args.output.resolve()
     if args.summarize:
         print_console_summary(summarize(manifest, output))

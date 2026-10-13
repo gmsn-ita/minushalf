@@ -98,6 +98,7 @@ jobs:
             ci-artifacts/qe/summary.csv
             ci-artifacts/qe/summary.md
             ci-artifacts/qe/*/result.json
+            ci-artifacts/qe/*/correction-inputs/*
             ci-artifacts/qe/*/baseline/*.out
             ci-artifacts/qe/*/baseline/*.json
             ci-artifacts/qe/*/minushalf/*.log

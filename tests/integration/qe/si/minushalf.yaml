@@ -15,5 +15,5 @@ atomic_program:
 correction:
     correction_code: v
     potfiles_folder: ./
-    amplitude: 1.0
+    amplitude: 0.5
     indirect: .true.

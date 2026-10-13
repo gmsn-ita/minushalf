@@ -40,7 +40,7 @@ class ReportTests(unittest.TestCase):
 
     def test_fixture_files_and_reference_records(self):
         manifest = json.loads((report.ROOT / "cases.json").read_text())
-        self.assertEqual([c["experimental_gap_ev"] for c in manifest["cases"]], [1.17, 7.672])
+        self.assertEqual([c["experimental_gap_ev"] for c in manifest["cases"][:2]], [1.17, 7.672])
         for case in manifest["cases"]:
             self.assertTrue(case["files"])
             for name in case["files"]:
@@ -51,7 +51,7 @@ class ReportTests(unittest.TestCase):
         manifest = json.loads((report.ROOT / "cases.json").read_text())
         with tempfile.TemporaryDirectory() as tmp:
             out = Path(tmp)
-            self.assertEqual([r["status"] for r in report.summarize(manifest, out)], ["NOT_RUN", "NOT_RUN"])
+            self.assertTrue(all(r["status"] == "NOT_RUN" for r in report.summarize(manifest, out)))
             case = manifest["cases"][0]
             row = report.new_result(case, manifest["dataset"])
             row.update(status="PASS", minushalf_gap_ev=0, mh_minus_exp_ev=-1.17, absolute_error_ev=1.17)
@@ -91,7 +91,28 @@ class ReportTests(unittest.TestCase):
             self.assertEqual(failed["status"], "BASELINE_FAILED")
             self.assertEqual(failed["mh_minus_exp_ev"], "")
             rows = report.summarize(manifest, Path(tmp))
-            self.assertEqual([r["status"] for r in rows], ["PASS", "BASELINE_FAILED"])
+            self.assertEqual([r["status"] for r in rows[:2]], ["PASS", "BASELINE_FAILED"])
+
+    def test_default_selection_preserves_symmetry_and_explicit_diagnostics(self):
+        manifest = json.loads((report.ROOT / "cases.json").read_text())
+        selected = report.select_cases(manifest)
+        self.assertTrue(all(c["projwfc_lsym"] for c in selected["cases"]))
+        self.assertNotIn("mgo", [c["case"] for c in selected["cases"]])
+        self.assertEqual(report.select_cases(manifest, ["mgo"])["cases"][0]["case"], "mgo")
+        with self.assertRaises(ValueError):
+            report.select_cases(manifest, ["unknown"])
+
+    def test_missing_second_element_correction_cannot_pass(self):
+        manifest = json.loads((report.ROOT / "cases.json").read_text())
+        case = {**manifest["cases"][0], "required_corrected_elements": ["Si", "C"]}
+        def simulate(command, work, log, timeout):
+            if command[0] == "minushalf":
+                (work / "minushalf_results.dat").write_text("Valence correction cuts:\n(Si,p):3.75 a.u\nGAP: 2.01eV")
+            else:
+                log.write_text("convergence has been achieved\nhighest occupied, lowest unoccupied level (ev): 6.1282 6.7229\nJOB DONE")
+        with tempfile.TemporaryDirectory() as tmp, patch.object(report, "run_command", side_effect=simulate):
+            row = report.run_case(case, manifest["dataset"], Path(tmp), 10)
+            self.assertEqual(row["status"], "MINUSHALF_FAILED")
 
 
 if __name__ == "__main__":
