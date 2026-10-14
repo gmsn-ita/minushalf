@@ -13,6 +13,54 @@ from projwfc_nosym import disable_symmetry
 
 
 class ReportTests(unittest.TestCase):
+    def test_projection_weights_and_diagnostic_collection(self):
+        from capture_diagnostics import projection_details
+        weights = projection_details({"Si": [0, .01, .01, .02], "C": [0, .30, .30, .36]})
+        self.assertAlmostEqual(weights["Si-p"], 4)
+        self.assertAlmostEqual(weights["C-p"], 96)
+        with self.assertRaises(ValueError):
+            projection_details({"Si": [0, 0, 0, 0]})
+        with tempfile.TemporaryDirectory() as tmp:
+            work = Path(tmp)
+            (work / "minushalf.yaml").write_text("correction:\n  correction_code: vf\n  fractional_valence_treshold: 10\n")
+            (work / "initial_vbm.json").write_text(json.dumps({"contributions_percent": weights}))
+            (work / "minushalf_execute.log").write_text("Computed cut for symbol='C', orbital='p', fraction_value=100: cut=2.99")
+            row = {"formula": "SiC"}
+            report.collect_details({"case": "not-a-fixture"}, work, row)
+            self.assertIn("Si-p: 4.000%", row["vbm_contributions"])
+            self.assertEqual(row["applied_fractions"], "C-p: 100%")
+            self.assertEqual(row["selection_threshold_percent"], 10)
+            self.assertIn("How to read", "\n".join(report.detail_lines([row])))
+            (work / "initial_vbm.json").unlink()
+            report.collect_details({"case": "not-a-fixture"}, work, row)
+            self.assertEqual(row["vbm_contributions"], "Unavailable")
+
+    def test_capture_records_first_projection_and_returns_original(self):
+        import os
+        import types
+        import capture_diagnostics as capture
+        projection = {"Si": [0, 1, 0, 0]}
+        class FakeBands:
+            def vbm_projection(self):
+                return projection
+        def cli():
+            self.assertIs(FakeBands().vbm_projection(), projection)
+            projection["Si"][1] = 2
+            FakeBands().vbm_projection()
+        modules = {
+            "minushalf.utils.band_structure": types.SimpleNamespace(BandStructure=FakeBands),
+            "minushalf.minushalf": types.SimpleNamespace(minushalf=cli),
+        }
+        previous = Path.cwd()
+        with tempfile.TemporaryDirectory() as tmp, patch.dict(sys.modules, modules):
+            try:
+                os.chdir(tmp)
+                capture.main()
+                saved = json.loads(Path("initial_vbm.json").read_text())
+                self.assertEqual(saved["raw_projection"]["Si"][1], 1)
+            finally:
+                os.chdir(previous)
+
     def test_baseline_gap_and_unconverged_output(self):
         text = "convergence has been achieved\nhighest occupied, lowest unoccupied level (ev): 6.1282 6.7229\nJOB DONE."
         self.assertAlmostEqual(report.parse_baseline(text), 0.5947)
@@ -76,7 +124,7 @@ class ReportTests(unittest.TestCase):
         manifest = json.loads((report.ROOT / "cases.json").read_text())
 
         def simulate(command, work, log, timeout):
-            if command[0] == "minushalf":
+            if command[-1] == "execute":
                 (work / "minushalf_results.dat").write_text("Valence correction cuts:\n(Si,p):3.75 a.u\nGAP: 2.01eV")
             else:
                 log.write_text("convergence has been achieved\nhighest occupied, lowest unoccupied level (ev): 6.1282 6.7229\nJOB DONE")
@@ -106,13 +154,19 @@ class ReportTests(unittest.TestCase):
         manifest = json.loads((report.ROOT / "cases.json").read_text())
         case = {**manifest["cases"][0], "required_corrected_elements": ["Si", "C"]}
         def simulate(command, work, log, timeout):
-            if command[0] == "minushalf":
+            if command[-1] == "execute":
                 (work / "minushalf_results.dat").write_text("Valence correction cuts:\n(Si,p):3.75 a.u\nGAP: 2.01eV")
             else:
                 log.write_text("convergence has been achieved\nhighest occupied, lowest unoccupied level (ev): 6.1282 6.7229\nJOB DONE")
         with tempfile.TemporaryDirectory() as tmp, patch.object(report, "run_command", side_effect=simulate):
             row = report.run_case(case, manifest["dataset"], Path(tmp), 10)
-            self.assertEqual(row["status"], "MINUSHALF_FAILED")
+            self.assertEqual(row["status"], "CORRECTION_CHECK_FAILED")
+            self.assertEqual(row["minushalf_gap_ev"], 2.01)
+            self.assertEqual(row["cuts"][0]["element"], "Si")
+            self.assertAlmostEqual(row["mh_minus_exp_ev"], 2.01 - case["experimental_gap_ev"])
+            self.assertIn("C", row["error"])
+            saved = json.loads((Path(tmp) / case["case"] / "result.json").read_text())
+            self.assertEqual(saved["minushalf_gap_ev"], 2.01)
 
 
 if __name__ == "__main__":

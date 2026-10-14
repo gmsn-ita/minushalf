@@ -25,6 +25,8 @@ FIELDS = [
     "absolute_error_ev", "cuts", "elapsed_seconds", "projwfc_lsym",
     "corrected_upf_bytes", "scientific_validation", "dataset_doi",
     "experimental_reference_doi", "source_sheet", "source_row", "error",
+    "geometry_adjustment", "vbm_contributions", "selection_threshold_percent",
+    "applied_fractions", "diagnostics_note",
 ]
 
 
@@ -165,15 +167,20 @@ def run_case(case, dataset, output, timeout):
         remaining = timeout - (time.monotonic() - started)
         if remaining <= 0:
             raise TimeoutError("Case time budget exhausted after baseline")
-        run_command(["minushalf", "execute"], work, work / "minushalf_execute.log", remaining)
+        run_command([sys.executable, str(ROOT / "capture_diagnostics.py"), "execute"],
+                    work, work / "minushalf_execute.log", remaining)
         gap, cuts = parse_results((work / "minushalf_results.dat").read_text())
-        required = set(case.get("required_corrected_elements", []))
-        if not required.issubset({cut["element"] for cut in cuts}):
-            raise ValueError("Expected corrections for all of: " + ", ".join(sorted(required)))
-        result.update(minushalf_gap_ev=gap, cuts=cuts, status="PASS")
+        # Preserve numerical results even when correction coverage fails.
+        result.update(minushalf_gap_ev=gap, cuts=cuts)
         difference = gap - case["experimental_gap_ev"]
         result.update(mh_minus_exp_ev=difference, absolute_error_ev=abs(difference),
                       corrected_upf_bytes=audit_corrections(case, work, cuts))
+        stage = "CORRECTION_CHECK"
+        required = set(case.get("required_corrected_elements", []))
+        missing = required - {cut["element"] for cut in cuts}
+        if missing:
+            raise ValueError("Missing required corrections for: " + ", ".join(sorted(missing)))
+        result["status"] = "PASS"
     except Exception as exc:
         result.update(status=f"{stage}_{'TIMEOUT' if isinstance(exc, TimeoutError) else 'FAILED'}",
                       error=str(exc))
@@ -188,10 +195,72 @@ def run_case(case, dataset, output, timeout):
                 relative = source.relative_to(work)
                 name = "__".join(relative.parts)
                 shutil.copy2(source, evidence / name.lstrip("."))
+    collect_details(case, work, result)
     result["elapsed_seconds"] = round(time.monotonic() - started, 3)
     (case_dir / "result.json").write_text(json.dumps(result, indent=2, allow_nan=False) + "\n")
     print(f"[{case['case']}] {result['status']}: MH={result['minushalf_gap_ev']} eV", flush=True)
     return result
+
+
+def collect_details(case, work, result):
+    """Missing evidence stays explicit; never infer contributions from final projections."""
+    import yaml
+    result.update(geometry_adjustment="Not documented", vbm_contributions="Unavailable",
+                  selection_threshold_percent="", applied_fractions="Unavailable", diagnostics_note="")
+    try:
+        note = ROOT / case["case"] / "geometry-adjustment.json"
+        if note.exists():
+            metadata = json.loads(note.read_text())
+            result["geometry_adjustment"] = metadata["description"]
+            actual_input = (work / case["input_file"]).read_text()
+            if not re.search(r"\bibrav\s*=\s*" + str(metadata["expected_ibrav"]) + r"\b", actual_input, re.I):
+                result["geometry_adjustment"] = "Metadata does not match current ibrav; review fixture"
+        config = yaml.safe_load((work / "minushalf.yaml").read_text())
+        correction = config.get("correction", {})
+        result["selection_threshold_percent"] = (
+            correction.get("fractional_valence_treshold", "Default (not recorded)")
+            if "vf" in str(correction.get("correction_code", "")) else "N/A (nonfractional mode)")
+        evidence = work / "initial_vbm.json"
+        if evidence.exists():
+            data = json.loads(evidence.read_text())
+            if "contributions_percent" in data:
+                result["vbm_contributions"] = "; ".join(
+                    f"{key}: {value:.3f}%" for key, value in sorted(data["contributions_percent"].items()))
+            else:
+                result["diagnostics_note"] = data.get("error", "Projection unavailable")
+        log = work / "minushalf_execute.log"
+        if log.exists():
+            matches = re.findall(
+                r"Computed cut for symbol='([^']+)', orbital='([^']+)', fraction_value=([0-9.]+)",
+                log.read_text(errors="replace"))
+            if matches:
+                result["applied_fractions"] = "; ".join(
+                    f"{element}-{orbital}: {fraction}%" for element, orbital, fraction in matches)
+    except Exception as exc:
+        result["diagnostics_note"] = str(exc)
+
+
+def detail_lines(rows):
+    lines = ["", "### Input and correction details", "",
+             "| Material | Geometry adjustment | Initial VBM contributions | Selection threshold (%) | Applied fractions (%) |",
+             "|---|---|---|---|---|"]
+    for row in rows:
+        cells = [row["formula"], *[("Unavailable" if row.get(key) in (None, "") else row[key]) for key in
+                 ("geometry_adjustment", "vbm_contributions", "selection_threshold_percent", "applied_fractions")]]
+        lines.append("| " + " | ".join(map(markdown_cell, cells)) + " |")
+    for row in rows:
+        if row.get("diagnostics_note"):
+            lines.append("")
+            lines.append(f"Diagnostic note ({row['formula']}): {markdown_cell(row['diagnostics_note'])}")
+            lines.append("")
+    lines += ["", "**How to read these fields**", "",
+              "- **Geometry adjustment:** documented change to the fixture geometry representation. Not documented does not mean unchanged. The SiC hexagonal representation change is not a relaxation; fractional positions were retained.",
+              "- **Initial VBM contributions:** normalized element/orbital weights from the first VBM projection read by MinusHalf, before correction. Full precision is saved in initial_vbm.json; displayed values are rounded. These are projected weights, not atomic charges.",
+              "- **Selection threshold:** fractional-valence orbital selection cutoff. MinusHalf groups and rounds projection percentages before applying its strict greater-than threshold. Nonfractional mode is marked N/A.",
+              "- **Applied fractions:** fraction_value reported for completed orbital CUT optimizations, after selection/normalization. This is a percentage of half an electron before amplitude scaling, not the original VBM weight or a count of removed electrons. Missing entries are not assumed to be zero.",
+              "- **Unavailable:** the required evidence was not captured; older artifacts are not backfilled with estimates.",
+              "- **CORRECTION_CHECK_FAILED:** numerical results were collected, but required element coverage failed; CI remains unsuccessful.", ""]
+    return lines
 
 
 def markdown_cell(value):
@@ -232,6 +301,8 @@ def print_console_summary(rows):
               f"lsym={str(row['projwfc_lsym']).lower()}")
         if row["error"] or row["corrected_upf_bytes"]:
             print(f"    {row['error'] or row['corrected_upf_bytes']}")
+    for row in rows:
+        print(f"  {row['formula']}: initial VBM={row.get('vbm_contributions', 'Unavailable')}; applied={row.get('applied_fractions', 'Unavailable')}")
     print("\nPASS = technical completion; scientific validation NOT_PERFORMED.")
     print("Experimental differences are descriptive, not CI pass/fail criteria.")
     print("References and full details: summary.md and summary.csv\n")
@@ -266,6 +337,7 @@ def summarize(manifest, output):
                                                    "mh_minus_exp_ev", "absolute_error_ev")],
                  cuts, format_number(row["elapsed_seconds"]), str(row["projwfc_lsym"]).lower()]
         lines.append("| " + " | ".join(map(markdown_cell, cells)) + " |")
+    lines += detail_lines(rows)
     lines += ["", "PASS means technical completion: converged baseline, successful MinusHalf execution, finite nonnegative gap and positive CUTs.",
               "Experimental differences are descriptive; no experimental tolerance is used to pass or fail CI. Scientific validation is NOT_PERFORMED.",
               "These fixed inputs are not a convergence study or a statistically representative benchmark. See the XC column for each functional.", "",
