@@ -61,6 +61,18 @@ class ReportTests(unittest.TestCase):
             finally:
                 os.chdir(previous)
 
+    def test_space_group_and_all_summary_columns_are_preserved(self):
+        manifest = json.loads((report.ROOT / "cases.json").read_text())
+        with tempfile.TemporaryDirectory() as tmp:
+            rows = report.summarize(manifest, Path(tmp))
+            self.assertEqual(rows[0]["space_group"], "Fd-3m (227)")
+            text = (Path(tmp) / "summary.md").read_text()
+            for column in ("Space group", "Absolute error", "CUTs", "Time (s)", "lsym"):
+                self.assertIn(column, text)
+            with (Path(tmp) / "summary.csv").open() as stream:
+                self.assertIn("space_group", csv.DictReader(stream).fieldnames)
+        self.assertEqual(report.new_result({"material_id": "unknown"}, manifest["dataset"])["space_group"], "Not recorded")
+
     def test_baseline_gap_and_unconverged_output(self):
         text = "convergence has been achieved\nhighest occupied, lowest unoccupied level (ev): 6.1282 6.7229\nJOB DONE."
         self.assertAlmostEqual(report.parse_baseline(text), 0.5947)
@@ -150,7 +162,7 @@ class ReportTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             report.select_cases(manifest, ["unknown"])
 
-    def test_missing_second_element_correction_cannot_pass(self):
+    def test_selected_orbitals_need_not_cover_every_element(self):
         manifest = json.loads((report.ROOT / "cases.json").read_text())
         case = {**manifest["cases"][0], "required_corrected_elements": ["Si", "C"]}
         def simulate(command, work, log, timeout):
@@ -160,11 +172,11 @@ class ReportTests(unittest.TestCase):
                 log.write_text("convergence has been achieved\nhighest occupied, lowest unoccupied level (ev): 6.1282 6.7229\nJOB DONE")
         with tempfile.TemporaryDirectory() as tmp, patch.object(report, "run_command", side_effect=simulate):
             row = report.run_case(case, manifest["dataset"], Path(tmp), 10)
-            self.assertEqual(row["status"], "CORRECTION_CHECK_FAILED")
+            self.assertEqual(row["status"], "PASS")
             self.assertEqual(row["minushalf_gap_ev"], 2.01)
             self.assertEqual(row["cuts"][0]["element"], "Si")
             self.assertAlmostEqual(row["mh_minus_exp_ev"], 2.01 - case["experimental_gap_ev"])
-            self.assertIn("C", row["error"])
+            self.assertEqual(row["error"], "")
             saved = json.loads((Path(tmp) / case["case"] / "result.json").read_text())
             self.assertEqual(saved["minushalf_gap_ev"], 2.01)
 

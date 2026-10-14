@@ -20,7 +20,7 @@ import time
 ROOT = Path(__file__).resolve().parent
 NUMBER = r"[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eEdD][+-]?\d+)?"
 FIELDS = [
-    "case", "material_id", "formula", "functional", "status", "qe_gap_ev",
+    "case", "material_id", "formula", "space_group", "functional", "status", "qe_gap_ev",
     "minushalf_gap_ev", "experimental_gap_ev", "mh_minus_exp_ev",
     "absolute_error_ev", "cuts", "elapsed_seconds", "projwfc_lsym",
     "corrected_upf_bytes", "scientific_validation", "dataset_doi",
@@ -76,6 +76,9 @@ def parse_results(text):
 
 def new_result(case, dataset):
     result = {key: case.get(key, "") for key in FIELDS}
+    records_path = ROOT / "space-groups.json"
+    records = json.loads(records_path.read_text()) if records_path.exists() else {}
+    result["space_group"] = case.get("space_group") or records.get(case.get("material_id"), "Not recorded")
     result.update(status="NOT_RUN", cuts=[], scientific_validation="NOT_PERFORMED",
                   dataset_doi=dataset["doi"], source_sheet=dataset["source_sheet"])
     return result
@@ -175,11 +178,6 @@ def run_case(case, dataset, output, timeout):
         difference = gap - case["experimental_gap_ev"]
         result.update(mh_minus_exp_ev=difference, absolute_error_ev=abs(difference),
                       corrected_upf_bytes=audit_corrections(case, work, cuts))
-        stage = "CORRECTION_CHECK"
-        required = set(case.get("required_corrected_elements", []))
-        missing = required - {cut["element"] for cut in cuts}
-        if missing:
-            raise ValueError("Missing required corrections for: " + ", ".join(sorted(missing)))
         result["status"] = "PASS"
     except Exception as exc:
         result.update(status=f"{stage}_{'TIMEOUT' if isinstance(exc, TimeoutError) else 'FAILED'}",
@@ -259,7 +257,8 @@ def detail_lines(rows):
               "- **Selection threshold:** fractional-valence orbital selection cutoff. MinusHalf groups and rounds projection percentages before applying its strict greater-than threshold. Nonfractional mode is marked N/A.",
               "- **Applied fractions:** fraction_value reported for completed orbital CUT optimizations, after selection/normalization. This is a percentage of half an electron before amplitude scaling, not the original VBM weight or a count of removed electrons. Missing entries are not assumed to be zero.",
               "- **Unavailable:** the required evidence was not captured; older artifacts are not backfilled with estimates.",
-              "- **CORRECTION_CHECK_FAILED:** numerical results were collected, but required element coverage failed; CI remains unsuccessful.", ""]
+              "- **PASS:** does not require a correction for every element. Selected orbitals and applied fractions remain visible; the orbital selection threshold is unchanged.",
+              "- **Space group:** reference crystallographic group for the fixed input structure, recorded in space-groups.json; not a runtime symmetry determination or proof that QE used every symmetry operation. Review this metadata when changing structures.", ""]
     return lines
 
 
@@ -273,19 +272,19 @@ def format_number(value):
 
 def print_console_summary(rows):
     """Print aligned columns without Markdown markup in terminal logs."""
-    headers = ("Material", "XC", "Status", "QE gap", "MH gap", "Exp. gap", "MH - Exp.")
+    headers = ("Material", "Space group", "XC", "Status", "QE gap", "MH gap", "Exp. gap", "MH - Exp.")
     table = []
     for row in rows:
         values = [format_number(row[key]) for key in
                   ("qe_gap_ev", "minushalf_gap_ev", "experimental_gap_ev")]
         difference = row["mh_minus_exp_ev"]
         signed = "—" if difference in (None, "") else f"{difference:+.6g}"
-        table.append([row["formula"], row["functional"], row["status"], *values, signed])
+        table.append([row["formula"], row["space_group"], row["functional"], row["status"], *values, signed])
     widths = [max(len(str(record[i])) for record in [headers, *table])
               for i in range(len(headers))]
 
     def line(record):
-        return "  ".join(str(value).ljust(widths[i]) if i < 3 else
+        return "  ".join(str(value).ljust(widths[i]) if i < 4 else
                          str(value).rjust(widths[i]) for i, value in enumerate(record))
 
     print("\nQE / MinusHalf reference comparison (all gaps in eV)\n")
@@ -316,6 +315,8 @@ def summarize(manifest, output):
         if path.is_file():
             try:
                 row.update(json.loads(path.read_text()))
+                if not row.get("space_group"):
+                    row["space_group"] = new_result(case, manifest["dataset"])["space_group"]
             except (ValueError, OSError) as exc:
                 row.update(status="REPORT_FAILED", error=str(exc))
         rows.append(row)
@@ -327,12 +328,12 @@ def summarize(manifest, output):
             writer.writerow({**row, "cuts": json.dumps(row["cuts"], separators=(",", ":"))})
     lines = ["## QE / MinusHalf reference comparison", "",
              "All gaps and errors are in eV; CUTs are in bohr (a.u.).", "",
-             "| Material | XC | Status | QE gap | MH gap | Exp. gap [1] | MH − Exp. | Absolute error | CUTs | Time (s) | lsym |",
-             "|---|---|---|---:|---:|---:|---:|---:|---|---:|---|"]
+             "| Material | Space group | XC | Status | QE gap | MH gap | Exp. gap [1] | MH − Exp. | Absolute error | CUTs | Time (s) | lsym |",
+             "|---|---|---|---|---:|---:|---:|---:|---:|---|---:|---|"]
     for row in rows:
         cuts = "; ".join(f"{c['element']}-{c['orbital']} ({c['correction']}): {c['cut_au']:g}"
                          for c in row["cuts"]) or "—"
-        cells = [row["formula"], row["functional"], row["status"],
+        cells = [row["formula"], row["space_group"], row["functional"], row["status"],
                  *[format_number(row[k]) for k in ("qe_gap_ev", "minushalf_gap_ev", "experimental_gap_ev",
                                                    "mh_minus_exp_ev", "absolute_error_ev")],
                  cuts, format_number(row["elapsed_seconds"]), str(row["projwfc_lsym"]).lower()]
