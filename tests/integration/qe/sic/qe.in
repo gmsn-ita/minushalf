@@ -1,0 +1,32 @@
+&CONTROL
+ calculation='scf', prefix='pwscf', outdir='.',
+ pseudo_dir='.', verbosity='high',
+/
+&SYSTEM
+ ibrav=0, nat=8, ntyp=2, ecutwfc=44, ecutrho=327, nbnd=24,
+ nspin=1, occupations='fixed',
+/
+&ELECTRONS
+/
+
+ATOMIC_SPECIES
+Si 28.0855 Si.UPF
+C 12.0107 C.UPF
+
+CELL_PARAMETERS angstrom
+3.07569427 -0 0
+-1.53784664 2.66362938 0
+0 0 10.07064648
+
+ATOMIC_POSITIONS crystal
+Si 0.666667 0.333333 0.93784198
+Si 0.333333 0.666667 0.43784198
+Si -0 0 0.68789438
+Si 0 -0 0.18789438
+C 0.666667 0.333333 0.74980259
+C 0.333333 0.666667 0.24980259
+C 0 0 0.50046005
+C -0 -0 0.00046005
+
+K_POINTS automatic
+12 12 4 0 0 0

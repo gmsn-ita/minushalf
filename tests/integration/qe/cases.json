@@ -50,6 +50,32 @@
       ],
       "timeout_seconds": 1800,
       "ci_enabled": false
+    },
+    {
+      "case": "sic",
+      "material_id": "mp-11714",
+      "formula": "4H-SiC",
+      "input_file": "qe.in",
+      "functional": "PBE",
+      "projwfc_lsym": true,
+      "ci_enabled": true,
+      "experimental_gap_ev": 3.2,
+      "experimental_reference_doi": "10.1007/978-3-642-18865-7",
+      "reference_source": "Madelung handbook, as specified in the workbook header; no individual DOI in this row.",
+      "source_row": 383,
+      "reference_icsd_id": "24170",
+      "scientific_validation": "NOT_PERFORMED",
+      "required_corrected_elements": [
+        "Si",
+        "C"
+      ],
+      "files": [
+        "Si.UPF",
+        "C.UPF",
+        "qe.in",
+        "minushalf.yaml"
+      ],
+      "timeout_seconds": 1800
     }
   ]
 }
