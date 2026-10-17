@@ -8,6 +8,7 @@ For QE:   reads prefix and outdir from input_name, builds filenames.
 import re
 import os
 import glob
+from typing import Optional
 
 
 def get_output_filenames(software: str,
