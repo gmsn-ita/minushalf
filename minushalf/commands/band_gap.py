@@ -44,7 +44,7 @@ def band_gap(software: str, base_path: str, input_name: str, indirect:bool) -> N
       worth mentioning that, for some software, their names cannot be modified.
 
     VASP: PROCAR, EIGENVAL, vasprun.xml
-    QE:   {prefix}.xml, {prefix}.save/, {prefix}.pdos_atm* (requires --input-name)
+    QE:   {prefix}.xml (requires --input-name)
 
     """
 

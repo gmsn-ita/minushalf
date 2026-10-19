@@ -42,7 +42,7 @@ def execute(quiet: bool):
     This command uses external software to
     perform ab initio calculations, so it must
     be installed in order to perform the command.
-    Check the docs for an list of the softwares supported
+    Check the docs for a list of the softwares supported
     by the CLI.
 
 
@@ -59,6 +59,7 @@ def execute(quiet: bool):
             potential_folder: Folder with the potential files for each atom in
                             the crystal. The files must be named in the following pattern
                             ${POTENTIAL_FILE_NAME}.${LOWERCASE_CHEMICAL_SYMBOL}
+                            This does not apply to Quantum ESPRESSO.
 
         Returns:
 
@@ -66,7 +67,7 @@ def execute(quiet: bool):
                                 values of the cuts and the final
                                 value of the Gap.
 
-            corrected_valence_potfiles: Potential files corrected with opti-mum valence cuts.
+            corrected_valence_potfiles: Potential files corrected with optimum valence cuts.
 
             corrected_conduction_potfiles: Potential files corrected with optimum conduction cuts.
     """

@@ -31,7 +31,8 @@ from minushalf.utils.software_output import get_output_filenames
     nargs=1,
     default=None,
     help="""Path to the input file for pw.x or projwfc.x. Required for QE to determine
-            <prefix> of output files."""
+            <prefix> and <filproj> prefixes of output files. If the pw.x input file is provided, 
+            minushalf will look for a unique file with the extension *.projwfc_up in the base path."""
 )
 def band_character(kpoint: int, band: int, software: str,
                    base_path: str, input_name: str) -> None:
@@ -42,7 +43,7 @@ def band_character(kpoint: int, band: int, software: str,
       worth mentioning that, for some software, their names cannot be modified.
 
     VASP: PROCAR, EIGENVAL, vasprun.xml
-    QE:   {prefix}.xml, {prefix}.save/, {prefix}.pdos_atm* (requires --input-name)
+    QE:   {prefix}.xml, {filproj}.projwfc_up (requires --input-name)
     """
 
     welcome_message("minushalf")
