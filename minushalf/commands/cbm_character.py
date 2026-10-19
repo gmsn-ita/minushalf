@@ -29,14 +29,15 @@ from minushalf.utils.software_output import get_output_filenames
               type=bool,
               nargs=1,
               is_flag=True,
-              help="""Calculate indirect band gap.""")
+              help="""Calculate character at indirect band gap CBM k-point""")
 @click.option('-n',
               '--input-name',
               type=click.Path(),
               nargs=1,
               default=None,
               help="""Path to the input file for pw.x or projwfc.x. Required for QE to determine
-            <prefix> of output files."""
+            <prefix> and <filproj> prefixes of output files. If the pw.x input file is provided, 
+            minushalf will look for a unique file with the extension *.projwfc_up in the base path."""
 )
 def cbm_character(software: str, base_path: str, input_name: str, indirect: bool) -> None:
     """Uses output files from softwares that perform ab initio calculations to
@@ -46,7 +47,7 @@ def cbm_character(software: str, base_path: str, input_name: str, indirect: bool
       worth mentioning that their names cannot be modified.
 
     VASP: PROCAR, EIGENVAL, vasprun.xml
-    QE:   {prefix}.xml, {prefix}.save/, {prefix}.pdos_atm* (requires --input-name)
+    QE:   {prefix}.xml, {filproj}.projwfc_up (requires --input-name)
     """
 
     welcome_message("minushalf")

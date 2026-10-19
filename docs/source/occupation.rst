@@ -186,3 +186,8 @@ input file with the occupation in the :math:`p` and :math:`d` orbitals, as shown
         4    3     0.000     0.000
     100 maxit
 
+.. note::
+
+    **Quantum ESPRESSO.** This step is not necessary for Quantum ESPRESSO. 
+    The native atomic program ``ld1.x`` already performs all the tasks needed to correct the
+    pseudopotential, including the fractional occupation. See the note in :doc:`run-atomic`.

@@ -68,6 +68,66 @@
 
 To consult a case where changing the amplitude value is necessary, check the reference [1]_.
 
+.. note::
+
+   **Quantum ESPRESSO.** For Quantum
+   ESPRESSO, the potential files are corrected by the native atomic program
+   ``ld1.x``, with the option ``iswitch = 4``. Given the
+   original pseudopotential file, ``ld1.x`` runs the internal atomic code of
+   Quantum ESPRESSO and generates the corrected pseudopotential file in a single
+   step, so no atomic potential files (``VTOTAL.ae``, ``VTOTAL_OCC``) need to be
+   handled by minushalf. The ``rcutv`` parameter of ``ld1.x`` is the cutoff
+   distance of the correction, equivalent to the ``--cut`` option of this
+   command.
+
+   You can generate a standard ``ld1.x`` input file with the
+   :doc:`create-input` command. Below are some examples of ``ld1.x`` input
+   files. This first one corrects the valence band of C, by removing half an
+   electron from the 2p orbital:
+
+   .. code-block:: text
+
+       &input
+         title='C',
+         zed=6,
+         config='[He] 2s2 2p2',
+         dft='PBE'
+         iswitch=4
+       /
+       &test
+         file_pseudo='C.UPF',
+         file_pseudopw='C-05.upf.temp',
+         configts(1)='2s2 2p2',
+         configts(2)='2s2 2p1.5',
+         rcutv=2.911109744123821
+       /
+
+   To "add" half an electron to the Si 3p orbital in the conduction band, the
+   occupation of 1.5 goes in the first configuration instead of the second:
+
+   .. code-block:: text
+
+       &input
+         title='Si',
+         zed=14,
+         config='[Ne] 3s2 3p2',
+         dft='PBE'
+         iswitch=4
+       /
+       &test
+         file_pseudo='Si.UPF',
+         file_pseudopw='Si-05.upf.temp',
+         configts(1)='3s2 3p1.5',
+         configts(2)='3s2 3p2',
+         rcutv=3.304502952789202
+       /
+
+   In the current version, ``ld1.x`` does not work with pseudopotentials whose
+   local potential begins at zero, nor with PAW pseudopotentials. See
+   the note at :doc:`run-atomic` and the `ld1.x documentation
+   <https://www.quantum-espresso.org/Doc/INPUT_LD1.html>`_ for more details.
+
+
 References
 ****************
 
