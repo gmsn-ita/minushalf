@@ -51,4 +51,4 @@ def make_minushalf_results(
                 "----------------------------------------------------------------\n"
             )
         ## Write gap
-        file.write("GAP: {:.3}eV".format(gap))
+        file.write("GAP: {:.3f}eV".format(gap))
