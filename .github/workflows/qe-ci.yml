@@ -1,8 +1,13 @@
 name: QE CI
 
 on:
+  pull_request:
+    branches:
+      - main
+
   push:
     branches:
+      - main
       - qe_container
 
   workflow_dispatch:
@@ -13,23 +18,17 @@ jobs:
 
     permissions:
       contents: read
-      packages: read
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
 
-      - name: Log in to GitHub Container Registry
+      - name: Build QE Docker image for testing
         run: |
-          echo "${{ secrets.GITHUB_TOKEN }}" | \
-            docker login ghcr.io \
-              -u "${{ github.actor }}" \
-              --password-stdin
-
-      - name: Pull QE Docker image
-        run: |
-          docker pull \
-            ghcr.io/marcosegv/minushalf-qe-base:qe-7.5
+          docker build \
+            -f docker/Dockerfile \
+            -t minushalf-qe:ci \
+            .
 
       - name: Run QE silicon SCF with MPI
         run: |
@@ -38,7 +37,7 @@ jobs:
             -e OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1 \
             -v "$PWD:/workspace/minushalf" \
             -w /workspace/minushalf/tests/integration/qe/si \
-            ghcr.io/marcosegv/minushalf-qe-base:qe-7.5 \
+            minushalf-qe:ci \
             bash -c '
               set -e
 
@@ -59,8 +58,10 @@ jobs:
             -e OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1 \
             -v "$PWD:/workspace/minushalf" \
             -w /workspace/minushalf \
-            ghcr.io/marcosegv/minushalf-qe-base:qe-7.5 \
+            minushalf-qe:ci \
             bash -c '
+              set -euo pipefail
+
               python -m pip install -e .
               python -m pip install pytest pytest-mock
               python -m pytest -q
@@ -73,7 +74,7 @@ jobs:
             -e OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1 \
             -v "$PWD:/workspace/minushalf" \
             -w /workspace/minushalf/tests/integration/qe/si \
-            ghcr.io/marcosegv/minushalf-qe-base:qe-7.5 \
+            minushalf-qe:ci \
             bash -c '
               set -euo pipefail
 

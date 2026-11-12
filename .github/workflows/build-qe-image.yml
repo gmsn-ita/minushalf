@@ -3,6 +3,7 @@ name: Build QE Docker Image
 on:
   push:
     branches:
+      - main
       - qe_container
     paths:
       - 'docker/Dockerfile'
@@ -46,9 +47,17 @@ jobs:
             command -v virtual_v2.x
           '
 
-      - name: Log in to GitHub Container Registry
+      - name: Set image destination
+        shell: bash
         run: |
-          echo "${{ secrets.GITHUB_TOKEN }}" | \
+          owner="${GITHUB_REPOSITORY_OWNER,,}"
+          echo "QE_IMAGE=ghcr.io/${owner}/minushalf-qe-base:qe-7.5" >> "$GITHUB_ENV"
+
+      - name: Log in to GitHub Container Registry
+        env:
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          printf '%s' "$GHCR_TOKEN" | \
             docker login ghcr.io \
               -u "${{ github.actor }}" \
               --password-stdin
@@ -57,7 +66,7 @@ jobs:
         run: |
           docker tag \
             minushalf-qe:ci \
-            ghcr.io/marcosegv/minushalf-qe-base:qe-7.5
+            "$QE_IMAGE"
 
           docker push \
-            ghcr.io/marcosegv/minushalf-qe-base:qe-7.5
+            "$QE_IMAGE"
