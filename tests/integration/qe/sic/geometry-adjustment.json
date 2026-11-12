@@ -1,0 +1,4 @@
+{
+  "description": "Hexagonal cell: ibrav 0 -> 4; rounded cell vectors replaced by exact hexagonal representation; fractional positions retained; no relaxation",
+  "expected_ibrav": 4
+}

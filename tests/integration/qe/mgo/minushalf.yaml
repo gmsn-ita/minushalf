@@ -1,0 +1,19 @@
+software: QE
+
+qe:
+    pw_command: ['mpirun', '-np', '2', 'pw.x']
+    projwfc_command: ['projwfc.x']
+    ld1_command: ['ld1.x']
+    virtual_v2_command: ['mpirun', '-np', '2', 'virtual_v2.x']
+    input_file: ./qe.in
+
+atomic_program:
+    exchange_correlation_code: pb
+    calculation_code: ae
+    max_iterations: 100
+
+correction:
+    correction_code: v
+    potfiles_folder: ./
+    amplitude: 1.0
+    indirect: .true.
