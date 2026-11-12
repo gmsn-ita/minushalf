@@ -1,0 +1,30 @@
+&CONTROL
+  calculation = 'scf',
+  prefix = 'pwscf',
+  outdir = '.',
+  pseudo_dir = '.',
+  verbosity = 'high',
+/
+&SYSTEM
+  ibrav = 0, nat = 2, ntyp = 2,
+  ecutwfc = 59, ecutrho = 406.723404255, nbnd = 12,
+  nspin = 1, occupations = 'fixed',
+/
+&ELECTRONS
+/
+
+ATOMIC_SPECIES
+  Mg 24.305 Mg.UPF
+  O 15.9994 O.UPF
+
+CELL_PARAMETERS angstrom
+  2.56829206 -0 1.48280459
+  0.85609768 2.4214088 1.48280459
+  -1e-08 -0 2.96560719
+
+ATOMIC_POSITIONS crystal
+  Mg 0 0 -0
+  O 0.5 0.5 0.5
+
+K_POINTS automatic
+  13 13 13 0 0 0

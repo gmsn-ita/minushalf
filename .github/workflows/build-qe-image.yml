@@ -1,0 +1,72 @@
+name: Build QE Docker Image
+
+on:
+  push:
+    branches:
+      - main
+      - qe_container
+    paths:
+      - 'docker/Dockerfile'
+      - '.github/workflows/build-qe-image.yml'
+
+  workflow_dispatch:
+
+jobs:
+  build-qe-image:
+    runs-on: ubuntu-24.04
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Show runner architecture
+        run: |
+          uname -a
+          uname -m
+          docker --version
+
+      - name: Build QE Docker image
+        run: |
+          docker build \
+            -f docker/Dockerfile \
+            -t minushalf-qe:ci \
+            .
+
+      - name: Verify QE environment
+        run: |
+          docker run --rm minushalf-qe:ci bash -c '
+            python --version
+            mpirun --version
+            command -v pw.x
+            command -v projwfc.x
+            command -v ld1.x
+            command -v virtual_v2.x
+          '
+
+      - name: Set image destination
+        shell: bash
+        run: |
+          owner="${GITHUB_REPOSITORY_OWNER,,}"
+          echo "QE_IMAGE=ghcr.io/${owner}/minushalf-qe-base:qe-7.5" >> "$GITHUB_ENV"
+
+      - name: Log in to GitHub Container Registry
+        env:
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          printf '%s' "$GHCR_TOKEN" | \
+            docker login ghcr.io \
+              -u "${{ github.actor }}" \
+              --password-stdin
+
+      - name: Publish QE Docker image
+        run: |
+          docker tag \
+            minushalf-qe:ci \
+            "$QE_IMAGE"
+
+          docker push \
+            "$QE_IMAGE"

@@ -130,3 +130,5 @@ dmypy.json
 
 #POTCAR files
 POTCAR*
+/ci-artifacts/
+ct9b00322_si_002.xlsx
