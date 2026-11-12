@@ -47,7 +47,7 @@ def band_character(kpoint: int, band: int, software: str,
 
     welcome_message("minushalf")
     
-    filenames = get_output_filenames(software, input_name, base_path)
+    filenames = get_output_filenames(software, input_name)
     factory   = get_software_factory(software.upper())
 
     eigenvalues          = factory.get_eigenvalues(

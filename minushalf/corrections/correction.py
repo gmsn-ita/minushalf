@@ -21,7 +21,7 @@ from minushalf.softwares.software_abstract_factory import SoftwaresAbstractFacto
 from minushalf.utils.software_output import get_output_filenames
 
 
-class DFTCorrection(Correction):
+class VASPCorrection(Correction):
     """
     An algorithm that realizes corrections for
     VASP software
@@ -124,6 +124,9 @@ class DFTCorrection(Correction):
 
     @potential_folder.setter
     def potential_folder(self, path: str) -> None:
+        self._potential_folder = path
+
+    def validate_potential_files(self) -> None:
         """
         Verify if the folder exists and contains all files needed
 
@@ -133,14 +136,12 @@ class DFTCorrection(Correction):
         """
 
         for atom in self.atoms:
-            filename = "{}.{}".format(self.potential_filename.upper(),
-                                      atom.lower())
-            abs_path = os.path.join(path, filename)
-            if not os.path.exists(abs_path):
-                logger.error("Potential folder incomplete")
-                raise FileNotFoundError("Potential folder lacks of files.")
-
-        self._potential_folder = path
+                filename = "{}.{}".format(self.potential_filename.upper(),
+                                            atom.lower())
+                abs_path = os.path.join(self._potential_folder, filename)
+                if not os.path.exists(abs_path):
+                    logger.error("Potential folder incomplete")
+                    raise FileNotFoundError("Potential folder lacks of files.")
 
     def execute(self) -> tuple:
         """
@@ -350,10 +351,10 @@ class DFTCorrection(Correction):
             shutil.rmtree(folder_path)
         os.mkdir(folder_path)
         input_file = InputFile.minimum_setup(
-            symbol,
-            self.exchange_correlation_type,
-            self.max_iterations,
-            self.calculation_code,
+            chemical_symbol=symbol,
+            exchange_correlation_code=self.exchange_correlation_type,
+            maximum_iterations=self.max_iterations,
+            calculation_code=self.calculation_code,
         )
         input_file.to_file(os.path.join(folder_path, "INP"))
         process = Popen(['minushalf', 'run-atomic', "--quiet"],
@@ -477,7 +478,7 @@ class DFTCorrection(Correction):
 class QECorrection(Correction):
     """
     An algorithm that realizes DFT-1/2 corrections for
-    Quantum ESPRESSO software.
+    Quantum ESPRESSO.
     """
 
     def __init__(
@@ -495,7 +496,6 @@ class QECorrection(Correction):
         tolerance: float,
         input_files: list,             # QE input files (scf.in, etc.)
         indirect: bool,
-        corrected_potfiles_folder: str,
         correction_type: str,
         band_projection: pd.DataFrame,
         atoms: list,
@@ -503,30 +503,54 @@ class QECorrection(Correction):
         correction_indexes: dict,
         divide_character: list,
         commands: dict,
+        **kwargs
     ):
-        """
-        init method for the vasp correction class
-            Args:
-                root_folder (str): Path to the folder where the  correction will be made for each atom
+        """ 
+        init method for the QE correction class
+        Args: 
+            root_folder (str): Path to the folder where the correction will be made for each atom.
 
-                atoms (list): Atoms name
+            potential_filename (str): Path of the potential chosen for correction.
 
-                potential_filename (str): Name of the potential file used by each
-                                          software that performs ab initio calculations
+            potential_folder (str): Directory containing the original pseudopotential files.
 
-                band_projection (pd.DataFrame): Shows the contribution of each atom in the CBM or VBM
+            exchange_correlation_type (str): Exchange-correlation functional used in the calculations.
 
-                runner (Runner): class to execute the program that makes ab initio calculations
+            max_iterations (int): Maximum number of iterations used to find the optimal correction.
 
-                only_conduction (bool): Conduction correction without previous valence correction
+            software_factory (SoftwaresAbstractFactory): Factory used to obtain software-specific 
+            calculation and output handling methods.
 
-                indirect (bool): Realize calculations considering indirect gaps
+            runner (Runner): Class used to execute the program that performs ab initio calculations.
 
-                input_files (list): Input files for QE, in the following order [scf.in, A1.upf, A2.upf, ...]
+            calculation_code (str): Code used for the ab initio calculations.
 
-                commands (list): List of commands to run pw.x, projwfc.x, ld1.x and vistual_v2.x
+            amplitude (float): Fraction of the half electron used in the correction.
+
+            cut_initial_guess (dict): Initial cutoff radius for each atom and orbital to be corrected.
+
+            tolerance (float): Convergence criterion for the Nelder-Mead minimization algorithm.
+
+            input_files (list): Input files for QE, in the following order [scf.in, A1.upf, A2.upf, ...].
+
+            indirect (bool): Realize calculations considering indirect gaps.
+
+            correction_type (str): Type of correction being performed, such as valence or conduction.
+
+            band_projection (pd.DataFrame): Shows the contribution of each atom in the CBM or VBM.
+
+            atoms (list): Atoms names.
+
+            is_conduction (bool): Conduction correction without previous valence correction.
+
+            correction_indexes (dict): Atoms and orbitals to which the correction will be applied.
+
+            divide_character (list): Number of equivalent atoms for each atom and orbital.
+
+            commands (dict): Commands used to run pw.x, projwfc.x, ld1.x and virtual_v2.x.
         """
         self.root_folder              = root_folder
+        self.hidden_folder            = None
         self.atoms                    = atoms
         self.potential_filename       = potential_filename
         self.band_projection          = band_projection
@@ -541,7 +565,6 @@ class QECorrection(Correction):
         self.software_factory         = software_factory
         self.atom_potential           = None
         self.sum_correction_percentual = 100
-        self.corrected_potfiles_folder = corrected_potfiles_folder
         self.correction_type          = correction_type
         self.is_conduction            = is_conduction
         self.correction_indexes       = correction_indexes
@@ -554,20 +577,19 @@ class QECorrection(Correction):
     def potential_folder(self) -> str:
         """
         Returns:
-            Name of the folder that helds all the potential files
-            initially not corrected.
+            Directory containing the original pseudopotential files.
         """
         return self._potential_folder
 
-
     @potential_folder.setter
     def potential_folder(self, path: str) -> None:
-        """
-        Verify that the potential file exists inside the potential folder.
+        self._potential_folder = path
 
-        The potential filename is provided by self.potential_filename.
-        """
-        abs_path = os.path.join(path, self.potential_filename)
+    def validate_potential_files(self) -> None:
+        abs_path = os.path.join(
+            self._potential_folder,
+            self.potential_filename
+        )
 
         if not os.path.exists(abs_path):
             logger.error("Potential folder incomplete")
@@ -575,23 +597,74 @@ class QECorrection(Correction):
                 f"Potential folder lacks {self.potential_filename}."
             )
 
-        self._potential_folder = path
-        
+    def _copy_corrected_potential(
+        self,
+        symbol: str,
+        orbital: str,
+        correction_folder: str
+    ) -> None:
+        """
+        Copy the corrected pseudopotential generated by ld1.x to the
+        main QE calculation folder.
+        """
+        main_folder = os.path.dirname(os.path.abspath(self.input_files[0]))
+
+        # Find the pseudopotential corresponding to this atom.
+        potential_filename = get_output_filenames(
+            "QE",
+            self.input_files[0],
+            atom=symbol
+        )["potential"]
+
+        corrected_potential = os.path.join(
+            correction_folder,
+            f"{symbol}-05.upf"
+        )
+
+        destination = os.path.join(
+            main_folder,
+            os.path.basename(potential_filename)
+        )
+
+        if not os.path.exists(corrected_potential):
+            raise FileNotFoundError(
+                f"Corrected pseudopotential not found: "
+                f"{corrected_potential}"
+            )
+
+        shutil.copy2(
+            corrected_potential,
+            destination
+        )
+
+        logger.info(
+            f"Corrected {symbol} {orbital} potential copied to "
+            f"{destination}"
+        )
 
     def execute(self) -> tuple:
         """
-        Execute the Qunatum ESPRESSO correction algorithm.
+        Execute the DFT-1/2 correction algorithm for Quantum ESPRESSO.
         
         """
+
+        # Create corrected potentials folder inside .minushalf
+        corrected_potentials_folder = os.path.join(os.path.dirname(self.root_folder), "corrected_potentials")
+        if not os.path.exists(corrected_potentials_folder):
+            os.mkdir(corrected_potentials_folder)
+
+        # Create calculation folder for correction type
+        self.hidden_folder = self.root_folder
         self.root_folder = os.path.join(self.root_folder, self.correction_type)
         if os.path.exists(self.root_folder):
             shutil.rmtree(self.root_folder)
         os.mkdir(self.root_folder)
 
         cuts_per_atom_orbital = {}
-        self._make_corrected_potential_folder()
         self.sum_correction_percentual = self._get_sum_correction_percentual()
 
+        correction_dict = {symbol: list(orbitals) for symbol, orbitals in self.correction_indexes.items()}
+        logger.info(f"Orbitals to be corrected: {correction_dict}")
         for symbol, orbitals in self.correction_indexes.items():
             for orbital in orbitals:
                 cut = self._find_best_correction(symbol, orbital)
@@ -599,34 +672,10 @@ class QECorrection(Correction):
 
         gap = self._get_result_gap(is_indirect=self.indirect)
         return (cuts_per_atom_orbital, gap)
-    
-    def _make_corrected_potential_folder(self) -> None:
-        """
-        Create the folder that stores corrected UPF files.
-        Copies the original uncorrected .upf for each atom as starting point.
-        Mirrors DFTCorrection._make_corrected_potential_folder but for UPF files.
-        """
-        name = self.corrected_potfiles_folder
-        if os.path.exists(name):
-            shutil.rmtree(name)
-        os.mkdir(name)
-
-        # Loop through input_files, skipping the first item
-        for upf in self.input_files[1:]:
-            src  = os.path.join(self.potential_folder, upf)
-            dest = os.path.join(name, upf)
-            try:
-                shutil.copyfile(src, dest)
-            except FileNotFoundError as e:
-                raise FileNotFoundError(
-                    f"{e}. Check if the potential_folder is correctly given in the configuration file."
-                )
 
     def _find_best_correction(self, symbol: str, orbital: str) -> float:
         """
-        Correct the potcar of the atom symbol in the
-        orbital given. Then, find the best cut to the
-        the correciton.
+        Make calculation folder for correction of specific atom and orbital and find the best cut
             Args:
                 symbol (str): Atom symbol
                 orbital (str): Orbital type (s,p,d,f)
@@ -641,91 +690,69 @@ class QECorrection(Correction):
             shutil.rmtree(path)
         os.mkdir(path)
 
-        self._generate_potential(path, symbol, orbital)
+        value = round(100 * (self.band_projection[orbital][symbol] / self.sum_correction_percentual))
+        logger.info(f"percentual of half electron is {value}")
 
-        number_equal_neighbors = self.divide_character[(symbol.capitalize(),
-                                                        orbital.lower())]
-        value = (100 / (1 + number_equal_neighbors)) * (
-            self.band_projection[orbital][symbol] /
-            self.sum_correction_percentual)
-        logger.info(f"percentual of half electron is {round(value)}")
+        cut = self._find_cut(symbol=symbol, base_path=path, orbital=orbital, fraction_value=value)
+        logger.info(f"Computed cut for symbol='{symbol}', orbital='{orbital}', fraction_value={value}: cut={cut}")
 
-        cut = self._find_cut(symbol, path, orbital)
-        return cut
-    
-    def _generate_potential(self, base_path: str, symbol: str, orbital: str) -> None:
-        """
-            Create pseudopotential/ subfolder, write the ld1.x input file (INP)
-            and run ld1.x producing {symbol}-05.upf.tmp
-
-            TODO: Missing virtual_v2 handler for potential not starting at zero grid.
-            TODO: Missing orbital handler for ld1.x. The actual implementation is only correcting the
-            outter orbital of the atom, and not the valence orbital from the molecule.
-        """
-
-        folder_path = os.path.join(base_path, "pseudopotential")
-        if os.path.exists(folder_path):
-            shutil.rmtree(folder_path)
-        os.mkdir(folder_path)
-
-        original_upf = self.potential_filename
-
-        input_file = InputFile.minimum_setup(
-            software="QE",
-            cut=self.cut_initial_guess.get((symbol.capitalize(), orbital.lower())),
-            chemical_symbol=symbol,
-            exchange_correlation_code=self.exchange_correlation_type,
-            maximum_iterations=self.max_iterations,
-            calculation_code=self.calculation_code,
-            file_pseudo=original_upf
-        )
-        input_file.to_file(os.path.join(folder_path, "INP"))
-
-        self._run_ld1(folder_path)
-
-        shutil.move(
-            os.path.join(folder_path, f"{symbol}-05.upf.temp"),
-            os.path.join(folder_path, f"{symbol}-05.upf")
+        potential_filename = get_output_filenames(
+            "QE",
+            self.input_files[0],
+            atom=symbol
+        )["potential"]
+        logger.info(
+            f"Potential filename resolved for symbol='{symbol}' (input_file='{self.input_files[0]}'): {potential_filename}"
         )
 
-    def _run_ld1(self, cwd: str) -> None:
-        """
-        Run ld1.x reading from INP in the given directory.
-        Produces {symbol}-05.upf.tmp as output.
+        # Copy corrected potential to corrected_potentials folder
+        find_cut_path = os.path.join(path, "find_cut")
+        corrected_potentials_folder = os.path.join(os.path.dirname(self.hidden_folder), "corrected_potentials")
+        src = os.path.join(find_cut_path, "cut_{:.2f}".format(cut), os.path.basename(potential_filename))
+        dest = os.path.join(corrected_potentials_folder, os.path.basename(potential_filename))
 
-        Args:
-            cwd (str): working directory containing INP.ldx
-        """
-
-        with open(os.path.join(cwd, "INP")) as inp:
-            process = Popen(
-                self.commands["ld1_command"],
-                stdin=inp, stdout=PIPE, stderr=PIPE,
-                cwd=cwd
+        logger.info(f"find_cut_path: {find_cut_path}", find_cut_path)
+        logger.info(f"corrected_potentials_folder: {corrected_potentials_folder}", corrected_potentials_folder)
+        logger.info(f"Copying potential for symbol='{symbol}', orbital='{orbital}': src={src} -> dest={dest}",
+                    symbol, orbital, src, dest)
+        if not os.path.isfile(src):
+            logger.error(
+                f"Source potential file does not exist for symbol='{symbol}', orbital='{orbital}': {src}"
             )
-        _, stderr = process.communicate()
-        if stderr:
-            print(f"ld1.x stderr:\n{stderr.decode()}")
+
+        if os.path.isfile(dest):
+            logger.warning(
+                f"Destination already exists and will be overwritten for symbol='{symbol}': {dest}"
+            )
+
+        shutil.copy2(src, dest)
+        logger.info(f"Successfully copied potential for symbol='{symbol}' to {dest}")
+        return cut
 
     def _get_result_gap(self, is_indirect: bool) -> float:
         """
         Run a final ab initio calculation with all corrected UPF files
         and return the band gap.
         """
-        calculation_folder = f"./.minushalf/calculate_{self.correction_type}_gap"
-        if os.path.exists(calculation_folder):
-            shutil.rmtree(calculation_folder)
-        os.mkdir(calculation_folder)
-
-        # Copy QE input files (scf.in, pseudos, etc.)
+        # Copy input files into the calculation folder
+        calculation_folder = os.path.join(os.path.dirname(self.hidden_folder), "optimized_cut")
+        if not os.path.exists(calculation_folder): 
+            os.mkdir(calculation_folder)
         for file in self.input_files:
             shutil.copyfile(file, os.path.join(calculation_folder, file))
 
-        # Copy corrected UPF files — one per atom, no concatenation
-        for upf in self.input_files[1:]:
-            src  = os.path.join(self.potential_folder, upf)
-            dest = os.path.join(calculation_folder, upf)
-            shutil.copyfile(src, dest)
+        # Copy corrected potentials into the calculation folder and make potentials available to the user
+        corrected_potentials_folder = os.path.join(os.path.dirname(self.hidden_folder), "corrected_potentials")
+        main_folder = os.path.dirname(os.path.abspath(self.input_files[0]))
+        public_corrected_potentials_folder = os.path.join(main_folder, "minushalf_corrected_potentials")
+        if not os.path.exists(public_corrected_potentials_folder): 
+            os.mkdir(public_corrected_potentials_folder)
+
+        for potential_file in os.listdir(corrected_potentials_folder):
+            source = os.path.join(corrected_potentials_folder, potential_file)
+            shutil.copyfile(source, os.path.join(calculation_folder, potential_file))
+            shutil.copyfile(source, os.path.join(public_corrected_potentials_folder, potential_file))
+
 
         self.runner.run(calculation_folder)
 
@@ -753,17 +780,15 @@ class QECorrection(Correction):
         gap_report = band_structure.band_gap(is_indirect)
         return gap_report["gap"]
 
-    def _find_cut(self, symbol: str, base_path: str, orbital: str) -> float:
+    def _find_cut(self, symbol: str, base_path: str, orbital: str, fraction_value: int) -> float:
         """
-        Find the cut which gives the maximum gap using Nelder-Mead.
+        Find the cutoff radius that maximises the band gap using the Nelder-Mead method.
         """
-        if not self.indirect:
-            folder = os.path.join(base_path, "find_cut")
-            if os.path.exists(folder):
-                shutil.rmtree(folder)
-            os.mkdir(folder)
-        else:
-            base_path = '.'
+
+        folder = os.path.join(base_path, "find_cut")
+        if os.path.exists(folder):
+            shutil.rmtree(folder)
+        os.mkdir(folder)
 
         function_args = {
             "base_path":                  base_path,
@@ -779,6 +804,13 @@ class QECorrection(Correction):
             "is_conduction":              self.is_conduction,
             "indirect":                   self.indirect,
             "orbital":                    orbital,
+            "exchange_correlation_type":  self.exchange_correlation_type,
+            "max_iterations":             self.max_iterations,
+            "calculation_code":           self.calculation_code,
+            "ld1_command":                self.commands["ld1_command"],
+            "virtual_v2_command":         self.commands["virtual_v2_command"],
+            "hidden_folder":              self.hidden_folder,
+            "fraction_value":             fraction_value
         }
         cut_initial_guess = self.cut_initial_guess[(symbol.capitalize(),
                                                     orbital.lower())]
@@ -797,7 +829,7 @@ class QECorrection(Correction):
     
     def _get_sum_correction_percentual(self) -> float:
         """
-        Sum of the percentuals of orbitals to be corrected.
+        Sum of the orbital correction fractions.
         """
         total_sum = 0
         for symbol, orbitals in self.correction_indexes.items():

@@ -49,6 +49,12 @@ class QERunner(Runner):
         self._create_proj_input(cwd)
         self._run_projwfc(cwd)
 
+    def run_pw(self, cwd: str = "."):
+        """
+        Run the Quantum ESPRESSO pw.x.
+        """
+        self._run_pw(cwd)
+
     def _run_pw(self, cwd: str = "."):
         """
         Run pw.x using the SCF input file.

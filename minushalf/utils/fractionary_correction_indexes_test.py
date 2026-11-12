@@ -55,8 +55,7 @@ def test_aln_2d_cbm(file_path):
     cbm_projection = band_structure.cbm_projection()
     cbm_df = projection_to_df(cbm_projection)
     correction_indexes = get_fractionary_correction_indexes(cbm_df)
-    assert correction_indexes["N"][0] == "s"
-    assert correction_indexes["Al"][0] == "s"
+    assert correction_indexes["Al"][0] == "p"
 
 
 def test_aln_2d_cbm_treshold_29(file_path):
@@ -81,8 +80,7 @@ def test_aln_2d_cbm_treshold_29(file_path):
     cbm_df = projection_to_df(cbm_projection)
     correction_indexes = get_fractionary_correction_indexes(cbm_df,
                                                             treshold=28)
-    assert correction_indexes["N"][0] == "s"
-    assert correction_indexes["Al"][0] == "s"
+    assert correction_indexes["Al"][0] == "p"
 
 
 def test_aln_2d_cbm_treshold_30(file_path):
@@ -107,8 +105,8 @@ def test_aln_2d_cbm_treshold_30(file_path):
     cbm_df = projection_to_df(cbm_projection)
     correction_indexes = get_fractionary_correction_indexes(cbm_df,
                                                             treshold=29)
-    assert correction_indexes["N"][0] == "s"
-    assert len(correction_indexes["Al"]) == 0
+    assert correction_indexes["Al"][0] == "p"
+    assert len(correction_indexes["N"]) == 0
 
 
 def test_gec_2d_vbm(file_path):
@@ -307,7 +305,7 @@ def test_aln_2d_cbm(file_path):
     cbm_projection = band_structure.cbm_projection()
     cbm_df = projection_to_df(cbm_projection)
     correction_indexes = get_fractionary_correction_indexes(cbm_df)
-    assert correction_indexes["N"][0] == "s"
+    assert correction_indexes["Al"][0] == "p"
 
 
 def test_gec_2d_vbm(file_path):

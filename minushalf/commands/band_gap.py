@@ -50,7 +50,7 @@ def band_gap(software: str, base_path: str, input_name: str, indirect:bool) -> N
 
     welcome_message("minushalf")
 
-    filenames = get_output_filenames(software, input_name, base_path)
+    filenames = get_output_filenames(software, input_name)
     factory = get_software_factory(software.upper())
 
     eigenvalues          = factory.get_eigenvalues(
@@ -65,13 +65,8 @@ def band_gap(software: str, base_path: str, input_name: str, indirect:bool) -> N
     num_bands            = factory.get_number_of_bands(
                                filename=filenames["number_of_bands"],
                                base_path=base_path)
-    band_projection_file = factory.get_band_projection_class(
-                               filename=filenames["band_projection"],
-                               base_path=base_path)
 
-
-    band_structure = BandStructure(eigenvalues, fermi_energy, atoms_map,
-                                   num_bands, band_projection_file)
+    band_structure = BandStructure(eigenvalues, fermi_energy, atoms_map, num_bands)
 
     gap_report = band_structure.band_gap(is_indirect=indirect)
     click.echo(gap_report["vbm"])

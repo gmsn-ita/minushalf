@@ -81,14 +81,13 @@ def _get_qe_pseudopotentials(input_file: str) -> list:
 
     lines = scf_path.read_text().splitlines()
 
-    try:
-        start = next(
-            i for i, line in enumerate(lines)
-            if line.strip().upper() == "ATOMIC_SPECIES"
-        )
-    except StopIteration:
+    start = next(
+        (i for i, line in enumerate(lines) if line.strip().upper() == "ATOMIC_SPECIES"),
+        None,
+    )
+    if start is None:
         raise ValueError(f"Could not find ATOMIC_SPECIES card in {input_file}")
-
+    
     pseudopotentials = []
     for line in lines[start + 1:]:
         stripped = line.strip()
